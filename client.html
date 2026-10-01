@@ -2,212 +2,836 @@
 <html lang="fr">
 
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>TapTapCard</title>
 
+
   <style>
+
     * {
       box-sizing: border-box;
     }
 
+
+    html,
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      color: #222;
+      padding: 0;
+      min-height: 100%;
     }
 
-    .page {
+
+    body {
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      background:
+        linear-gradient(
+          135deg,
+          #faf9f7,
+          #eef1f4,
+          #e4e8ed
+        );
+
+      color: #171717;
+    }
+
+
+    /* =========================
+       PROFILE CARD
+    ========================= */
+
+    .profile-card {
+
       width: 100%;
-      max-width: 600px;
+      max-width: 720px;
+
       min-height: 100vh;
+
       margin: auto;
-      background: white;
-    }
 
-    /* Cover */
-    .cover {
-      width: 100%;
-      height: 220px;
-      background: #eeeeee;
-      background-size: cover;
-      background-position: center;
-      position: relative;
-    }
-
-    /* Profile */
-    .profile-container {
-      position: relative;
       text-align: center;
-      margin-top: -65px;
-      padding: 0 20px;
+
+      background:
+        rgba(255, 255, 255, 0.72);
+
+      overflow: hidden;
+
+      box-shadow:
+        0 15px 45px
+        rgba(0, 0, 0, 0.08);
     }
 
-    .profile-image {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 5px solid white;
+
+    /* =========================
+       COVER
+    ========================= */
+
+    .cover {
+
+      width: 100%;
+
+      height: 390px;
+
+      position: relative;
+
+      overflow: hidden;
+
       background: #eeeeee;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
     }
+
+
+    .cover img {
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      display: block;
+    }
+
+
+    /* تدرج أسفل الكوفر */
+
+    .cover::after {
+
+      content: "";
+
+      position: absolute;
+
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      height: 230px;
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(255,255,255,0),
+          rgba(255,255,255,0.25),
+          rgba(255,255,255,0.65),
+          rgba(255,255,255,0.92),
+          rgba(255,255,255,1)
+        );
+
+      pointer-events: none;
+
+      z-index: 2;
+    }
+
+
+    /* =========================
+       PROFILE PHOTO
+    ========================= */
+
+    .profile-picture {
+
+      width: 150px;
+      height: 150px;
+
+      margin: -75px auto 0;
+
+      padding: 6px;
+
+      border-radius: 50%;
+
+      background: white;
+
+      position: relative;
+
+      z-index: 10;
+
+      box-shadow:
+        0 10px 30px
+        rgba(0, 0, 0, 0.18);
+    }
+
+
+    .profile-picture img {
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      border-radius: 50%;
+
+      display: block;
+    }
+
+
+    /* إذا ماكانتش صورة */
 
     .profile-placeholder {
-      width: 130px;
-      height: 130px;
-      margin: auto;
+
+      width: 100%;
+      height: 100%;
+
       border-radius: 50%;
-      border: 5px solid white;
+
       background: #eeeeee;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
 
       display: flex;
+
       align-items: center;
       justify-content: center;
 
+      font-family: Arial, sans-serif;
+
       font-size: 45px;
+
+      color: #999;
     }
 
-    .name {
-      margin: 15px 0 5px;
-      font-size: 26px;
-      font-weight: bold;
+
+    /* =========================
+       NAME
+    ========================= */
+
+    h1 {
+
+      margin:
+        25px
+        15px
+        8px;
+
+      font-size: 40px;
+
+      font-weight: 700;
+
+      line-height: 1.15;
+
+      position: relative;
+
+      z-index: 5;
     }
 
-    .description {
-      margin: 0 auto;
-      max-width: 500px;
 
-      color: #777;
-      line-height: 1.6;
-      font-size: 15px;
+    /* =========================
+       DESCRIPTION
+    ========================= */
+
+    #description {
+
+      margin:
+        0
+        25px
+        30px;
+
+      color: #687685;
+
+      font-family: Arial, sans-serif;
+
+      font-size: 17px;
+
+      line-height: 1.5;
+
+      position: relative;
+
+      z-index: 5;
 
       white-space: pre-line;
     }
 
-    /* Buttons */
-    .buttons {
-      padding: 25px 20px;
+
+    /* =========================
+       SOCIAL LINKS
+    ========================= */
+
+    .social-links {
 
       display: flex;
+
       flex-direction: column;
-      gap: 12px;
+
+      gap: 14px;
+
+      padding:
+        0
+        25px;
     }
 
-    .button {
-      width: 100%;
-      min-height: 52px;
 
-      border-radius: 13px;
+    .social-link {
+
+      display: flex;
+
+      align-items: center;
+
+      min-height: 72px;
+
+      padding:
+        10px
+        18px;
+
+      border-radius: 40px;
+
+      border:
+        1px solid
+        rgba(255,255,255,0.95);
+
+      background:
+        rgba(255,255,255,0.82);
+
+      color: #111;
 
       text-decoration: none;
 
+      font-family: Arial, sans-serif;
+
+      box-shadow:
+        0 6px 20px
+        rgba(0,0,0,0.06);
+
+      transition:
+        0.25s;
+    }
+
+
+    .social-link:hover {
+
+      transform:
+        translateY(-2px);
+
+      background: white;
+
+      box-shadow:
+        0 10px 25px
+        rgba(0,0,0,0.08);
+    }
+
+
+    /* =========================
+       SOCIAL ICON
+    ========================= */
+
+    .social-icon {
+
+      width: 50px;
+      height: 50px;
+
       display: flex;
+
       align-items: center;
       justify-content: center;
 
-      gap: 10px;
+      flex-shrink: 0;
 
-      font-size: 15px;
-      font-weight: bold;
+      border-radius: 14px;
 
-      border: 1px solid #eeeeee;
+      background: #f5f5f5;
+    }
+
+
+    .social-icon img {
+
+      width: 34px;
+      height: 34px;
+
+      object-fit: contain;
+
+      display: block;
+    }
+
+
+    .website-icon {
+
+      font-family: Arial, sans-serif;
+
+      font-size: 28px;
+
+      line-height: 1;
+    }
+
+
+    /* Instagram */
+
+    .instagram-icon {
+
+      background:
+        linear-gradient(
+          135deg,
+          #833ab4,
+          #fd1d1d,
+          #fcb045
+        );
+    }
+
+
+    .instagram-icon img {
+
+      filter:
+        brightness(0)
+        invert(1);
+    }
+
+
+    /* Facebook */
+
+    .facebook-icon {
+
+      background: #1877f2;
+    }
+
+
+    .facebook-icon img {
+
+      filter:
+        brightness(0)
+        invert(1);
+    }
+
+
+    /* TikTok */
+
+    .tiktok-icon {
+
+      background: #000;
+    }
+
+
+    .tiktok-icon img {
+
+      filter: invert(1);
+    }
+
+
+    /* Snapchat */
+
+    .snapchat-icon {
+
+      background: #fffc00;
+    }
+
+
+    /* =========================
+       SOCIAL NAME
+    ========================= */
+
+    .social-name {
+
+      flex: 1;
+
+      text-align: left;
+
+      font-size: 19px;
+
+      margin-left: 15px;
+    }
+
+
+    /* =========================
+       ARROW
+    ========================= */
+
+    .social-arrow {
+
+      font-family: Arial, sans-serif;
+
+      font-size: 32px;
+
+      line-height: 1;
+
+      color: #687685;
+
+      padding-right: 4px;
+    }
+
+
+    /* =========================
+       CONTACT BUTTONS
+    ========================= */
+
+    .contact-buttons {
+
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 14px;
+
+      padding:
+        28px
+        25px
+        14px;
+    }
+
+
+    .contact-button {
+
+      min-height: 70px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 12px;
+
+      border-radius: 40px;
+
+      background:
+        rgba(255,255,255,0.82);
+
+      color: #263b50;
+
+      text-decoration: none;
+
+      font-family: Arial, sans-serif;
+
+      font-size: 17px;
+
+      box-shadow:
+        0 6px 20px
+        rgba(0,0,0,0.06);
+
+      transition:
+        0.25s;
+    }
+
+
+    .contact-button:hover {
+
+      transform:
+        translateY(-2px);
 
       background: white;
-      color: #222;
-
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
-
-      transition: 0.2s;
     }
 
-    .button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+
+    /* =========================
+       CONTACT ICON
+    ========================= */
+
+    .contact-icon {
+
+      width: 45px;
+      height: 45px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      flex-shrink: 0;
     }
 
-    .icon {
-      font-size: 20px;
+
+    /* WhatsApp */
+
+    .whatsapp-icon {
+
+      background: #25D366;
     }
 
-    /* Loading */
-    .loading {
+
+    .whatsapp-icon img {
+
+      width: 27px;
+      height: 27px;
+    }
+
+
+    /* Phone */
+
+    .phone-icon {
+
+      background: #8796a5;
+
+      color: white;
+
+      font-size: 25px;
+    }
+
+
+    /* Google Maps */
+
+    .maps-icon {
+
+      background: white;
+
+      border:
+        1px solid
+        #eeeeee;
+    }
+
+
+    .maps-icon img {
+
+      width: 31px;
+      height: 31px;
+    }
+
+
+    /* Google Maps كامل العرض */
+
+    .maps-button {
+
+      grid-column:
+        1 / -1;
+
+      justify-content:
+        flex-start;
+
+      padding-left: 25px;
+
+      position: relative;
+    }
+
+
+    .maps-button .arrow {
+
+      margin-left: auto;
+
+      font-size: 32px;
+
+      color: #687685;
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .footer {
+
+      padding:
+        35px
+        20px
+        30px;
+
+      color: #7d8a97;
+
+      font-family: Arial, sans-serif;
+
+      font-size: 14px;
+    }
+
+
+    .heart {
+
+      margin-left: 5px;
+
+      font-size: 17px;
+    }
+
+
+    .footer-brand {
+
+      margin-top: 8px;
+    }
+
+
+    .footer-brand a {
+
+      color: #263b50;
+
+      font-weight: bold;
+
+      text-decoration: none;
+    }
+
+
+    /* =========================
+       LOADING
+    ========================= */
+
+    #loading {
+
+      min-height: 100vh;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      font-family: Arial, sans-serif;
+
+      color: #687685;
+
+      font-size: 15px;
+    }
+
+
+    /* =========================
+       ERROR
+    ========================= */
+
+    #error {
+
+      min-height: 100vh;
+
+      display: none;
+
+      align-items: center;
+      justify-content: center;
+
       text-align: center;
-      padding: 50px 20px;
-      color: #777;
+
+      padding: 30px;
+
+      font-family: Arial, sans-serif;
     }
 
-    /* Error */
-    .error {
-      text-align: center;
-      padding: 50px 20px;
-    }
 
-    .error h2 {
+    #error h2 {
+
       margin-bottom: 10px;
     }
 
-    .error p {
-      color: #777;
+
+    #error p {
+
+      color: #687685;
     }
 
-    /* Footer */
-    .footer {
-      text-align: center;
-      padding: 25px;
 
-      color: #aaa;
-      font-size: 12px;
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 500px) {
+
+
+      .cover {
+
+        height: 360px;
+      }
+
+
+      .cover::after {
+
+        height: 220px;
+      }
+
+
+      .profile-picture {
+
+        width: 140px;
+        height: 140px;
+
+        margin-top: -70px;
+      }
+
+
+      h1 {
+
+        font-size: 34px;
+
+        margin-top: 24px;
+      }
+
+
+      #description {
+
+        font-size: 16px;
+
+        margin-bottom: 28px;
+      }
+
+
+      .social-links {
+
+        padding:
+          0
+          16px;
+      }
+
+
+      .social-link {
+
+        min-height: 68px;
+
+        padding:
+          9px
+          16px;
+      }
+
+
+      .social-icon {
+
+        width: 47px;
+        height: 47px;
+      }
+
+
+      .social-icon img {
+
+        width: 31px;
+        height: 31px;
+      }
+
+
+      .social-name {
+
+        font-size: 18px;
+      }
+
+
+      .contact-buttons {
+
+        padding-left: 16px;
+
+        padding-right: 16px;
+      }
+
+
+      .contact-button {
+
+        min-height: 65px;
+
+        font-size: 15px;
+      }
+
+
+      .contact-icon {
+
+        width: 42px;
+        height: 42px;
+      }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
-  <div class="page">
 
-    <!-- Loading -->
-    <div id="loading" class="loading">
-      Chargement...
-    </div>
+  <!-- =========================
+       LOADING
+  ========================= -->
 
-
-    <!-- Main content -->
-    <div id="content" style="display: none;">
-
-      <!-- Cover -->
-      <div id="cover" class="cover"></div>
+  <div id="loading">
+    Chargement...
+  </div>
 
 
-      <!-- Profile -->
-      <div class="profile-container">
+  <!-- =========================
+       ERROR
+  ========================= -->
 
-        <div id="profileContainer"></div>
+  <div id="error">
 
-        <h1 id="name" class="name"></h1>
-
-        <p id="description" class="description"></p>
-
-      </div>
-
-
-      <!-- Buttons -->
-      <div id="buttons" class="buttons"></div>
-
-
-      <!-- Footer -->
-      <div class="footer">
-        TapTapCard
-      </div>
-
-    </div>
-
-
-    <!-- Error -->
-    <div id="error" class="error" style="display: none;">
+    <div>
 
       <h2>
         Client introuvable
@@ -222,8 +846,205 @@
   </div>
 
 
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- =========================
+       PROFILE
+  ========================= -->
+
+  <main
+    id="profileCard"
+    class="profile-card"
+    style="display:none;"
+  >
+
+
+    <!-- COVER -->
+
+    <div class="cover">
+
+      <img
+        id="coverImage"
+        src=""
+        alt="Cover"
+      >
+
+    </div>
+
+
+    <!-- PROFILE PHOTO -->
+
+    <div class="profile-picture">
+
+      <img
+        id="profileImage"
+        src=""
+        alt="Profile"
+        style="display:none;"
+      >
+
+      <div
+        id="profilePlaceholder"
+        class="profile-placeholder"
+      >
+        👤
+      </div>
+
+    </div>
+
+
+    <!-- NAME -->
+
+    <h1 id="name">
+      Nom du profil
+    </h1>
+
+
+    <!-- DESCRIPTION -->
+
+    <p id="description"></p>
+
+
+    <!-- SOCIAL LINKS -->
+
+    <div
+      id="socialLinks"
+      class="social-links"
+    ></div>
+
+
+    <!-- CONTACT BUTTONS -->
+
+    <div
+      id="contactButtons"
+      class="contact-buttons"
+    >
+
+
+      <!-- WHATSAPP -->
+
+      <a
+        id="whatsappButton"
+        class="contact-button"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+
+        <span
+          class="contact-icon whatsapp-icon"
+        >
+
+          <img
+            src="https://cdn.simpleicons.org/whatsapp/FFFFFF"
+            alt="WhatsApp"
+          >
+
+        </span>
+
+        <span>
+          WhatsApp
+        </span>
+
+      </a>
+
+
+      <!-- PHONE -->
+
+      <a
+        id="phoneButton"
+        class="contact-button"
+        href="#"
+      >
+
+        <span
+          class="contact-icon phone-icon"
+        >
+          ☎
+        </span>
+
+        <span>
+          Appeler
+        </span>
+
+      </a>
+
+
+      <!-- GOOGLE MAPS -->
+
+      <a
+        id="mapsButton"
+        class="contact-button maps-button"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+
+        <span
+          class="contact-icon maps-icon"
+        >
+
+          <img
+            src="https://cdn.simpleicons.org/googlemaps"
+            alt="Google Maps"
+          >
+
+        </span>
+
+        <span>
+          Google Maps
+        </span>
+
+        <span class="arrow">
+          ›
+        </span>
+
+      </a>
+
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+      <div>
+
+        Merci pour votre visite
+
+        <span class="heart">
+          ♥
+        </span>
+
+      </div>
+
+
+      <div class="footer-brand">
+
+        Produit par
+
+        <a
+          href="https://www.instagram.com/akram_mhl1?stkn=bWR3bW43aHQ5OXpp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          TAPTAPCARD
+        </a>
+
+      </div>
+
+    </div>
+
+
+  </main>
+
+
+  <!-- =========================
+       SUPABASE
+  ========================= -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
 
   <script src="supabase.js"></script>
 
@@ -231,25 +1052,27 @@
   <script>
 
     /* =========================
-       Récupérer l'ID du client
+       CLIENT ID
     ========================= */
 
-    const params = new URLSearchParams(
-      window.location.search
-    );
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
 
-    const clientId = params.get("id");
+    const clientId =
+      params.get("id");
 
 
     /* =========================
-       Elements
+       ELEMENTS
     ========================= */
 
     const loading =
       document.getElementById("loading");
 
-    const content =
-      document.getElementById("content");
+    const profileCard =
+      document.getElementById("profileCard");
 
     const errorBox =
       document.getElementById("error");
@@ -259,137 +1082,146 @@
 
 
     /* =========================
-       Afficher erreur
+       ERROR
     ========================= */
 
     function showError(message) {
 
       loading.style.display = "none";
 
-      content.style.display = "none";
+      profileCard.style.display = "none";
 
-      errorBox.style.display = "block";
+      errorBox.style.display = "flex";
 
-      errorMessage.textContent = message;
-
+      errorMessage.textContent =
+        message;
     }
 
 
     /* =========================
-       Ajouter bouton
+       NORMALIZE URL
     ========================= */
 
-    function addButton(icon, text, url) {
+    function normalizeUrl(url) {
+
+      if (!url) {
+        return "";
+      }
+
+      url = url.trim();
+
+      if (
+        url.startsWith("http://") ||
+        url.startsWith("https://")
+      ) {
+
+        return url;
+
+      }
+
+      return "https://" + url;
+    }
+
+
+    /* =========================
+       SOCIAL LINK
+    ========================= */
+
+    function createSocialLink(
+      name,
+      url,
+      iconUrl,
+      iconClass,
+      customIcon = null
+    ) {
 
       if (!url) {
         return;
       }
 
-      const button =
+
+      const link =
         document.createElement("a");
 
-      button.className = "button";
 
-      button.href = url;
+      link.className =
+        "social-link";
 
-      button.target = "_blank";
 
-      button.rel =
+      link.href =
+        normalizeUrl(url);
+
+
+      link.target =
+        "_blank";
+
+
+      link.rel =
         "noopener noreferrer";
 
-      button.innerHTML =
-        `<span class="icon">${icon}</span>
-         <span>${text}</span>`;
+
+      let iconHTML;
+
+
+      if (customIcon) {
+
+        iconHTML = `
+          <span class="website-icon">
+            ${customIcon}
+          </span>
+        `;
+
+      } else {
+
+        iconHTML = `
+          <img
+            src="${iconUrl}"
+            alt="${name}"
+          >
+        `;
+      }
+
+
+      link.innerHTML = `
+
+        <span
+          class="social-icon ${iconClass}"
+        >
+
+          ${iconHTML}
+
+        </span>
+
+
+        <span class="social-name">
+          ${name}
+        </span>
+
+
+        <span class="social-arrow">
+          ›
+        </span>
+
+      `;
+
 
       document
-        .getElementById("buttons")
-        .appendChild(button);
+        .getElementById("socialLinks")
+        .appendChild(link);
 
     }
 
 
     /* =========================
-       Téléphone
-    ========================= */
-
-    function addPhone(phone) {
-
-      if (!phone) {
-        return;
-      }
-
-      const cleanPhone =
-        phone.replace(/[^0-9+]/g, "");
-
-      addButton(
-        "📞",
-        "Téléphone",
-        "tel:" + cleanPhone
-      );
-
-    }
-
-
-    /* =========================
-       WhatsApp
-    ========================= */
-
-    function addWhatsApp(whatsapp) {
-
-      if (!whatsapp) {
-        return;
-      }
-
-      let number =
-        whatsapp.replace(/[^0-9]/g, "");
-
-      /*
-        Si الرقم يبدأ بـ 0
-        نحوله إلى الجزائر 213
-      */
-
-      if (number.startsWith("0")) {
-
-        number =
-          "213" + number.substring(1);
-
-      }
-
-      /*
-        إذا المستخدم كتب الرقم
-        بدون 213 وبدون 0
-      */
-
-      if (
-        !number.startsWith("213") &&
-        number.length === 9
-      ) {
-
-        number =
-          "213" + number;
-
-      }
-
-      addButton(
-        "💬",
-        "WhatsApp",
-        "https://wa.me/" + number
-      );
-
-    }
-
-
-    /* =========================
-       تحميل بيانات العميل
+       LOAD CLIENT
     ========================= */
 
     async function loadClient() {
 
       try {
 
-        /* -------------------------
-           التحقق من ID
-        ------------------------- */
+
+        /* ID موجود؟ */
 
         if (!clientId) {
 
@@ -398,44 +1230,47 @@
           );
 
           return;
-
         }
 
 
-        /* -------------------------
-           طلب بيانات العميل
-        ------------------------- */
+        /* =========================
+           SUPABASE
+        ========================= */
 
-        const { data, error } =
+        const {
+          data,
+          error
+        } = await supabaseClient
 
-          await supabaseClient
+          .from("clients")
 
-            .from("clients")
+          .select(`
+            id,
+            name,
+            description,
+            profile_image,
+            cover_image,
+            instagram,
+            facebook,
+            tiktok,
+            snapchat,
+            website,
+            phone,
+            whatsapp,
+            google_maps
+          `)
 
-            .select(`
-              id,
-              name,
-              description,
-              profile_image,
-              cover_image,
-              instagram,
-              facebook,
-              tiktok,
-              snapchat,
-              website,
-              phone,
-              whatsapp,
-              google_maps
-            `)
+          .eq(
+            "id",
+            clientId
+          )
 
-            .eq("id", clientId)
-
-            .single();
+          .single();
 
 
-        /* -------------------------
-           Supabase error
-        ------------------------- */
+        /* =========================
+           ERROR
+        ========================= */
 
         if (error) {
 
@@ -449,13 +1284,8 @@
           );
 
           return;
-
         }
 
-
-        /* -------------------------
-           Client غير موجود
-        ------------------------- */
 
         if (!data) {
 
@@ -464,76 +1294,72 @@
           );
 
           return;
-
         }
 
 
-        /* -------------------------
-           عنوان الصفحة
-        ------------------------- */
+        /* =========================
+           PAGE TITLE
+        ========================= */
 
         document.title =
-          data.name || "TapTapCard";
+          data.name ||
+          "TapTapCard";
 
 
         /* =========================
-           Cover image
+           COVER
         ========================= */
 
-        const cover =
-          document.getElementById("cover");
+        const coverImage =
+          document.getElementById(
+            "coverImage"
+          );
+
 
         if (data.cover_image) {
 
-          cover.style.backgroundImage =
-            `url("${data.cover_image}")`;
+          coverImage.src =
+            data.cover_image;
 
+        } else {
+
+          coverImage.style.display =
+            "none";
         }
 
 
         /* =========================
-           Profile image
+           PROFILE IMAGE
         ========================= */
 
-        const profileContainer =
+        const profileImage =
           document.getElementById(
-            "profileContainer"
+            "profileImage"
+          );
+
+
+        const profilePlaceholder =
+          document.getElementById(
+            "profilePlaceholder"
           );
 
 
         if (data.profile_image) {
 
-          const image =
-            document.createElement("img");
-
-          image.className =
-            "profile-image";
-
-          image.src =
+          profileImage.src =
             data.profile_image;
 
-          image.alt =
-            data.name || "Profil";
+          profileImage.style.display =
+            "block";
 
-          profileContainer.appendChild(
-            image
-          );
-
-        }
-
-        else {
-
-          profileContainer.innerHTML =
-
-            `<div class="profile-placeholder">
-              👤
-            </div>`;
+          profilePlaceholder.style.display =
+            "none";
 
         }
 
 
         /* =========================
-           Name
+           NAME
         ========================= */
 
         document.getElementById(
@@ -541,61 +1367,71 @@
         ).textContent =
 
           data.name ||
-          "Nom du client";
+          "Nom du profil";
 
 
         /* =========================
-           Description
+           DESCRIPTION
         ========================= */
 
         document.getElementById(
           "description"
         ).textContent =
 
-          data.description || "";
+          data.description ||
+          "";
 
 
         /* =========================
-           Instagram
+           SOCIALS
         ========================= */
 
-        addButton(
-          "📷",
+        createSocialLink(
+
           "Instagram",
-          data.instagram
+
+          data.instagram,
+
+          "https://cdn.simpleicons.org/instagram",
+
+          "instagram-icon"
+
         );
 
 
-        /* =========================
-           Facebook
-        ========================= */
+        createSocialLink(
 
-        addButton(
-          "📘",
           "Facebook",
-          data.facebook
+
+          data.facebook,
+
+          "https://cdn.simpleicons.org/facebook/FFFFFF",
+
+          "facebook-icon"
+
         );
 
 
-        /* =========================
-           TikTok
-        ========================= */
+        createSocialLink(
 
-        addButton(
-          "🎵",
           "TikTok",
-          data.tiktok
+
+          data.tiktok,
+
+          "https://cdn.simpleicons.org/tiktok/FFFFFF",
+
+          "tiktok-icon"
+
         );
 
 
-        /* =========================
-           Snapchat
-        ========================= */
+        /* Snapchat */
 
         if (data.snapchat) {
 
           let snapchatUrl =
-            data.snapchat;
+            data.snapchat.trim();
+
 
           if (
             !snapchatUrl.startsWith("http://") &&
@@ -604,84 +1440,157 @@
 
             snapchatUrl =
               "https://www.snapchat.com/add/" +
-              data.snapchat;
-
+              snapchatUrl;
           }
 
-          addButton(
-            "👻",
-            "Snapchat",
-            snapchatUrl
-          );
 
+          createSocialLink(
+
+            "Snapchat",
+
+            snapchatUrl,
+
+            "https://cdn.simpleicons.org/snapchat/000000",
+
+            "snapchat-icon"
+
+          );
         }
 
 
-        /* =========================
-           Website
-        ========================= */
+        /* Website */
 
         if (data.website) {
 
-          let websiteUrl =
-            data.website;
+          createSocialLink(
 
-          if (
-            !websiteUrl.startsWith("http://") &&
-            !websiteUrl.startsWith("https://")
-          ) {
-
-            websiteUrl =
-              "https://" + websiteUrl;
-
-          }
-
-          addButton(
-            "🌐",
             "Website",
-            websiteUrl
-          );
 
+            data.website,
+
+            null,
+
+            "",
+
+            "🌐"
+
+          );
         }
 
 
         /* =========================
-           Phone
+           WHATSAPP
         ========================= */
 
-        addPhone(
-          data.phone
-        );
+        const whatsappButton =
+          document.getElementById(
+            "whatsappButton"
+          );
+
+
+        if (data.whatsapp) {
+
+          let number =
+            data.whatsapp.replace(
+              /[^0-9]/g,
+              ""
+            );
+
+
+          /* الجزائر */
+
+          if (
+            number.startsWith("0")
+          ) {
+
+            number =
+              "213" +
+              number.substring(1);
+          }
+
+
+          if (
+            !number.startsWith("213") &&
+            number.length === 9
+          ) {
+
+            number =
+              "213" + number;
+          }
+
+
+          whatsappButton.href =
+            "https://wa.me/" +
+            number;
+
+        } else {
+
+          whatsappButton.style.display =
+            "none";
+        }
 
 
         /* =========================
-           WhatsApp
+           PHONE
         ========================= */
 
-        addWhatsApp(
-          data.whatsapp
-        );
+        const phoneButton =
+          document.getElementById(
+            "phoneButton"
+          );
+
+
+        if (data.phone) {
+
+          const phone =
+            data.phone.replace(
+              /[^0-9+]/g,
+              ""
+            );
+
+
+          phoneButton.href =
+            "tel:" + phone;
+
+        } else {
+
+          phoneButton.style.display =
+            "none";
+        }
 
 
         /* =========================
-           Google Maps
+           GOOGLE MAPS
         ========================= */
 
-        addButton(
-          "📍",
-          "Google Maps",
-          data.google_maps
-        );
+        const mapsButton =
+          document.getElementById(
+            "mapsButton"
+          );
+
+
+        if (data.google_maps) {
+
+          mapsButton.href =
+            normalizeUrl(
+              data.google_maps
+            );
+
+        } else {
+
+          mapsButton.style.display =
+            "none";
+        }
 
 
         /* =========================
-           إظهار الصفحة
+           SHOW PAGE
         ========================= */
 
         loading.style.display =
           "none";
 
-        content.style.display =
+        profileCard.style.display =
           "block";
 
       }
@@ -703,13 +1612,14 @@
 
 
     /* =========================
-       تشغيل الصفحة
+       START
     ========================= */
 
     loadClient();
 
   </script>
 
+
 </body>
 
-  </html>
+</html>
