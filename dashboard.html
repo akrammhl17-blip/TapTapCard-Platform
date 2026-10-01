@@ -72,7 +72,7 @@
       background: white;
       padding: 20px;
       border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
     }
 
     .card span {
@@ -102,9 +102,21 @@
       font-size: 15px;
     }
 
+    .action-button:hover {
+      opacity: 0.9;
+    }
+
     @media (max-width: 500px) {
       .cards {
         grid-template-columns: 1fr;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .action-button {
+        width: 100%;
       }
     }
   </style>
@@ -116,7 +128,10 @@
 
     <h1>TapTapCard</h1>
 
-    <button id="logoutButton" class="logout">
+    <button
+      id="logoutButton"
+      class="logout"
+    >
       Déconnexion
     </button>
 
@@ -170,11 +185,18 @@
 
     <div class="actions">
 
-      <button class="action-button">
+      <button
+        class="action-button"
+        id="addClientButton"
+      >
         ➕ Ajouter un client
       </button>
 
-      <button class="action-button">
+
+      <button
+        class="action-button"
+        id="clientsButton"
+      >
         📋 Mes clients
       </button>
 
@@ -208,6 +230,7 @@
       }
 
       loadVendor(user.id);
+      loadClientCount(user.id);
     }
 
 
@@ -239,6 +262,49 @@
 
 
     // =========================
+    // حساب عدد العملاء
+    // =========================
+
+    async function loadClientCount(userId) {
+
+      const { data: vendor, error: vendorError } =
+        await supabaseClient
+          .from("vendors")
+          .select("id")
+          .eq("user_id", userId)
+          .single();
+
+      if (vendorError) {
+
+        console.error(vendorError);
+
+        return;
+      }
+
+
+      const { count, error } =
+        await supabaseClient
+          .from("clients")
+          .select("*", {
+            count: "exact",
+            head: true
+          })
+          .eq("vendor_id", vendor.id);
+
+      if (error) {
+
+        console.error(error);
+
+        return;
+      }
+
+
+      document.getElementById("clientCount").textContent =
+        count || 0;
+    }
+
+
+    // =========================
     // تسجيل الخروج
     // =========================
 
@@ -253,10 +319,39 @@
       });
 
 
+    // =========================
+    // Ajouter un client
+    // =========================
+
+    document
+      .getElementById("addClientButton")
+      .addEventListener("click", () => {
+
+        window.location.href = "add-client.html";
+
+      });
+
+
+    // =========================
+    // Mes clients
+    // =========================
+
+    document
+      .getElementById("clientsButton")
+      .addEventListener("click", () => {
+
+        window.location.href = "clients.html";
+
+      });
+
+
+    // =========================
     // تشغيل التحقق
+    // =========================
+
     checkUser();
 
   </script>
 
 </body>
-        </html>
+      </html>
