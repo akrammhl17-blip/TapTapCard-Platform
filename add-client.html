@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TapTapCard — Ajouter un client</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      color: #222;
+      padding-bottom: 40px;
+    }
+
+    header {
+      background: white;
+      padding: 18px 20px;
+      border-bottom: 1px solid #eee;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    main {
+      width: 100%;
+      max-width: 650px;
+      margin: auto;
+      padding: 25px 20px;
+    }
+
+    .page-title {
+      margin-bottom: 25px;
+    }
+
+    .page-title h2 {
+      margin: 0 0 6px;
+    }
+
+    .page-title p {
+      margin: 0;
+      color: #777;
+    }
+
+    .form-card {
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #999;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .section-title {
+      margin: 28px 0 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #eee;
+      font-size: 17px;
+    }
+
+    .save-button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .save-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .back-button {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: white;
+      color: #222;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .success {
+      color: #16803c;
+    }
+
+    .error {
+      color: #c62828;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>TapTapCard</h1>
+  </header>
+
+
+  <main>
+
+    <div class="page-title">
+
+      <h2>Ajouter un client</h2>
+
+      <p>
+        Créez une nouvelle page digitale pour votre client.
+      </p>
+
+    </div>
+
+
+    <div class="form-card">
+
+      <form id="clientForm">
+
+
+        <!-- Informations principales -->
+
+        <h3 class="section-title">
+          Informations
+        </h3>
+
+
+        <div class="field">
+
+          <label for="name">
+            Nom du client
+          </label>
+
+          <input
+            type="text"
+            id="name"
+            placeholder="Ex : Syly Cake"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="description">
+            Description
+          </label>
+
+          <textarea
+            id="description"
+            placeholder="Description de l'activité"
+          ></textarea>
+
+        </div>
+
+
+        <!-- Réseaux sociaux -->
+
+        <h3 class="section-title">
+          Réseaux sociaux
+        </h3>
+
+
+        <div class="field">
+
+          <label for="instagram">
+            Instagram
+          </label>
+
+          <input
+            type="url"
+            id="instagram"
+            placeholder="https://instagram.com/..."
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="facebook">
+            Facebook
+          </label>
+
+          <input
+            type="url"
+            id="facebook"
+            placeholder="https://facebook.com/..."
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="tiktok">
+            TikTok
+          </label>
+
+          <input
+            type="url"
+            id="tiktok"
+            placeholder="https://tiktok.com/@..."
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="snapchat">
+            Snapchat
+          </label>
+
+          <input
+            type="text"
+            id="snapchat"
+            placeholder="Nom d'utilisateur Snapchat"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="website">
+            Website
+          </label>
+
+          <input
+            type="url"
+            id="website"
+            placeholder="https://..."
+          >
+
+        </div>
+
+
+        <!-- Contact -->
+
+        <h3 class="section-title">
+          Contact
+        </h3>
+
+
+        <div class="field">
+
+          <label for="phone">
+            Téléphone
+          </label>
+
+          <input
+            type="tel"
+            id="phone"
+            placeholder="0550..."
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="whatsapp">
+            WhatsApp
+          </label>
+
+          <input
+            type="tel"
+            id="whatsapp"
+            placeholder="0550..."
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="googleMaps">
+            Google Maps
+          </label>
+
+          <input
+            type="url"
+            id="googleMaps"
+            placeholder="Lien Google Maps"
+          >
+
+        </div>
+
+
+        <!-- Images -->
+
+        <h3 class="section-title">
+          Images
+        </h3>
+
+
+        <div class="field">
+
+          <label for="profileImage">
+            Photo de profil
+          </label>
+
+          <input
+            type="file"
+            id="profileImage"
+            accept="image/jpeg,image/png,image/webp"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="coverImage">
+            Image de couverture
+          </label>
+
+          <input
+            type="file"
+            id="coverImage"
+            accept="image/jpeg,image/png,image/webp"
+          >
+
+        </div>
+
+
+        <button
+          type="submit"
+          id="saveButton"
+          class="save-button"
+        >
+          💾 Enregistrer le client
+        </button>
+
+
+        <button
+          type="button"
+          id="backButton"
+          class="back-button"
+        >
+          ← Retour
+        </button>
+
+
+        <div id="message"></div>
+
+      </form>
+
+    </div>
+
+  </main>
+
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+
+
+  <script>
+
+    // =========================
+    // التحقق من تسجيل الدخول
+    // =========================
+
+    let currentUser = null;
+    let currentVendor = null;
+
+
+    async function initializePage() {
+
+      const {
+        data: { user }
+      } = await supabaseClient.auth.getUser();
+
+
+      if (!user) {
+
+        window.location.href = "index.html";
+
+        return;
+      }
+
+
+      currentUser = user;
+
+
+      const { data: vendor, error } =
+        await supabaseClient
+          .from("vendors")
+          .select("id, name, status")
+          .eq("user_id", user.id)
+          .single();
+
+
+      if (error || !vendor) {
+
+        showMessage(
+          "Impossible de trouver votre compte vendeur.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      currentVendor = vendor;
+
+    }
+
+
+    // =========================
+    // رسالة
+    // =========================
+
+    function showMessage(text, type) {
+
+      const message =
+        document.getElementById("message");
+
+      message.textContent = text;
+
+      message.className = type;
+
+    }
+
+
+    // =========================
+    // رفع صورة
+    // =========================
+
+    async function uploadImage(file, clientId, type) {
+
+      if (!file) {
+        return null;
+      }
+
+
+      const extension =
+        file.name.split(".").pop().toLowerCase();
+
+
+      const filePath =
+        currentVendor.id +
+        "/" +
+        clientId +
+        "/" +
+        type +
+        "." +
+        extension;
+
+
+      const { error } =
+        await supabaseClient.storage
+          .from("client-images")
+          .upload(filePath, file, {
+            upsert: true
+          });
+
+
+      if (error) {
+
+        throw error;
+
+      }
+
+
+      const { data } =
+        supabaseClient.storage
+          .from("client-images")
+          .getPublicUrl(filePath);
+
+
+      return data.publicUrl;
+
+    }
+
+
+    // =========================
+    // حفظ العميل
+    // =========================
+
+    document
+      .getElementById("clientForm")
+      .addEventListener("submit", async (e) => {
+
+        e.preventDefault();
+
+
+        if (!currentVendor) {
+
+          showMessage(
+            "Compte vendeur introuvable.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        const saveButton =
+          document.getElementById("saveButton");
+
+
+        saveButton.disabled = true;
+
+        saveButton.textContent =
+          "Enregistrement...";
+
+
+        try {
+
+          // إنشاء العميل أولاً
+
+          const { data: client, error } =
+            await supabaseClient
+              .from("clients")
+              .insert({
+
+                vendor_id: currentVendor.id,
+
+                name:
+                  document
+                    .getElementById("name")
+                    .value
+                    .trim(),
+
+                description:
+                  document
+                    .getElementById("description")
+                    .value
+                    .trim(),
+
+                instagram:
+                  document
+                    .getElementById("instagram")
+                    .value
+                    .trim(),
+
+                facebook:
+                  document
+                    .getElementById("facebook")
+                    .value
+                    .trim(),
+
+                tiktok:
+                  document
+                    .getElementById("tiktok")
+                    .value
+                    .trim(),
+
+                snapchat:
+                  document
+                    .getElementById("snapchat")
+                    .value
+                    .trim(),
+
+                website:
+                  document
+                    .getElementById("website")
+                    .value
+                    .trim(),
+
+                phone:
+                  document
+                    .getElementById("phone")
+                    .value
+                    .trim(),
+
+                whatsapp:
+                  document
+                    .getElementById("whatsapp")
+                    .value
+                    .trim(),
+
+                google_maps:
+                  document
+                    .getElementById("googleMaps")
+                    .value
+                    .trim()
+
+              })
+              .select()
+              .single();
+
+
+          if (error) {
+
+            throw error;
+
+          }
+
+
+          // رفع صورة البروفايل
+
+          const profileFile =
+            document
+              .getElementById("profileImage")
+              .files[0];
+
+
+          if (profileFile) {
+
+            const profileUrl =
+              await uploadImage(
+                profileFile,
+                client.id,
+                "profile"
+              );
+
+
+            await supabaseClient
+              .from("clients")
+              .update({
+                profile_image: profileUrl
+              })
+              .eq("id", client.id);
+
+          }
+
+
+          // رفع صورة الغلاف
+
+          const coverFile =
+            document
+              .getElementById("coverImage")
+              .files[0];
+
+
+          if (coverFile) {
+
+            const coverUrl =
+              await uploadImage(
+                coverFile,
+                client.id,
+                "cover"
+              );
+
+
+            await supabaseClient
+              .from("clients")
+              .update({
+                cover_image: coverUrl
+              })
+              .eq("id", client.id);
+
+          }
+
+
+          showMessage(
+            "Client ajouté avec succès !",
+            "success"
+          );
+
+
+          document
+            .getElementById("clientForm")
+            .reset();
+
+
+          saveButton.disabled = false;
+
+          saveButton.textContent =
+            "💾 Enregistrer le client";
+
+
+        } catch (error) {
+
+          console.error(error);
+
+
+          showMessage(
+            "Erreur : " + error.message,
+            "error"
+          );
+
+
+          saveButton.disabled = false;
+
+          saveButton.textContent =
+            "💾 Enregistrer le client";
+
+        }
+
+      });
+
+
+    // =========================
+    // Retour
+    // =========================
+
+    document
+      .getElementById("backButton")
+      .addEventListener("click", () => {
+
+        window.location.href =
+          "dashboard.html";
+
+      });
+
+
+    // تشغيل الصفحة
+
+    initializePage();
+
+  </script>
+
+</body>
+  </html>
