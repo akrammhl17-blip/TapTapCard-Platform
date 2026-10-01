@@ -1,7 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TapTapCard — Connexion</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 380px;
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #777;
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
 <body>
 
-  <!-- محتوى الموقع هنا -->
+  <div class="login-box">
+    <h1>TapTapCard</h1>
+
+    <p class="subtitle">Connexion à votre espace</p>
+
+    <form id="loginForm">
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Adresse e-mail"
+        required
+      >
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Mot de passe"
+        required
+      >
+
+      <button type="submit">
+        Se connecter
+      </button>
+
+    </form>
+
+    <div id="message"></div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase.js"></script>
+
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      message.textContent = "Connexion...";
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+      if (error) {
+        message.textContent = "E-mail ou mot de passe incorrect.";
+        return;
+      }
+
+      message.textContent = "Connexion réussie !";
+
+      // لاحقاً نوجهوه للـ Dashboard
+      console.log("Utilisateur connecté :", data.user);
+    });
+  </script>
+
 </body>
+    </html>
