@@ -1,26 +1,43 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>TAPTAPCARD Admin</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script src="supabase.js"></script>
 
+
   <style>
+
     * {
       box-sizing: border-box;
     }
 
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #faf9f7, #eef1f4, #e4e8ed);
+      background:
+        linear-gradient(
+          135deg,
+          #faf9f7,
+          #eef1f4,
+          #e4e8ed
+        );
       color: #332522;
       min-height: 100vh;
     }
+
 
     .container {
       width: 92%;
@@ -29,6 +46,7 @@
       padding: 30px 0 50px;
     }
 
+
     header {
       display: flex;
       justify-content: space-between;
@@ -36,16 +54,19 @@
       margin-bottom: 30px;
     }
 
+
     .brand h1 {
       margin: 0;
       font-size: 28px;
     }
+
 
     .brand p {
       margin: 6px 0 0;
       color: #777;
       font-size: 14px;
     }
+
 
     .logout {
       border: none;
@@ -54,21 +75,39 @@
       padding: 12px 18px;
       border-radius: 12px;
       cursor: pointer;
+      font-size: 14px;
     }
+
+
+    .logout:hover {
+      opacity: .9;
+    }
+
 
     .stats {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns:
+        repeat(3, 1fr);
+
       gap: 18px;
+
       margin-bottom: 30px;
     }
 
+
     .stat {
-      background: rgba(255,255,255,.88);
+      background:
+        rgba(255,255,255,.9);
+
       border-radius: 18px;
+
       padding: 22px;
-      box-shadow: 0 8px 25px rgba(0,0,0,.07);
+
+      box-shadow:
+        0 8px 25px
+        rgba(0,0,0,.07);
     }
+
 
     .stat-title {
       color: #777;
@@ -76,217 +115,343 @@
       margin-bottom: 10px;
     }
 
+
     .stat-number {
       font-size: 32px;
       font-weight: bold;
     }
 
+
     .panel {
-      background: rgba(255,255,255,.9);
+      background:
+        rgba(255,255,255,.92);
+
       border-radius: 20px;
+
       padding: 22px;
-      box-shadow: 0 8px 30px rgba(0,0,0,.08);
+
+      box-shadow:
+        0 8px 30px
+        rgba(0,0,0,.08);
     }
+
 
     .panel-header {
       display: flex;
-      justify-content: space-between;
+
+      justify-content:
+        space-between;
+
       align-items: center;
+
       gap: 15px;
+
       margin-bottom: 20px;
     }
+
 
     .panel-header h2 {
       margin: 0;
     }
 
+
     #search {
       width: 270px;
+
       padding: 12px 14px;
-      border: 1px solid #ddd;
+
+      border:
+        1px solid #ddd;
+
       border-radius: 12px;
+
       outline: none;
+
       font-size: 14px;
     }
+
 
     .table-wrapper {
       overflow-x: auto;
     }
 
+
     table {
       width: 100%;
-      border-collapse: collapse;
+
+      border-collapse:
+        collapse;
+
       min-width: 700px;
     }
+
 
     th,
     td {
       padding: 15px 12px;
+
       text-align: left;
-      border-bottom: 1px solid #eee;
+
+      border-bottom:
+        1px solid #eee;
     }
+
 
     th {
       color: #777;
+
       font-size: 13px;
+
       font-weight: normal;
     }
+
 
     td {
       font-size: 14px;
     }
 
+
     .status {
       display: inline-block;
+
       padding: 6px 11px;
+
       border-radius: 20px;
+
       font-size: 12px;
+
       font-weight: bold;
     }
+
 
     .active {
       background: #e6f7ed;
       color: #16834b;
     }
 
+
     .inactive {
       background: #fde8e8;
       color: #c62828;
     }
 
+
     .action-btn {
       border: none;
+
       padding: 8px 12px;
+
       border-radius: 9px;
+
       cursor: pointer;
+
       font-size: 13px;
     }
+
 
     .disable-btn {
       background: #ffe8e8;
       color: #c62828;
     }
 
+
     .enable-btn {
       background: #e5f7ec;
       color: #16834b;
     }
 
+
     .admin-label {
       color: #777;
+
       font-size: 12px;
     }
 
+
     .message {
       text-align: center;
+
       padding: 30px;
+
       color: #777;
     }
 
+
     .error-box {
       display: none;
+
       background: #fff0f0;
+
       color: #b42318;
+
       padding: 15px;
+
       border-radius: 12px;
+
       margin-bottom: 20px;
+
+      word-break: break-word;
     }
+
+
+    .loading {
+      text-align: center;
+
+      padding: 50px 20px;
+
+      color: #777;
+    }
+
 
     @media (max-width: 700px) {
 
       .container {
         width: 94%;
+
         padding-top: 20px;
       }
 
+
       header {
         align-items: flex-start;
+
         flex-direction: column;
       }
+
 
       .stats {
         grid-template-columns: 1fr;
       }
 
+
       .panel-header {
         align-items: stretch;
+
         flex-direction: column;
       }
+
 
       #search {
         width: 100%;
       }
 
+
       .brand h1 {
         font-size: 24px;
       }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
+
 
   <header>
 
     <div class="brand">
-      <h1>TAPTAPCARD Admin</h1>
-      <p>Gestion de la plateforme</p>
+
+      <h1>
+        TAPTAPCARD Admin
+      </h1>
+
+      <p>
+        Gestion de la plateforme
+      </p>
+
     </div>
 
-    <button class="logout" id="logoutBtn">
+
+    <button
+      class="logout"
+      id="logoutBtn"
+    >
       Déconnexion
     </button>
 
   </header>
 
 
-  <div class="error-box" id="errorBox"></div>
+
+  <div
+    class="error-box"
+    id="errorBox"
+  ></div>
+
 
 
   <section class="stats">
 
+
     <div class="stat">
+
       <div class="stat-title">
         Total vendeurs
       </div>
 
-      <div class="stat-number" id="totalVendors">
+      <div
+        class="stat-number"
+        id="totalVendors"
+      >
         0
       </div>
+
     </div>
 
 
+
     <div class="stat">
+
       <div class="stat-title">
         Vendeurs actifs
       </div>
 
-      <div class="stat-number" id="activeVendors">
+      <div
+        class="stat-number"
+        id="activeVendors"
+      >
         0
       </div>
+
     </div>
 
 
+
     <div class="stat">
+
       <div class="stat-title">
         Total clients
       </div>
 
-      <div class="stat-number" id="totalClients">
+      <div
+        class="stat-number"
+        id="totalClients"
+      >
         0
       </div>
+
     </div>
+
 
   </section>
 
 
+
   <section class="panel">
+
 
     <div class="panel-header">
 
-      <h2>Vendeurs</h2>
+      <h2>
+        Vendeurs
+      </h2>
+
 
       <input
         type="text"
@@ -297,21 +462,41 @@
     </div>
 
 
+
     <div class="table-wrapper">
 
+
       <table>
+
 
         <thead>
 
           <tr>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Statut</th>
-            <th>Clients</th>
-            <th>Action</th>
+
+            <th>
+              Nom
+            </th>
+
+            <th>
+              Email
+            </th>
+
+            <th>
+              Statut
+            </th>
+
+            <th>
+              Clients
+            </th>
+
+            <th>
+              Action
+            </th>
+
           </tr>
 
         </thead>
+
 
 
         <tbody id="vendorsTable">
@@ -320,44 +505,65 @@
 
             <td
               colspan="5"
-              class="message"
+              class="loading"
             >
-              Chargement...
+              Vérification...
             </td>
 
           </tr>
 
         </tbody>
 
+
       </table>
+
 
     </div>
 
+
   </section>
+
 
 </div>
 
 
+
 <script>
 
+
+// ======================================
+// VARIABLES
+// ======================================
+
 let vendors = [];
+
 let clientCounts = {};
 
+let currentUser = null;
 
-// ========================================
-// START
-// ========================================
+
+
+// ======================================
+// INITIALISATION
+// ======================================
 
 async function init() {
 
+
   try {
 
-    // Vérifier connexion
+
+    // ------------------------------
+    // 1. UTILISATEUR CONNECTÉ
+    // ------------------------------
 
     const {
-      data: { user },
+      data: {
+        user
+      },
       error: userError
-    } = await supabaseClient.auth.getUser();
+    } =
+      await supabaseClient.auth.getUser();
 
 
     if (userError) {
@@ -380,30 +586,52 @@ async function init() {
     }
 
 
-    // ====================================
-    // VERIFICATION ADMIN
-    // ====================================
+    currentUser = user;
+
+
+
+    // ------------------------------
+    // 2. CHERCHER LE VENDEUR
+    // ------------------------------
 
     const {
-      data: isAdmin,
-      error: adminError
-    } = await supabaseClient.rpc(
-      "is_admin"
-    );
+      data: vendor,
+      error: vendorError
+    } =
+      await supabaseClient
+        .from("vendors")
+        .select(`
+          id,
+          name,
+          email,
+          status,
+          role,
+          user_id
+        `)
+        .eq(
+          "user_id",
+          user.id
+        )
+        .maybeSingle();
 
 
-    if (adminError) {
+    if (vendorError) {
 
       showError(
-        "Erreur Admin : " +
-        adminError.message
+        "Erreur lors de la vérification du compte : " +
+        vendorError.message
       );
 
       return;
     }
 
 
-    if (isAdmin !== true) {
+
+    // ------------------------------
+    // 3. AUCUN VENDEUR
+    // ------------------------------
+
+    if (!vendor) {
 
       document.body.innerHTML = `
 
@@ -413,10 +641,12 @@ async function init() {
           font-family:Arial;
         ">
 
-          <h2>Accès refusé</h2>
+          <h2>
+            Accès refusé
+          </h2>
 
           <p>
-            Cette page est réservée à l'administrateur.
+            Aucun compte vendeur associé à cet utilisateur.
           </p>
 
           <a href="dashboard.html">
@@ -431,17 +661,85 @@ async function init() {
     }
 
 
-    // ====================================
-    // CHARGEMENT
-    // ====================================
+
+    // ------------------------------
+    // 4. VÉRIFICATION ROLE
+    // ------------------------------
+
+    const role =
+      String(
+        vendor.role || ""
+      )
+      .trim()
+      .toLowerCase();
+
+
+    const status =
+      String(
+        vendor.status || ""
+      )
+      .trim()
+      .toLowerCase();
+
+
+
+    if (
+      role !== "admin" ||
+      status !== "active"
+    ) {
+
+
+      document.body.innerHTML = `
+
+        <div style="
+          text-align:center;
+          padding:80px 20px;
+          font-family:Arial;
+        ">
+
+          <h2>
+            Accès refusé
+          </h2>
+
+          <p>
+            Cette page est réservée à l'administrateur.
+          </p>
+
+          <p style="
+            color:#777;
+            font-size:13px;
+          ">
+            Role : ${escapeHtml(role)}
+            <br>
+            Status : ${escapeHtml(status)}
+          </p>
+
+          <a href="dashboard.html">
+            Retour au Dashboard
+          </a>
+
+        </div>
+
+      `;
+
+      return;
+    }
+
+
+
+    // ------------------------------
+    // 5. CHARGER LES DONNÉES
+    // ------------------------------
 
     await loadVendors();
 
     await loadClients();
 
-    renderVendors();
 
     updateStats();
+
+    renderVendors();
+
 
   }
 
@@ -450,7 +748,7 @@ async function init() {
     console.error(error);
 
     showError(
-      "Erreur : " +
+      "Erreur inattendue : " +
       error.message
     );
 
@@ -460,31 +758,33 @@ async function init() {
 
 
 
-// ========================================
-// VENDEURS
-// ========================================
+// ======================================
+// CHARGER VENDEURS
+// ======================================
 
 async function loadVendors() {
+
 
   const {
     data,
     error
-  } = await supabaseClient
-    .from("vendors")
-    .select(`
-      id,
-      name,
-      email,
-      status,
-      role,
-      created_at
-    `)
-    .order(
-      "created_at",
-      {
-        ascending: false
-      }
-    );
+  } =
+    await supabaseClient
+      .from("vendors")
+      .select(`
+        id,
+        name,
+        email,
+        status,
+        role,
+        created_at
+      `)
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
+      );
 
 
   if (error) {
@@ -501,20 +801,22 @@ async function loadVendors() {
 
 
 
-// ========================================
-// CLIENTS
-// ========================================
+// ======================================
+// CHARGER CLIENTS
+// ======================================
 
 async function loadClients() {
+
 
   const {
     data,
     error
-  } = await supabaseClient
-    .from("clients")
-    .select(
-      "vendor_id"
-    );
+  } =
+    await supabaseClient
+      .from("clients")
+      .select(
+        "vendor_id"
+      );
 
 
   if (error) {
@@ -527,24 +829,31 @@ async function loadClients() {
   clientCounts = {};
 
 
-  (data || []).forEach(
+  (
+    data || []
+  ).forEach(
     client => {
+
+
+      const vendorId =
+        client.vendor_id;
+
 
       if (
         !clientCounts[
-          client.vendor_id
+          vendorId
         ]
       ) {
 
         clientCounts[
-          client.vendor_id
+          vendorId
         ] = 0;
 
       }
 
 
       clientCounts[
-        client.vendor_id
+        vendorId
       ]++;
 
     }
@@ -554,11 +863,12 @@ async function loadClients() {
 
 
 
-// ========================================
-// STATS
-// ========================================
+// ======================================
+// STATISTIQUES
+// ======================================
 
 function updateStats() {
+
 
   const total =
     vendors.length;
@@ -567,7 +877,12 @@ function updateStats() {
   const active =
     vendors.filter(
       vendor =>
-        vendor.status === "active"
+        String(
+          vendor.status || ""
+        )
+        .trim()
+        .toLowerCase()
+        === "active"
     ).length;
 
 
@@ -575,8 +890,11 @@ function updateStats() {
     Object.values(
       clientCounts
     ).reduce(
-      (sum, value) =>
-        sum + value,
+      (
+        total,
+        count
+      ) =>
+        total + count,
       0
     );
 
@@ -602,13 +920,14 @@ function updateStats() {
 
 
 
-// ========================================
-// TABLE
-// ========================================
+// ======================================
+// AFFICHER VENDEURS
+// ======================================
 
 function renderVendors(
   filter = ""
 ) {
+
 
   const table =
     document.getElementById(
@@ -626,18 +945,19 @@ function renderVendors(
     vendors.filter(
       vendor => {
 
+
         const name =
-          (
-            vendor.name ||
-            ""
-          ).toLowerCase();
+          String(
+            vendor.name || ""
+          )
+          .toLowerCase();
 
 
         const email =
-          (
-            vendor.email ||
-            ""
-          ).toLowerCase();
+          String(
+            vendor.email || ""
+          )
+          .toLowerCase();
 
 
         return (
@@ -647,6 +967,7 @@ function renderVendors(
 
       }
     );
+
 
 
   if (!filtered.length) {
@@ -670,12 +991,30 @@ function renderVendors(
   }
 
 
+
   table.innerHTML =
     filtered.map(
       vendor => {
 
+
+        const status =
+          String(
+            vendor.status || ""
+          )
+          .trim()
+          .toLowerCase();
+
+
+        const role =
+          String(
+            vendor.role || ""
+          )
+          .trim()
+          .toLowerCase();
+
+
         const active =
-          vendor.status === "active";
+          status === "active";
 
 
         const count =
@@ -684,11 +1023,12 @@ function renderVendors(
           ] || 0;
 
 
-        let action;
+        let action = "";
+
 
 
         if (
-          vendor.role === "admin"
+          role === "admin"
         ) {
 
           action = `
@@ -703,18 +1043,26 @@ function renderVendors(
 
         else {
 
+
           action = `
 
             <button
-              class="action-btn ${
-                active
-                  ? "disable-btn"
-                  : "enable-btn"
-              }"
+              class="
+                action-btn
+                ${
+                  active
+                    ? "disable-btn"
+                    : "enable-btn"
+                }
+              "
               onclick="
                 toggleVendor(
                   ${vendor.id},
-                  '${active ? "inactive" : "active"}'
+                  '${
+                    active
+                      ? "inactive"
+                      : "active"
+                  }'
                 )
               "
             >
@@ -732,36 +1080,53 @@ function renderVendors(
         }
 
 
+
         return `
 
           <tr>
 
+
             <td>
+
               <strong>
-                ${escapeHtml(
-                  vendor.name ||
-                  "Sans nom"
-                )}
+
+                ${
+                  escapeHtml(
+                    vendor.name ||
+                    "Sans nom"
+                  )
+                }
+
               </strong>
+
             </td>
+
 
 
             <td>
-              ${escapeHtml(
-                vendor.email ||
-                "-"
-              )}
+
+              ${
+                escapeHtml(
+                  vendor.email ||
+                  "-"
+                )
+              }
+
             </td>
+
 
 
             <td>
 
               <span
-                class="status ${
-                  active
-                    ? "active"
-                    : "inactive"
-                }"
+                class="
+                  status
+                  ${
+                    active
+                      ? "active"
+                      : "inactive"
+                  }
+                "
               >
 
                 ${
@@ -775,14 +1140,21 @@ function renderVendors(
             </td>
 
 
+
             <td>
+
               ${count}
+
             </td>
+
 
 
             <td>
+
               ${action}
+
             </td>
+
 
           </tr>
 
@@ -795,19 +1167,20 @@ function renderVendors(
 
 
 
-// ========================================
+// ======================================
 // ACTIVER / SUSPENDRE
-// ========================================
+// ======================================
 
 async function toggleVendor(
   vendorId,
   newStatus
 ) {
 
+
   const vendor =
     vendors.find(
-      v =>
-        v.id === vendorId
+      item =>
+        item.id === vendorId
     );
 
 
@@ -835,17 +1208,19 @@ async function toggleVendor(
   }
 
 
+
   const {
     error
-  } = await supabaseClient
-    .from("vendors")
-    .update({
-      status: newStatus
-    })
-    .eq(
-      "id",
-      vendorId
-    );
+  } =
+    await supabaseClient
+      .from("vendors")
+      .update({
+        status: newStatus
+      })
+      .eq(
+        "id",
+        vendorId
+      );
 
 
   if (error) {
@@ -877,9 +1252,9 @@ async function toggleVendor(
 
 
 
-// ========================================
-// SEARCH
-// ========================================
+// ======================================
+// RECHERCHE
+// ======================================
 
 document
   .getElementById(
@@ -898,9 +1273,9 @@ document
 
 
 
-// ========================================
+// ======================================
 // LOGOUT
-// ========================================
+// ======================================
 
 document
   .getElementById(
@@ -910,7 +1285,11 @@ document
     "click",
     async () => {
 
-      await supabaseClient.auth.signOut();
+
+      await supabaseClient
+        .auth
+        .signOut();
+
 
       window.location.href =
         "index.html";
@@ -920,13 +1299,14 @@ document
 
 
 
-// ========================================
+// ======================================
 // ERROR
-// ========================================
+// ======================================
 
 function showError(
   message
 ) {
+
 
   const box =
     document.getElementById(
@@ -945,31 +1325,37 @@ function showError(
 
 
 
-// ========================================
-// SECURITY
-// ========================================
+// ======================================
+// حماية HTML
+// ======================================
 
 function escapeHtml(
   value
 ) {
 
+
   return String(value)
+
     .replace(
       /&/g,
       "&amp;"
     )
+
     .replace(
       /</g,
       "&lt;"
     )
+
     .replace(
       />/g,
       "&gt;"
     )
+
     .replace(
       /"/g,
       "&quot;"
     )
+
     .replace(
       /'/g,
       "&#039;"
@@ -979,13 +1365,15 @@ function escapeHtml(
 
 
 
-// ========================================
-// RUN
-// ========================================
+// ======================================
+// START
+// ======================================
 
 init();
 
 </script>
 
+
 </body>
+
   </html>
