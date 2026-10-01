@@ -102,6 +102,10 @@
     }
 
 
+    /* =========================
+       STATS
+    ========================= */
+
     .stats {
       display: grid;
 
@@ -143,6 +147,10 @@
       font-weight: bold;
     }
 
+
+    /* =========================
+       PANEL
+    ========================= */
 
     .panel {
       background:
@@ -192,6 +200,10 @@
       font-size: 14px;
     }
 
+
+    /* =========================
+       TABLE
+    ========================= */
 
     .table-wrapper {
       overflow-x: auto;
@@ -249,6 +261,10 @@
     }
 
 
+    /* =========================
+       STATUS
+    ========================= */
+
     .status {
       display: inline-block;
 
@@ -275,6 +291,10 @@
       color: #c62828;
     }
 
+
+    /* =========================
+       BUTTONS
+    ========================= */
 
     .action-btn {
       border: none;
@@ -310,10 +330,8 @@
     }
 
 
-    .admin-label {
-      color: #777;
-
-      font-size: 12px;
+    .history-btn:hover {
+      background: #e5e0de;
     }
 
 
@@ -325,6 +343,10 @@
       color: #777;
     }
 
+
+    /* =========================
+       ERROR
+    ========================= */
 
     .error-box {
       display: none;
@@ -462,6 +484,10 @@
     }
 
 
+    /* =========================
+       MOBILE
+    ========================= */
+
     @media (max-width: 700px) {
 
       .container {
@@ -519,6 +545,10 @@
 <div class="container">
 
 
+  <!-- =========================
+       HEADER
+  ========================= -->
+
   <header>
 
     <div class="brand">
@@ -544,6 +574,9 @@
   </header>
 
 
+  <!-- =========================
+       ERROR
+  ========================= -->
 
   <div
     class="error-box"
@@ -551,6 +584,9 @@
   ></div>
 
 
+  <!-- =========================
+       STATS
+  ========================= -->
 
   <section class="stats">
 
@@ -571,7 +607,6 @@
     </div>
 
 
-
     <div class="stat">
 
       <div class="stat-title">
@@ -586,7 +621,6 @@
       </div>
 
     </div>
-
 
 
     <div class="stat">
@@ -608,6 +642,9 @@
   </section>
 
 
+  <!-- =========================
+       VENDEURS
+  ========================= -->
 
   <section class="panel">
 
@@ -626,7 +663,6 @@
       >
 
     </div>
-
 
 
     <div class="table-wrapper">
@@ -664,7 +700,6 @@
         </thead>
 
 
-
         <tbody id="vendorsTable">
 
           <tr>
@@ -691,7 +726,6 @@
 
 
 </div>
-
 
 
 <!-- =========================
@@ -736,7 +770,6 @@
 </div>
 
 
-
 <script>
 
 
@@ -758,13 +791,12 @@ let resets = [];
 
 async function init() {
 
-
   try {
 
 
-    // -------------------------------
-    // Vérifier utilisateur
-    // -------------------------------
+    // ================================
+    // CHECK USER
+    // ================================
 
     const {
       data: {
@@ -797,10 +829,9 @@ async function init() {
     }
 
 
-
-    // -------------------------------
-    // Vérifier Admin
-    // -------------------------------
+    // ================================
+    // CHECK ADMIN
+    // ================================
 
     const {
       data: vendor,
@@ -875,10 +906,9 @@ async function init() {
     }
 
 
-
-    // -------------------------------
-    // تحميل البيانات
-    // -------------------------------
+    // ================================
+    // LOAD DATA
+    // ================================
 
     await loadVendors();
 
@@ -891,8 +921,8 @@ async function init() {
 
     renderVendors();
 
-
   }
+
 
   catch (error) {
 
@@ -910,7 +940,7 @@ async function init() {
 
 
 // ======================================
-// VENDEURS
+// LOAD VENDEURS
 // ======================================
 
 async function loadVendors() {
@@ -953,7 +983,7 @@ async function loadVendors() {
 
 
 // ======================================
-// CLIENTS
+// LOAD CLIENTS
 // ======================================
 
 async function loadClients() {
@@ -987,7 +1017,7 @@ async function loadClients() {
 
 
 // ======================================
-// RESETS
+// LOAD RESETS
 // ======================================
 
 async function loadResets() {
@@ -1028,7 +1058,7 @@ async function loadResets() {
 
 
 // ======================================
-// آخر RESET لكل بائع
+// GET LAST RESET
 // ======================================
 
 function getLastReset(
@@ -1041,7 +1071,8 @@ function getLastReset(
       reset =>
         Number(
           reset.vendor_id
-        ) === Number(
+        ) ===
+        Number(
           vendorId
         )
     );
@@ -1077,7 +1108,7 @@ function getLastReset(
 
 
 // ======================================
-// عدد الروابط الحالية
+// GET CURRENT LINKS
 // ======================================
 
 function getCurrentLinks(
@@ -1101,7 +1132,8 @@ function getCurrentLinks(
       if (
         Number(
           client.vendor_id
-        ) !== Number(
+        ) !==
+        Number(
           vendorId
         )
       ) {
@@ -1117,7 +1149,7 @@ function getCurrentLinks(
         );
 
 
-      // إذا لم يوجد Reset
+      // بدون Reset
       // نحسب كل الروابط
 
       if (!lastReset) {
@@ -1135,8 +1167,7 @@ function getCurrentLinks(
         );
 
 
-      // نحسب فقط الروابط
-      // التي أنشئت بعد آخر Reset
+      // بعد آخر Reset فقط
 
       if (
         created >
@@ -1158,7 +1189,7 @@ function getCurrentLinks(
 
 
 // ======================================
-// الإحصائيات
+// UPDATE STATS
 // ======================================
 
 function updateStats() {
@@ -1176,7 +1207,8 @@ function updateStats() {
         )
         .trim()
         .toLowerCase()
-        === "active"
+        ===
+        "active"
     ).length;
 
 
@@ -1217,7 +1249,7 @@ function updateStats() {
 
 
 // ======================================
-// عرض البائعين
+// RENDER VENDEURS
 // ======================================
 
 function renderVendors(
@@ -1265,7 +1297,6 @@ function renderVendors(
     );
 
 
-
   if (
     !filtered.length
   ) {
@@ -1290,7 +1321,6 @@ function renderVendors(
   }
 
 
-
   table.innerHTML =
     filtered.map(
       vendor => {
@@ -1304,16 +1334,9 @@ function renderVendors(
           .toLowerCase();
 
 
-        const role =
-          String(
-            vendor.role || ""
-          )
-          .trim()
-          .toLowerCase();
-
-
         const active =
-          status === "active";
+          status ===
+          "active";
 
 
         const currentLinks =
@@ -1322,83 +1345,48 @@ function renderVendors(
           );
 
 
-        let actions = "";
+        /*
+          مهم:
+          Réinitialiser يظهر لكل vendeur
+          وكذلك للحساب الإداري.
+        */
+
+        const actions = `
+
+          <button
+            class="
+              action-btn
+              reset-btn
+            "
+            onclick="
+              resetVendor(
+                ${vendor.id}
+              )
+            "
+          >
+            Réinitialiser
+          </button>
 
 
+          <button
+            class="
+              action-btn
+              history-btn
+            "
+            onclick="
+              showHistory(
+                ${vendor.id},
+                '${escapeAttribute(
+                  vendor.name ||
+                  "Vendeur"
+                )}'
+              )
+            "
+          >
+            Historique
+          </button>
 
-        if (
-          role === "admin"
-        ) {
-
-          actions = `
-
-            <span class="admin-label">
-              Administrateur
-            </span>
-
-            <button
-              class="
-                action-btn
-                history-btn
-              "
-              onclick="
-                showHistory(
-                  ${vendor.id},
-                  '${escapeAttribute(
-                    vendor.name ||
-                    "Vendeur"
-                  )}'
-                )
-              "
-            >
-              Historique
-            </button>
-
-          `;
-
-        }
-
-        else {
-
-          actions = `
-
-            <button
-              class="
-                action-btn
-                reset-btn
-              "
-              onclick="
-                resetVendor(
-                  ${vendor.id}
-                )
-              "
-            >
-              Réinitialiser
-            </button>
-
-
-            <button
-              class="
-                action-btn
-                history-btn
-              "
-              onclick="
-                showHistory(
-                  ${vendor.id},
-                  '${escapeAttribute(
-                    vendor.name ||
-                    "Vendeur"
-                  )}'
-                )
-              "
-            >
-              Historique
-            </button>
-
-          `;
-
-        }
-
+        `;
 
 
         return `
@@ -1488,7 +1476,7 @@ function renderVendors(
 
 
 // ======================================
-// RESET
+// RESET VENDOR
 // ======================================
 
 async function resetVendor(
@@ -1499,12 +1487,20 @@ async function resetVendor(
   const vendor =
     vendors.find(
       item =>
-        Number(item.id) ===
-        Number(vendorId)
+        Number(
+          item.id
+        ) ===
+        Number(
+          vendorId
+        )
     );
 
 
   if (!vendor) {
+
+    alert(
+      "Vendeur introuvable."
+    );
 
     return;
 
@@ -1532,12 +1528,7 @@ async function resetVendor(
 
   const confirmed =
     confirm(
-      `Réinitialiser le compteur de ${
-        currentLinks
-      } liens pour ${
-        vendor.name ||
-        "ce vendeur"
-      } ?`
+      `Réinitialiser le compteur de ${currentLinks} liens pour ${vendor.name || "ce vendeur"} ?`
     );
 
 
@@ -1548,10 +1539,9 @@ async function resetVendor(
   }
 
 
-
-  // -------------------------------
-  // تسجيل العملية
-  // -------------------------------
+  // ================================
+  // INSERT RESET
+  // ================================
 
   const {
     error
@@ -1559,11 +1549,13 @@ async function resetVendor(
     await supabaseClient
       .from("vendor_resets")
       .insert({
+
         vendor_id:
           vendorId,
 
         units_count:
           currentLinks
+
       });
 
 
@@ -1579,14 +1571,15 @@ async function resetVendor(
   }
 
 
-
-  // -------------------------------
-  // تحديث البيانات
-  // -------------------------------
+  // ================================
+  // RELOAD
+  // ================================
 
   await loadResets();
 
+
   updateStats();
+
 
   renderVendors(
     document.getElementById(
@@ -1604,7 +1597,7 @@ async function resetVendor(
 
 
 // ======================================
-// HISTORIQUE
+// SHOW HISTORY
 // ======================================
 
 async function showHistory(
@@ -1642,7 +1635,6 @@ async function showHistory(
 
   modal.style.display =
     "flex";
-
 
 
   try {
@@ -1735,10 +1727,12 @@ async function showHistory(
                 <div
                   class="history-count"
                 >
+
                   ${
                     item.units_count
                   }
                   liens
+
                 </div>
 
               </div>
@@ -1747,7 +1741,9 @@ async function showHistory(
               <div
                 class="history-date"
               >
+
                 ${date}
+
               </div>
 
             </div>
@@ -1759,6 +1755,7 @@ async function showHistory(
 
 
   }
+
 
   catch (error) {
 
@@ -1783,10 +1780,11 @@ async function showHistory(
 
 
 // ======================================
-// إغلاق التاريخ
+// CLOSE HISTORY
 // ======================================
 
 function closeHistory() {
+
 
   document.getElementById(
     "historyModal"
@@ -1929,8 +1927,11 @@ function formatDate(
   return date.toLocaleString(
     "fr-FR",
     {
-      dateStyle: "medium",
-      timeStyle: "short"
+      dateStyle:
+        "medium",
+
+      timeStyle:
+        "short"
     }
   );
 
@@ -1983,14 +1984,17 @@ function escapeAttribute(
 
 
   return String(value)
+
     .replace(
       /\\/g,
       "\\\\"
     )
+
     .replace(
       /'/g,
       "\\'"
     )
+
     .replace(
       /"/g,
       "&quot;"
