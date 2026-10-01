@@ -1,346 +1,889 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>TapTapCard Admin</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
+
     body {
+
       font-family: Arial, sans-serif;
+
       background: #f5f6fa;
+
       color: #222;
+
       padding: 20px;
+
     }
+
 
     .container {
+
       max-width: 1200px;
+
       margin: auto;
+
     }
+
+
+    /* =========================
+       HEADER
+    ========================= */
 
     header {
+
       background: white;
+
       padding: 20px;
+
       border-radius: 16px;
+
       margin-bottom: 20px;
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
+
       gap: 15px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+
+      box-shadow:
+        0 3px 15px rgba(0,0,0,0.06);
+
     }
+
 
     header h1 {
+
       font-size: 24px;
+
     }
+
 
     header p {
+
       margin-top: 5px;
+
       color: #777;
+
     }
+
 
     .logout-btn {
+
       border: none;
+
       background: #222;
+
       color: white;
+
       padding: 10px 16px;
+
       border-radius: 10px;
+
       cursor: pointer;
+
     }
+
+
+    /* =========================
+       STATS
+    ========================= */
 
     .stats {
+
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
       gap: 15px;
+
       margin-bottom: 20px;
+
     }
+
 
     .stat-card {
+
       background: white;
+
       padding: 20px;
+
       border-radius: 16px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+
+      box-shadow:
+        0 3px 15px rgba(0,0,0,0.06);
+
     }
+
 
     .stat-card span {
+
       display: block;
+
       color: #777;
+
       font-size: 14px;
+
       margin-bottom: 8px;
+
     }
+
 
     .stat-card strong {
+
       font-size: 28px;
+
     }
+
+
+    /* =========================
+       PANEL
+    ========================= */
 
     .panel {
+
       background: white;
+
       border-radius: 16px;
+
       padding: 20px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+
+      box-shadow:
+        0 3px 15px rgba(0,0,0,0.06);
+
     }
+
 
     .panel-header {
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
+
       gap: 10px;
+
       margin-bottom: 20px;
+
     }
+
 
     .panel-header h2 {
+
       font-size: 20px;
+
     }
+
 
     .search {
+
       width: 260px;
+
       padding: 11px 13px;
+
       border: 1px solid #ddd;
+
       border-radius: 10px;
+
       outline: none;
+
     }
+
+
+    /* =========================
+       TABLE
+    ========================= */
 
     .table-wrapper {
+
       overflow-x: auto;
+
     }
 
+
     table {
+
       width: 100%;
+
       border-collapse: collapse;
+
       min-width: 800px;
+
     }
+
 
     th,
     td {
+
       padding: 14px 12px;
+
       text-align: left;
+
       border-bottom: 1px solid #eee;
+
     }
+
 
     th {
+
       font-size: 13px;
+
       color: #777;
+
       background: #fafafa;
+
     }
+
 
     td {
+
       font-size: 14px;
+
     }
+
+
+    /* =========================
+       STATUS
+    ========================= */
 
     .status {
+
       display: inline-block;
+
       padding: 5px 10px;
+
       border-radius: 20px;
+
       font-size: 12px;
+
     }
+
 
     .status.active {
+
       background: #e8f7ed;
+
       color: #16833b;
+
     }
+
 
     .status.inactive {
+
       background: #fdeaea;
+
       color: #c62828;
+
     }
+
+
+    /* =========================
+       LINKS
+    ========================= */
 
     .links-count {
+
       font-weight: bold;
+
       font-size: 18px;
+
     }
+
+
+    /* =========================
+       ACTIONS
+    ========================= */
 
     .actions {
+
       display: flex;
+
       gap: 7px;
+
       flex-wrap: wrap;
+
     }
+
 
     .action-btn {
+
       border: none;
+
       padding: 8px 12px;
+
       border-radius: 8px;
+
       cursor: pointer;
+
       font-size: 12px;
+
     }
+
 
     .reset-btn {
+
       background: #222;
+
       color: white;
+
     }
+
 
     .history-btn {
+
       background: #eee;
+
       color: #222;
+
     }
+
 
     .action-btn:hover {
+
       opacity: 0.85;
+
     }
+
+
+    /* =========================
+       MESSAGE
+    ========================= */
 
     .message {
+
       padding: 20px;
+
       text-align: center;
+
       color: #777;
+
     }
+
 
     .error {
+
       background: #ffe9e9;
+
       color: #c62828;
+
       padding: 15px;
+
       border-radius: 10px;
+
       margin-bottom: 15px;
+
       display: none;
+
     }
 
-    /* Modal */
+
+    /* =========================
+       MODAL
+    ========================= */
 
     .modal {
+
       position: fixed;
+
       inset: 0;
-      background: rgba(0,0,0,0.55);
+
+      background:
+        rgba(0,0,0,0.55);
+
       display: none;
+
       justify-content: center;
+
       align-items: center;
+
       padding: 20px;
+
       z-index: 9999;
+
+      backdrop-filter: blur(4px);
+
     }
+
 
     .modal.show {
+
       display: flex;
+
     }
+
 
     .modal-box {
+
       background: white;
+
       width: 100%;
+
       max-width: 500px;
+
       border-radius: 18px;
+
       padding: 22px;
+
       max-height: 80vh;
+
       overflow-y: auto;
+
+      animation:
+        modalAppear
+        0.2s ease;
+
     }
+
+
+    @keyframes modalAppear {
+
+      from {
+
+        opacity: 0;
+
+        transform:
+          translateY(10px)
+          scale(0.97);
+
+      }
+
+      to {
+
+        opacity: 1;
+
+        transform:
+          translateY(0)
+          scale(1);
+
+      }
+
+    }
+
+
+    /* =========================
+       HISTORY MODAL
+    ========================= */
 
     .modal-header {
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
+
       margin-bottom: 20px;
+
     }
+
 
     .modal-header h3 {
+
       font-size: 20px;
+
     }
+
 
     .close-btn {
+
       border: none;
+
       background: #eee;
+
       width: 35px;
+
       height: 35px;
+
       border-radius: 50%;
+
       cursor: pointer;
+
       font-size: 18px;
+
     }
+
 
     .history-item {
+
       padding: 14px;
+
       border: 1px solid #eee;
+
       border-radius: 12px;
+
       margin-bottom: 10px;
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
+
       gap: 10px;
+
     }
+
 
     .history-count {
+
       font-weight: bold;
+
     }
 
+
     .history-date {
+
       color: #777;
+
       font-size: 13px;
+
       text-align: right;
+
     }
+
+
+    /* =========================
+       RESET CONFIRMATION
+    ========================= */
+
+    .reset-confirm-box {
+
+      max-width: 400px;
+
+      text-align: center;
+
+      padding: 30px 24px;
+
+    }
+
+
+    .reset-icon {
+
+      width: 62px;
+
+      height: 62px;
+
+      margin: 0 auto 18px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background: #f1f1f1;
+
+      font-size: 30px;
+
+      color: #222;
+
+    }
+
+
+    .reset-confirm-box h3 {
+
+      font-size: 21px;
+
+      margin-bottom: 10px;
+
+    }
+
+
+    .reset-confirm-box p {
+
+      color: #777;
+
+      font-size: 14px;
+
+      line-height: 1.5;
+
+      margin-bottom: 25px;
+
+    }
+
+
+    .reset-actions {
+
+      display: flex;
+
+      gap: 10px;
+
+    }
+
+
+    .reset-actions button {
+
+      flex: 1;
+
+      border: none;
+
+      padding: 12px;
+
+      border-radius: 10px;
+
+      cursor: pointer;
+
+      font-size: 14px;
+
+    }
+
+
+    .cancel-reset-btn {
+
+      background: #eeeeee;
+
+      color: #222;
+
+    }
+
+
+    .confirm-reset-btn {
+
+      background: #222;
+
+      color: white;
+
+    }
+
+
+    .reset-actions button:hover {
+
+      opacity: 0.85;
+
+    }
+
+
+    /* =========================
+       SUCCESS MESSAGE
+    ========================= */
+
+    .success-toast {
+
+      position: fixed;
+
+      left: 50%;
+
+      bottom: 25px;
+
+      transform:
+        translateX(-50%)
+        translateY(20px);
+
+      background: #222;
+
+      color: white;
+
+      padding: 13px 20px;
+
+      border-radius: 12px;
+
+      font-size: 14px;
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      transition:
+        0.25s ease;
+
+      z-index: 10000;
+
+    }
+
+
+    .success-toast.show {
+
+      opacity: 1;
+
+      transform:
+        translateX(-50%)
+        translateY(0);
+
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
 
     @media (max-width: 700px) {
 
       body {
+
         padding: 12px;
+
       }
+
 
       header {
+
         flex-direction: column;
+
         align-items: flex-start;
+
       }
+
 
       .stats {
+
         grid-template-columns: 1fr;
+
       }
+
 
       .panel-header {
+
         flex-direction: column;
+
         align-items: stretch;
+
       }
 
+
       .search {
+
         width: 100%;
+
       }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
 
+
+  <!-- HEADER -->
+
   <header>
+
     <div>
-      <h1>TAPTAPCARD Admin</h1>
-      <p id="welcome">Chargement...</p>
+
+      <h1>
+        TAPTAPCARD Admin
+      </h1>
+
+      <p id="welcome">
+        Chargement...
+      </p>
+
     </div>
 
-    <button class="logout-btn" onclick="logout()">
+
+    <button
+      class="logout-btn"
+      onclick="logout()"
+    >
       Déconnexion
     </button>
+
   </header>
 
 
-  <div id="errorBox" class="error"></div>
+  <!-- ERROR -->
 
+  <div
+    id="errorBox"
+    class="error"
+  ></div>
+
+
+  <!-- STATS -->
 
   <section class="stats">
 
-    <div class="stat-card">
-      <span>Total vendeurs</span>
-      <strong id="totalVendors">0</strong>
-    </div>
 
     <div class="stat-card">
-      <span>Vendeurs actifs</span>
-      <strong id="activeVendors">0</strong>
+
+      <span>
+        Total vendeurs
+      </span>
+
+      <strong
+        id="totalVendors"
+      >
+        0
+      </strong>
+
     </div>
 
+
     <div class="stat-card">
-      <span>Liens actifs à compter</span>
-      <strong id="totalLinks">0</strong>
+
+      <span>
+        Vendeurs actifs
+      </span>
+
+      <strong
+        id="activeVendors"
+      >
+        0
+      </strong>
+
     </div>
+
+
+    <div class="stat-card">
+
+      <span>
+        Liens actifs à compter
+      </span>
+
+      <strong
+        id="totalLinks"
+      >
+        0
+      </strong>
+
+    </div>
+
 
   </section>
 
 
+  <!-- VENDORS -->
+
   <section class="panel">
+
 
     <div class="panel-header">
 
-      <h2>Gestion des vendeurs</h2>
+      <h2>
+        Gestion des vendeurs
+      </h2>
+
 
       <input
         type="text"
@@ -358,43 +901,84 @@
       <table>
 
         <thead>
+
           <tr>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Statut</th>
-            <th>Liens actuels</th>
-            <th>Actions</th>
+
+            <th>
+              Nom
+            </th>
+
+            <th>
+              Email
+            </th>
+
+            <th>
+              Statut
+            </th>
+
+            <th>
+              Liens actuels
+            </th>
+
+            <th>
+              Actions
+            </th>
+
           </tr>
+
         </thead>
 
-        <tbody id="vendorsTable">
+
+        <tbody
+          id="vendorsTable"
+        >
+
           <tr>
-            <td colspan="5" class="message">
+
+            <td
+              colspan="5"
+              class="message"
+            >
               Chargement...
             </td>
+
           </tr>
+
         </tbody>
 
       </table>
 
     </div>
 
+
   </section>
+
 
 </div>
 
 
-<!-- HISTORY MODAL -->
+<!-- =========================
+     HISTORY MODAL
+========================= -->
 
-<div id="historyModal" class="modal">
+<div
+  id="historyModal"
+  class="modal"
+>
+
 
   <div class="modal-box">
 
+
     <div class="modal-header">
 
-      <h3 id="historyTitle">
+
+      <h3
+        id="historyTitle"
+      >
         Historique
       </h3>
+
 
       <button
         class="close-btn"
@@ -403,28 +987,108 @@
         ×
       </button>
 
+
     </div>
 
-    <div id="historyContent">
+
+    <div
+      id="historyContent"
+    >
       Chargement...
     </div>
 
+
   </div>
+
 
 </div>
 
 
+<!-- =========================
+     RESET CONFIRMATION MODAL
+========================= -->
+
+<div
+  id="resetModal"
+  class="modal"
+>
+
+
+  <div
+    class="modal-box reset-confirm-box"
+  >
+
+
+    <div class="reset-icon">
+      ↻
+    </div>
+
+
+    <h3>
+      Réinitialiser le compteur ?
+    </h3>
+
+
+    <p id="resetMessage">
+      Les liens actuels seront
+      archivés dans l'historique.
+    </p>
+
+
+    <div class="reset-actions">
+
+
+      <button
+        class="cancel-reset-btn"
+        onclick="closeResetModal()"
+      >
+        Annuler
+      </button>
+
+
+      <button
+        class="confirm-reset-btn"
+        onclick="confirmReset()"
+      >
+        Réinitialiser
+      </button>
+
+
+    </div>
+
+
+  </div>
+
+
+</div>
+
+
+<!-- SUCCESS TOAST -->
+
+<div
+  id="successToast"
+  class="success-toast"
+>
+  Compteur réinitialisé avec succès.
+</div>
+
+
+
 <script>
+
 
   /* =========================
      SUPABASE
   ========================= */
 
+
   const SUPABASE_URL =
     "https://ogenizijjumwkiiikhrx.supabase.co";
 
+
   const SUPABASE_ANON_KEY =
     "sb_publishable_-83cFPPEgtOhG7G_MVsjaQ_UFoAnoIc";
+
 
   const supabaseClient =
     supabase.createClient(
@@ -433,9 +1097,11 @@
     );
 
 
+
   /* =========================
      VARIABLES
   ========================= */
+
 
   let currentUser = null;
 
@@ -448,9 +1114,16 @@
   let resets = [];
 
 
+  let resetVendorId = null;
+
+  let resetVendorLinks = 0;
+
+
+
   /* =========================
      START
   ========================= */
+
 
   document.addEventListener(
     "DOMContentLoaded",
@@ -458,58 +1131,77 @@
   );
 
 
+
   async function init() {
 
+
     try {
+
 
       const {
         data: {
           user
         },
         error
-      } = await supabaseClient.auth.getUser();
+      } =
+        await supabaseClient
+          .auth
+          .getUser();
 
 
-      if (error || !user) {
+      if (
+        error ||
+        !user
+      ) {
 
-        window.location.href = "index.html";
+        window.location.href =
+          "index.html";
 
         return;
+
       }
 
 
-      currentUser = user;
+      currentUser =
+        user;
 
 
-      /*
-        نجيب معلومات المستخدم من vendors
-        باش نتأكد أنه Admin
-      */
+
+      /* =========================
+         ADMIN CHECK
+      ========================= */
+
 
       const {
         data: vendor,
         error: vendorError
-      } = await supabaseClient
-        .from("vendors")
-        .select(`
-          id,
-          name,
-          email,
-          role,
-          status,
-          user_id
-        `)
-        .eq("user_id", user.id)
-        .maybeSingle();
+      } =
+        await supabaseClient
+          .from("vendors")
+          .select(`
+            id,
+            name,
+            email,
+            role,
+            status,
+            user_id
+          `)
+          .eq(
+            "user_id",
+            user.id
+          )
+          .maybeSingle();
 
 
       if (vendorError) {
 
         showError(
-          "Erreur : " + vendorError.message
+          "Erreur : " +
+          vendorError.message
         );
 
         return;
+
       }
 
 
@@ -520,18 +1212,24 @@
         );
 
         return;
+
       }
 
 
       const role =
-        String(vendor.role || "")
-          .trim()
-          .toLowerCase();
+        String(
+          vendor.role || ""
+        )
+        .trim()
+        .toLowerCase();
+
 
       const status =
-        String(vendor.status || "")
-          .trim()
-          .toLowerCase();
+        String(
+          vendor.status || ""
+        )
+        .trim()
+        .toLowerCase();
 
 
       if (
@@ -544,37 +1242,49 @@
         );
 
         return;
+
       }
 
 
-      currentAdmin = vendor;
+      currentAdmin =
+        vendor;
 
 
       document.getElementById(
         "welcome"
       ).textContent =
         "Bienvenue " +
-        (vendor.name || "Admin");
+        (
+          vendor.name ||
+          "Admin"
+        );
 
 
       await loadData();
 
+
     } catch (error) {
 
+
       showError(
-        "Erreur : " + error.message
+        "Erreur : " +
+        error.message
       );
+
 
     }
 
   }
 
 
+
   /* =========================
-     LOAD ALL DATA
+     LOAD DATA
   ========================= */
 
+
   async function loadData() {
+
 
     await loadVendors();
 
@@ -586,35 +1296,40 @@
 
     renderVendors();
 
+
   }
+
 
 
   /* =========================
      LOAD VENDORS
   ========================= */
 
+
   async function loadVendors() {
+
 
     const {
       data,
       error
-    } = await supabaseClient
-      .from("vendors")
-      .select(`
-        id,
-        name,
-        email,
-        role,
-        status,
-        user_id,
-        created_at
-      `)
-      .order(
-        "created_at",
-        {
-          ascending: false
-        }
-      );
+    } =
+      await supabaseClient
+        .from("vendors")
+        .select(`
+          id,
+          name,
+          email,
+          role,
+          status,
+          user_id,
+          created_at
+        `)
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
 
 
     if (error) {
@@ -625,30 +1340,37 @@
       );
 
       return;
+
     }
 
 
-    vendors = data || [];
+    vendors =
+      data || [];
+
 
   }
+
 
 
   /* =========================
      LOAD CLIENTS
   ========================= */
 
+
   async function loadClients() {
+
 
     const {
       data,
       error
-    } = await supabaseClient
-      .from("clients")
-      .select(`
-        id,
-        vendor_id,
-        created_at
-      `);
+    } =
+      await supabaseClient
+        .from("clients")
+        .select(`
+          id,
+          vendor_id,
+          created_at
+        `);
 
 
     if (error) {
@@ -659,37 +1381,44 @@
       );
 
       return;
+
     }
 
 
-    clients = data || [];
+    clients =
+      data || [];
+
 
   }
+
 
 
   /* =========================
      LOAD RESETS
   ========================= */
 
+
   async function loadResets() {
+
 
     const {
       data,
       error
-    } = await supabaseClient
-      .from("vendor_resets")
-      .select(`
-        id,
-        vendor_id,
-        units_count,
-        reset_at
-      `)
-      .order(
-        "reset_at",
-        {
-          ascending: false
-        }
-      );
+    } =
+      await supabaseClient
+        .from("vendor_resets")
+        .select(`
+          id,
+          vendor_id,
+          units_count,
+          reset_at
+        `)
+        .order(
+          "reset_at",
+          {
+            ascending: false
+          }
+        );
 
 
     if (error) {
@@ -700,31 +1429,47 @@
       );
 
       return;
+
     }
 
 
-    resets = data || [];
+    resets =
+      data || [];
+
 
   }
+
 
 
   /* =========================
      LAST RESET
   ========================= */
 
-  function getLastReset(vendorId) {
+
+  function getLastReset(
+    vendorId
+  ) {
+
 
     const vendorResets =
       resets
         .filter(
           reset =>
-            Number(reset.vendor_id) ===
-            Number(vendorId)
+            Number(
+              reset.vendor_id
+            ) ===
+            Number(
+              vendorId
+            )
         )
         .sort(
           (a, b) =>
-            new Date(b.reset_at) -
-            new Date(a.reset_at)
+            new Date(
+              b.reset_at
+            ) -
+            new Date(
+              a.reset_at
+            )
         );
 
 
@@ -732,56 +1477,80 @@
       ? vendorResets[0]
       : null;
 
+
   }
+
 
 
   /* =========================
      CURRENT LINKS
   ========================= */
 
-  function getCurrentLinks(vendorId) {
+
+  function getCurrentLinks(
+    vendorId
+  ) {
+
 
     const lastReset =
-      getLastReset(vendorId);
+      getLastReset(
+        vendorId
+      );
 
 
     const resetDate =
       lastReset
-        ? new Date(lastReset.reset_at)
+        ? new Date(
+            lastReset.reset_at
+          )
         : null;
 
 
-    return clients.filter(client => {
+    return clients.filter(
+      client => {
 
-      if (
-        Number(client.vendor_id) !==
-        Number(vendorId)
-      ) {
 
-        return false;
+        if (
+          Number(
+            client.vendor_id
+          ) !==
+          Number(
+            vendorId
+          )
+        ) {
+
+          return false;
+
+        }
+
+
+        if (!resetDate) {
+
+          return true;
+
+        }
+
+
+        return new Date(
+          client.created_at
+        ) > resetDate;
+
+
       }
+    ).length;
 
-
-      if (!resetDate) {
-
-        return true;
-      }
-
-
-      return new Date(
-        client.created_at
-      ) > resetDate;
-
-    }).length;
 
   }
+
 
 
   /* =========================
      UPDATE STATS
   ========================= */
 
+
   function updateStats() {
+
 
     document.getElementById(
       "totalVendors"
@@ -792,21 +1561,29 @@
     document.getElementById(
       "activeVendors"
     ).textContent =
-      vendors.filter(v =>
-        String(v.status || "")
-          .toLowerCase() === "active"
+      vendors.filter(
+        vendor =>
+          String(
+            vendor.status || ""
+          )
+          .toLowerCase() ===
+          "active"
       ).length;
 
 
     let total = 0;
 
 
-    vendors.forEach(vendor => {
+    vendors.forEach(
+      vendor => {
 
-      total +=
-        getCurrentLinks(vendor.id);
+        total +=
+          getCurrentLinks(
+            vendor.id
+          );
 
-    });
+      }
+    );
 
 
     document.getElementById(
@@ -814,14 +1591,18 @@
     ).textContent =
       total;
 
+
   }
+
 
 
   /* =========================
      RENDER VENDORS
   ========================= */
 
+
   function renderVendors() {
+
 
     const tbody =
       document.getElementById(
@@ -833,169 +1614,240 @@
       String(
         document.getElementById(
           "searchInput"
-        ).value || ""
+        ).value ||
+        ""
       )
       .trim()
       .toLowerCase();
 
 
     const filtered =
-      vendors.filter(vendor => {
-
-        const name =
-          String(
-            vendor.name || ""
-          ).toLowerCase();
-
-        const email =
-          String(
-            vendor.email || ""
-          ).toLowerCase();
-
-        return (
-          name.includes(search) ||
-          email.includes(search)
-        );
-
-      });
+      vendors.filter(
+        vendor => {
 
 
-    if (!filtered.length) {
-
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="5" class="message">
-            Aucun vendeur trouvé.
-          </td>
-        </tr>
-      `;
-
-      return;
-    }
+          const name =
+            String(
+              vendor.name ||
+              ""
+            )
+            .toLowerCase();
 
 
-    tbody.innerHTML =
-      filtered.map(vendor => {
+          const email =
+            String(
+              vendor.email ||
+              ""
+            )
+            .toLowerCase();
 
-        const currentLinks =
-          getCurrentLinks(
-            vendor.id
+
+          return (
+            name.includes(
+              search
+            ) ||
+            email.includes(
+              search
+            )
           );
 
 
-        const status =
-          String(
-            vendor.status || ""
-          ).toLowerCase();
+        }
+      );
 
 
-        const statusClass =
-          status === "active"
-            ? "active"
-            : "inactive";
+    if (
+      !filtered.length
+    ) {
 
 
-        const statusText =
-          status === "active"
-            ? "Actif"
-            : "Inactif";
+      tbody.innerHTML = `
+
+        <tr>
+
+          <td
+            colspan="5"
+            class="message"
+          >
+            Aucun vendeur trouvé.
+          </td>
+
+        </tr>
+
+      `;
 
 
-        return `
+      return;
 
-          <tr>
-
-            <td>
-              <strong>
-                ${escapeHtml(
-                  vendor.name ||
-                  "Vendeur"
-                )}
-              </strong>
-            </td>
+    }
 
 
-            <td>
-              ${escapeHtml(
-                vendor.email ||
-                "-"
-              )}
-            </td>
+
+    tbody.innerHTML =
+      filtered
+        .map(
+          vendor => {
 
 
-            <td>
-              <span class="status ${statusClass}">
-                ${statusText}
-              </span>
-            </td>
+            const currentLinks =
+              getCurrentLinks(
+                vendor.id
+              );
 
 
-            <td>
-              <span class="links-count">
-                ${currentLinks}
-              </span>
-            </td>
+            const status =
+              String(
+                vendor.status ||
+                ""
+              )
+              .toLowerCase();
 
 
-            <td>
-
-              <div class="actions">
-
-                <button
-                  class="action-btn reset-btn"
-                  onclick="resetVendor(${vendor.id})"
-                >
-                  Réinitialiser
-                </button>
+            const statusClass =
+              status === "active"
+                ? "active"
+                : "inactive";
 
 
-                <button
-                  class="action-btn history-btn"
-                  onclick="showHistory(
-                    ${vendor.id},
-                    '${escapeAttribute(
+            const statusText =
+              status === "active"
+                ? "Actif"
+                : "Inactif";
+
+
+            return `
+
+              <tr>
+
+                <td>
+
+                  <strong>
+                    ${escapeHtml(
                       vendor.name ||
                       "Vendeur"
-                    )}'
-                  )"
-                >
-                  Historique
-                </button>
+                    )}
+                  </strong>
 
-              </div>
+                </td>
 
-            </td>
 
-          </tr>
+                <td>
 
-        `;
+                  ${escapeHtml(
+                    vendor.email ||
+                    "-"
+                  )}
 
-      }).join("");
+                </td>
+
+
+                <td>
+
+                  <span
+                    class="status ${statusClass}"
+                  >
+
+                    ${statusText}
+
+                  </span>
+
+                </td>
+
+
+                <td>
+
+                  <span
+                    class="links-count"
+                  >
+
+                    ${currentLinks}
+
+                  </span>
+
+                </td>
+
+
+                <td>
+
+                  <div
+                    class="actions"
+                  >
+
+
+                    <button
+                      class="action-btn reset-btn"
+                      onclick="resetVendor(${vendor.id})"
+                    >
+
+                      Réinitialiser
+
+                    </button>
+
+
+                    <button
+                      class="action-btn history-btn"
+                      onclick="showHistory(
+                        ${vendor.id},
+                        '${escapeAttribute(
+                          vendor.name ||
+                          "Vendeur"
+                        )}'
+                      )"
+                    >
+
+                      Historique
+
+                    </button>
+
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            `;
+
+
+          }
+        )
+        .join("");
+
 
   }
 
 
+
   /* =========================
-     RESET VENDOR
+     OPEN RESET MODAL
   ========================= */
 
-  async function resetVendor(vendorId) {
+
+  function resetVendor(
+    vendorId
+  ) {
+
 
     const vendor =
       vendors.find(
         v =>
-          Number(v.id) ===
-          Number(vendorId)
+          Number(
+            v.id
+          ) ===
+          Number(
+            vendorId
+          )
       );
 
 
     if (!vendor) {
 
-      alert(
+      showError(
         "Vendeur introuvable."
       );
 
       return;
+
     }
 
 
@@ -1005,73 +1857,180 @@
       );
 
 
-    const confirmed =
-      confirm(
-        `Réinitialiser le compteur de ${vendor.name || "Vendeur"} ?\n\n` +
-        `${currentLinks} liens seront enregistrés dans l'historique.`
-      );
+    resetVendorId =
+      vendorId;
 
 
-    if (!confirmed) {
+    resetVendorLinks =
+      currentLinks;
+
+
+    document.getElementById(
+      "resetMessage"
+    ).textContent =
+
+      `${currentLinks} lien${
+        currentLinks > 1
+          ? "s"
+          : ""
+      } seront archivés dans l'historique.`;
+
+
+    document.getElementById(
+      "resetModal"
+    ).classList.add(
+      "show"
+    );
+
+
+  }
+
+
+
+  /* =========================
+     CLOSE RESET MODAL
+  ========================= */
+
+
+  function closeResetModal() {
+
+
+    document.getElementById(
+      "resetModal"
+    ).classList.remove(
+      "show"
+    );
+
+
+    resetVendorId =
+      null;
+
+
+    resetVendorLinks =
+      0;
+
+
+  }
+
+
+
+  /* =========================
+     CONFIRM RESET
+  ========================= */
+
+
+  async function confirmReset() {
+
+
+    if (
+      !resetVendorId
+    ) {
 
       return;
+
     }
 
 
-    /*
-      IMPORTANT :
-      هنا نستعمل RPC الجديدة
-      بدل INSERT المباشر
-    */
+    const vendorId =
+      resetVendorId;
+
+
+    const currentLinks =
+      resetVendorLinks;
+
 
     const {
       error
-    } = await supabaseClient.rpc(
-      "reset_vendor_counter",
-      {
-        p_vendor_id:
-          vendorId,
+    } =
+      await supabaseClient.rpc(
+        "reset_vendor_counter",
+        {
 
-        p_units_count:
-          currentLinks
-      }
-    );
+          p_vendor_id:
+            vendorId,
+
+          p_units_count:
+            currentLinks
+
+        }
+      );
 
 
     if (error) {
 
-      alert(
+
+      closeResetModal();
+
+
+      showError(
         "Erreur : " +
         error.message
       );
 
+
       return;
+
     }
 
 
-    alert(
-      "Compteur réinitialisé avec succès."
-    );
+    closeResetModal();
 
 
-    /*
-      نعاود نجيب البيانات
-      باش العداد والتاريخ يتحدثو
-    */
+    showSuccess();
+
 
     await loadData();
 
+
   }
+
+
+
+  /* =========================
+     SUCCESS
+  ========================= */
+
+
+  function showSuccess() {
+
+
+    const toast =
+      document.getElementById(
+        "successToast"
+      );
+
+
+    toast.classList.add(
+      "show"
+    );
+
+
+    setTimeout(
+      () => {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      2500
+    );
+
+
+  }
+
 
 
   /* =========================
      HISTORY
   ========================= */
 
+
   async function showHistory(
     vendorId,
     vendorName
   ) {
+
 
     const modal =
       document.getElementById(
@@ -1108,90 +2067,138 @@
     const {
       data,
       error
-    } = await supabaseClient
-      .from("vendor_resets")
-      .select(`
-        id,
-        units_count,
-        reset_at
-      `)
-      .eq(
-        "vendor_id",
-        vendorId
-      )
-      .order(
-        "reset_at",
-        {
-          ascending: false
-        }
-      );
+    } =
+      await supabaseClient
+        .from("vendor_resets")
+        .select(`
+          id,
+          units_count,
+          reset_at
+        `)
+        .eq(
+          "vendor_id",
+          vendorId
+        )
+        .order(
+          "reset_at",
+          {
+            ascending: false
+          }
+        );
 
 
     if (error) {
 
+
       content.innerHTML = `
+
         <div class="message">
-          Erreur : ${escapeHtml(
+
+          Erreur :
+          ${escapeHtml(
             error.message
           )}
+
         </div>
+
       `;
 
+
       return;
+
     }
 
 
-    if (!data || !data.length) {
+    if (
+      !data ||
+      !data.length
+    ) {
+
 
       content.innerHTML = `
+
         <div class="message">
+
           Aucun historique.
+
         </div>
+
       `;
 
+
       return;
+
     }
 
 
     content.innerHTML =
-      data.map(item => {
-
-        const date =
-          formatDate(
-            item.reset_at
-          );
+      data
+        .map(
+          item => {
 
 
-        return `
+            const date =
+              formatDate(
+                item.reset_at
+              );
 
-          <div class="history-item">
 
-            <div>
-              <div class="history-count">
-                ${item.units_count}
-                lien${Number(item.units_count) > 1 ? "s" : ""}
+            return `
+
+              <div
+                class="history-item"
+              >
+
+                <div>
+
+                  <div
+                    class="history-count"
+                  >
+
+                    ${item.units_count}
+
+                    lien${
+                      Number(
+                        item.units_count
+                      ) > 1
+                        ? "s"
+                        : ""
+                    }
+
+                  </div>
+
+                </div>
+
+
+                <div
+                  class="history-date"
+                >
+
+                  ${date}
+
+                </div>
+
               </div>
-            </div>
+
+            `;
 
 
-            <div class="history-date">
-              ${date}
-            </div>
+          }
+        )
+        .join("");
 
-          </div>
-
-        `;
-
-      }).join("");
 
   }
+
 
 
   /* =========================
      CLOSE HISTORY
   ========================= */
 
+
   function closeHistory() {
+
 
     document
       .getElementById(
@@ -1201,16 +2208,24 @@
         "show"
       );
 
+
   }
+
 
 
   /* =========================
      FORMAT DATE
   ========================= */
 
-  function formatDate(dateString) {
 
-    if (!dateString) {
+  function formatDate(
+    dateString
+  ) {
+
+
+    if (
+      !dateString
+    ) {
 
       return "-";
 
@@ -1226,36 +2241,55 @@
     return date.toLocaleString(
       "fr-FR",
       {
+
         day: "2-digit",
+
         month: "2-digit",
+
         year: "numeric",
+
         hour: "2-digit",
+
         minute: "2-digit"
+
       }
     );
 
+
   }
+
 
 
   /* =========================
      LOGOUT
   ========================= */
 
+
   async function logout() {
 
-    await supabaseClient.auth.signOut();
+
+    await supabaseClient
+      .auth
+      .signOut();
+
 
     window.location.href =
       "index.html";
 
+
   }
+
 
 
   /* =========================
      ERROR
   ========================= */
 
-  function showError(message) {
+
+  function showError(
+    message
+  ) {
+
 
     const box =
       document.getElementById(
@@ -1270,62 +2304,88 @@
     box.style.display =
       "block";
 
+
   }
 
 
+
   /* =========================
-     SECURITY / HTML ESCAPE
+     ESCAPE HTML
   ========================= */
 
-  function escapeHtml(value) {
 
-    return String(value)
+  function escapeHtml(
+    value
+  ) {
+
+
+    return String(
+      value
+    )
+
       .replace(
         /&/g,
         "&amp;"
       )
+
       .replace(
         /</g,
         "&lt;"
       )
+
       .replace(
         />/g,
         "&gt;"
       )
+
       .replace(
         /"/g,
         "&quot;"
       )
+
       .replace(
         /'/g,
         "&#039;"
       );
 
+
   }
 
 
-  function escapeAttribute(value) {
 
-    return String(value)
+  function escapeAttribute(
+    value
+  ) {
+
+
+    return String(
+      value
+    )
+
       .replace(
         /\\/g,
         "\\\\"
       )
+
       .replace(
         /'/g,
         "\\'"
       )
+
       .replace(
         /"/g,
         "&quot;"
       );
 
+
   }
 
 
+
   /* =========================
-     CLOSE MODAL WHEN CLICKING OUTSIDE
+     CLICK OUTSIDE MODALS
   ========================= */
+
 
   document
     .getElementById(
@@ -1336,7 +2396,8 @@
       function(event) {
 
         if (
-          event.target === this
+          event.target ===
+          this
         ) {
 
           closeHistory();
@@ -1346,7 +2407,31 @@
       }
     );
 
+
+  document
+    .getElementById(
+      "resetModal"
+    )
+    .addEventListener(
+      "click",
+      function(event) {
+
+        if (
+          event.target ===
+          this
+        ) {
+
+          closeResetModal();
+
+        }
+
+      }
+    );
+
+
 </script>
 
+
 </body>
+
 </html>
