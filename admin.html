@@ -29,13 +29,10 @@
       padding: 30px 0 50px;
     }
 
-    /* HEADER */
-
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 15px;
       margin-bottom: 30px;
     }
 
@@ -57,14 +54,7 @@
       padding: 12px 18px;
       border-radius: 12px;
       cursor: pointer;
-      font-size: 14px;
     }
-
-    .logout:hover {
-      opacity: .9;
-    }
-
-    /* STATS */
 
     .stats {
       display: grid;
@@ -74,10 +64,10 @@
     }
 
     .stat {
-      background: rgba(255, 255, 255, .85);
+      background: rgba(255,255,255,.88);
       border-radius: 18px;
       padding: 22px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, .07);
+      box-shadow: 0 8px 25px rgba(0,0,0,.07);
     }
 
     .stat-title {
@@ -91,13 +81,11 @@
       font-weight: bold;
     }
 
-    /* PANEL */
-
     .panel {
-      background: rgba(255, 255, 255, .88);
+      background: rgba(255,255,255,.9);
       border-radius: 20px;
       padding: 22px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, .08);
+      box-shadow: 0 8px 30px rgba(0,0,0,.08);
     }
 
     .panel-header {
@@ -110,7 +98,6 @@
 
     .panel-header h2 {
       margin: 0;
-      font-size: 22px;
     }
 
     #search {
@@ -120,14 +107,7 @@
       border-radius: 12px;
       outline: none;
       font-size: 14px;
-      background: white;
     }
-
-    #search:focus {
-      border-color: #332522;
-    }
-
-    /* TABLE */
 
     .table-wrapper {
       overflow-x: auto;
@@ -136,7 +116,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 720px;
+      min-width: 700px;
     }
 
     th,
@@ -156,8 +136,6 @@
       font-size: 14px;
     }
 
-    /* STATUS */
-
     .status {
       display: inline-block;
       padding: 6px 11px;
@@ -175,8 +153,6 @@
       background: #fde8e8;
       color: #c62828;
     }
-
-    /* BUTTONS */
 
     .action-btn {
       border: none;
@@ -207,18 +183,14 @@
       color: #777;
     }
 
-    /* ERROR */
-
     .error-box {
+      display: none;
       background: #fff0f0;
       color: #b42318;
       padding: 15px;
       border-radius: 12px;
       margin-bottom: 20px;
-      display: none;
     }
-
-    /* MOBILE */
 
     @media (max-width: 700px) {
 
@@ -256,8 +228,6 @@
 
 <div class="container">
 
-  <!-- HEADER -->
-
   <header>
 
     <div class="brand">
@@ -272,12 +242,8 @@
   </header>
 
 
-  <!-- ERROR -->
-
   <div class="error-box" id="errorBox"></div>
 
-
-  <!-- STATISTICS -->
 
   <section class="stats">
 
@@ -316,15 +282,11 @@
   </section>
 
 
-  <!-- VENDORS -->
-
   <section class="panel">
 
     <div class="panel-header">
 
-      <h2>
-        Vendeurs
-      </h2>
+      <h2>Vendeurs</h2>
 
       <input
         type="text"
@@ -356,7 +318,10 @@
 
           <tr>
 
-            <td colspan="5" class="message">
+            <td
+              colspan="5"
+              class="message"
+            >
               Chargement...
             </td>
 
@@ -379,15 +344,15 @@ let vendors = [];
 let clientCounts = {};
 
 
-// ============================================
-// INITIALISATION
-// ============================================
+// ========================================
+// START
+// ========================================
 
 async function init() {
 
   try {
 
-    // Vérifier la session
+    // Vérifier connexion
 
     const {
       data: { user },
@@ -395,30 +360,42 @@ async function init() {
     } = await supabaseClient.auth.getUser();
 
 
-    if (userError || !user) {
+    if (userError) {
 
-      window.location.href = "index.html";
+      showError(
+        "Erreur Auth : " +
+        userError.message
+      );
 
       return;
     }
 
 
-    // Vérifier Admin
+    if (!user) {
+
+      window.location.href =
+        "index.html";
+
+      return;
+    }
+
+
+    // ====================================
+    // VERIFICATION ADMIN
+    // ====================================
 
     const {
-      data: adminVendor,
+      data: isAdmin,
       error: adminError
-    } = await supabaseClient
-      .from("vendors")
-      .select("id, name, email, role, status")
-      .eq("user_id", user.id)
-      .single();
+    } = await supabaseClient.rpc(
+      "is_admin"
+    );
 
 
     if (adminError) {
 
       showError(
-        "Erreur lors de la vérification du compte : " +
+        "Erreur Admin : " +
         adminError.message
       );
 
@@ -426,11 +403,7 @@ async function init() {
     }
 
 
-    if (
-      !adminVendor ||
-      adminVendor.role !== "admin" ||
-      adminVendor.status !== "active"
-    ) {
+    if (isAdmin !== true) {
 
       document.body.innerHTML = `
 
@@ -458,17 +431,13 @@ async function init() {
     }
 
 
-    // Charger les vendeurs
+    // ====================================
+    // CHARGEMENT
+    // ====================================
 
     await loadVendors();
 
-
-    // Charger les clients
-
     await loadClients();
-
-
-    // Afficher
 
     renderVendors();
 
@@ -481,7 +450,7 @@ async function init() {
     console.error(error);
 
     showError(
-      "Une erreur est survenue : " +
+      "Erreur : " +
       error.message
     );
 
@@ -491,9 +460,9 @@ async function init() {
 
 
 
-// ============================================
-// CHARGER VENDEURS
-// ============================================
+// ========================================
+// VENDEURS
+// ========================================
 
 async function loadVendors() {
 
@@ -510,9 +479,12 @@ async function loadVendors() {
       role,
       created_at
     `)
-    .order("created_at", {
-      ascending: false
-    });
+    .order(
+      "created_at",
+      {
+        ascending: false
+      }
+    );
 
 
   if (error) {
@@ -522,15 +494,16 @@ async function loadVendors() {
   }
 
 
-  vendors = data || [];
+  vendors =
+    data || [];
 
 }
 
 
 
-// ============================================
-// CHARGER CLIENTS
-// ============================================
+// ========================================
+// CLIENTS
+// ========================================
 
 async function loadClients() {
 
@@ -539,7 +512,9 @@ async function loadClients() {
     error
   } = await supabaseClient
     .from("clients")
-    .select("vendor_id");
+    .select(
+      "vendor_id"
+    );
 
 
   if (error) {
@@ -552,26 +527,36 @@ async function loadClients() {
   clientCounts = {};
 
 
-  (data || []).forEach(client => {
+  (data || []).forEach(
+    client => {
 
-    if (!clientCounts[client.vendor_id]) {
+      if (
+        !clientCounts[
+          client.vendor_id
+        ]
+      ) {
 
-      clientCounts[client.vendor_id] = 0;
+        clientCounts[
+          client.vendor_id
+        ] = 0;
+
+      }
+
+
+      clientCounts[
+        client.vendor_id
+      ]++;
 
     }
-
-
-    clientCounts[client.vendor_id]++;
-
-  });
+  );
 
 }
 
 
 
-// ============================================
-// STATISTIQUES
-// ============================================
+// ========================================
+// STATS
+// ========================================
 
 function updateStats() {
 
@@ -581,41 +566,49 @@ function updateStats() {
 
   const active =
     vendors.filter(
-      vendor => vendor.status === "active"
+      vendor =>
+        vendor.status === "active"
     ).length;
 
 
   const totalClients =
-    Object.values(clientCounts)
-      .reduce(
-        (total, count) => total + count,
-        0
-      );
+    Object.values(
+      clientCounts
+    ).reduce(
+      (sum, value) =>
+        sum + value,
+      0
+    );
 
 
   document.getElementById(
     "totalVendors"
-  ).textContent = total;
+  ).textContent =
+    total;
 
 
   document.getElementById(
     "activeVendors"
-  ).textContent = active;
+  ).textContent =
+    active;
 
 
   document.getElementById(
     "totalClients"
-  ).textContent = totalClients;
+  ).textContent =
+    totalClients;
 
 }
 
 
 
-// ============================================
-// AFFICHER VENDEURS
-// ============================================
+// ========================================
+// TABLE
+// ========================================
 
-function renderVendors(filter = "") {
+function renderVendors(
+  filter = ""
+) {
 
   const table =
     document.getElementById(
@@ -624,28 +617,36 @@ function renderVendors(filter = "") {
 
 
   const search =
-    filter.toLowerCase().trim();
+    filter
+      .toLowerCase()
+      .trim();
 
 
   const filtered =
-    vendors.filter(vendor => {
+    vendors.filter(
+      vendor => {
 
-      const name =
-        (vendor.name || "")
-          .toLowerCase();
-
-
-      const email =
-        (vendor.email || "")
-          .toLowerCase();
+        const name =
+          (
+            vendor.name ||
+            ""
+          ).toLowerCase();
 
 
-      return (
-        name.includes(search) ||
-        email.includes(search)
-      );
+        const email =
+          (
+            vendor.email ||
+            ""
+          ).toLowerCase();
 
-    });
+
+        return (
+          name.includes(search) ||
+          email.includes(search)
+        );
+
+      }
+    );
 
 
   if (!filtered.length) {
@@ -670,127 +671,133 @@ function renderVendors(filter = "") {
 
 
   table.innerHTML =
-    filtered.map(vendor => {
+    filtered.map(
+      vendor => {
 
-      const isActive =
-        vendor.status === "active";
-
-
-      const count =
-        clientCounts[vendor.id] || 0;
+        const active =
+          vendor.status === "active";
 
 
-      let action = "";
+        const count =
+          clientCounts[
+            vendor.id
+          ] || 0;
 
 
-      if (vendor.role === "admin") {
-
-        action = `
-          <span class="admin-label">
-            Administrateur
-          </span>
-        `;
-
-      }
-
-      else {
-
-        action = `
-
-          <button
-            class="action-btn ${
-              isActive
-                ? "disable-btn"
-                : "enable-btn"
-            }"
-            onclick="
-              toggleVendor(
-                ${vendor.id},
-                '${isActive ? "inactive" : "active"}'
-              )
-            "
-          >
-
-            ${
-              isActive
-                ? "Suspendre"
-                : "Activer"
-            }
-
-          </button>
-
-        `;
-
-      }
+        let action;
 
 
-      return `
+        if (
+          vendor.role === "admin"
+        ) {
 
-        <tr>
+          action = `
 
-          <td>
+            <span class="admin-label">
+              Administrateur
+            </span>
 
-            <strong>
-              ${escapeHtml(
-                vendor.name || "Sans nom"
-              )}
-            </strong>
+          `;
 
-          </td>
+        }
 
+        else {
 
-          <td>
+          action = `
 
-            ${escapeHtml(
-              vendor.email || "-"
-            )}
-
-          </td>
-
-
-          <td>
-
-            <span
-              class="status ${
-                isActive
-                  ? "active"
-                  : "inactive"
+            <button
+              class="action-btn ${
+                active
+                  ? "disable-btn"
+                  : "enable-btn"
               }"
+              onclick="
+                toggleVendor(
+                  ${vendor.id},
+                  '${active ? "inactive" : "active"}'
+                )
+              "
             >
 
               ${
-                isActive
-                  ? "Actif"
-                  : "Suspendu"
+                active
+                  ? "Suspendre"
+                  : "Activer"
               }
 
-            </span>
+            </button>
 
-          </td>
+          `;
 
-
-          <td>
-            ${count}
-          </td>
+        }
 
 
-          <td>
-            ${action}
-          </td>
+        return `
 
-        </tr>
+          <tr>
 
-      `;
+            <td>
+              <strong>
+                ${escapeHtml(
+                  vendor.name ||
+                  "Sans nom"
+                )}
+              </strong>
+            </td>
 
-    }).join("");
+
+            <td>
+              ${escapeHtml(
+                vendor.email ||
+                "-"
+              )}
+            </td>
+
+
+            <td>
+
+              <span
+                class="status ${
+                  active
+                    ? "active"
+                    : "inactive"
+                }"
+              >
+
+                ${
+                  active
+                    ? "Actif"
+                    : "Suspendu"
+                }
+
+              </span>
+
+            </td>
+
+
+            <td>
+              ${count}
+            </td>
+
+
+            <td>
+              ${action}
+            </td>
+
+          </tr>
+
+        `;
+
+      }
+    ).join("");
 
 }
 
 
 
-// ============================================
-// SUSPENDRE / ACTIVER
-// ============================================
+// ========================================
+// ACTIVER / SUSPENDRE
+// ========================================
 
 async function toggleVendor(
   vendorId,
@@ -799,7 +806,8 @@ async function toggleVendor(
 
   const vendor =
     vendors.find(
-      v => v.id === vendorId
+      v =>
+        v.id === vendorId
     );
 
 
@@ -816,13 +824,11 @@ async function toggleVendor(
       : "suspendre";
 
 
-  const confirmed =
-    confirm(
+  if (
+    !confirm(
       `Voulez-vous ${action} ce vendeur ?`
-    );
-
-
-  if (!confirmed) {
+    )
+  ) {
 
     return;
 
@@ -836,7 +842,10 @@ async function toggleVendor(
     .update({
       status: newStatus
     })
-    .eq("id", vendorId);
+    .eq(
+      "id",
+      vendorId
+    );
 
 
   if (error) {
@@ -868,12 +877,14 @@ async function toggleVendor(
 
 
 
-// ============================================
+// ========================================
 // SEARCH
-// ============================================
+// ========================================
 
 document
-  .getElementById("search")
+  .getElementById(
+    "search"
+  )
   .addEventListener(
     "input",
     event => {
@@ -887,12 +898,14 @@ document
 
 
 
-// ============================================
+// ========================================
 // LOGOUT
-// ============================================
+// ========================================
 
 document
-  .getElementById("logoutBtn")
+  .getElementById(
+    "logoutBtn"
+  )
   .addEventListener(
     "click",
     async () => {
@@ -907,11 +920,13 @@ document
 
 
 
-// ============================================
+// ========================================
 // ERROR
-// ============================================
+// ========================================
 
-function showError(message) {
+function showError(
+  message
+) {
 
   const box =
     document.getElementById(
@@ -930,34 +945,31 @@ function showError(message) {
 
 
 
-// ============================================
-// SECURITY / HTML
-// ============================================
+// ========================================
+// SECURITY
+// ========================================
 
-function escapeHtml(value) {
+function escapeHtml(
+  value
+) {
 
   return String(value)
-
     .replace(
       /&/g,
       "&amp;"
     )
-
     .replace(
       /</g,
       "&lt;"
     )
-
     .replace(
       />/g,
       "&gt;"
     )
-
     .replace(
       /"/g,
       "&quot;"
     )
-
     .replace(
       /'/g,
       "&#039;"
@@ -967,9 +979,9 @@ function escapeHtml(value) {
 
 
 
-// ============================================
-// START
-// ============================================
+// ========================================
+// RUN
+// ========================================
 
 init();
 
