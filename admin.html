@@ -26,7 +26,9 @@
 
     body {
       margin: 0;
+
       font-family: Arial, sans-serif;
+
       background:
         linear-gradient(
           135deg,
@@ -34,48 +36,64 @@
           #eef1f4,
           #e4e8ed
         );
+
       color: #332522;
+
       min-height: 100vh;
     }
 
 
     .container {
       width: 92%;
-      max-width: 1100px;
+
+      max-width: 1150px;
+
       margin: auto;
+
       padding: 30px 0 50px;
     }
 
 
     header {
       display: flex;
-      justify-content: space-between;
+
+      justify-content:
+        space-between;
+
       align-items: center;
+
       margin-bottom: 30px;
     }
 
 
     .brand h1 {
       margin: 0;
+
       font-size: 28px;
     }
 
 
     .brand p {
       margin: 6px 0 0;
+
       color: #777;
+
       font-size: 14px;
     }
 
 
     .logout {
       border: none;
+
       background: #332522;
+
       color: white;
+
       padding: 12px 18px;
+
       border-radius: 12px;
+
       cursor: pointer;
-      font-size: 14px;
     }
 
 
@@ -86,6 +104,7 @@
 
     .stats {
       display: grid;
+
       grid-template-columns:
         repeat(3, 1fr);
 
@@ -111,13 +130,16 @@
 
     .stat-title {
       color: #777;
+
       font-size: 14px;
+
       margin-bottom: 10px;
     }
 
 
     .stat-number {
       font-size: 32px;
+
       font-weight: bold;
     }
 
@@ -182,7 +204,7 @@
       border-collapse:
         collapse;
 
-      min-width: 700px;
+      min-width: 900px;
     }
 
 
@@ -208,6 +230,22 @@
 
     td {
       font-size: 14px;
+
+      vertical-align: middle;
+    }
+
+
+    .count {
+      font-size: 22px;
+
+      font-weight: bold;
+    }
+
+
+    .unit-label {
+      color: #777;
+
+      font-size: 12px;
     }
 
 
@@ -226,12 +264,14 @@
 
     .active {
       background: #e6f7ed;
+
       color: #16834b;
     }
 
 
     .inactive {
       background: #fde8e8;
+
       color: #c62828;
     }
 
@@ -239,9 +279,9 @@
     .action-btn {
       border: none;
 
-      padding: 8px 12px;
+      padding: 9px 14px;
 
-      border-radius: 9px;
+      border-radius: 10px;
 
       cursor: pointer;
 
@@ -249,15 +289,24 @@
     }
 
 
-    .disable-btn {
-      background: #ffe8e8;
-      color: #c62828;
+    .reset-btn {
+      background: #332522;
+
+      color: white;
     }
 
 
-    .enable-btn {
-      background: #e5f7ec;
-      color: #16834b;
+    .reset-btn:hover {
+      opacity: .9;
+    }
+
+
+    .history-btn {
+      background: #f0eeee;
+
+      color: #332522;
+
+      margin-left: 6px;
     }
 
 
@@ -294,12 +343,122 @@
     }
 
 
-    .loading {
+    /* =========================
+       HISTORY MODAL
+    ========================= */
+
+    .modal {
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      background:
+        rgba(0,0,0,.45);
+
+      z-index: 1000;
+
+      padding: 20px;
+
+      align-items: center;
+
+      justify-content: center;
+    }
+
+
+    .modal-box {
+      background: white;
+
+      width: 100%;
+
+      max-width: 500px;
+
+      max-height: 80vh;
+
+      overflow-y: auto;
+
+      border-radius: 20px;
+
+      padding: 24px;
+
+      box-shadow:
+        0 15px 50px
+        rgba(0,0,0,.2);
+    }
+
+
+    .modal-header {
+      display: flex;
+
+      justify-content:
+        space-between;
+
+      align-items: center;
+
+      margin-bottom: 20px;
+    }
+
+
+    .modal-header h3 {
+      margin: 0;
+    }
+
+
+    .close-btn {
+      border: none;
+
+      background: #f1eeee;
+
+      width: 35px;
+
+      height: 35px;
+
+      border-radius: 50%;
+
+      cursor: pointer;
+
+      font-size: 18px;
+    }
+
+
+    .history-item {
+      display: flex;
+
+      justify-content:
+        space-between;
+
+      align-items: center;
+
+      padding: 14px 0;
+
+      border-bottom:
+        1px solid #eee;
+    }
+
+
+    .history-count {
+      font-weight: bold;
+
+      font-size: 18px;
+    }
+
+
+    .history-date {
+      color: #777;
+
+      font-size: 12px;
+
+      text-align: right;
+    }
+
+
+    .empty-history {
       text-align: center;
 
-      padding: 50px 20px;
-
       color: #777;
+
+      padding: 25px 10px;
     }
 
 
@@ -313,21 +472,28 @@
 
 
       header {
-        align-items: flex-start;
+        align-items:
+          flex-start;
 
-        flex-direction: column;
+        flex-direction:
+          column;
+
+        gap: 15px;
       }
 
 
       .stats {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+          1fr;
       }
 
 
       .panel-header {
-        align-items: stretch;
+        align-items:
+          stretch;
 
-        flex-direction: column;
+        flex-direction:
+          column;
       }
 
 
@@ -426,12 +592,12 @@
     <div class="stat">
 
       <div class="stat-title">
-        Total clients
+        Liens actifs à compter
       </div>
 
       <div
         class="stat-number"
-        id="totalClients"
+        id="totalCurrentLinks"
       >
         0
       </div>
@@ -486,11 +652,11 @@
             </th>
 
             <th>
-              Clients
+              Liens actuels
             </th>
 
             <th>
-              Action
+              Actions
             </th>
 
           </tr>
@@ -505,9 +671,9 @@
 
             <td
               colspan="5"
-              class="loading"
+              class="message"
             >
-              Vérification...
+              Chargement...
             </td>
 
           </tr>
@@ -528,6 +694,49 @@
 
 
 
+<!-- =========================
+     HISTORY MODAL
+========================= -->
+
+<div
+  class="modal"
+  id="historyModal"
+>
+
+
+  <div class="modal-box">
+
+
+    <div class="modal-header">
+
+      <h3 id="historyTitle">
+        Historique
+      </h3>
+
+
+      <button
+        class="close-btn"
+        onclick="closeHistory()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div id="historyContent">
+
+      Chargement...
+
+    </div>
+
+
+  </div>
+
+</div>
+
+
+
 <script>
 
 
@@ -537,9 +746,9 @@
 
 let vendors = [];
 
-let clientCounts = {};
+let clients = [];
 
-let currentUser = null;
+let resets = [];
 
 
 
@@ -553,9 +762,9 @@ async function init() {
   try {
 
 
-    // ------------------------------
-    // 1. UTILISATEUR CONNECTÉ
-    // ------------------------------
+    // -------------------------------
+    // Vérifier utilisateur
+    // -------------------------------
 
     const {
       data: {
@@ -574,6 +783,7 @@ async function init() {
       );
 
       return;
+
     }
 
 
@@ -583,16 +793,14 @@ async function init() {
         "index.html";
 
       return;
+
     }
 
 
-    currentUser = user;
 
-
-
-    // ------------------------------
-    // 2. CHERCHER LE VENDEUR
-    // ------------------------------
+    // -------------------------------
+    // Vérifier Admin
+    // -------------------------------
 
     const {
       data: vendor,
@@ -604,9 +812,8 @@ async function init() {
           id,
           name,
           email,
-          status,
           role,
-          user_id
+          status
         `)
         .eq(
           "user_id",
@@ -618,53 +825,25 @@ async function init() {
     if (vendorError) {
 
       showError(
-        "Erreur lors de la vérification du compte : " +
+        "Erreur vérification Admin : " +
         vendorError.message
       );
 
       return;
+
     }
 
-
-
-    // ------------------------------
-    // 3. AUCUN VENDEUR
-    // ------------------------------
 
     if (!vendor) {
 
-      document.body.innerHTML = `
-
-        <div style="
-          text-align:center;
-          padding:80px 20px;
-          font-family:Arial;
-        ">
-
-          <h2>
-            Accès refusé
-          </h2>
-
-          <p>
-            Aucun compte vendeur associé à cet utilisateur.
-          </p>
-
-          <a href="dashboard.html">
-            Retour au Dashboard
-          </a>
-
-        </div>
-
-      `;
+      showAccessDenied(
+        "Aucun compte vendeur trouvé."
+      );
 
       return;
+
     }
 
-
-
-    // ------------------------------
-    // 4. VÉRIFICATION ROLE
-    // ------------------------------
 
     const role =
       String(
@@ -682,58 +861,30 @@ async function init() {
       .toLowerCase();
 
 
-
     if (
       role !== "admin" ||
       status !== "active"
     ) {
 
-
-      document.body.innerHTML = `
-
-        <div style="
-          text-align:center;
-          padding:80px 20px;
-          font-family:Arial;
-        ">
-
-          <h2>
-            Accès refusé
-          </h2>
-
-          <p>
-            Cette page est réservée à l'administrateur.
-          </p>
-
-          <p style="
-            color:#777;
-            font-size:13px;
-          ">
-            Role : ${escapeHtml(role)}
-            <br>
-            Status : ${escapeHtml(status)}
-          </p>
-
-          <a href="dashboard.html">
-            Retour au Dashboard
-          </a>
-
-        </div>
-
-      `;
+      showAccessDenied(
+        "Cette page est réservée à l'administrateur."
+      );
 
       return;
+
     }
 
 
 
-    // ------------------------------
-    // 5. CHARGER LES DONNÉES
-    // ------------------------------
+    // -------------------------------
+    // تحميل البيانات
+    // -------------------------------
 
     await loadVendors();
 
     await loadClients();
+
+    await loadResets();
 
 
     updateStats();
@@ -759,7 +910,7 @@ async function init() {
 
 
 // ======================================
-// CHARGER VENDEURS
+// VENDEURS
 // ======================================
 
 async function loadVendors() {
@@ -802,7 +953,7 @@ async function loadVendors() {
 
 
 // ======================================
-// CHARGER CLIENTS
+// CLIENTS
 // ======================================
 
 async function loadClients() {
@@ -814,8 +965,51 @@ async function loadClients() {
   } =
     await supabaseClient
       .from("clients")
-      .select(
-        "vendor_id"
+      .select(`
+        id,
+        vendor_id,
+        created_at
+      `);
+
+
+  if (error) {
+
+    throw error;
+
+  }
+
+
+  clients =
+    data || [];
+
+}
+
+
+
+// ======================================
+// RESETS
+// ======================================
+
+async function loadResets() {
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("vendor_resets")
+      .select(`
+        id,
+        vendor_id,
+        units_count,
+        reset_at
+      `)
+      .order(
+        "reset_at",
+        {
+          ascending: false
+        }
       );
 
 
@@ -826,55 +1020,155 @@ async function loadClients() {
   }
 
 
-  clientCounts = {};
-
-
-  (
-    data || []
-  ).forEach(
-    client => {
-
-
-      const vendorId =
-        client.vendor_id;
-
-
-      if (
-        !clientCounts[
-          vendorId
-        ]
-      ) {
-
-        clientCounts[
-          vendorId
-        ] = 0;
-
-      }
-
-
-      clientCounts[
-        vendorId
-      ]++;
-
-    }
-  );
+  resets =
+    data || [];
 
 }
 
 
 
 // ======================================
-// STATISTIQUES
+// آخر RESET لكل بائع
+// ======================================
+
+function getLastReset(
+  vendorId
+) {
+
+
+  const vendorResets =
+    resets.filter(
+      reset =>
+        Number(
+          reset.vendor_id
+        ) === Number(
+          vendorId
+        )
+    );
+
+
+  if (
+    !vendorResets.length
+  ) {
+
+    return null;
+
+  }
+
+
+  vendorResets.sort(
+    (
+      a,
+      b
+    ) =>
+      new Date(
+        b.reset_at
+      ) -
+      new Date(
+        a.reset_at
+      )
+  );
+
+
+  return vendorResets[0];
+
+}
+
+
+
+// ======================================
+// عدد الروابط الحالية
+// ======================================
+
+function getCurrentLinks(
+  vendorId
+) {
+
+
+  const lastReset =
+    getLastReset(
+      vendorId
+    );
+
+
+  let count = 0;
+
+
+  clients.forEach(
+    client => {
+
+
+      if (
+        Number(
+          client.vendor_id
+        ) !== Number(
+          vendorId
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      const created =
+        new Date(
+          client.created_at
+        );
+
+
+      // إذا لم يوجد Reset
+      // نحسب كل الروابط
+
+      if (!lastReset) {
+
+        count++;
+
+        return;
+
+      }
+
+
+      const resetDate =
+        new Date(
+          lastReset.reset_at
+        );
+
+
+      // نحسب فقط الروابط
+      // التي أنشئت بعد آخر Reset
+
+      if (
+        created >
+        resetDate
+      ) {
+
+        count++;
+
+      }
+
+    }
+  );
+
+
+  return count;
+
+}
+
+
+
+// ======================================
+// الإحصائيات
 // ======================================
 
 function updateStats() {
 
 
-  const total =
+  const totalVendors =
     vendors.length;
 
 
-  const active =
+  const activeVendors =
     vendors.filter(
       vendor =>
         String(
@@ -886,42 +1180,44 @@ function updateStats() {
     ).length;
 
 
-  const totalClients =
-    Object.values(
-      clientCounts
-    ).reduce(
-      (
-        total,
-        count
-      ) =>
-        total + count,
-      0
-    );
+  let totalCurrentLinks = 0;
+
+
+  vendors.forEach(
+    vendor => {
+
+      totalCurrentLinks +=
+        getCurrentLinks(
+          vendor.id
+        );
+
+    }
+  );
 
 
   document.getElementById(
     "totalVendors"
   ).textContent =
-    total;
+    totalVendors;
 
 
   document.getElementById(
     "activeVendors"
   ).textContent =
-    active;
+    activeVendors;
 
 
   document.getElementById(
-    "totalClients"
+    "totalCurrentLinks"
   ).textContent =
-    totalClients;
+    totalCurrentLinks;
 
 }
 
 
 
 // ======================================
-// AFFICHER VENDEURS
+// عرض البائعين
 // ======================================
 
 function renderVendors(
@@ -970,7 +1266,9 @@ function renderVendors(
 
 
 
-  if (!filtered.length) {
+  if (
+    !filtered.length
+  ) {
 
     table.innerHTML = `
 
@@ -988,6 +1286,7 @@ function renderVendors(
     `;
 
     return;
+
   }
 
 
@@ -1017,13 +1316,13 @@ function renderVendors(
           status === "active";
 
 
-        const count =
-          clientCounts[
+        const currentLinks =
+          getCurrentLinks(
             vendor.id
-          ] || 0;
+          );
 
 
-        let action = "";
+        let actions = "";
 
 
 
@@ -1031,11 +1330,29 @@ function renderVendors(
           role === "admin"
         ) {
 
-          action = `
+          actions = `
 
             <span class="admin-label">
               Administrateur
             </span>
+
+            <button
+              class="
+                action-btn
+                history-btn
+              "
+              onclick="
+                showHistory(
+                  ${vendor.id},
+                  '${escapeAttribute(
+                    vendor.name ||
+                    "Vendeur"
+                  )}'
+                )
+              "
+            >
+              Historique
+            </button>
 
           `;
 
@@ -1043,36 +1360,39 @@ function renderVendors(
 
         else {
 
-
-          action = `
+          actions = `
 
             <button
               class="
                 action-btn
-                ${
-                  active
-                    ? "disable-btn"
-                    : "enable-btn"
-                }
+                reset-btn
               "
               onclick="
-                toggleVendor(
-                  ${vendor.id},
-                  '${
-                    active
-                      ? "inactive"
-                      : "active"
-                  }'
+                resetVendor(
+                  ${vendor.id}
                 )
               "
             >
+              Réinitialiser
+            </button>
 
-              ${
-                active
-                  ? "Suspendre"
-                  : "Activer"
-              }
 
+            <button
+              class="
+                action-btn
+                history-btn
+              "
+              onclick="
+                showHistory(
+                  ${vendor.id},
+                  '${escapeAttribute(
+                    vendor.name ||
+                    "Vendeur"
+                  )}'
+                )
+              "
+            >
+              Historique
             </button>
 
           `;
@@ -1089,18 +1409,15 @@ function renderVendors(
             <td>
 
               <strong>
-
                 ${
                   escapeHtml(
                     vendor.name ||
                     "Sans nom"
                   )
                 }
-
               </strong>
 
             </td>
-
 
 
             <td>
@@ -1113,7 +1430,6 @@ function renderVendors(
               }
 
             </td>
-
 
 
             <td>
@@ -1140,18 +1456,22 @@ function renderVendors(
             </td>
 
 
-
             <td>
 
-              ${count}
+              <span class="count">
+                ${currentLinks}
+              </span>
+
+              <span class="unit-label">
+                liens
+              </span>
 
             </td>
 
 
-
             <td>
 
-              ${action}
+              ${actions}
 
             </td>
 
@@ -1168,19 +1488,19 @@ function renderVendors(
 
 
 // ======================================
-// ACTIVER / SUSPENDRE
+// RESET
 // ======================================
 
-async function toggleVendor(
-  vendorId,
-  newStatus
+async function resetVendor(
+  vendorId
 ) {
 
 
   const vendor =
     vendors.find(
       item =>
-        item.id === vendorId
+        Number(item.id) ===
+        Number(vendorId)
     );
 
 
@@ -1191,17 +1511,37 @@ async function toggleVendor(
   }
 
 
-  const action =
-    newStatus === "active"
-      ? "activer"
-      : "suspendre";
+  const currentLinks =
+    getCurrentLinks(
+      vendorId
+    );
 
 
   if (
-    !confirm(
-      `Voulez-vous ${action} ce vendeur ?`
-    )
+    currentLinks === 0
   ) {
+
+    alert(
+      "Ce vendeur n'a aucun lien à réinitialiser."
+    );
+
+    return;
+
+  }
+
+
+  const confirmed =
+    confirm(
+      `Réinitialiser le compteur de ${
+        currentLinks
+      } liens pour ${
+        vendor.name ||
+        "ce vendeur"
+      } ?`
+    );
+
+
+  if (!confirmed) {
 
     return;
 
@@ -1209,18 +1549,22 @@ async function toggleVendor(
 
 
 
+  // -------------------------------
+  // تسجيل العملية
+  // -------------------------------
+
   const {
     error
   } =
     await supabaseClient
-      .from("vendors")
-      .update({
-        status: newStatus
-      })
-      .eq(
-        "id",
-        vendorId
-      );
+      .from("vendor_resets")
+      .insert({
+        vendor_id:
+          vendorId,
+
+        units_count:
+          currentLinks
+      });
 
 
   if (error) {
@@ -1235,9 +1579,14 @@ async function toggleVendor(
   }
 
 
-  vendor.status =
-    newStatus;
 
+  // -------------------------------
+  // تحديث البيانات
+  // -------------------------------
+
+  await loadResets();
+
+  updateStats();
 
   renderVendors(
     document.getElementById(
@@ -1246,14 +1595,210 @@ async function toggleVendor(
   );
 
 
-  updateStats();
+  alert(
+    `Compteur réinitialisé.\n\n${currentLinks} liens ont été enregistrés dans l'historique.`
+  );
 
 }
 
 
 
 // ======================================
-// RECHERCHE
+// HISTORIQUE
+// ======================================
+
+async function showHistory(
+  vendorId,
+  vendorName
+) {
+
+
+  const modal =
+    document.getElementById(
+      "historyModal"
+    );
+
+
+  const title =
+    document.getElementById(
+      "historyTitle"
+    );
+
+
+  const content =
+    document.getElementById(
+      "historyContent"
+    );
+
+
+  title.textContent =
+    "Historique - " +
+    vendorName;
+
+
+  content.innerHTML =
+    "Chargement...";
+
+
+  modal.style.display =
+    "flex";
+
+
+
+  try {
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("vendor_resets")
+        .select(`
+          id,
+          units_count,
+          reset_at
+        `)
+        .eq(
+          "vendor_id",
+          vendorId
+        )
+        .order(
+          "reset_at",
+          {
+            ascending: false
+          }
+        );
+
+
+    if (error) {
+
+      content.innerHTML = `
+
+        <div class="empty-history">
+
+          Erreur :
+          ${
+            escapeHtml(
+              error.message
+            )
+          }
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    if (
+      !data ||
+      !data.length
+    ) {
+
+      content.innerHTML = `
+
+        <div class="empty-history">
+
+          Aucun historique.
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    content.innerHTML =
+      data.map(
+        item => {
+
+
+          const date =
+            formatDate(
+              item.reset_at
+            );
+
+
+          return `
+
+            <div
+              class="history-item"
+            >
+
+              <div>
+
+                <div
+                  class="history-count"
+                >
+                  ${
+                    item.units_count
+                  }
+                  liens
+                </div>
+
+              </div>
+
+
+              <div
+                class="history-date"
+              >
+                ${date}
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      ).join("");
+
+
+  }
+
+  catch (error) {
+
+    content.innerHTML = `
+
+      <div class="empty-history">
+
+        ${
+          escapeHtml(
+            error.message
+          )
+        }
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+
+// ======================================
+// إغلاق التاريخ
+// ======================================
+
+function closeHistory() {
+
+  document.getElementById(
+    "historyModal"
+  ).style.display =
+    "none";
+
+}
+
+
+
+// ======================================
+// SEARCH
 // ======================================
 
 document
@@ -1326,7 +1871,75 @@ function showError(
 
 
 // ======================================
-// حماية HTML
+// ACCESS DENIED
+// ======================================
+
+function showAccessDenied(
+  message
+) {
+
+
+  document.body.innerHTML = `
+
+    <div style="
+      text-align:center;
+      padding:80px 20px;
+      font-family:Arial;
+    ">
+
+      <h2>
+        Accès refusé
+      </h2>
+
+      <p>
+        ${
+          escapeHtml(
+            message
+          )
+        }
+      </p>
+
+      <a href="dashboard.html">
+        Retour au Dashboard
+      </a>
+
+    </div>
+
+  `;
+
+}
+
+
+
+// ======================================
+// FORMAT DATE
+// ======================================
+
+function formatDate(
+  dateString
+) {
+
+
+  const date =
+    new Date(
+      dateString
+    );
+
+
+  return date.toLocaleString(
+    "fr-FR",
+    {
+      dateStyle: "medium",
+      timeStyle: "short"
+    }
+  );
+
+}
+
+
+
+// ======================================
+// SECURITY
 // ======================================
 
 function escapeHtml(
@@ -1364,6 +1977,28 @@ function escapeHtml(
 }
 
 
+function escapeAttribute(
+  value
+) {
+
+
+  return String(value)
+    .replace(
+      /\\/g,
+      "\\\\"
+    )
+    .replace(
+      /'/g,
+      "\\'"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    );
+
+}
+
+
 
 // ======================================
 // START
@@ -1371,9 +2006,10 @@ function escapeHtml(
 
 init();
 
+
 </script>
 
 
 </body>
 
-  </html>
+</html>
