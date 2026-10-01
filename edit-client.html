@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>TapTapCard — Modifier le client</title>
+  <title>TapTapCard - Modifier le client</title>
 
   <style>
     * {
@@ -14,88 +14,104 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f7f7f7;
+      background: #f6f6f6;
       color: #222;
-      padding-bottom: 40px;
     }
 
     header {
       background: white;
-      padding: 18px 20px;
       border-bottom: 1px solid #eee;
+      padding: 15px 18px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 20px;
+      gap: 15px;
     }
 
     .back-button {
-      border: 1px solid #ddd;
-      background: white;
+      display: inline-block;
+      text-decoration: none;
       color: #222;
+      background: #f2f2f2;
       padding: 9px 13px;
-      border-radius: 8px;
-      cursor: pointer;
+      border-radius: 9px;
       font-size: 14px;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
     }
 
     main {
       width: 100%;
       max-width: 650px;
       margin: auto;
-      padding: 25px 20px;
+      padding: 25px 18px 50px;
     }
 
-    .page-title {
-      margin-bottom: 25px;
+    .title {
+      margin-bottom: 20px;
     }
 
-    .page-title h2 {
-      margin: 0 0 6px;
+    .title h1 {
+      margin: 0 0 7px;
+      font-size: 24px;
     }
 
-    .page-title p {
+    .title p {
       margin: 0;
+      color: #777;
+    }
+
+    .loading {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      text-align: center;
       color: #777;
     }
 
     .form-card {
       background: white;
-      padding: 25px;
-      border-radius: 18px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      padding: 22px;
+      border-radius: 17px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.05);
+    }
+
+    .section {
+      margin-top: 25px;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #eee;
+      font-size: 17px;
+      font-weight: bold;
     }
 
     .field {
-      margin-bottom: 18px;
+      margin-bottom: 17px;
     }
 
     label {
       display: block;
-      margin-bottom: 7px;
       font-size: 14px;
       font-weight: bold;
+      margin-bottom: 7px;
     }
 
     input,
     textarea {
       width: 100%;
-      padding: 13px;
       border: 1px solid #ddd;
       border-radius: 10px;
+      padding: 12px;
       font-size: 15px;
-      font-family: inherit;
       outline: none;
+      font-family: Arial, sans-serif;
     }
 
     input:focus,
     textarea:focus {
-      border-color: #999;
+      border-color: #888;
     }
 
     textarea {
@@ -103,38 +119,31 @@
       resize: vertical;
     }
 
-    .section-title {
-      margin: 28px 0 15px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #eee;
-      font-size: 17px;
-    }
-
-    .image-preview {
+    .preview {
+      display: none;
       width: 100%;
       max-height: 220px;
       object-fit: cover;
       border-radius: 12px;
       margin-bottom: 10px;
-      display: none;
       background: #eee;
     }
 
-    .image-preview.show {
+    .preview.show {
       display: block;
     }
 
-    .file-info {
-      color: #777;
-      font-size: 12px;
+    .note {
       margin-top: 6px;
+      color: #888;
+      font-size: 12px;
     }
 
     .save-button {
       width: 100%;
-      padding: 14px;
       border: none;
       border-radius: 10px;
+      padding: 14px;
       background: #111;
       color: white;
       font-size: 16px;
@@ -143,15 +152,14 @@
     }
 
     .save-button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
+      opacity: .6;
     }
 
     .cancel-button {
       width: 100%;
-      padding: 13px;
       border: 1px solid #ddd;
       border-radius: 10px;
+      padding: 13px;
       background: white;
       color: #222;
       font-size: 15px;
@@ -160,63 +168,62 @@
     }
 
     #message {
-      text-align: center;
       margin-top: 15px;
+      text-align: center;
       font-size: 14px;
       line-height: 1.5;
-    }
-
-    .success {
-      color: #16803c;
     }
 
     .error {
       color: #c62828;
     }
 
-    .loading {
-      text-align: center;
-      color: #777;
-      padding: 30px;
+    .success {
+      color: #16803c;
     }
 
-    @media (max-width: 500px) {
-      .form-card {
-        padding: 20px;
-      }
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
 
 <body>
 
+  <!-- HEADER -->
+
   <header>
 
-    <h1>TapTapCard</h1>
-
-    <button
-      type="button"
-      id="backButton"
+    <a
+      href="clients.html"
       class="back-button"
     >
       ← Mes clients
-    </button>
+    </a>
+
+    <div class="logo">
+      TapTapCard
+    </div>
 
   </header>
 
 
   <main>
 
-    <div class="page-title">
+    <div class="title">
 
-      <h2>Modifier le client</h2>
+      <h1>
+        Modifier le client
+      </h1>
 
       <p>
-        Modifiez les informations de votre client.
+        Modifiez les informations du client.
       </p>
 
     </div>
 
+
+    <!-- LOADING -->
 
     <div
       id="loading"
@@ -226,22 +233,21 @@
     </div>
 
 
+    <!-- FORM -->
+
     <div
-      id="formContainer"
-      class="form-card"
-      style="display: none;"
+      id="formCard"
+      class="form-card hidden"
     >
 
-      <form id="editClientForm">
+      <form id="clientForm">
 
 
-        <!-- =========================
-             Informations
-             ========================= -->
+        <!-- INFORMATIONS -->
 
-        <h3 class="section-title">
+        <div class="section">
           Informations
-        </h3>
+        </div>
 
 
         <div class="field">
@@ -274,13 +280,11 @@
         </div>
 
 
-        <!-- =========================
-             Réseaux sociaux
-             ========================= -->
+        <!-- RESEAUX -->
 
-        <h3 class="section-title">
+        <div class="section">
           Réseaux sociaux
-        </h3>
+        </div>
 
 
         <div class="field">
@@ -290,7 +294,7 @@
           </label>
 
           <input
-            type="url"
+            type="text"
             id="instagram"
             placeholder="https://instagram.com/..."
           >
@@ -305,7 +309,7 @@
           </label>
 
           <input
-            type="url"
+            type="text"
             id="facebook"
             placeholder="https://facebook.com/..."
           >
@@ -320,7 +324,7 @@
           </label>
 
           <input
-            type="url"
+            type="text"
             id="tiktok"
             placeholder="https://tiktok.com/@..."
           >
@@ -350,7 +354,7 @@
           </label>
 
           <input
-            type="url"
+            type="text"
             id="website"
             placeholder="https://..."
           >
@@ -358,13 +362,11 @@
         </div>
 
 
-        <!-- =========================
-             Contact
-             ========================= -->
+        <!-- CONTACT -->
 
-        <h3 class="section-title">
+        <div class="section">
           Contact
-        </h3>
+        </div>
 
 
         <div class="field">
@@ -374,7 +376,7 @@
           </label>
 
           <input
-            type="tel"
+            type="text"
             id="phone"
             placeholder="0550..."
           >
@@ -389,7 +391,7 @@
           </label>
 
           <input
-            type="tel"
+            type="text"
             id="whatsapp"
             placeholder="0550..."
           >
@@ -404,7 +406,7 @@
           </label>
 
           <input
-            type="url"
+            type="text"
             id="googleMaps"
             placeholder="Lien Google Maps"
           >
@@ -412,21 +414,975 @@
         </div>
 
 
-        <!-- =========================
-             Images
-             ========================= -->
+        <!-- IMAGES -->
 
-        <h3 class="section-title">
+        <div class="section">
           Images
-        </h3>
+        </div>
 
 
         <div class="field">
 
           <label>
-            Photo de profil actuelle
+            Photo de profil
           </label>
 
           <img
             id="profilePreview"
-            class="image
+            class="preview"
+            alt="Photo de profil"
+          >
+
+          <input
+            type="file"
+            id="profileImage"
+            accept="image/jpeg,image/png,image/webp"
+          >
+
+          <div class="note">
+            Laissez vide pour conserver l'image actuelle.
+          </div>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Image de couverture
+          </label>
+
+          <img
+            id="coverPreview"
+            class="preview"
+            alt="Image de couverture"
+          >
+
+          <input
+            type="file"
+            id="coverImage"
+            accept="image/jpeg,image/png,image/webp"
+          >
+
+          <div class="note">
+            Laissez vide pour conserver l'image actuelle.
+          </div>
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <button
+          type="submit"
+          id="saveButton"
+          class="save-button"
+        >
+          Enregistrer les modifications
+        </button>
+
+
+        <a
+          href="clients.html"
+          class="cancel-button"
+          style="
+            display:block;
+            text-align:center;
+            text-decoration:none;
+            margin-top:10px;
+          "
+        >
+          Annuler
+        </a>
+
+
+        <div id="message"></div>
+
+      </form>
+
+    </div>
+
+  </main>
+
+
+  <!-- SUPABASE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="supabase.js"></script>
+
+
+  <script>
+
+    console.log("edit-client.js démarré");
+
+
+    // ==========================================
+    // VARIABLES
+    // ==========================================
+
+    let currentUser = null;
+    let currentVendor = null;
+    let currentClient = null;
+
+
+    const urlParams =
+      new URLSearchParams(
+        window.location.search
+      );
+
+
+    const clientId =
+      urlParams.get("id");
+
+
+    console.log(
+      "Client ID:",
+      clientId
+    );
+
+
+    // ==========================================
+    // ELEMENTS
+    // ==========================================
+
+    const loading =
+      document.getElementById(
+        "loading"
+      );
+
+
+    const formCard =
+      document.getElementById(
+        "formCard"
+      );
+
+
+    const message =
+      document.getElementById(
+        "message"
+      );
+
+
+    const form =
+      document.getElementById(
+        "clientForm"
+      );
+
+
+    const saveButton =
+      document.getElementById(
+        "saveButton"
+      );
+
+
+    // ==========================================
+    // MESSAGE
+    // ==========================================
+
+    function showMessage(
+      text,
+      type
+    ) {
+
+      message.textContent =
+        text;
+
+      message.className =
+        type || "";
+
+    }
+
+
+    // ==========================================
+    // VERIFIER AUTH
+    // ==========================================
+
+    async function checkAuth() {
+
+      console.log(
+        "Vérification utilisateur..."
+      );
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.auth.getUser();
+
+
+      if (error) {
+
+        console.error(
+          error
+        );
+
+        throw error;
+
+      }
+
+
+      if (!data.user) {
+
+        window.location.href =
+          "index.html";
+
+        return false;
+
+      }
+
+
+      currentUser =
+        data.user;
+
+
+      console.log(
+        "Utilisateur:",
+        currentUser.id
+      );
+
+
+      return true;
+
+    }
+
+
+    // ==========================================
+    // CHARGER VENDEUR
+    // ==========================================
+
+    async function loadVendor() {
+
+      console.log(
+        "Chargement vendeur..."
+      );
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("vendors")
+          .select(
+            "id,name,status"
+          )
+          .eq(
+            "user_id",
+            currentUser.id
+          )
+          .single();
+
+
+      if (error) {
+
+        console.error(
+          "Vendor error:",
+          error
+        );
+
+        throw error;
+
+      }
+
+
+      if (!data) {
+
+        throw new Error(
+          "Vendeur introuvable."
+        );
+
+      }
+
+
+      currentVendor =
+        data;
+
+
+      console.log(
+        "Vendor:",
+        currentVendor
+      );
+
+
+      return true;
+
+    }
+
+
+    // ==========================================
+    // CHARGER CLIENT
+    // ==========================================
+
+    async function loadClient() {
+
+      console.log(
+        "Chargement client..."
+      );
+
+
+      if (!clientId) {
+
+        throw new Error(
+          "Aucun ID client dans le lien."
+        );
+
+      }
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("clients")
+          .select(`
+            id,
+            vendor_id,
+            name,
+            description,
+            profile_image,
+            cover_image,
+            instagram,
+            facebook,
+            tiktok,
+            snapchat,
+            website,
+            phone,
+            whatsapp,
+            google_maps
+          `)
+          .eq(
+            "id",
+            clientId
+          )
+          .eq(
+            "vendor_id",
+            currentVendor.id
+          )
+          .single();
+
+
+      if (error) {
+
+        console.error(
+          "Client error:",
+          error
+        );
+
+        throw error;
+
+      }
+
+
+      if (!data) {
+
+        throw new Error(
+          "Client introuvable."
+        );
+
+      }
+
+
+      currentClient =
+        data;
+
+
+      console.log(
+        "Client:",
+        currentClient
+      );
+
+
+      // ========================================
+      // REMPLIR FORMULAIRE
+      // ========================================
+
+      document.getElementById(
+        "name"
+      ).value =
+        data.name || "";
+
+
+      document.getElementById(
+        "description"
+      ).value =
+        data.description || "";
+
+
+      document.getElementById(
+        "instagram"
+      ).value =
+        data.instagram || "";
+
+
+      document.getElementById(
+        "facebook"
+      ).value =
+        data.facebook || "";
+
+
+      document.getElementById(
+        "tiktok"
+      ).value =
+        data.tiktok || "";
+
+
+      document.getElementById(
+        "snapchat"
+      ).value =
+        data.snapchat || "";
+
+
+      document.getElementById(
+        "website"
+      ).value =
+        data.website || "";
+
+
+      document.getElementById(
+        "phone"
+      ).value =
+        data.phone || "";
+
+
+      document.getElementById(
+        "whatsapp"
+      ).value =
+        data.whatsapp || "";
+
+
+      document.getElementById(
+        "googleMaps"
+      ).value =
+        data.google_maps || "";
+
+
+      // ========================================
+      // PHOTO PROFIL
+      // ========================================
+
+      if (
+        data.profile_image
+      ) {
+
+        const img =
+          document.getElementById(
+            "profilePreview"
+          );
+
+
+        img.src =
+          data.profile_image;
+
+
+        img.classList.add(
+          "show"
+        );
+
+      }
+
+
+      // ========================================
+      // PHOTO COVER
+      // ========================================
+
+      if (
+        data.cover_image
+      ) {
+
+        const img =
+          document.getElementById(
+            "coverPreview"
+          );
+
+
+        img.src =
+          data.cover_image;
+
+
+        img.classList.add(
+          "show"
+        );
+
+      }
+
+
+      // ========================================
+      // AFFICHER FORMULAIRE
+      // ========================================
+
+      loading.classList.add(
+        "hidden"
+      );
+
+
+      formCard.classList.remove(
+        "hidden"
+      );
+
+
+      console.log(
+        "Client chargé avec succès."
+      );
+
+    }
+
+
+    // ==========================================
+    // PREVIEW IMAGE
+    // ==========================================
+
+    function setupPreview(
+      inputId,
+      previewId
+    ) {
+
+      const input =
+        document.getElementById(
+          inputId
+        );
+
+
+      const preview =
+        document.getElementById(
+          previewId
+        );
+
+
+      input.addEventListener(
+        "change",
+        function() {
+
+          const file =
+            this.files[0];
+
+
+          if (!file) {
+            return;
+          }
+
+
+          const reader =
+            new FileReader();
+
+
+          reader.onload =
+            function(e) {
+
+              preview.src =
+                e.target.result;
+
+              preview.classList.add(
+                "show"
+              );
+
+            };
+
+
+          reader.readAsDataURL(
+            file
+          );
+
+        }
+      );
+
+    }
+
+
+    setupPreview(
+      "profileImage",
+      "profilePreview"
+    );
+
+
+    setupPreview(
+      "coverImage",
+      "coverPreview"
+    );
+
+
+    // ==========================================
+    // UPLOAD IMAGE
+    // ==========================================
+
+    async function uploadImage(
+      file,
+      type
+    ) {
+
+      if (!file) {
+        return null;
+      }
+
+
+      const extension =
+        file.name
+          .split(".")
+          .pop()
+          .toLowerCase();
+
+
+      const path =
+        currentVendor.id +
+        "/" +
+        currentClient.id +
+        "/" +
+        type +
+        "." +
+        extension;
+
+
+      console.log(
+        "Upload:",
+        path
+      );
+
+
+      const {
+        error
+      } =
+        await supabaseClient.storage
+          .from("client-images")
+          .upload(
+            path,
+            file,
+            {
+              upsert: true
+            }
+          );
+
+
+      if (error) {
+
+        throw error;
+
+      }
+
+
+      const {
+        data
+      } =
+        supabaseClient.storage
+          .from("client-images")
+          .getPublicUrl(
+            path
+          );
+
+
+      return data.publicUrl;
+
+    }
+
+
+    // ==========================================
+    // SAVE
+    // ==========================================
+
+    form.addEventListener(
+      "submit",
+      async function(e) {
+
+        e.preventDefault();
+
+
+        console.log(
+          "Enregistrement..."
+        );
+
+
+        saveButton.disabled =
+          true;
+
+
+        saveButton.textContent =
+          "Enregistrement...";
+
+
+        showMessage(
+          "",
+          ""
+        );
+
+
+        try {
+
+          // ====================================
+          // DONNEES
+          // ====================================
+
+          const updateData = {
+
+            name:
+              document
+                .getElementById(
+                  "name"
+                )
+                .value
+                .trim(),
+
+            description:
+              document
+                .getElementById(
+                  "description"
+                )
+                .value
+                .trim(),
+
+            instagram:
+              document
+                .getElementById(
+                  "instagram"
+                )
+                .value
+                .trim(),
+
+            facebook:
+              document
+                .getElementById(
+                  "facebook"
+                )
+                .value
+                .trim(),
+
+            tiktok:
+              document
+                .getElementById(
+                  "tiktok"
+                )
+                .value
+                .trim(),
+
+            snapchat:
+              document
+                .getElementById(
+                  "snapchat"
+                )
+                .value
+                .trim(),
+
+            website:
+              document
+                .getElementById(
+                  "website"
+                )
+                .value
+                .trim(),
+
+            phone:
+              document
+                .getElementById(
+                  "phone"
+                )
+                .value
+                .trim(),
+
+            whatsapp:
+              document
+                .getElementById(
+                  "whatsapp"
+                )
+                .value
+                .trim(),
+
+            google_maps:
+              document
+                .getElementById(
+                  "googleMaps"
+                )
+                .value
+                .trim()
+
+          };
+
+
+          // ====================================
+          // IMAGE PROFIL
+          // ====================================
+
+          const profileFile =
+            document
+              .getElementById(
+                "profileImage"
+              )
+              .files[0];
+
+
+          if (profileFile) {
+
+            const url =
+              await uploadImage(
+                profileFile,
+                "profile"
+              );
+
+
+            updateData.profile_image =
+              url;
+
+          }
+
+
+          // ====================================
+          // IMAGE COVER
+          // ====================================
+
+          const coverFile =
+            document
+              .getElementById(
+                "coverImage"
+              )
+              .files[0];
+
+
+          if (coverFile) {
+
+            const url =
+              await uploadImage(
+                coverFile,
+                "cover"
+              );
+
+
+            updateData.cover_image =
+              url;
+
+          }
+
+
+          // ====================================
+          // UPDATE CLIENT
+          // ====================================
+
+          const {
+            error
+          } =
+            await supabaseClient
+              .from("clients")
+              .update(
+                updateData
+              )
+              .eq(
+                "id",
+                currentClient.id
+              )
+              .eq(
+                "vendor_id",
+                currentVendor.id
+              );
+
+
+          if (error) {
+
+            throw error;
+
+          }
+
+
+          console.log(
+            "Modification réussie."
+          );
+
+
+          showMessage(
+            "Modifications enregistrées avec succès.",
+            "success"
+          );
+
+
+          saveButton.textContent =
+            "✓ Enregistré";
+
+
+          setTimeout(
+            function() {
+
+              window.location.href =
+                "clients.html";
+
+            },
+            1000
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "Erreur:",
+            error
+          );
+
+
+          showMessage(
+            "Erreur : " +
+            error.message,
+            "error"
+          );
+
+
+          saveButton.disabled =
+            false;
+
+
+          saveButton.textContent =
+            "Enregistrer les modifications";
+
+        }
+
+      }
+    );
+
+
+    // ==========================================
+    // INITIALISATION
+    // ==========================================
+
+    async function init() {
+
+      try {
+
+        console.log(
+          "Initialisation..."
+        );
+
+
+        await checkAuth();
+
+
+        await loadVendor();
+
+
+        await loadClient();
+
+
+      } catch (error) {
+
+        console.error(
+          "ERREUR INIT:",
+          error
+        );
+
+
+        loading.classList.add(
+          "hidden"
+        );
+
+
+        showMessage(
+          "Erreur : " +
+          error.message,
+          "error"
+        );
+
+      }
+
+    }
+
+
+    init();
+
+  </script>
+
+</body>
+</html>
