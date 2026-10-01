@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TapTapCard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 600px;
+      min-height: 100vh;
+      margin: auto;
+      background: white;
+    }
+
+    /* Cover */
+    .cover {
+      width: 100%;
+      height: 220px;
+      background: #eeeeee;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    /* Profile */
+    .profile-container {
+      position: relative;
+      text-align: center;
+      margin-top: -65px;
+      padding: 0 20px;
+    }
+
+    .profile-image {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid white;
+      background: #eeeeee;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+    }
+
+    .profile-placeholder {
+      width: 130px;
+      height: 130px;
+      margin: auto;
+      border-radius: 50%;
+      border: 5px solid white;
+      background: #eeeeee;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 45px;
+    }
+
+    .name {
+      margin: 15px 0 5px;
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    .description {
+      margin: 0 auto;
+      max-width: 500px;
+
+      color: #777;
+      line-height: 1.6;
+      font-size: 15px;
+
+      white-space: pre-line;
+    }
+
+    /* Buttons */
+    .buttons {
+      padding: 25px 20px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .button {
+      width: 100%;
+      min-height: 52px;
+
+      border-radius: 13px;
+
+      text-decoration: none;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 10px;
+
+      font-size: 15px;
+      font-weight: bold;
+
+      border: 1px solid #eeeeee;
+
+      background: white;
+      color: #222;
+
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+
+      transition: 0.2s;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .icon {
+      font-size: 20px;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 50px 20px;
+      color: #777;
+    }
+
+    /* Error */
+    .error {
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .error h2 {
+      margin-bottom: 10px;
+    }
+
+    .error p {
+      color: #777;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 25px;
+
+      color: #aaa;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- Loading -->
+    <div id="loading" class="loading">
+      Chargement...
+    </div>
+
+
+    <!-- Main content -->
+    <div id="content" style="display: none;">
+
+      <!-- Cover -->
+      <div id="cover" class="cover"></div>
+
+
+      <!-- Profile -->
+      <div class="profile-container">
+
+        <div id="profileContainer"></div>
+
+        <h1 id="name" class="name"></h1>
+
+        <p id="description" class="description"></p>
+
+      </div>
+
+
+      <!-- Buttons -->
+      <div id="buttons" class="buttons"></div>
+
+
+      <!-- Footer -->
+      <div class="footer">
+        TapTapCard
+      </div>
+
+    </div>
+
+
+    <!-- Error -->
+    <div id="error" class="error" style="display: none;">
+
+      <h2>
+        Client introuvable
+      </h2>
+
+      <p id="errorMessage">
+        Impossible de charger cette page.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="supabase.js"></script>
+
+
+  <script>
+
+    /* =========================
+       Récupérer l'ID du client
+    ========================= */
+
+    const params = new URLSearchParams(
+      window.location.search
+    );
+
+    const clientId = params.get("id");
+
+
+    /* =========================
+       Elements
+    ========================= */
+
+    const loading =
+      document.getElementById("loading");
+
+    const content =
+      document.getElementById("content");
+
+    const errorBox =
+      document.getElementById("error");
+
+    const errorMessage =
+      document.getElementById("errorMessage");
+
+
+    /* =========================
+       Afficher erreur
+    ========================= */
+
+    function showError(message) {
+
+      loading.style.display = "none";
+
+      content.style.display = "none";
+
+      errorBox.style.display = "block";
+
+      errorMessage.textContent = message;
+
+    }
+
+
+    /* =========================
+       Ajouter bouton
+    ========================= */
+
+    function addButton(icon, text, url) {
+
+      if (!url) {
+        return;
+      }
+
+      const button =
+        document.createElement("a");
+
+      button.className = "button";
+
+      button.href = url;
+
+      button.target = "_blank";
+
+      button.rel =
+        "noopener noreferrer";
+
+      button.innerHTML =
+        `<span class="icon">${icon}</span>
+         <span>${text}</span>`;
+
+      document
+        .getElementById("buttons")
+        .appendChild(button);
+
+    }
+
+
+    /* =========================
+       Téléphone
+    ========================= */
+
+    function addPhone(phone) {
+
+      if (!phone) {
+        return;
+      }
+
+      const cleanPhone =
+        phone.replace(/[^0-9+]/g, "");
+
+      addButton(
+        "📞",
+        "Téléphone",
+        "tel:" + cleanPhone
+      );
+
+    }
+
+
+    /* =========================
+       WhatsApp
+    ========================= */
+
+    function addWhatsApp(whatsapp) {
+
+      if (!whatsapp) {
+        return;
+      }
+
+      let number =
+        whatsapp.replace(/[^0-9]/g, "");
+
+      /*
+        Si الرقم يبدأ بـ 0
+        نحوله إلى الجزائر 213
+      */
+
+      if (number.startsWith("0")) {
+
+        number =
+          "213" + number.substring(1);
+
+      }
+
+      /*
+        إذا المستخدم كتب الرقم
+        بدون 213 وبدون 0
+      */
+
+      if (
+        !number.startsWith("213") &&
+        number.length === 9
+      ) {
+
+        number =
+          "213" + number;
+
+      }
+
+      addButton(
+        "💬",
+        "WhatsApp",
+        "https://wa.me/" + number
+      );
+
+    }
+
+
+    /* =========================
+       تحميل بيانات العميل
+    ========================= */
+
+    async function loadClient() {
+
+      try {
+
+        /* -------------------------
+           التحقق من ID
+        ------------------------- */
+
+        if (!clientId) {
+
+          showError(
+            "Aucun identifiant client dans le lien."
+          );
+
+          return;
+
+        }
+
+
+        /* -------------------------
+           طلب بيانات العميل
+        ------------------------- */
+
+        const { data, error } =
+
+          await supabaseClient
+
+            .from("clients")
+
+            .select(`
+              id,
+              name,
+              description,
+              profile_image,
+              cover_image,
+              instagram,
+              facebook,
+              tiktok,
+              snapchat,
+              website,
+              phone,
+              whatsapp,
+              google_maps
+            `)
+
+            .eq("id", clientId)
+
+            .single();
+
+
+        /* -------------------------
+           Supabase error
+        ------------------------- */
+
+        if (error) {
+
+          console.error(
+            "Supabase error:",
+            error
+          );
+
+          showError(
+            "Impossible de charger les informations du client."
+          );
+
+          return;
+
+        }
+
+
+        /* -------------------------
+           Client غير موجود
+        ------------------------- */
+
+        if (!data) {
+
+          showError(
+            "Client introuvable."
+          );
+
+          return;
+
+        }
+
+
+        /* -------------------------
+           عنوان الصفحة
+        ------------------------- */
+
+        document.title =
+          data.name || "TapTapCard";
+
+
+        /* =========================
+           Cover image
+        ========================= */
+
+        const cover =
+          document.getElementById("cover");
+
+        if (data.cover_image) {
+
+          cover.style.backgroundImage =
+            `url("${data.cover_image}")`;
+
+        }
+
+
+        /* =========================
+           Profile image
+        ========================= */
+
+        const profileContainer =
+          document.getElementById(
+            "profileContainer"
+          );
+
+
+        if (data.profile_image) {
+
+          const image =
+            document.createElement("img");
+
+          image.className =
+            "profile-image";
+
+          image.src =
+            data.profile_image;
+
+          image.alt =
+            data.name || "Profil";
+
+          profileContainer.appendChild(
+            image
+          );
+
+        }
+
+        else {
+
+          profileContainer.innerHTML =
+
+            `<div class="profile-placeholder">
+              👤
+            </div>`;
+
+        }
+
+
+        /* =========================
+           Name
+        ========================= */
+
+        document.getElementById(
+          "name"
+        ).textContent =
+
+          data.name ||
+          "Nom du client";
+
+
+        /* =========================
+           Description
+        ========================= */
+
+        document.getElementById(
+          "description"
+        ).textContent =
+
+          data.description || "";
+
+
+        /* =========================
+           Instagram
+        ========================= */
+
+        addButton(
+          "📷",
+          "Instagram",
+          data.instagram
+        );
+
+
+        /* =========================
+           Facebook
+        ========================= */
+
+        addButton(
+          "📘",
+          "Facebook",
+          data.facebook
+        );
+
+
+        /* =========================
+           TikTok
+        ========================= */
+
+        addButton(
+          "🎵",
+          "TikTok",
+          data.tiktok
+        );
+
+
+        /* =========================
+           Snapchat
+        ========================= */
+
+        if (data.snapchat) {
+
+          let snapchatUrl =
+            data.snapchat;
+
+          if (
+            !snapchatUrl.startsWith("http://") &&
+            !snapchatUrl.startsWith("https://")
+          ) {
+
+            snapchatUrl =
+              "https://www.snapchat.com/add/" +
+              data.snapchat;
+
+          }
+
+          addButton(
+            "👻",
+            "Snapchat",
+            snapchatUrl
+          );
+
+        }
+
+
+        /* =========================
+           Website
+        ========================= */
+
+        if (data.website) {
+
+          let websiteUrl =
+            data.website;
+
+          if (
+            !websiteUrl.startsWith("http://") &&
+            !websiteUrl.startsWith("https://")
+          ) {
+
+            websiteUrl =
+              "https://" + websiteUrl;
+
+          }
+
+          addButton(
+            "🌐",
+            "Website",
+            websiteUrl
+          );
+
+        }
+
+
+        /* =========================
+           Phone
+        ========================= */
+
+        addPhone(
+          data.phone
+        );
+
+
+        /* =========================
+           WhatsApp
+        ========================= */
+
+        addWhatsApp(
+          data.whatsapp
+        );
+
+
+        /* =========================
+           Google Maps
+        ========================= */
+
+        addButton(
+          "📍",
+          "Google Maps",
+          data.google_maps
+        );
+
+
+        /* =========================
+           إظهار الصفحة
+        ========================= */
+
+        loading.style.display =
+          "none";
+
+        content.style.display =
+          "block";
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Unexpected error:",
+          error
+        );
+
+        showError(
+          "Une erreur est survenue lors du chargement."
+        );
+
+      }
+
+    }
+
+
+    /* =========================
+       تشغيل الصفحة
+    ========================= */
+
+    loadClient();
+
+  </script>
+
+</body>
+
+  </html>
