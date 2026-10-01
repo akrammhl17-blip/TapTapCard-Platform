@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TapTapCard — Modifier le client</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      color: #222;
+      padding-bottom: 40px;
+    }
+
+    header {
+      background: white;
+      padding: 18px 20px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .back-button {
+      border: 1px solid #ddd;
+      background: white;
+      color: #222;
+      padding: 9px 13px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    main {
+      width: 100%;
+      max-width: 650px;
+      margin: auto;
+      padding: 25px 20px;
+    }
+
+    .page-title {
+      margin-bottom: 25px;
+    }
+
+    .page-title h2 {
+      margin: 0 0 6px;
+    }
+
+    .page-title p {
+      margin: 0;
+      color: #777;
+    }
+
+    .form-card {
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #999;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .section-title {
+      margin: 28px 0 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #eee;
+      font-size: 17px;
+    }
+
+    .image-preview {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      display: none;
+      background: #eee;
+    }
+
+    .image-preview.show {
+      display: block;
+    }
+
+    .file-info {
+      color: #777;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .save-button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .save-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .cancel-button {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: white;
+      color: #222;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .success {
+      color: #16803c;
+    }
+
+    .error {
+      color: #c62828;
+    }
+
+    .loading {
+      text-align: center;
+      color: #777;
+      padding: 30px;
+    }
+
+    @media (max-width: 500px) {
+      .form-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+
+    <h1>TapTapCard</h1>
+
+    <button
+      type="button"
+      id="backButton"
+      class="back-button"
+    >
+      ← Mes clients
+    </button>
+
+  </header>
+
+
+  <main>
+
+    <div class="page-title">
+
+      <h2>Modifier le client</h2>
+
+      <p>
+        Modifiez les informations de votre client.
+      </p>
+
+    </div>
+
+
+    <div
+      id="loading"
+      class="loading"
+    >
+      Chargement...
+    </div>
+
+
+    <div
+      id="formContainer"
+      class="form-card"
+      style="display: none;"
+    >
+
+      <form id="editClientForm">
+
+
+        <!-- =========================
+             Informations
+             ========================= -->
+
+        <h3 class="section-title">
+          Informations
+        </h3>
+
+
+        <div class="field">
+
+          <label for="name">
+            Nom du client
+          </label>
+
+          <input
+            type="text"
+            id="name"
+            placeholder="Ex : Nom du client"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="description">
+            Description
+          </label>
+
+          <textarea
+            id="description"
+            placeholder="Description de l'activité"
+          ></textarea>
+
+        </div>
+
+
+        <!-- =========================
+             Réseaux sociaux
+             ========================= -->
+
+        <h3 class="section-title">
+          Réseaux sociaux
+        </h3>
+
+
+        <div class="field">
+
+          <label for="instagram">
+            Instagram
+          </label>
+
+          <input
+            type="url"
+            id="instagram"
+            placeholder="https://instagram.com/..."
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="facebook">
+            Facebook
+          </label>
+
+          <input
+            type="url"
+            id="facebook"
+            placeholder="https://facebook.com/..."
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="tiktok">
+            TikTok
+          </label>
+
+          <input
+            type="url"
+            id="tiktok"
+            placeholder="https://tiktok.com/@..."
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="snapchat">
+            Snapchat
+          </label>
+
+          <input
+            type="text"
+            id="snapchat"
+            placeholder="Nom d'utilisateur Snapchat"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="website">
+            Website
+          </label>
+
+          <input
+            type="url"
+            id="website"
+            placeholder="https://..."
+          >
+
+        </div>
+
+
+        <!-- =========================
+             Contact
+             ========================= -->
+
+        <h3 class="section-title">
+          Contact
+        </h3>
+
+
+        <div class="field">
+
+          <label for="phone">
+            Téléphone
+          </label>
+
+          <input
+            type="tel"
+            id="phone"
+            placeholder="0550..."
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="whatsapp">
+            WhatsApp
+          </label>
+
+          <input
+            type="tel"
+            id="whatsapp"
+            placeholder="0550..."
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="googleMaps">
+            Google Maps
+          </label>
+
+          <input
+            type="url"
+            id="googleMaps"
+            placeholder="Lien Google Maps"
+          >
+
+        </div>
+
+
+        <!-- =========================
+             Images
+             ========================= -->
+
+        <h3 class="section-title">
+          Images
+        </h3>
+
+
+        <div class="field">
+
+          <label>
+            Photo de profil actuelle
+          </label>
+
+          <img
+            id="profilePreview"
+            class="image-preview"
+            alt="Photo de profil"
+          >
+
+          <input
+            type="file"
+            id="profileImage"
+            accept="image/jpeg,image/png,image/webp"
+          >
+
+          <div class="file-info">
+            Laissez vide pour conserver l'image actuelle.
+          </div>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Image de couverture actuelle
+          </label>
+
+          <img
+            id="coverPreview"
+            class="image-preview"
+            alt="Image de couverture"
+          >
+
+          <input
+            type="file"
+            id="coverImage"
+            accept="image/jpeg,image/png,image/webp"
+          >
+
+          <div class="file-info">
+            Laissez vide pour conserver l'image actuelle.
+          </div>
+
+        </div>
+
+
+        <!-- =========================
+             Boutons
+             ========================= -->
+
+        <button
+          type="submit"
+          id="saveButton"
+          class="save-button"
+        >
+          💾 Enregistrer les modifications
+        </button>
+
+
+        <button
+          type="button"
+          id="cancelButton"
+          class="cancel-button"
+        >
+          Annuler
+        </button>
+
+
+        <div id="message"></div>
+
+      </form>
+
+    </div>
+
+  </main>
+
+
+  <!-- Supabase -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="supabase.js"></script>
+
+
+  <script>
+
+    // =========================
+    // Variables
+    // =========================
+
+    let currentUser = null;
+    let currentVendor = null;
+    let currentClient = null;
+
+
+    // =========================
+    // Récupérer ID du client
+    // =========================
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+
+    const clientId =
+      params.get("id");
+
+
+    // =========================
+    // Message
+    // =========================
+
+    function showMessage(
+      text,
+      type
+    ) {
+
+      const message =
+        document.getElementById(
+          "message"
+        );
+
+
+      message.textContent =
+        text;
+
+
+      message.className =
+        type || "";
+
+    }
+
+
+    // =========================
+    // Vérifier utilisateur
+    // =========================
+
+    async function checkUser() {
+
+      const {
+        data: { user }
+      } =
+        await supabaseClient.auth.getUser();
+
+
+      if (!user) {
+
+        window.location.href =
+          "index.html";
+
+        return false;
+
+      }
+
+
+      currentUser =
+        user;
+
+
+      return true;
+
+    }
+
+
+    // =========================
+    // Charger le vendeur
+    // =========================
+
+    async function loadVendor() {
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("vendors")
+          .select(
+            "id, name, status"
+          )
+          .eq(
+            "user_id",
+            currentUser.id
+          )
+          .single();
+
+
+      if (error || !data) {
+
+        console.error(error);
+
+        showMessage(
+          "Impossible de trouver votre compte vendeur.",
+          "error"
+        );
+
+        return false;
+
+      }
+
+
+      currentVendor =
+        data;
+
+
+      return true;
+
+    }
+
+
+    // =========================
+    // Charger le client
+    // =========================
+
+    async function loadClient() {
+
+      if (!clientId) {
+
+        showMessage(
+          "Client introuvable.",
+          "error"
+        );
+
+        return false;
+
+      }
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("clients")
+          .select(`
+            id,
+            vendor_id,
+            name,
+            description,
+            profile_image,
+            cover_image,
+            instagram,
+            facebook,
+            tiktok,
+            snapchat,
+            website,
+            phone,
+            whatsapp,
+            google_maps
+          `)
+          .eq(
+            "id",
+            clientId
+          )
+          .single();
+
+
+      if (error || !data) {
+
+        console.error(error);
+
+        showMessage(
+          "Impossible de trouver ce client.",
+          "error"
+        );
+
+        return false;
+
+      }
+
+
+      // Vérification supplémentaire
+      if (
+        data.vendor_id !==
+        currentVendor.id
+      ) {
+
+        showMessage(
+          "Vous n'avez pas accès à ce client.",
+          "error"
+        );
+
+        return false;
+
+      }
+
+
+      currentClient =
+        data;
+
+
+      // Remplir les champs
+
+      document.getElementById(
+        "name"
+      ).value =
+        data.name || "";
+
+
+      document.getElementById(
+        "description"
+      ).value =
+        data.description || "";
+
+
+      document.getElementById(
+        "instagram"
+      ).value =
+        data.instagram || "";
+
+
+      document.getElementById(
+        "facebook"
+      ).value =
+        data.facebook || "";
+
+
+      document.getElementById(
+        "tiktok"
+      ).value =
+        data.tiktok || "";
+
+
+      document.getElementById(
+        "snapchat"
+      ).value =
+        data.snapchat || "";
+
+
+      document.getElementById(
+        "website"
+      ).value =
+        data.website || "";
+
+
+      document.getElementById(
+        "phone"
+      ).value =
+        data.phone || "";
+
+
+      document.getElementById(
+        "whatsapp"
+      ).value =
+        data.whatsapp || "";
+
+
+      document.getElementById(
+        "googleMaps"
+      ).value =
+        data.google_maps || "";
+
+
+      // Photo profil
+
+      if (data.profile_image) {
+
+        const preview =
+          document.getElementById(
+            "profilePreview"
+          );
+
+
+        preview.src =
+          data.profile_image;
+
+
+        preview.classList.add(
+          "show"
+        );
+
+      }
+
+
+      // Cover
+
+      if (data.cover_image) {
+
+        const preview =
+          document.getElementById(
+            "coverPreview"
+          );
+
+
+        preview.src =
+          data.cover_image;
+
+
+        preview.classList.add(
+          "show"
+        );
+
+      }
+
+
+      document.getElementById(
+        "loading"
+      ).style.display =
+        "none";
+
+
+      document.getElementById(
+        "formContainer"
+      ).style.display =
+        "block";
+
+
+      return true;
+
+    }
+
+
+    // =========================
+    // معاينة صورة جديدة
+    // =========================
+
+    function setupImagePreview(
+      inputId,
+      previewId
+    ) {
+
+      const input =
+        document.getElementById(
+          inputId
+        );
+
+
+      const preview =
+        document.getElementById(
+          previewId
+        );
+
+
+      input.addEventListener(
+        "change",
+        () => {
+
+          const file =
+            input.files[0];
+
+
+          if (!file) {
+
+            return;
+
+          }
+
+
+          const reader =
+            new FileReader();
+
+
+          reader.onload =
+            function(event) {
+
+              preview.src =
+                event.target.result;
+
+
+              preview.classList.add(
+                "show"
+              );
+
+            };
+
+
+          reader.readAsDataURL(
+            file
+          );
+
+        }
+      );
+
+    }
+
+
+    // =========================
+    // رفع صورة
+    // =========================
+
+    async function uploadImage(
+      file,
+      type
+    ) {
+
+      if (!file) {
+
+        return null;
+
+      }
+
+
+      const extension =
+        file.name
+          .split(".")
+          .pop()
+          .toLowerCase();
+
+
+      const filePath =
+        currentVendor.id +
+        "/" +
+        currentClient.id +
+        "/" +
+        type +
+        "." +
+        extension;
+
+
+      const {
+        error
+      } =
+        await supabaseClient.storage
+          .from("client-images")
+          .upload(
+            filePath,
+            file,
+            {
+              upsert: true
+            }
+          );
+
+
+      if (error) {
+
+        throw error;
+
+      }
+
+
+      const {
+        data
+      } =
+        supabaseClient.storage
+          .from("client-images")
+          .getPublicUrl(
+            filePath
+          );
+
+
+      return data.publicUrl;
+
+    }
+
+
+    // =========================
+    // حفظ التعديلات
+    // =========================
+
+    document
+      .getElementById(
+        "editClientForm"
+      )
+      .addEventListener(
+        "submit",
+        async (e) => {
+
+          e.preventDefault();
+
+
+          if (
+            !currentClient ||
+            !currentVendor
+          ) {
+
+            showMessage(
+              "Client introuvable.",
+              "error"
+            );
+
+            return;
+
+          }
+
+
+          const saveButton =
+            document.getElementById(
+              "saveButton"
+            );
+
+
+          saveButton.disabled =
+            true;
+
+
+          saveButton.textContent =
+            "Enregistrement...";
+
+
+          try {
+
+            // تحديث البيانات
+
+            const {
+              error
+            } =
+              await supabaseClient
+                .from("clients")
+                .update({
+
+                  name:
+                    document
+                      .getElementById(
+                        "name"
+                      )
+                      .value
+                      .trim(),
+
+                  description:
+                    document
+                      .getElementById(
+                        "description"
+                      )
+                      .value
+                      .trim(),
+
+                  instagram:
+                    document
+                      .getElementById(
+                        "instagram"
+                      )
+                      .value
+                      .trim(),
+
+                  facebook:
+                    document
+                      .getElementById(
+                        "facebook"
+                      )
+                      .value
+                      .trim(),
+
+                  tiktok:
+                    document
+                      .getElementById(
+                        "tiktok"
+                      )
+                      .value
+                      .trim(),
+
+                  snapchat:
+                    document
+                      .getElementById(
+                        "snapchat"
+                      )
+                      .value
+                      .trim(),
+
+                  website:
+                    document
+                      .getElementById(
+                        "website"
+                      )
+                      .value
+                      .trim(),
+
+                  phone:
+                    document
+                      .getElementById(
+                        "phone"
+                      )
+                      .value
+                      .trim(),
+
+                  whatsapp:
+                    document
+                      .getElementById(
+                        "whatsapp"
+                      )
+                      .value
+                      .trim(),
+
+                  google_maps:
+                    document
+                      .getElementById(
+                        "googleMaps"
+                      )
+                      .value
+                      .trim()
+
+                })
+                .eq(
+                  "id",
+                  currentClient.id
+                );
+
+
+            if (error) {
+
+              throw error;
+
+            }
+
+
+            // =========================
+            // صورة البروفايل
+            // =========================
+
+            const profileFile =
+              document
+                .getElementById(
+                  "profileImage"
+                )
+                .files[0];
+
+
+            if (profileFile) {
+
+              const profileUrl =
+                await uploadImage(
+                  profileFile,
+                  "profile"
+                );
+
+
+              const {
+                error:
+                  profileUpdateError
+              } =
+                await supabaseClient
+                  .from("clients")
+                  .update({
+
+                    profile_image:
+                      profileUrl
+
+                  })
+                  .eq(
+                    "id",
+                    currentClient.id
+                  );
+
+
+              if (
+                profileUpdateError
+              ) {
+
+                throw profileUpdateError;
+
+              }
+
+            }
+
+
+            // =========================
+            // صورة الغلاف
+            // =========================
+
+            const coverFile =
+              document
+                .getElementById(
+                  "coverImage"
+                )
+                .files[0];
+
+
+            if (coverFile) {
+
+              const coverUrl =
+                await uploadImage(
+                  coverFile,
+                  "cover"
+                );
+
+
+              const {
+                error:
+             
