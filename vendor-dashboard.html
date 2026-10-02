@@ -31,8 +31,6 @@
       padding: 20px;
     }
 
-    /* HEADER */
-
     .header {
       background: white;
       border-radius: 22px;
@@ -91,8 +89,6 @@
       background: #eadfdd;
     }
 
-    /* STAT */
-
     .stat-card {
       background: #332522;
       color: white;
@@ -129,8 +125,6 @@
       font-size: 23px;
     }
 
-    /* SECTION */
-
     .section {
       background: white;
       border-radius: 22px;
@@ -143,6 +137,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 18px;
+      gap: 10px;
     }
 
     .section-title h2 {
@@ -160,7 +155,9 @@
       cursor: pointer;
     }
 
-    /* CLIENT */
+    .add-btn:hover {
+      opacity: 0.9;
+    }
 
     .client-card {
       border: 1px solid #eee;
@@ -242,7 +239,9 @@
       white-space: nowrap;
     }
 
-    /* EMPTY */
+    .open-btn:hover {
+      background: #f1ddd8;
+    }
 
     .empty {
       text-align: center;
@@ -261,8 +260,6 @@
       font-size: 14px;
     }
 
-    /* LOADING */
-
     .loading {
       text-align: center;
       padding: 40px;
@@ -280,8 +277,6 @@
       }
     }
 
-    /* ERROR */
-
     .error {
       background: #fff0f0;
       color: #b42318;
@@ -292,8 +287,6 @@
       display: none;
       margin-bottom: 15px;
     }
-
-    /* MOBILE */
 
     @media (max-width: 600px) {
 
@@ -307,6 +300,10 @@
 
       .welcome h1 {
         font-size: 17px;
+      }
+
+      .welcome p {
+        font-size: 11px;
       }
 
       .logout-btn {
@@ -328,6 +325,15 @@
 
       .open-btn {
         padding: 9px 10px;
+        font-size: 12px;
+      }
+
+      .section-title h2 {
+        font-size: 17px;
+      }
+
+      .add-btn {
+        padding: 10px 12px;
         font-size: 12px;
       }
     }
@@ -368,7 +374,10 @@
 
     <!-- ERROR -->
 
-    <div id="errorBox" class="error"></div>
+    <div
+      id="errorBox"
+      class="error"
+    ></div>
 
 
     <!-- STAT -->
@@ -376,12 +385,19 @@
     <div class="stat-card">
 
       <div>
+
         <p>Mes pages</p>
-        <h2 id="clientCount">0</h2>
+
+        <h2 id="clientCount">
+          0
+        </h2>
+
       </div>
 
       <div class="stat-icon">
+
         <i class="fa-solid fa-address-card"></i>
+
       </div>
 
     </div>
@@ -405,11 +421,17 @@
 
       </div>
 
+
       <div id="clientsList">
 
         <div class="loading">
+
           <i class="fa-solid fa-spinner"></i>
-          <p>Chargement...</p>
+
+          <p>
+            Chargement...
+          </p>
+
         </div>
 
       </div>
@@ -433,7 +455,7 @@
 
 
     /* =========================
-       START
+       START DASHBOARD
     ========================= */
 
     document.addEventListener(
@@ -445,7 +467,10 @@
     async function startDashboard() {
 
       const savedSession =
-        localStorage.getItem("vendor_session");
+        localStorage.getItem(
+          "vendor_session"
+        );
+
 
       if (!savedSession) {
 
@@ -459,11 +484,16 @@
 
       try {
 
-        session = JSON.parse(savedSession);
+        session =
+          JSON.parse(savedSession);
 
       } catch (error) {
 
-        localStorage.removeItem("vendor_session");
+        console.error(error);
+
+        localStorage.removeItem(
+          "vendor_session"
+        );
 
         showError(
           "Session invalide."
@@ -478,7 +508,9 @@
         !session.vendor_id
       ) {
 
-        localStorage.removeItem("vendor_session");
+        localStorage.removeItem(
+          "vendor_session"
+        );
 
         showError(
           "Session invalide."
@@ -489,7 +521,8 @@
 
 
       /*
-        Vérification réelle de la session
+        Vérification réelle
+        de la session
       */
 
       const {
@@ -516,7 +549,10 @@
       }
 
 
-      if (!data || data.length === 0) {
+      if (
+        !data ||
+        data.length === 0
+      ) {
 
         localStorage.removeItem(
           "vendor_session"
@@ -530,11 +566,13 @@
       }
 
 
-      const vendor = data[0];
+      const vendor =
+        data[0];
 
 
       /*
-        الاسم الحقيقي من قاعدة البيانات
+        Mise à jour
+        des informations vendeur
       */
 
       session.vendor_id =
@@ -553,11 +591,12 @@
       document.getElementById(
         "vendorName"
       ).textContent =
-        "Bonjour " + vendor.vendor_name;
+        "Bonjour " +
+        vendor.vendor_name;
 
 
       /*
-        تحميل العملاء
+        Charger les clients
       */
 
       await loadClients();
@@ -595,7 +634,8 @@
       }
 
 
-      clients = data || [];
+      clients =
+        data || [];
 
 
       document.getElementById(
@@ -624,6 +664,7 @@
       if (clients.length === 0) {
 
         list.innerHTML = `
+
           <div class="empty">
 
             <i class="fa-regular fa-folder-open"></i>
@@ -633,6 +674,7 @@
             </p>
 
           </div>
+
         `;
 
         return;
@@ -640,74 +682,88 @@
 
 
       list.innerHTML =
-        clients.map(client => {
+        clients.map(
+          client => {
 
-          const image =
-            client.profile_image;
+            const image =
+              client.profile_image;
 
 
-          return `
+            return `
 
-            <div class="client-card">
+              <div class="client-card">
 
-              <div class="client-info">
+                <div class="client-info">
 
-                ${
-                  image
-                  ?
-                  `
-                  <img
-                    src="${escapeHtml(image)}"
-                    class="client-image"
-                    alt=""
-                  >
-                  `
-                  :
-                  `
-                  <div class="client-placeholder">
-                    <i class="fa-solid fa-store"></i>
+                  ${
+                    image
+
+                    ?
+
+                    `
+                    <img
+                      src="${escapeHtml(image)}"
+                      class="client-image"
+                      alt=""
+                    >
+                    `
+
+                    :
+
+                    `
+                    <div class="client-placeholder">
+
+                      <i class="fa-solid fa-store"></i>
+
+                    </div>
+                    `
+                  }
+
+
+                  <div class="client-text">
+
+                    <h3>
+
+                      ${escapeHtml(
+                        client.name ||
+                        "Sans nom"
+                      )}
+
+                    </h3>
+
+
+                    <p>
+
+                      ${escapeHtml(
+                        client.description ||
+                        "Aucune description"
+                      )}
+
+                    </p>
+
                   </div>
-                  `
-                }
-
-                <div class="client-text">
-
-                  <h3>
-                    ${escapeHtml(
-                      client.name ||
-                      "Sans nom"
-                    )}
-                  </h3>
-
-                  <p>
-                    ${escapeHtml(
-                      client.description ||
-                      "Aucune description"
-                    )}
-                  </p>
 
                 </div>
 
+
+                <a
+                  class="open-btn"
+                  href="client.html?id=${client.id}"
+                  target="_blank"
+                >
+
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                  Ouvrir
+
+                </a>
+
               </div>
 
+            `;
 
-              <a
-                class="open-btn"
-                href="client.html?id=${client.id}"
-                target="_blank"
-              >
-
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-                Ouvrir
-
-              </a>
-
-            </div>
-
-          `;
-
-        }).join("");
+          }
+        ).join("");
 
     }
 
@@ -718,9 +774,8 @@
 
     function addClient() {
 
-      alert(
-        "La création de client sera activée dans la prochaine étape."
-      );
+      window.location.href =
+        "vendor-add-client.html";
 
     }
 
@@ -752,9 +807,13 @@
           "errorBox"
         );
 
-      box.textContent = message;
 
-      box.style.display = "block";
+      box.textContent =
+        message;
+
+
+      box.style.display =
+        "block";
 
 
       document.getElementById(
@@ -771,11 +830,26 @@
     function escapeHtml(value) {
 
       return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
 
     }
 
