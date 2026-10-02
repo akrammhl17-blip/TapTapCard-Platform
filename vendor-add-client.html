@@ -1,1 +1,922 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Ajouter un client - TapTapCard</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f8e7e3, #fffaf8);
+      color: #332522;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 13px;
+      background: white;
+      color: #332522;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+      font-size: 17px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .header p {
+      margin: 4px 0 0;
+      color: #777;
+      font-size: 13px;
+    }
+
+    .form-box {
+      background: white;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+    }
+
+    .section-title {
+      margin: 0 0 16px;
+      font-size: 17px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid #e2dddd;
+      border-radius: 13px;
+      padding: 13px 14px;
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      background: #fff;
+      color: #332522;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #a64635;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .social-title {
+      margin-top: 28px;
+    }
+
+    .input-icon {
+      position: relative;
+    }
+
+    .input-icon i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      pointer-events: none;
+    }
+
+    .input-icon input {
+      padding-left: 42px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 15px;
+      margin-top: 8px;
+      background: #332522;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      margin-bottom: 16px;
+      padding: 13px;
+      border-radius: 13px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .error {
+      background: #fff0f0;
+      color: #b42318;
+    }
+
+    .success {
+      background: #edf9f2;
+      color: #18794e;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 12px;
+      color: #777;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+
+      .container {
+        padding: 14px;
+      }
+
+      .form-box {
+        padding: 18px;
+      }
+
+      .header h1 {
+        font-size: 19px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+      <button
+        class="back-btn"
+        onclick="goBack()"
+      >
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+
+      <div>
+        <h1>Ajouter un client</h1>
+        <p>Créer une nouvelle page TapTapCard</p>
+      </div>
+
+    </div>
+
+
+    <!-- FORM -->
+
+    <div class="form-box">
+
+      <div
+        id="errorBox"
+        class="message error"
+      ></div>
+
+      <div
+        id="successBox"
+        class="message success"
+      ></div>
+
+
+      <!-- INFORMATIONS -->
+
+      <h2 class="section-title">
+        Informations
+      </h2>
+
+
+      <div class="field">
+
+        <label for="name">
+          Nom du client
+        </label>
+
+        <input
+          type="text"
+          id="name"
+          placeholder="Ex : Syly Cake"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="description">
+          Description
+        </label>
+
+        <textarea
+          id="description"
+          placeholder="Ex : Pâtisserie & Gâteaux"
+        ></textarea>
+
+      </div>
+
+
+      <!-- IMAGES -->
+
+      <h2 class="section-title">
+        Images
+      </h2>
+
+
+      <div class="field">
+
+        <label for="profileImage">
+          URL de l'image de profil
+        </label>
+
+        <input
+          type="url"
+          id="profileImage"
+          placeholder="https://..."
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="coverImage">
+          URL de l'image de couverture
+        </label>
+
+        <input
+          type="url"
+          id="coverImage"
+          placeholder="https://..."
+        >
+
+      </div>
+
+
+      <!-- RESEAUX -->
+
+      <h2 class="section-title social-title">
+        Réseaux sociaux
+      </h2>
+
+
+      <div class="field">
+
+        <label for="instagram">
+          Instagram
+        </label>
+
+        <div class="input-icon">
+
+          <i class="fa-brands fa-instagram"></i>
+
+          <input
+            type="url"
+            id="instagram"
+            placeholder="https://instagram.com/..."
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="facebook">
+          Facebook
+        </label>
+
+        <div class="input-icon">
+
+          <i class="fa-brands fa-facebook-f"></i>
+
+          <input
+            type="url"
+            id="facebook"
+            placeholder="https://facebook.com/..."
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="tiktok">
+          TikTok
+        </label>
+
+        <div class="input-icon">
+
+          <i class="fa-brands fa-tiktok"></i>
+
+          <input
+            type="url"
+            id="tiktok"
+            placeholder="https://tiktok.com/@..."
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="snapchat">
+          Snapchat
+        </label>
+
+        <div class="input-icon">
+
+          <i class="fa-brands fa-snapchat"></i>
+
+          <input
+            type="text"
+            id="snapchat"
+            placeholder="@username"
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="website">
+          Website
+        </label>
+
+        <div class="input-icon">
+
+          <i class="fa-solid fa-globe"></i>
+
+          <input
+            type="url"
+            id="website"
+            placeholder="https://..."
+          >
+
+        </div>
+
+      </div>
+
+
+      <!-- CONTACT -->
+
+      <h2 class="section-title social-title">
+        Contact
+      </h2>
+
+
+      <div class="field">
+
+        <label for="phone">
+          Téléphone
+        </label>
+
+        <div class="input-icon">
+
+          <i class="fa-solid fa-phone"></i>
+
+          <input
+            type="tel"
+            id="phone"
+            placeholder="0550..."
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="whatsapp">
+          WhatsApp
+        </label>
+
+        <div class="input-icon">
+
+          <i class="fa-brands fa-whatsapp"></i>
+
+          <input
+            type="tel"
+            id="whatsapp"
+            placeholder="0550..."
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="googleMaps">
+          Google Maps
+        </label>
+
+        <div class="input-icon">
+
+          <i class="fa-solid fa-location-dot"></i>
+
+          <input
+            type="url"
+            id="googleMaps"
+            placeholder="https://maps.google.com/..."
+          >
+
+        </div>
+
+      </div>
+
+
+      <!-- SUBMIT -->
+
+      <button
+        id="submitBtn"
+        class="submit-btn"
+        onclick="createClient()"
+      >
+
+        <i class="fa-solid fa-plus"></i>
+
+        Créer la page
+
+      </button>
+
+
+      <div
+        id="loading"
+        class="loading"
+      >
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Création en cours...
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- SUPABASE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="supabase.js"></script>
+
+
+  <script>
+
+    let session = null;
+
+
+    /* =========================
+       START
+    ========================= */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      checkSession
+    );
+
+
+    async function checkSession() {
+
+      const saved =
+        localStorage.getItem(
+          "vendor_session"
+        );
+
+
+      if (!saved) {
+
+        showError(
+          "Session expirée. Veuillez vous reconnecter."
+        );
+
+        document.getElementById(
+          "submitBtn"
+        ).disabled = true;
+
+        return;
+      }
+
+
+      try {
+
+        session =
+          JSON.parse(saved);
+
+      } catch (error) {
+
+        localStorage.removeItem(
+          "vendor_session"
+        );
+
+        showError(
+          "Session invalide."
+        );
+
+        document.getElementById(
+          "submitBtn"
+        ).disabled = true;
+
+        return;
+      }
+
+
+      if (
+        !session.session_token ||
+        !session.vendor_id
+      ) {
+
+        showError(
+          "Session invalide."
+        );
+
+        document.getElementById(
+          "submitBtn"
+        ).disabled = true;
+
+        return;
+      }
+
+
+      /*
+        Vérification réelle
+        de la session
+      */
+
+      const {
+        data,
+        error
+      } = await supabaseClient.rpc(
+        "verify_vendor_session",
+        {
+          p_session_token:
+            session.session_token
+        }
+      );
+
+
+      if (error) {
+
+        console.error(error);
+
+        showError(
+          "Impossible de vérifier la session."
+        );
+
+        document.getElementById(
+          "submitBtn"
+        ).disabled = true;
+
+        return;
+      }
+
+
+      if (
+        !data ||
+        data.length === 0
+      ) {
+
+        localStorage.removeItem(
+          "vendor_session"
+        );
+
+        showError(
+          "Votre session a expiré."
+        );
+
+        document.getElementById(
+          "submitBtn"
+        ).disabled = true;
+
+        return;
+      }
+
+
+      session.vendor_id =
+        data[0].vendor_id;
+
+      session.vendor_name =
+        data[0].vendor_name;
+
+
+      localStorage.setItem(
+        "vendor_session",
+        JSON.stringify(session)
+      );
+
+    }
+
+
+    /* =========================
+       CREATE CLIENT
+    ========================= */
+
+    async function createClient() {
+
+      hideMessages();
+
+
+      const name =
+        document.getElementById(
+          "name"
+        ).value.trim();
+
+
+      const description =
+        document.getElementById(
+          "description"
+        ).value.trim();
+
+
+      if (!name) {
+
+        showError(
+          "Veuillez entrer le nom du client."
+        );
+
+        return;
+      }
+
+
+      if (!session || !session.session_token) {
+
+        showError(
+          "Session invalide."
+        );
+
+        return;
+      }
+
+
+      const submitBtn =
+        document.getElementById(
+          "submitBtn"
+        );
+
+
+      submitBtn.disabled = true;
+
+
+      document.getElementById(
+        "loading"
+      ).style.display = "block";
+
+
+      try {
+
+        const {
+          data,
+          error
+        } = await supabaseClient.rpc(
+          "create_vendor_client",
+          {
+            p_session_token:
+              session.session_token,
+
+            p_name:
+              name,
+
+            p_description:
+              description,
+
+            p_profile_image:
+              document.getElementById(
+                "profileImage"
+              ).value.trim(),
+
+            p_cover_image:
+              document.getElementById(
+                "coverImage"
+              ).value.trim(),
+
+            p_instagram:
+              document.getElementById(
+                "instagram"
+              ).value.trim(),
+
+            p_facebook:
+              document.getElementById(
+                "facebook"
+              ).value.trim(),
+
+            p_tiktok:
+              document.getElementById(
+                "tiktok"
+              ).value.trim(),
+
+            p_snapchat:
+              document.getElementById(
+                "snapchat"
+              ).value.trim(),
+
+            p_website:
+              document.getElementById(
+                "website"
+              ).value.trim(),
+
+            p_phone:
+              document.getElementById(
+                "phone"
+              ).value.trim(),
+
+            p_whatsapp:
+              document.getElementById(
+                "whatsapp"
+              ).value.trim(),
+
+            p_google_maps:
+              document.getElementById(
+                "googleMaps"
+              ).value.trim()
+          }
+        );
+
+
+        if (error) {
+
+          console.error(error);
+
+          showError(
+            error.message ||
+            "Impossible de créer la page."
+          );
+
+          submitBtn.disabled = false;
+
+          return;
+        }
+
+
+        showSuccess(
+          "La page a été créée avec succès."
+        );
+
+
+        /*
+          الرجوع للـDashboard
+          بعد لحظة
+        */
+
+        setTimeout(
+          () => {
+
+            window.location.href =
+              "vendor-dashboard.html";
+
+          },
+          1000
+        );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        showError(
+          "Une erreur est survenue."
+        );
+
+        submitBtn.disabled = false;
+
+      } finally {
+
+        document.getElementById(
+          "loading"
+        ).style.display = "none";
+
+      }
+
+    }
+
+
+    /* =========================
+       BACK
+    ========================= */
+
+    function goBack() {
+
+      window.location.href =
+        "vendor-dashboard.html";
+
+    }
+
+
+    /* =========================
+       MESSAGES
+    ========================= */
+
+    function hideMessages() {
+
+      document.getElementById(
+        "errorBox"
+      ).style.display = "none";
+
+      document.getElementById(
+        "successBox"
+      ).style.display = "none";
+
+    }
+
+
+    function showError(message) {
+
+      const box =
+        document.getElementById(
+          "errorBox"
+        );
+
+      box.textContent =
+        message;
+
+      box.style.display =
+        "block";
+
+      document.getElementById(
+        "successBox"
+      ).style.display =
+        "none";
+
+    }
+
+
+    function showSuccess(message) {
+
+      const box =
+        document.getElementById(
+          "successBox"
+        );
+
+      box.textContent =
+        message;
+
+      box.style.display =
+        "block";
+
+      document.getElementById(
+        "errorBox"
+      ).style.display =
+        "none";
+
+    }
+
+  </script>
+
+</body>
+</html>
