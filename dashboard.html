@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>TapTapCard — Dashboard</title>
+  <title>TapTapCard — Administration</title>
 
   <style>
     * {
@@ -14,7 +14,7 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f7f7f7;
+      background: #f5f5f5;
       color: #222;
     }
 
@@ -37,73 +37,94 @@
       background: #111;
       color: white;
       padding: 10px 15px;
-      border-radius: 8px;
+      border-radius: 9px;
       cursor: pointer;
+      font-size: 14px;
     }
 
     main {
       width: 100%;
-      max-width: 900px;
+      max-width: 700px;
       margin: auto;
-      padding: 25px 20px;
+      padding: 25px 18px 40px;
     }
 
     .welcome {
-      margin-bottom: 25px;
+      margin-bottom: 22px;
     }
 
     .welcome h2 {
-      margin: 0 0 5px;
+      margin: 0 0 6px;
+      font-size: 24px;
     }
 
     .welcome p {
       margin: 0;
       color: #777;
+      font-size: 14px;
     }
 
     .cards {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      margin-bottom: 25px;
+      gap: 12px;
+      margin-bottom: 18px;
     }
 
     .card {
       background: white;
-      padding: 20px;
+      padding: 18px;
       border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 18px rgba(0,0,0,.05);
     }
 
     .card span {
       display: block;
       color: #777;
-      font-size: 14px;
-      margin-bottom: 8px;
+      font-size: 13px;
+      margin-bottom: 7px;
     }
 
     .card strong {
-      font-size: 28px;
+      font-size: 27px;
     }
 
     .actions {
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .action-button {
+      width: 100%;
       border: none;
       background: #111;
       color: white;
-      padding: 13px 18px;
-      border-radius: 10px;
+      padding: 15px 18px;
+      border-radius: 11px;
       cursor: pointer;
       font-size: 15px;
+      text-align: left;
     }
 
     .action-button:hover {
-      opacity: 0.9;
+      opacity: .9;
+    }
+
+    .action-button.secondary {
+      background: white;
+      color: #222;
+      border: 1px solid #e5e5e5;
+    }
+
+    .message {
+      margin-top: 18px;
+      padding: 14px;
+      background: #fff;
+      border-radius: 12px;
+      color: #777;
+      font-size: 14px;
+      display: none;
     }
 
     @media (max-width: 500px) {
@@ -111,12 +132,8 @@
         grid-template-columns: 1fr;
       }
 
-      .actions {
-        flex-direction: column;
-      }
-
-      .action-button {
-        width: 100%;
+      main {
+        padding-top: 22px;
       }
     }
   </style>
@@ -124,234 +141,253 @@
 
 <body>
 
-  <header>
+<header>
 
-    <h1>TapTapCard</h1>
+  <h1>TapTapCard</h1>
+
+  <button id="logoutButton" class="logout">
+    Déconnexion
+  </button>
+
+</header>
+
+
+<main>
+
+  <div class="welcome">
+
+    <h2 id="welcomeName">
+      Bienvenue 👋
+    </h2>
+
+    <p>
+      Tableau de bord de l'administration.
+    </p>
+
+  </div>
+
+
+  <div class="cards">
+
+    <div class="card">
+
+      <span>
+        Total vendeurs
+      </span>
+
+      <strong id="vendorCount">
+        0
+      </strong>
+
+    </div>
+
+
+    <div class="card">
+
+      <span>
+        Vendeurs actifs
+      </span>
+
+      <strong id="activeVendorCount">
+        0
+      </strong>
+
+    </div>
+
+  </div>
+
+
+  <div class="actions">
 
     <button
-      id="logoutButton"
-      class="logout"
+      id="vendorsButton"
+      class="action-button"
     >
-      Déconnexion
+      👥 &nbsp; Gérer les vendeurs
     </button>
 
-  </header>
+
+    <button
+      id="clientsButton"
+      class="action-button secondary"
+    >
+      📋 &nbsp; Voir les clients
+    </button>
+
+  </div>
 
 
-  <main>
+  <div id="message" class="message"></div>
 
-    <div class="welcome">
-
-      <h2 id="welcomeName">
-        Bienvenue 👋
-      </h2>
-
-      <p>
-        Gérez vos clients et leurs pages digitales.
-      </p>
-
-    </div>
+</main>
 
 
-    <div class="cards">
+<!-- Supabase -->
 
-      <div class="card">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        <span>
-          Nombre de clients
-        </span>
-
-        <strong id="clientCount">
-          0
-        </strong>
-
-      </div>
+<script src="supabase.js"></script>
 
 
-      <div class="card">
+<script>
 
-        <span>
-          Statut
-        </span>
+  // =========================
+  // Vérification administration
+  // =========================
 
-        <strong id="vendorStatus">
-          —
-        </strong>
+  async function checkAdmin() {
 
-      </div>
-
-    </div>
-
-
-    <div class="actions">
-
-      <button
-        class="action-button"
-        id="addClientButton"
-      >
-        ➕ Ajouter un client
-      </button>
+    const {
+      data: { user },
+      error: authError
+    } = await supabaseClient.auth.getUser();
 
 
-      <button
-        class="action-button"
-        id="clientsButton"
-      >
-        📋 Mes clients
-      </button>
+    if (authError || !user) {
 
-    </div>
+      window.location.href = "index.html";
 
-  </main>
-
-
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase.js"></script>
-
-
-  <script>
-
-    // =========================
-    // Vérifier la connexion
-    // =========================
-
-    async function checkUser() {
-
-      const {
-        data: { user }
-      } = await supabaseClient.auth.getUser();
-
-      if (!user) {
-
-        window.location.href = "index.html";
-
-        return;
-      }
-
-      loadVendor(user.id);
-      loadClientCount(user.id);
+      return;
     }
 
 
-    // =========================
-    // Charger معلومات البائع
-    // =========================
+    // البحث عن حساب الإدارة
 
-    async function loadVendor(userId) {
+    const { data: admin, error } = await supabaseClient
+      .from("vendors")
+      .select("id, name, role, status")
+      .eq("user_id", user.id)
+      .single();
 
-      const { data, error } = await supabaseClient
-        .from("vendors")
-        .select("name, status")
-        .eq("user_id", userId)
-        .single();
 
-      if (error) {
+    if (error || !admin || admin.role !== "admin" || admin.status !== "active") {
 
-        console.error(error);
+      await supabaseClient.auth.signOut();
 
-        return;
-      }
+      window.location.href = "index.html";
 
-      document.getElementById("welcomeName").textContent =
-        "Bienvenue, " + data.name + " 👋";
-
-      document.getElementById("vendorStatus").textContent =
-        data.status;
+      return;
     }
 
 
-    // =========================
-    // حساب عدد العملاء
-    // =========================
-
-    async function loadClientCount(userId) {
-
-      const { data: vendor, error: vendorError } =
-        await supabaseClient
-          .from("vendors")
-          .select("id")
-          .eq("user_id", userId)
-          .single();
-
-      if (vendorError) {
-
-        console.error(vendorError);
-
-        return;
-      }
+    document.getElementById("welcomeName").textContent =
+      "Bienvenue, " + admin.name + " 👋";
 
 
-      const { count, error } =
-        await supabaseClient
-          .from("clients")
-          .select("*", {
-            count: "exact",
-            head: true
-          })
-          .eq("vendor_id", vendor.id);
+    loadStats();
 
-      if (error) {
-
-        console.error(error);
-
-        return;
-      }
+  }
 
 
-      document.getElementById("clientCount").textContent =
-        count || 0;
+  // =========================
+  // إحصائيات البائعين
+  // =========================
+
+  async function loadStats() {
+
+    const { data, error } = await supabaseClient
+      .from("vendors")
+      .select("id, role, status");
+
+
+    if (error) {
+
+      console.error(error);
+
+      showMessage(
+        "Impossible de charger les statistiques."
+      );
+
+      return;
     }
 
 
-    // =========================
-    // تسجيل الخروج
-    // =========================
-
-    document
-      .getElementById("logoutButton")
-      .addEventListener("click", async () => {
-
-        await supabaseClient.auth.signOut();
-
-        window.location.href = "index.html";
-
-      });
+    const vendors = (data || []).filter(
+      vendor => vendor.role === "vendor"
+    );
 
 
-    // =========================
-    // Ajouter un client
-    // =========================
-
-    document
-      .getElementById("addClientButton")
-      .addEventListener("click", () => {
-
-        window.location.href = "add-client.html";
-
-      });
+    const activeVendors = vendors.filter(
+      vendor => vendor.status === "active"
+    );
 
 
-    // =========================
-    // Mes clients
-    // =========================
-
-    document
-      .getElementById("clientsButton")
-      .addEventListener("click", () => {
-
-        window.location.href = "clients.html";
-
-      });
+    document.getElementById("vendorCount").textContent =
+      vendors.length;
 
 
-    // =========================
-    // تشغيل التحقق
-    // =========================
+    document.getElementById("activeVendorCount").textContent =
+      activeVendors.length;
 
-    checkUser();
+  }
 
-  </script>
+
+  // =========================
+  // إدارة البائعين
+  // =========================
+
+  document
+    .getElementById("vendorsButton")
+    .addEventListener("click", () => {
+
+      window.location.href = "admin-vendors.html";
+
+    });
+
+
+  // =========================
+  // العملاء
+  // =========================
+
+  document
+    .getElementById("clientsButton")
+    .addEventListener("click", () => {
+
+      showMessage(
+        "La gestion des clients sera disponible depuis la gestion des vendeurs."
+      );
+
+    });
+
+
+  // =========================
+  // تسجيل الخروج
+  // =========================
+
+  document
+    .getElementById("logoutButton")
+    .addEventListener("click", async () => {
+
+      await supabaseClient.auth.signOut();
+
+      window.location.href = "index.html";
+
+    });
+
+
+  // =========================
+  // رسالة
+  // =========================
+
+  function showMessage(text) {
+
+    const message =
+      document.getElementById("message");
+
+    message.textContent = text;
+
+    message.style.display = "block";
+
+  }
+
+
+  // =========================
+  // تشغيل
+  // =========================
+
+  checkAdmin();
+
+</script>
 
 </body>
-      </html>
+</html>
