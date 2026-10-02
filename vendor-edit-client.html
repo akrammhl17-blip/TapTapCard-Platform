@@ -91,6 +91,7 @@
       object-fit: cover;
       border-radius: 14px;
       margin-top: 10px;
+      display: none;
     }
 
     .preview {
@@ -481,12 +482,14 @@
 <script>
 
 /* =====================================================
-   SESSION
+   SESSION VENDEUR
 ===================================================== */
 
 const vendorSession =
   JSON.parse(
-    localStorage.getItem("vendor_session")
+    localStorage.getItem(
+      "vendor_session"
+    )
   );
 
 
@@ -618,9 +621,7 @@ async function loadClient() {
 
   try {
 
-    /*
-      Verify seller session
-    */
+    /* Verify session */
 
     const {
       data: sessionData,
@@ -653,9 +654,7 @@ async function loadClient() {
     }
 
 
-    /*
-      Get seller clients
-    */
+    /* Get clients */
 
     const {
       data: clients,
@@ -764,7 +763,9 @@ async function loadClient() {
        CURRENT PROFILE
     ================================================= */
 
-    if (client.profile_image) {
+    if (
+      client.profile_image
+    ) {
 
       currentProfile.src =
         client.profile_image;
@@ -784,7 +785,9 @@ async function loadClient() {
        CURRENT COVER
     ================================================= */
 
-    if (client.cover_image) {
+    if (
+      client.cover_image
+    ) {
 
       currentCover.src =
         client.cover_image;
@@ -800,22 +803,22 @@ async function loadClient() {
     }
 
 
-    loadingMessage.style.display =
-      "none";
-
-    form.style.display =
-      "block";
-
-
-    /*
-      Keep current URLs
-    */
+    /* Current URLs */
 
     form.currentProfileUrl =
       client.profile_image || "";
 
+
     form.currentCoverUrl =
       client.cover_image || "";
+
+
+    loadingMessage.style.display =
+      "none";
+
+
+    form.style.display =
+      "block";
 
 
   } catch (error) {
@@ -866,7 +869,9 @@ function showPreview(
 
 
   const url =
-    URL.createObjectURL(file);
+    URL.createObjectURL(
+      file
+    );
 
 
   preview.src =
@@ -881,6 +886,7 @@ function showPreview(
 
 /* =====================================================
    COMPRESS IMAGE
+   createImageBitmap + fallback
 ===================================================== */
 
 async function compressImage(
@@ -921,48 +927,115 @@ async function compressImage(
 
 
   /* =================================================
-     LOAD IMAGE
+     IMAGE SOURCE
   ================================================= */
 
-  const image =
-    new Image();
+  let imageSource =
+    null;
 
 
-  const objectUrl =
-    URL.createObjectURL(
-      file
-    );
+  let needsClose =
+    false;
 
 
-  await new Promise(
-    (resolve, reject) => {
+  /* =================================================
+     METHOD 1:
+     createImageBitmap
+  ================================================= */
 
-      image.onload =
-        resolve;
+  if (
+    typeof createImageBitmap ===
+    "function"
+  ) {
+
+    try {
+
+      imageSource =
+        await createImageBitmap(
+          file,
+          {
+            imageOrientation:
+              "from-image"
+          }
+        );
 
 
-      image.onerror =
-        () => {
+      needsClose =
+        true;
 
-          reject(
-            new Error(
-              "Impossible de lire l'image."
-            )
-          );
+    } catch (error) {
 
-        };
+      console.warn(
+        "createImageBitmap failed:",
+        error
+      );
 
-
-      image.src =
-        objectUrl;
+      imageSource =
+        null;
 
     }
-  );
+
+  }
 
 
-  URL.revokeObjectURL(
-    objectUrl
-  );
+  /* =================================================
+     METHOD 2:
+     HTML IMAGE FALLBACK
+  ================================================= */
+
+  if (!imageSource) {
+
+    const image =
+      new Image();
+
+
+    const objectUrl =
+      URL.createObjectURL(
+        file
+      );
+
+
+    try {
+
+      await new Promise(
+        (resolve, reject) => {
+
+          image.onload =
+            resolve;
+
+
+          image.onerror =
+            () => {
+
+              reject(
+                new Error(
+                  "Impossible de lire l'image."
+                )
+              );
+
+            };
+
+
+          image.src =
+            objectUrl;
+
+        }
+      );
+
+
+      imageSource =
+        image;
+
+
+    } finally {
+
+      URL.revokeObjectURL(
+        objectUrl
+      );
+
+    }
+
+  }
 
 
   /* =================================================
@@ -976,11 +1049,35 @@ async function compressImage(
 
 
   let width =
-    image.naturalWidth;
+    imageSource.width ||
+    imageSource.naturalWidth;
 
 
   let height =
-    image.naturalHeight;
+    imageSource.height ||
+    imageSource.naturalHeight;
+
+
+  if (
+    !width ||
+    !height
+  ) {
+
+    if (
+      needsClose &&
+      imageSource.close
+    ) {
+
+      imageSource.close();
+
+    }
+
+
+    throw new Error(
+      "Impossible de déterminer les dimensions de l'image."
+    );
+
+  }
 
 
   if (
@@ -988,8 +1085,7 @@ async function compressImage(
   ) {
 
     const ratio =
-      maxWidth /
-      width;
+      maxWidth / width;
 
 
     width =
@@ -1025,6 +1121,25 @@ async function compressImage(
     );
 
 
+  if (!ctx) {
+
+    if (
+      needsClose &&
+      imageSource.close
+    ) {
+
+      imageSource.close();
+
+    }
+
+
+    throw new Error(
+      "Votre navigateur ne supporte pas la compression d'image."
+    );
+
+  }
+
+
   canvas.width =
     width;
 
@@ -1046,7 +1161,7 @@ async function compressImage(
 
 
   ctx.drawImage(
-    image,
+    imageSource,
     0,
     0,
     width,
@@ -1055,7 +1170,7 @@ async function compressImage(
 
 
   /* =================================================
-     TARGET
+     TARGET SIZE
   ================================================= */
 
   const MIN_SIZE =
@@ -1099,6 +1214,16 @@ async function compressImage(
 
 
     if (!blob) {
+
+      if (
+        needsClose &&
+        imageSource.close
+      ) {
+
+        imageSource.close();
+
+      }
+
 
       throw new Error(
         "Impossible de compresser l'image."
@@ -1153,7 +1278,7 @@ async function compressImage(
 
 
   /* =================================================
-     REDUCE DIMENSIONS
+     REDUCE DIMENSIONS IF NEEDED
   ================================================= */
 
   if (
@@ -1200,7 +1325,7 @@ async function compressImage(
 
 
       ctx.drawImage(
-        image,
+        imageSource,
         0,
         0,
         width,
@@ -1224,6 +1349,16 @@ async function compressImage(
 
       if (!blob) {
 
+        if (
+          needsClose &&
+          imageSource.close
+        ) {
+
+          imageSource.close();
+
+        }
+
+
         throw new Error(
           "Impossible de compresser l'image."
         );
@@ -1245,7 +1380,23 @@ async function compressImage(
 
 
   /* =================================================
-     FILE
+     CLOSE BITMAP
+  ================================================= */
+
+  if (
+    needsClose &&
+    imageSource &&
+    typeof imageSource.close ===
+      "function"
+  ) {
+
+    imageSource.close();
+
+  }
+
+
+  /* =================================================
+     FINAL FILE
   ================================================= */
 
   const compressedFile =
@@ -1284,8 +1435,7 @@ async function compressImage(
 
 
 /* =====================================================
-   PROFILE CHANGE
-   COMPRESS IMMEDIATELY
+   PROFILE IMAGE CHANGE
 ===================================================== */
 
 profileInput.addEventListener(
@@ -1301,11 +1451,14 @@ profileInput.addEventListener(
       profilePreview.style.display =
         "none";
 
+
       profileCompression.style.display =
         "none";
 
+
       profileInput.compressedFile =
         null;
+
 
       return;
 
@@ -1368,8 +1521,7 @@ profileInput.addEventListener(
 
 
 /* =====================================================
-   COVER CHANGE
-   COMPRESS IMMEDIATELY
+   COVER IMAGE CHANGE
 ===================================================== */
 
 coverInput.addEventListener(
@@ -1385,11 +1537,14 @@ coverInput.addEventListener(
       coverPreview.style.display =
         "none";
 
+
       coverCompression.style.display =
         "none";
 
+
       coverInput.compressedFile =
         null;
+
 
       return;
 
@@ -1488,7 +1643,7 @@ async function uploadImage(
 
 
   /* =================================================
-     UNIQUE PATH
+     NEW UNIQUE PATH
   ================================================= */
 
   const randomPart =
@@ -1516,7 +1671,7 @@ async function uploadImage(
 
 
   /* =================================================
-     UPLOAD COMPRESSED FILE
+     UPLOAD
   ================================================= */
 
   const {
@@ -1697,7 +1852,7 @@ form.addEventListener(
 
 
       /* =================================================
-         IMAGE URLS
+         KEEP CURRENT IMAGE URL
       ================================================= */
 
       let profileImage =
@@ -1743,7 +1898,7 @@ form.addEventListener(
 
 
       /* =================================================
-         NEW COVER
+         NEW COVER IMAGE
       ================================================= */
 
       if (
