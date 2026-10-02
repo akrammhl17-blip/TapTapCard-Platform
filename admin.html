@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>TAPTAPCARD — Admin</title>
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Admin Dashboard - TapTapCard</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
 
     body {
       margin: 0;
+      padding: 20px;
+      background: #f6f6f7;
       font-family: Arial, sans-serif;
-      background:
-        linear-gradient(
-          135deg,
-          #f8f9fb 0%,
-          #eef1f5 50%,
-          #e7ebf0 100%
-        );
-      color: #17191c;
+      color: #222;
     }
 
     button,
@@ -31,205 +33,265 @@
       font-family: inherit;
     }
 
-    .page {
-      width: 100%;
-      max-width: 1250px;
+    .container {
+      max-width: 700px;
       margin: auto;
-      padding: 25px;
     }
 
-    /* HEADER */
+    /* =========================
+       HEADER
+    ========================= */
 
     .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 25px;
+      background: white;
+      padding: 20px;
+      border-radius: 18px;
+      box-shadow:
+        0 5px 25px
+        rgba(0,0,0,0.07);
+      margin-bottom: 20px;
     }
 
-    .brand {
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .subtitle {
+      margin-top: 7px;
+      color: #777;
+      font-size: 14px;
+    }
+
+    .logout {
+      border: none;
+      background: #eee;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    /* =========================
+       ERROR
+    ========================= */
+
+    .error {
+      background: #fdeaea;
+      color: #b42318;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      display: none;
+      word-break: break-word;
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats {
+      display: grid;
+      grid-template-columns:
+        repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .stat {
+      background: white;
+      border-radius: 15px;
+      padding: 17px 12px;
+      text-align: center;
+      box-shadow:
+        0 4px 18px
+        rgba(0,0,0,0.05);
+    }
+
+    .stat-label {
+      color: #777;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .stat-value {
+      font-size: 27px;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    /* =========================
+       MAIN BUTTON
+    ========================= */
+
+    .main-button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #111;
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .main-button:hover {
+      background: #222;
+    }
+
+    /* =========================
+       DASHBOARD CARD
+    ========================= */
+
+    .dashboard-card {
+      background: white;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 15px;
+      box-shadow:
+        0 4px 18px
+        rgba(0,0,0,0.05);
+    }
+
+    .dashboard-title {
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    .dashboard-text {
+      color: #777;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* =========================
+       VENDORS PAGE
+    ========================= */
+
+    #vendorsPage {
+      display: none;
+    }
+
+    .back-button {
+      width: 100%;
+      border: none;
+      background: #eee;
+      color: #222;
+      padding: 13px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 15px;
+    }
+
+    .vendors-header {
+      background: white;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 15px;
+      box-shadow:
+        0 4px 18px
+        rgba(0,0,0,0.05);
+    }
+
+    .vendors-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .add-vendor-button {
+      width: 100%;
+      border: none;
+      background: #111;
+      color: white;
+      padding: 13px;
+      border-radius: 11px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .search-box {
+      margin-top: 12px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 13px 15px;
+      border: 1px solid #ddd;
+      border-radius: 11px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: #222;
+    }
+
+    /* =========================
+       VENDOR CARD
+    ========================= */
+
+    .vendor-card {
+      background: white;
+      border-radius: 16px;
+      padding: 15px;
+      margin-bottom: 14px;
+      box-shadow:
+        0 4px 18px
+        rgba(0,0,0,0.06);
+    }
+
+    .vendor-top {
       display: flex;
       align-items: center;
       gap: 13px;
     }
 
-    .brand-icon {
-      width: 45px;
-      height: 45px;
-      border-radius: 13px;
-      background: #17191c;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 15px;
-    }
-
-    .brand-title {
-      font-size: 20px;
-      font-weight: 800;
-    }
-
-    .brand-subtitle {
-      font-size: 12px;
-      color: #777d85;
-      margin-top: 3px;
-    }
-
-    .header-actions {
-      display: flex;
-      gap: 10px;
-    }
-
-    .top-btn {
-      border: none;
-      padding: 11px 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 13px;
-    }
-
-    .add-btn {
-      background: #17191c;
-      color: white;
-    }
-
-    .logout-btn {
-      background: white;
-      color: #333;
-      border: 1px solid #e1e4e8;
-    }
-
-    /* STATS */
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-    .stat-card {
-      background: rgba(255,255,255,0.86);
-      border: 1px solid #e4e7eb;
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 5px 18px rgba(0,0,0,0.04);
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: #7b8188;
-      margin-bottom: 8px;
-    }
-
-    .stat-value {
-      font-size: 28px;
-      font-weight: 800;
-    }
-
-    /* MAIN CARD */
-
-    .main-card {
-      background: rgba(255,255,255,0.9);
-      border: 1px solid #e4e7eb;
-      border-radius: 18px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.05);
-      overflow: hidden;
-    }
-
-    .card-header {
-      padding: 20px;
-      border-bottom: 1px solid #eceef1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: 800;
-    }
-
-    .search-box {
-      width: 260px;
-      max-width: 100%;
-      padding: 11px 13px;
-      border: 1px solid #dfe3e8;
-      border-radius: 10px;
-      outline: none;
-      background: white;
-    }
-
-    .search-box:focus {
-      border-color: #999;
-    }
-
-    /* TABLE */
-
-    .table-wrapper {
-      width: 100%;
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 950px;
-    }
-
-    th {
-      text-align: left;
-      padding: 13px 20px;
-      font-size: 11px;
-      color: #81868d;
-      text-transform: uppercase;
-      letter-spacing: .04em;
-      background: #fafbfc;
-    }
-
-    td {
-      padding: 15px 20px;
-      border-top: 1px solid #edf0f2;
-      font-size: 13px;
-    }
-
-    .vendor-name {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
     .vendor-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: #17191c;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: #111;
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      font-size: 13px;
+      font-size: 18px;
+      font-weight: bold;
       flex-shrink: 0;
     }
 
-    .vendor-email {
-      color: #70767e;
-      font-size: 12px;
+    .vendor-info {
+      min-width: 0;
+      flex: 1;
     }
 
-    .status {
-      display: inline-flex;
-      align-items: center;
-      padding: 5px 9px;
+    .vendor-name {
+      font-size: 17px;
+      font-weight: bold;
+      word-break: break-word;
+    }
+
+    .vendor-status {
+      display: inline-block;
+      margin-top: 5px;
+      padding: 4px 8px;
       border-radius: 20px;
       font-size: 11px;
-      font-weight: 700;
+      font-weight: bold;
     }
 
     .status-active {
@@ -242,582 +304,580 @@
       color: #c62828;
     }
 
-    .status-inactive {
-      background: #f1f2f4;
-      color: #73777d;
+    .vendor-count {
+      margin-top: 13px;
+      padding: 13px;
+      background: #f5f5f6;
+      border-radius: 12px;
+      text-align: center;
     }
 
-    .links-count {
-      font-weight: 800;
-      font-size: 16px;
+    .vendor-count-label {
+      color: #777;
+      font-size: 12px;
     }
 
-    /* ACTIONS */
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
+    .vendor-count-number {
+      font-size: 25px;
+      font-weight: bold;
+      margin-top: 3px;
     }
 
-    .action-btn {
-      border: 1px solid transparent;
-      padding: 8px 11px;
-      border-radius: 9px;
+    /* =========================
+       VENDOR ACTIONS
+    ========================= */
+
+    .vendor-actions {
+      display: grid;
+      grid-template-columns:
+        repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .vendor-action {
+      border: none;
+      padding: 11px 7px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: bold;
       cursor: pointer;
-      font-size: 11px;
-      font-weight: 700;
-      transition: 0.18s ease;
     }
 
-    .manage-btn {
-      background: #eef4ff;
-      color: #2457a6;
-      border-color: #d8e5ff;
+    .manage-button {
+      background: #eef2ff;
+      color: #3448c5;
     }
 
-    .manage-btn:hover {
-      background: #e1ecff;
-    }
-
-    .suspend-btn {
-      background: #fff1f1;
+    .suspend-button {
+      background: #ffe8e8;
       color: #c62828;
-      border-color: #ffd6d6;
     }
 
-    .suspend-btn:hover {
-      background: #ffe4e4;
-    }
-
-    .activate-btn {
+    .activate-button {
       background: #eaf8ef;
       color: #16833b;
-      border-color: #ccefd8;
     }
 
-    .activate-btn:hover {
-      background: #dcf5e5;
+    .reset-button {
+      background: #f0f0f0;
+      color: #222;
     }
 
-    .reset-btn {
-      background: #17191c;
-      color: white;
+    .history-button {
+      background: #f0f0f0;
+      color: #222;
     }
 
-    .reset-btn:hover {
-      background: #30343a;
+    /* =========================
+       EMPTY / LOADING
+    ========================= */
+
+    .loading {
+      text-align: center;
+      color: #777;
+      padding: 30px;
     }
 
-    .history-btn {
-      background: #f1f2f4;
-      color: #30343a;
-      border-color: #e6e8eb;
+    .empty {
+      background: white;
+      padding: 30px;
+      text-align: center;
+      border-radius: 16px;
+      color: #777;
     }
 
-    .history-btn:hover {
-      background: #e7e9ec;
-    }
-
-    /* MODAL */
+    /* =========================
+       MODALS
+    ========================= */
 
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.45);
+      background:
+        rgba(0,0,0,0.45);
       display: none;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      z-index: 1000;
+      z-index: 10000;
+      backdrop-filter: blur(4px);
     }
 
     .modal.show {
       display: flex;
     }
 
-    .modal-card {
+    .modal-box {
       width: 100%;
-      max-width: 480px;
+      max-width: 400px;
       max-height: 90vh;
       overflow-y: auto;
       background: white;
-      border-radius: 18px;
-      padding: 25px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow:
+        0 20px 60px
+        rgba(0,0,0,0.20);
     }
 
     .modal-title {
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 7px;
+      font-size: 19px;
+      font-weight: bold;
+      margin-bottom: 8px;
     }
 
-    .modal-subtitle {
-      color: #777d85;
+    .modal-text {
+      color: #777;
       font-size: 13px;
-      margin-bottom: 20px;
+      line-height: 1.5;
+      margin-bottom: 18px;
     }
 
     .field {
-      margin-bottom: 15px;
+      margin-bottom: 13px;
     }
 
     .field label {
       display: block;
       font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 7px;
+      font-weight: bold;
+      margin-bottom: 6px;
     }
 
     .field input {
       width: 100%;
       padding: 12px;
-      border: 1px solid #dfe3e8;
+      border: 1px solid #ddd;
       border-radius: 10px;
       outline: none;
+      font-size: 14px;
     }
 
     .field input:focus {
-      border-color: #999;
+      border-color: #222;
     }
 
     .modal-actions {
-      display: flex;
-      justify-content: flex-end;
+      display: grid;
+      grid-template-columns:
+        1fr 1fr;
       gap: 9px;
-      margin-top: 20px;
-      flex-wrap: wrap;
+      margin-top: 18px;
     }
 
-    .modal-btn {
-      padding: 10px 15px;
-      border-radius: 10px;
+    .modal-button {
       border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: bold;
       cursor: pointer;
-      font-weight: 700;
     }
 
-    .cancel-btn {
-      background: #f1f2f4;
-      color: #333;
+    .cancel-button {
+      background: #eee;
+      color: #222;
     }
 
-    .confirm-btn {
-      background: #17191c;
+    .confirm-button {
+      background: #111;
       color: white;
     }
 
-    .danger-btn {
-      background: #c62828;
+    .danger-button {
+      background: #d32f2f;
       color: white;
     }
 
-    .success-btn {
+    .success-button {
       background: #16833b;
       color: white;
     }
 
-    /* MANAGE */
+    /* =========================
+       INFO BOX
+    ========================= */
 
-    .manage-info {
-      background: #f6f7f9;
-      border: 1px solid #e5e7ea;
+    .info-box {
+      background: #f5f5f6;
       border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 12px;
+      padding: 13px;
+      margin-bottom: 10px;
     }
 
-    .manage-label {
-      color: #777d85;
+    .info-label {
+      color: #777;
       font-size: 11px;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
-    .manage-value {
-      font-size: 15px;
-      font-weight: 800;
-      word-break: break-all;
+    .info-value {
+      font-size: 14px;
+      font-weight: bold;
+      word-break: break-word;
     }
 
-    .manage-link-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .manage-link {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .copy-small-btn {
-      flex-shrink: 0;
+    .copy-button {
+      width: 100%;
+      margin-top: 5px;
       border: none;
-      background: #17191c;
+      background: #111;
       color: white;
-      border-radius: 8px;
-      padding: 8px 11px;
+      padding: 10px;
+      border-radius: 9px;
       cursor: pointer;
-      font-size: 11px;
-      font-weight: 700;
+      font-size: 12px;
+      font-weight: bold;
     }
 
-    .change-pin-btn {
+    .change-pin {
       width: 100%;
-      margin-top: 2px;
+      margin-top: 7px;
+      border: none;
+      background: #eef2ff;
+      color: #3448c5;
       padding: 12px;
-      border: 1px solid #d8e5ff;
-      background: #eef4ff;
-      color: #2457a6;
       border-radius: 10px;
       cursor: pointer;
-      font-weight: 800;
+      font-size: 13px;
+      font-weight: bold;
     }
 
-    .change-pin-btn:hover {
-      background: #e1ecff;
-    }
-
-    .delete-vendor-btn {
+    .delete-vendor {
       width: 100%;
-      margin-top: 15px;
-      padding: 12px;
-      border: 1px solid #ffd4d4;
-      background: #fff1f1;
+      margin-top: 10px;
+      border: none;
+      background: #ffe8e8;
       color: #c62828;
+      padding: 12px;
       border-radius: 10px;
       cursor: pointer;
-      font-weight: 800;
+      font-size: 13px;
+      font-weight: bold;
     }
 
-    .delete-vendor-btn:hover {
-      background: #ffe5e5;
-    }
-
-    /* DELETE */
+    /* =========================
+       DELETE OPTIONS
+    ========================= */
 
     .delete-option {
       width: 100%;
       text-align: left;
-      border: 1px solid #e3e6ea;
+      border: 1px solid #ddd;
       background: white;
+      padding: 14px;
       border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 10px;
+      margin-bottom: 9px;
       cursor: pointer;
-      transition: .18s ease;
-    }
-
-    .delete-option:hover {
-      background: #fafafa;
     }
 
     .delete-option-title {
-      font-weight: 800;
-      font-size: 14px;
+      font-size: 13px;
+      font-weight: bold;
       margin-bottom: 5px;
     }
 
     .delete-option-text {
+      color: #777;
       font-size: 12px;
-      color: #777d85;
-      line-height: 1.5;
+      line-height: 1.45;
     }
 
     .delete-option.danger {
       border-color: #ffd0d0;
     }
 
-    .delete-option.danger:hover {
-      background: #fff7f7;
-    }
-
-    /* HISTORY */
-
-    .history-list {
-      max-height: 350px;
-      overflow-y: auto;
-    }
+    /* =========================
+       HISTORY
+    ========================= */
 
     .history-item {
       padding: 13px;
-      border: 1px solid #eceef1;
+      border: 1px solid #eee;
       border-radius: 10px;
       margin-bottom: 8px;
     }
 
     .history-count {
-      font-weight: 800;
+      font-weight: bold;
+      font-size: 13px;
     }
 
     .history-date {
-      color: #777d85;
+      color: #777;
       font-size: 11px;
       margin-top: 4px;
     }
 
-    /* CREDENTIALS */
-
-    .credential-box {
-      background: #f6f7f9;
-      border: 1px solid #e5e7ea;
-      border-radius: 11px;
-      padding: 13px;
-      margin-bottom: 10px;
-      word-break: break-all;
-    }
-
-    .credential-label {
-      font-size: 11px;
-      color: #777d85;
-      margin-bottom: 5px;
-    }
-
-    .credential-value {
-      font-weight: 700;
-      font-size: 13px;
-    }
-
-    /* TOAST */
+    /* =========================
+       TOAST
+    ========================= */
 
     .toast {
       position: fixed;
-      right: 20px;
+      left: 50%;
       bottom: 20px;
-      background: #17191c;
+      transform:
+        translate(-50%, 20px);
+      background: #111;
       color: white;
-      padding: 13px 17px;
+      padding: 12px 17px;
       border-radius: 11px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: bold;
       opacity: 0;
-      transform: translateY(15px);
       pointer-events: none;
       transition: .25s;
-      z-index: 2000;
+      z-index: 20000;
+      max-width: calc(100% - 40px);
+      text-align: center;
     }
 
     .toast.show {
       opacity: 1;
-      transform: translateY(0);
+      transform:
+        translate(-50%, 0);
     }
 
-    /* MOBILE */
+    /* =========================
+       MOBILE
+    ========================= */
 
-    @media (max-width: 750px) {
+    @media (max-width: 500px) {
 
-      .page {
-        padding: 15px;
-      }
-
-      .header {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .header-actions {
-        width: 100%;
-      }
-
-      .top-btn {
-        flex: 1;
+      body {
+        padding: 12px;
       }
 
       .stats {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+          1fr;
       }
 
-      .card-header {
+      .top {
         align-items: flex-start;
-        flex-direction: column;
       }
 
-      .search-box {
-        width: 100%;
+      h1 {
+        font-size: 22px;
       }
 
-      .manage-link-row {
-        align-items: stretch;
-        flex-direction: column;
+      .vendor-actions {
+        grid-template-columns:
+          1fr 1fr;
       }
 
-      .copy-small-btn {
-        width: 100%;
-      }
     }
+
   </style>
+
 </head>
+
 
 <body>
 
-<div class="page">
+<div class="container">
 
-  <!-- HEADER -->
+  <div
+    id="errorMessage"
+    class="error"
+  ></div>
 
-  <header class="header">
 
-    <div class="brand">
+  <!-- =================================
+       MAIN ADMIN DASHBOARD
+  ================================= -->
 
-      <div class="brand-icon">
-        TC
-      </div>
+  <div id="dashboardPage">
 
-      <div>
+    <div class="header">
 
-        <div class="brand-title">
-          TAPTAPCARD
+      <div class="top">
+
+        <div>
+
+          <h1>
+            Admin Dashboard
+          </h1>
+
+          <div class="subtitle">
+            Gestion de votre plateforme TapTapCard
+          </div>
+
         </div>
 
-        <div class="brand-subtitle">
-          Administration
+        <button
+          class="logout"
+          onclick="logout()"
+        >
+          Déconnexion
+        </button>
+
+      </div>
+
+
+      <button
+        class="main-button"
+        onclick="openVendorsPage()"
+      >
+        👥 Gérer les vendeurs
+      </button>
+
+    </div>
+
+
+    <div class="stats">
+
+      <div class="stat">
+
+        <div class="stat-label">
+          Total vendeurs
+        </div>
+
+        <div
+          class="stat-value"
+          id="dashboardTotalVendors"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="stat-label">
+          Vendeurs actifs
+        </div>
+
+        <div
+          class="stat-value"
+          id="dashboardActiveVendors"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="stat-label">
+          Liens actifs
+        </div>
+
+        <div
+          class="stat-value"
+          id="dashboardTotalLinks"
+        >
+          0
         </div>
 
       </div>
 
     </div>
 
-    <div class="header-actions">
+
+    <div class="dashboard-card">
+
+      <div class="dashboard-title">
+        Administration
+      </div>
+
+      <div class="dashboard-text">
+        Depuis cette interface vous pouvez gérer
+        les vendeurs, leurs accès et leurs compteurs.
+      </div>
 
       <button
-        class="top-btn add-btn"
+        class="main-button"
+        onclick="openVendorsPage()"
+      >
+        Ouvrir la gestion des vendeurs
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =================================
+       VENDORS MANAGEMENT
+  ================================= -->
+
+  <div id="vendorsPage">
+
+    <button
+      class="back-button"
+      onclick="openDashboardPage()"
+    >
+      ← Retour au tableau de bord
+    </button>
+
+
+    <div class="vendors-header">
+
+      <div class="vendors-title">
+        Gestion des vendeurs
+      </div>
+
+      <button
+        class="add-vendor-button"
         onclick="openAddVendor()"
       >
         + Ajouter un vendeur
       </button>
 
-      <button
-        class="top-btn logout-btn"
-        onclick="logout()"
-      >
-        Déconnexion
-      </button>
 
-    </div>
+      <div class="search-box">
 
-  </header>
+        <input
+          id="searchInput"
+          class="search-input"
+          type="search"
+          placeholder="🔎 Rechercher un vendeur..."
+          autocomplete="off"
+          oninput="renderVendors()"
+        >
 
-
-  <!-- STATS -->
-
-  <section class="stats">
-
-    <div class="stat-card">
-
-      <div class="stat-label">
-        Total vendeurs
-      </div>
-
-      <div
-        class="stat-value"
-        id="totalVendors"
-      >
-        0
       </div>
 
     </div>
 
 
-    <div class="stat-card">
+    <div id="vendorsContainer">
 
-      <div class="stat-label">
-        Vendeurs actifs
-      </div>
-
-      <div
-        class="stat-value"
-        id="activeVendors"
-      >
-        0
+      <div class="loading">
+        Chargement des vendeurs...
       </div>
 
     </div>
 
-
-    <div class="stat-card">
-
-      <div class="stat-label">
-        Liens actifs à compter
-      </div>
-
-      <div
-        class="stat-value"
-        id="totalLinks"
-      >
-        0
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- MAIN -->
-
-  <section class="main-card">
-
-    <div class="card-header">
-
-      <div class="card-title">
-        Mes vendeurs
-      </div>
-
-      <input
-        id="searchInput"
-        class="search-box"
-        type="text"
-        placeholder="Rechercher un vendeur..."
-        oninput="renderVendors()"
-      >
-
-    </div>
-
-
-    <div class="table-wrapper">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>Vendeur</th>
-            <th>Email</th>
-            <th>Statut</th>
-            <th>Liens</th>
-            <th>Actions</th>
-
-          </tr>
-
-        </thead>
-
-        <tbody id="vendorsBody"></tbody>
-
-      </table>
-
-    </div>
-
-  </section>
+  </div>
 
 </div>
 
 
-<!-- ADD VENDOR MODAL -->
+<!-- =================================
+     ADD VENDOR MODAL
+================================= -->
 
 <div
-  class="modal"
   id="addVendorModal"
+  class="modal"
 >
 
-  <div class="modal-card">
+  <div class="modal-box">
 
     <div class="modal-title">
       Ajouter un vendeur
     </div>
 
-    <div class="modal-subtitle">
+    <div class="modal-text">
       Créez un accès privé pour le vendeur.
     </div>
+
 
     <div class="field">
 
@@ -832,6 +892,7 @@
       >
 
     </div>
+
 
     <div class="field">
 
@@ -849,17 +910,18 @@
 
     </div>
 
+
     <div class="modal-actions">
 
       <button
-        class="modal-btn cancel-btn"
+        class="modal-button cancel-button"
         onclick="closeModal('addVendorModal')"
       >
         Annuler
       </button>
 
       <button
-        class="modal-btn confirm-btn"
+        class="modal-button confirm-button"
         onclick="createVendor()"
       >
         Créer
@@ -872,66 +934,79 @@
 </div>
 
 
-<!-- CREDENTIALS MODAL -->
+<!-- =================================
+     CREDENTIALS MODAL
+================================= -->
 
 <div
-  class="modal"
   id="credentialsModal"
+  class="modal"
 >
 
-  <div class="modal-card">
+  <div class="modal-box">
 
     <div class="modal-title">
-      Vendeur créé
+      Informations du vendeur
     </div>
 
-    <div class="modal-subtitle">
+    <div class="modal-text">
       Conservez ces informations.
     </div>
 
-    <div class="credential-box">
 
-      <div class="credential-label">
+    <div class="info-box">
+
+      <div class="info-label">
         Nom
       </div>
 
       <div
-        class="credential-value"
+        class="info-value"
         id="createdVendorName"
       ></div>
 
     </div>
 
-    <div class="credential-box">
 
-      <div class="credential-label">
+    <div class="info-box">
+
+      <div class="info-label">
         Lien vendeur
       </div>
 
       <div
-        class="credential-value"
+        class="info-value"
         id="createdVendorLink"
       ></div>
 
+      <button
+        class="copy-button"
+        onclick="copyCreatedVendorLink()"
+      >
+        Copier le lien
+      </button>
+
     </div>
 
-    <div class="credential-box">
 
-      <div class="credential-label">
+    <div class="info-box">
+
+      <div class="info-label">
         PIN
       </div>
 
       <div
-        class="credential-value"
+        class="info-value"
         id="createdVendorPin"
       ></div>
 
     </div>
 
+
     <div class="modal-actions">
 
       <button
-        class="modal-btn confirm-btn"
+        class="modal-button confirm-button"
         onclick="closeModal('credentialsModal')"
       >
         Fermer
@@ -944,47 +1019,49 @@
 </div>
 
 
-<!-- MANAGE MODAL -->
+<!-- =================================
+     MANAGE MODAL
+================================= -->
 
 <div
-  class="modal"
   id="manageModal"
+  class="modal"
 >
 
-  <div class="modal-card">
+  <div class="modal-box">
 
     <div class="modal-title">
       Gérer le vendeur
     </div>
 
     <div
-      class="modal-subtitle"
+      class="modal-text"
       id="manageSubtitle"
     ></div>
 
 
-    <div class="manage-info">
+    <div class="info-box">
 
-      <div class="manage-label">
+      <div class="info-label">
         Nom du vendeur
       </div>
 
       <div
-        class="manage-value"
+        class="info-value"
         id="manageName"
       ></div>
 
     </div>
 
 
-    <div class="manage-info">
+    <div class="info-box">
 
-      <div class="manage-label">
+      <div class="info-label">
         Nombre total de liens créés
       </div>
 
       <div
-        class="manage-value"
+        class="info-value"
         id="manageTotalLinks"
       >
         0
@@ -993,44 +1070,40 @@
     </div>
 
 
-    <div class="manage-info">
+    <div class="info-box">
 
-      <div class="manage-label">
+      <div class="info-label">
         Lien du vendeur
       </div>
 
-      <div class="manage-link-row">
+      <div
+        class="info-value"
+        id="manageVendorLink"
+      ></div>
 
-        <div
-          class="manage-value manage-link"
-          id="manageVendorLink"
-        ></div>
-
-        <button
-          class="copy-small-btn"
-          onclick="copyManageLink()"
-        >
-          Copier
-        </button>
-
-      </div>
+      <button
+        class="copy-button"
+        onclick="copyManageLink()"
+      >
+        Copier le lien
+      </button>
 
     </div>
 
 
-    <div class="manage-info">
+    <div class="info-box">
 
-      <div class="manage-label">
+      <div class="info-label">
         PIN
       </div>
 
-      <div class="manage-value">
+      <div class="info-value">
         ••••••
       </div>
 
       <div
         style="
-          color:#777d85;
+          color:#777;
           font-size:11px;
           margin-top:6px;
         "
@@ -1042,7 +1115,7 @@
 
 
     <button
-      class="change-pin-btn"
+      class="change-pin"
       onclick="openChangePinModal()"
     >
       🔐 Changer le PIN
@@ -1050,7 +1123,7 @@
 
 
     <button
-      class="delete-vendor-btn"
+      class="delete-vendor"
       onclick="openDeleteVendorModal()"
     >
       Supprimer ce vendeur
@@ -1060,7 +1133,7 @@
     <div class="modal-actions">
 
       <button
-        class="modal-btn confirm-btn"
+        class="modal-button confirm-button"
         onclick="closeModal('manageModal')"
       >
         Fermer
@@ -1073,21 +1146,23 @@
 </div>
 
 
-<!-- CHANGE PIN MODAL -->
+<!-- =================================
+     CHANGE PIN
+================================= -->
 
 <div
-  class="modal"
   id="changePinModal"
+  class="modal"
 >
 
-  <div class="modal-card">
+  <div class="modal-box">
 
     <div class="modal-title">
       Changer le PIN
     </div>
 
     <div
-      class="modal-subtitle"
+      class="modal-text"
       id="changePinSubtitle"
     ></div>
 
@@ -1129,17 +1204,17 @@
     <div class="modal-actions">
 
       <button
-        class="modal-btn cancel-btn"
+        class="modal-button cancel-button"
         onclick="closeModal('changePinModal')"
       >
         Annuler
       </button>
 
       <button
-        class="modal-btn confirm-btn"
+        class="modal-button confirm-button"
         onclick="confirmChangePin()"
       >
-        Changer le PIN
+        Changer
       </button>
 
     </div>
@@ -1149,21 +1224,23 @@
 </div>
 
 
-<!-- DELETE VENDOR MODAL -->
+<!-- =================================
+     DELETE VENDOR
+================================= -->
 
 <div
-  class="modal"
   id="deleteVendorModal"
+  class="modal"
 >
 
-  <div class="modal-card">
+  <div class="modal-box">
 
     <div class="modal-title">
       Supprimer le vendeur
     </div>
 
     <div
-      class="modal-subtitle"
+      class="modal-text"
       id="deleteVendorSubtitle"
     ></div>
 
@@ -1179,7 +1256,7 @@
 
       <div class="delete-option-text">
         Le compte vendeur sera supprimé,
-        mais tous ses clients, liens et QR codes
+        mais ses clients, liens et QR codes
         resteront conservés.
       </div>
 
@@ -1206,7 +1283,7 @@
     <div class="modal-actions">
 
       <button
-        class="modal-btn cancel-btn"
+        class="modal-button cancel-button"
         onclick="closeModal('deleteVendorModal')"
       >
         Annuler
@@ -1219,26 +1296,28 @@
 </div>
 
 
-<!-- DELETE ALL CONFIRMATION -->
+<!-- =================================
+     DELETE ALL CONFIRM
+================================= -->
 
 <div
-  class="modal"
   id="deleteAllConfirmModal"
+  class="modal"
 >
 
-  <div class="modal-card">
+  <div class="modal-box">
 
     <div class="modal-title">
       Confirmation définitive
     </div>
 
     <div
-      class="modal-subtitle"
+      class="modal-text"
       id="deleteAllConfirmSubtitle"
     ></div>
 
 
-    <div class="credential-box">
+    <div class="info-box">
 
       <strong>
         Attention
@@ -1260,17 +1339,17 @@
     <div class="modal-actions">
 
       <button
-        class="modal-btn cancel-btn"
+        class="modal-button cancel-button"
         onclick="closeModal('deleteAllConfirmModal')"
       >
         Annuler
       </button>
 
       <button
-        class="modal-btn danger-btn"
+        class="modal-button danger-button"
         onclick="deleteVendorWithClients()"
       >
-        Supprimer définitivement
+        Supprimer
       </button>
 
     </div>
@@ -1280,78 +1359,44 @@
 </div>
 
 
-<!-- HISTORY MODAL -->
+<!-- =================================
+     RESET
+================================= -->
 
 <div
-  class="modal"
-  id="historyModal"
->
-
-  <div class="modal-card">
-
-    <div class="modal-title">
-      Historique
-    </div>
-
-    <div
-      class="modal-subtitle"
-      id="historySubtitle"
-    ></div>
-
-    <div
-      class="history-list"
-      id="historyList"
-    ></div>
-
-    <div class="modal-actions">
-
-      <button
-        class="modal-btn confirm-btn"
-        onclick="closeModal('historyModal')"
-      >
-        Fermer
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- RESET CONFIRMATION MODAL -->
-
-<div
-  class="modal"
   id="resetModal"
+  class="modal"
 >
 
-  <div class="modal-card">
+  <div class="modal-box">
 
     <div class="modal-title">
       Réinitialiser le compteur
     </div>
 
-    <div class="modal-subtitle">
-      Le nombre actuel sera enregistré dans l'historique puis remis à zéro.
+    <div class="modal-text">
+      Le nombre actuel sera enregistré dans
+      l'historique puis remis à zéro.
     </div>
 
+
     <div
-      class="credential-box"
+      class="info-box"
       id="resetInfo"
     ></div>
+
 
     <div class="modal-actions">
 
       <button
-        class="modal-btn cancel-btn"
+        class="modal-button cancel-button"
         onclick="closeModal('resetModal')"
       >
         Annuler
       </button>
 
       <button
-        class="modal-btn confirm-btn"
+        class="modal-button confirm-button"
         onclick="confirmReset()"
       >
         Réinitialiser
@@ -1364,14 +1409,16 @@
 </div>
 
 
-<!-- SUSPEND / ACTIVATE MODAL -->
+<!-- =================================
+     STATUS
+================================= -->
 
 <div
-  class="modal"
   id="statusModal"
+  class="modal"
 >
 
-  <div class="modal-card">
+  <div class="modal-box">
 
     <div
       class="modal-title"
@@ -1381,26 +1428,28 @@
     </div>
 
     <div
-      class="modal-subtitle"
+      class="modal-text"
       id="statusModalSubtitle"
     ></div>
 
+
     <div
-      class="credential-box"
+      class="info-box"
       id="statusInfo"
     ></div>
+
 
     <div class="modal-actions">
 
       <button
-        class="modal-btn cancel-btn"
+        class="modal-button cancel-button"
         onclick="closeModal('statusModal')"
       >
         Annuler
       </button>
 
       <button
-        class="modal-btn danger-btn"
+        class="modal-button danger-button"
         id="statusConfirmBtn"
         onclick="confirmVendorStatus()"
       >
@@ -1414,17 +1463,57 @@
 </div>
 
 
+<!-- =================================
+     HISTORY
+================================= -->
+
 <div
-  class="toast"
+  id="historyModal"
+  class="modal"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-title">
+      Historique
+    </div>
+
+    <div
+      class="modal-text"
+      id="historySubtitle"
+    ></div>
+
+
+    <div id="historyList"></div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="modal-button confirm-button"
+        onclick="closeModal('historyModal')"
+      >
+        Fermer
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div
   id="toast"
+  class="toast"
 ></div>
 
 
 <script>
 
-  /* =========================
+  /* =========================================
      SUPABASE
-  ========================= */
+  ========================================= */
 
   const SUPABASE_URL =
     "https://ogenizijjumwkiiikhrx.supabase.co";
@@ -1439,39 +1528,50 @@
     );
 
 
-  /* =========================
-     GLOBAL DATA
-  ========================= */
+  /* =========================================
+     DATA
+  ========================================= */
 
   let vendors = [];
 
+  let manageVendorId = null;
+
   let resetVendorId = null;
+
   let resetVendorCount = 0;
 
   let statusVendorId = null;
+
   let statusAction = null;
 
-  let manageVendorId = null;
 
-
-  /* =========================
+  /* =========================================
      INIT
-  ========================= */
+  ========================================= */
 
   document.addEventListener(
     "DOMContentLoaded",
-    async () => {
-
-      await checkAdmin();
-      await loadVendors();
-
-    }
+    init
   );
 
 
-  /* =========================
-     ADMIN CHECK
-  ========================= */
+  async function init() {
+
+    const valid =
+      await checkAdmin();
+
+    if (!valid) {
+      return;
+    }
+
+    await loadVendors();
+
+  }
+
+
+  /* =========================================
+     CHECK ADMIN
+  ========================================= */
 
   async function checkAdmin() {
 
@@ -1488,7 +1588,7 @@
       window.location.href =
         "index.html";
 
-      return;
+      return false;
 
     }
 
@@ -1521,16 +1621,19 @@
       window.location.href =
         "index.html";
 
-      return;
+      return false;
 
     }
+
+
+    return true;
 
   }
 
 
-  /* =========================
+  /* =========================================
      LOAD VENDORS
-  ========================= */
+  ========================================= */
 
   async function loadVendors() {
 
@@ -1557,7 +1660,8 @@
 
       console.error(error);
 
-      showToast(
+      showError(
+        error.message ||
         "Erreur lors du chargement des vendeurs."
       );
 
@@ -1569,16 +1673,19 @@
     vendors =
       data || [];
 
+
     await calculateCounts();
+
+    updateDashboardStats();
 
     renderVendors();
 
   }
 
 
-  /* =========================
+  /* =========================================
      CALCULATE COUNTS
-  ========================= */
+  ========================================= */
 
   async function calculateCounts() {
 
@@ -1608,7 +1715,11 @@
 
         console.error(error);
 
-        vendor.currentLinks = 0;
+        vendor.currentLinks =
+          0;
+
+        vendor.totalLinks =
+          0;
 
         continue;
 
@@ -1636,7 +1747,8 @@
           .limit(1);
 
 
-      let lastReset = null;
+      let lastReset =
+        null;
 
 
       if (
@@ -1684,37 +1796,126 @@
 
 
     document.getElementById(
-      "totalVendors"
+      "dashboardTotalVendors"
     ).textContent =
       vendors.length;
 
 
     document.getElementById(
-      "activeVendors"
+      "dashboardActiveVendors"
     ).textContent =
       vendors.filter(
         vendor =>
-          vendor.status === "active"
+          vendor.status ===
+          "active"
       ).length;
 
 
     document.getElementById(
-      "totalLinks"
+      "dashboardTotalLinks"
     ).textContent =
       totalLinks;
 
   }
 
 
-  /* =========================
+  function updateDashboardStats() {
+
+    document.getElementById(
+      "dashboardTotalVendors"
+    ).textContent =
+      vendors.length;
+
+
+    document.getElementById(
+      "dashboardActiveVendors"
+    ).textContent =
+      vendors.filter(
+        v =>
+          v.status === "active"
+      ).length;
+
+
+    let total =
+      vendors.reduce(
+        (
+          sum,
+          vendor
+        ) =>
+          sum +
+          (
+            vendor.currentLinks ||
+            0
+          ),
+        0
+      );
+
+
+    document.getElementById(
+      "dashboardTotalLinks"
+    ).textContent =
+      total;
+
+  }
+
+
+  /* =========================================
+     PAGE NAVIGATION
+  ========================================= */
+
+  function openVendorsPage() {
+
+    document.getElementById(
+      "dashboardPage"
+    ).style.display =
+      "none";
+
+
+    document.getElementById(
+      "vendorsPage"
+    ).style.display =
+      "block";
+
+
+    window.scrollTo(
+      0,
+      0
+    );
+
+  }
+
+
+  function openDashboardPage() {
+
+    document.getElementById(
+      "vendorsPage"
+    ).style.display =
+      "none";
+
+
+    document.getElementById(
+      "dashboardPage"
+    ).style.display =
+      "block";
+
+
+    window.scrollTo(
+      0,
+      0
+    );
+
+  }
+
+
+  /* =========================================
      RENDER VENDORS
-  ========================= */
+  ========================================= */
 
   function renderVendors() {
 
-    const body =
+    const container =
       document.getElementById(
-        "vendorsBody"
+        "vendorsContainer"
       );
 
 
@@ -1739,21 +1940,14 @@
       );
 
 
-    if (!filtered.length) {
+    if (
+      filtered.length === 0
+    ) {
 
-      body.innerHTML = `
-        <tr>
-          <td
-            colspan="5"
-            style="
-              text-align:center;
-              padding:40px;
-              color:#777d85;
-            "
-          >
-            Aucun vendeur trouvé.
-          </td>
-        </tr>
+      container.innerHTML = `
+        <div class="empty">
+          Aucun vendeur trouvé.
+        </div>
       `;
 
       return;
@@ -1761,194 +1955,222 @@
     }
 
 
-    body.innerHTML =
-      filtered.map(
-        vendor => {
-
-          const vendorName =
-            vendor.name ||
-            "Vendeur";
+    container.innerHTML =
+      "";
 
 
-          const avatar =
-            vendorName
-              .charAt(0)
-              .toUpperCase();
+    filtered.forEach(
+      vendor => {
+
+        const name =
+          vendor.name ||
+          "Vendeur";
 
 
-          const currentLinks =
-            vendor.currentLinks ||
-            0;
+        const avatar =
+          name
+            .charAt(0)
+            .toUpperCase();
 
 
-          let statusClass =
-            "status-inactive";
+        const statusActive =
+          vendor.status ===
+          "active";
 
 
-          let statusText =
-            "Inactif";
+        const statusText =
+          statusActive
+            ? "Actif"
+            : "Suspendu";
 
 
-          if (
-            vendor.status ===
-            "active"
-          ) {
-
-            statusClass =
-              "status-active";
-
-            statusText =
-              "Actif";
-
-          }
-          else if (
-            vendor.status ===
-            "suspended"
-          ) {
-
-            statusClass =
-              "status-suspended";
-
-            statusText =
-              "Suspendu";
-
-          }
+        const statusClass =
+          statusActive
+            ? "status-active"
+            : "status-suspended";
 
 
-          const statusButton =
-            vendor.status ===
-            "active"
-
-              ? `
-                <button
-                  class="action-btn suspend-btn"
-                  onclick="openSuspendModal(${vendor.id})"
-                >
-                  Suspendre
-                </button>
-              `
-
-              : `
-                <button
-                  class="action-btn activate-btn"
-                  onclick="openActivateModal(${vendor.id})"
-                >
-                  Réactiver
-                </button>
-              `;
+        const card =
+          document.createElement(
+            "div"
+          );
 
 
-          return `
-
-            <tr>
-
-              <td>
-
-                <div class="vendor-name">
-
-                  <div class="vendor-avatar">
-                    ${escapeHtml(
-                      avatar
-                    )}
-                  </div>
-
-                  <strong>
-                    ${escapeHtml(
-                      vendorName
-                    )}
-                  </strong>
-
-                </div>
-
-              </td>
+        card.className =
+          "vendor-card";
 
 
-              <td>
+        card.innerHTML = `
 
-                <span class="vendor-email">
-                  ${escapeHtml(
-                    vendor.email ||
-                    "-"
-                  )}
-                </span>
+          <div class="vendor-top">
 
-              </td>
+            <div class="vendor-avatar">
+              ${escapeHtml(
+                avatar
+              )}
+            </div>
 
+            <div class="vendor-info">
 
-              <td>
+              <div class="vendor-name">
+                ${escapeHtml(
+                  name
+                )}
+              </div>
 
-                <span
-                  class="status ${statusClass}"
-                >
-                  ${statusText}
-                </span>
+              <span
+                class="vendor-status ${statusClass}"
+              >
+                ${statusText}
+              </span>
 
-              </td>
+            </div>
 
-
-              <td>
-
-                <span
-                  class="links-count"
-                >
-                  ${currentLinks}
-                </span>
-
-              </td>
+          </div>
 
 
-              <td>
+          <div class="vendor-count">
 
-                <div class="actions">
+            <div class="vendor-count-label">
+              Liens actifs à compter
+            </div>
 
-                  <button
-                    class="action-btn manage-btn"
-                    onclick="manageVendor(${vendor.id})"
-                  >
-                    Gérer
-                  </button>
+            <div class="vendor-count-number">
+              ${vendor.currentLinks || 0}
+            </div>
 
-
-                  ${statusButton}
+          </div>
 
 
-                  <button
-                    class="action-btn reset-btn"
-                    onclick="resetVendor(${vendor.id})"
-                  >
-                    Réinitialiser
-                  </button>
+          <div class="vendor-actions">
+
+            <button
+              class="vendor-action manage-button"
+              data-action="manage"
+            >
+              Gérer
+            </button>
+
+            <button
+              class="vendor-action ${
+                statusActive
+                  ? "suspend-button"
+                  : "activate-button"
+              }"
+              data-action="status"
+            >
+              ${
+                statusActive
+                  ? "Suspendre"
+                  : "Réactiver"
+              }
+            </button>
+
+            <button
+              class="vendor-action reset-button"
+              data-action="reset"
+            >
+              Réinitialiser
+            </button>
+
+            <button
+              class="vendor-action history-button"
+              data-action="history"
+            >
+              Historique
+            </button>
+
+          </div>
+
+        `;
 
 
-                  <button
-                    class="action-btn history-btn"
-                    onclick="showHistory(
-                      ${vendor.id},
-                      '${escapeAttribute(
-                        vendorName
-                      )}'
-                    )"
-                  >
-                    Historique
-                  </button>
+        card
+          .querySelector(
+            '[data-action="manage"]'
+          )
+          .addEventListener(
+            "click",
+            () => {
+              manageVendor(
+                vendor.id
+              );
+            }
+          );
 
-                </div>
 
-              </td>
+        card
+          .querySelector(
+            '[data-action="status"]'
+          )
+          .addEventListener(
+            "click",
+            () => {
 
-            </tr>
+              if (
+                statusActive
+              ) {
 
-          `;
+                openSuspendModal(
+                  vendor.id
+                );
 
-        }
-      ).join("");
+              } else {
+
+                openActivateModal(
+                  vendor.id
+                );
+
+              }
+
+            }
+          );
+
+
+        card
+          .querySelector(
+            '[data-action="reset"]'
+          )
+          .addEventListener(
+            "click",
+            () => {
+              resetVendor(
+                vendor.id
+              );
+            }
+          );
+
+
+        card
+          .querySelector(
+            '[data-action="history"]'
+          )
+          .addEventListener(
+            "click",
+            () => {
+
+              showHistory(
+                vendor.id,
+                name
+              );
+
+            }
+          );
+
+
+        container.appendChild(
+          card
+        );
+
+      }
+    );
 
   }
 
 
-  /* =========================
-     GÉRER
-  ========================= */
+  /* =========================================
+     MANAGE VENDOR
+  ========================================= */
 
   async function manageVendor(
     vendorId
@@ -1957,8 +2179,7 @@
     const vendor =
       vendors.find(
         v =>
-          v.id ===
-          vendorId
+          v.id === vendorId
       );
 
 
@@ -1991,7 +2212,7 @@
       "Chargement...";
 
 
-    const vendorLink =
+    const link =
       buildVendorLink(
         vendor.login_token
       );
@@ -2000,7 +2221,7 @@
     document.getElementById(
       "manageVendorLink"
     ).textContent =
-      vendorLink;
+      link;
 
 
     document.getElementById(
@@ -2031,8 +2252,6 @@
 
     if (error) {
 
-      console.error(error);
-
       document.getElementById(
         "manageTotalLinks"
       ).textContent =
@@ -2051,9 +2270,104 @@
   }
 
 
-  /* =========================
+  /* =========================================
+     BUILD VENDOR LINK
+  ========================================= */
+
+  function buildVendorLink(
+    loginToken
+  ) {
+
+    return (
+      location.origin +
+      location.pathname
+        .replace(
+          "admin.html",
+          "vendor.html"
+        ) +
+      "?token=" +
+      encodeURIComponent(
+        loginToken || ""
+      )
+    );
+
+  }
+
+
+  /* =========================================
+     COPY CREATED LINK
+  ========================================= */
+
+  async function copyCreatedVendorLink() {
+
+    const value =
+      document.getElementById(
+        "createdVendorLink"
+      ).textContent;
+
+
+    if (!value) {
+      return;
+    }
+
+
+    try {
+
+      await navigator.clipboard.writeText(
+        value
+      );
+
+      showToast(
+        "Lien copié."
+      );
+
+    } catch (error) {
+
+      showToast(
+        "Impossible de copier le lien."
+      );
+
+    }
+
+  }
+
+
+  /* =========================================
+     COPY MANAGE LINK
+  ========================================= */
+
+  async function copyManageLink() {
+
+    const value =
+      document.getElementById(
+        "manageVendorLink"
+      ).textContent;
+
+
+    try {
+
+      await navigator.clipboard.writeText(
+        value
+      );
+
+      showToast(
+        "Lien copié."
+      );
+
+    } catch (error) {
+
+      showToast(
+        "Impossible de copier le lien."
+      );
+
+    }
+
+  }
+
+
+  /* =========================================
      CHANGE PIN
-  ========================= */
+  ========================================= */
 
   function openChangePinModal() {
 
@@ -2082,12 +2396,14 @@
 
     document.getElementById(
       "newVendorPinInput"
-    ).value = "";
+    ).value =
+      "";
 
 
     document.getElementById(
       "confirmVendorPinInput"
-    ).value = "";
+    ).value =
+      "";
 
 
     closeModal(
@@ -2134,7 +2450,10 @@
     }
 
 
-    if (newPin !== confirmPin) {
+    if (
+      newPin !==
+      confirmPin
+    ) {
 
       showToast(
         "Les deux PIN ne correspondent pas."
@@ -2162,8 +2481,6 @@
 
     if (error) {
 
-      console.error(error);
-
       showToast(
         error.message ||
         "Erreur lors du changement du PIN."
@@ -2174,14 +2491,6 @@
     }
 
 
-    const vendor =
-      vendors.find(
-        v =>
-          v.id ===
-          manageVendorId
-      );
-
-
     closeModal(
       "changePinModal"
     );
@@ -2190,6 +2499,14 @@
     showToast(
       "PIN modifié avec succès."
     );
+
+
+    const vendor =
+      vendors.find(
+        v =>
+          v.id ===
+          manageVendorId
+      );
 
 
     if (vendor) {
@@ -2226,74 +2543,9 @@
   }
 
 
-  /* =========================
-     BUILD VENDOR LINK
-  ========================= */
-
-  function buildVendorLink(
-    loginToken
-  ) {
-
-    return (
-      location.origin +
-      location.pathname
-        .replace(
-          "admin.html",
-          "vendor.html"
-        ) +
-      "?token=" +
-      encodeURIComponent(
-        loginToken || ""
-      )
-    );
-
-  }
-
-
-  /* =========================
-     COPY MANAGE LINK
-  ========================= */
-
-  async function copyManageLink() {
-
-    const value =
-      document.getElementById(
-        "manageVendorLink"
-      ).textContent;
-
-
-    if (!value) {
-      return;
-    }
-
-
-    try {
-
-      await navigator.clipboard.writeText(
-        value
-      );
-
-      showToast(
-        "Lien copié."
-      );
-
-    }
-    catch (error) {
-
-      console.error(error);
-
-      showToast(
-        "Impossible de copier le lien."
-      );
-
-    }
-
-  }
-
-
-  /* =========================
-     OPEN DELETE VENDOR
-  ========================= */
+  /* =========================================
+     DELETE VENDOR
+  ========================================= */
 
   function openDeleteVendorModal() {
 
@@ -2334,26 +2586,9 @@
   }
 
 
-  /* =========================
-     DELETE VENDOR KEEP CLIENTS
-  ========================= */
-
   async function deleteVendorKeepClients() {
 
     if (!manageVendorId) {
-      return;
-    }
-
-
-    const vendor =
-      vendors.find(
-        v =>
-          v.id ===
-          manageVendorId
-      );
-
-
-    if (!vendor) {
       return;
     }
 
@@ -2372,8 +2607,6 @@
 
     if (error) {
 
-      console.error(error);
-
       showToast(
         "Erreur : " +
         error.message
@@ -2389,23 +2622,19 @@
     );
 
 
+    manageVendorId =
+      null;
+
+
     showToast(
       "Vendeur supprimé. Les clients ont été conservés."
     );
-
-
-    manageVendorId =
-      null;
 
 
     await loadVendors();
 
   }
 
-
-  /* =========================
-     OPEN DELETE ALL CONFIRM
-  ========================= */
 
   function openDeleteAllConfirm() {
 
@@ -2446,10 +2675,6 @@
   }
 
 
-  /* =========================
-     DELETE VENDOR + CLIENTS
-  ========================= */
-
   async function deleteVendorWithClients() {
 
     if (!manageVendorId) {
@@ -2471,8 +2696,6 @@
 
     if (error) {
 
-      console.error(error);
-
       showToast(
         "Erreur : " +
         error.message
@@ -2488,13 +2711,13 @@
     );
 
 
+    manageVendorId =
+      null;
+
+
     showToast(
       "Vendeur et clients supprimés."
     );
-
-
-    manageVendorId =
-      null;
 
 
     await loadVendors();
@@ -2502,9 +2725,9 @@
   }
 
 
-  /* =========================
-     SUSPENDRE
-  ========================= */
+  /* =========================================
+     SUSPEND
+  ========================================= */
 
   function openSuspendModal(
     vendorId
@@ -2513,8 +2736,7 @@
     const vendor =
       vendors.find(
         v =>
-          v.id ===
-          vendorId
+          v.id === vendorId
       );
 
 
@@ -2570,7 +2792,7 @@
 
 
     button.className =
-      "modal-btn danger-btn";
+      "modal-button danger-button";
 
 
     document.getElementById(
@@ -2582,9 +2804,9 @@
   }
 
 
-  /* =========================
-     RÉACTIVER
-  ========================= */
+  /* =========================================
+     ACTIVATE
+  ========================================= */
 
   function openActivateModal(
     vendorId
@@ -2593,8 +2815,7 @@
     const vendor =
       vendors.find(
         v =>
-          v.id ===
-          vendorId
+          v.id === vendorId
       );
 
 
@@ -2649,7 +2870,7 @@
 
 
     button.className =
-      "modal-btn success-btn";
+      "modal-button success-button";
 
 
     document.getElementById(
@@ -2661,9 +2882,9 @@
   }
 
 
-  /* =========================
+  /* =========================================
      CONFIRM STATUS
-  ========================= */
+  ========================================= */
 
   async function confirmVendorStatus() {
 
@@ -2701,8 +2922,6 @@
 
     if (error) {
 
-      console.error(error);
-
       showToast(
         "Erreur : " +
         error.message
@@ -2719,8 +2938,11 @@
 
 
     showToast(
-      newStatus === "suspended"
+      newStatus ===
+      "suspended"
+
         ? "Vendeur suspendu."
+
         : "Vendeur réactivé."
     );
 
@@ -2737,19 +2959,22 @@
   }
 
 
-  /* =========================
+  /* =========================================
      ADD VENDOR
-  ========================= */
+  ========================================= */
 
   function openAddVendor() {
 
     document.getElementById(
       "vendorNameInput"
-    ).value = "";
+    ).value =
+      "";
+
 
     document.getElementById(
       "vendorPinInput"
-    ).value = "";
+    ).value =
+      "";
 
 
     document.getElementById(
@@ -2786,11 +3011,7 @@
     }
 
 
-    if (
-      !/^\d{6}$/.test(
-        pin
-      )
-    ) {
+    if (!/^\d{6}$/.test(pin)) {
 
       showToast(
         "Le PIN doit contenir exactement 6 chiffres."
@@ -2819,8 +3040,6 @@
 
     if (error) {
 
-      console.error(error);
-
       showToast(
         error.message ||
         "Erreur lors de la création."
@@ -2845,12 +3064,6 @@
         data[0];
 
 
-      const link =
-        buildVendorLink(
-          vendor.login_token
-        );
-
-
       document.getElementById(
         "createdVendorName"
       ).textContent =
@@ -2860,7 +3073,9 @@
       document.getElementById(
         "createdVendorLink"
       ).textContent =
-        link;
+        buildVendorLink(
+          vendor.login_token
+        );
 
 
       document.getElementById(
@@ -2883,19 +3098,18 @@
   }
 
 
-  /* =========================
+  /* =========================================
      RESET
-  ========================= */
+  ========================================= */
 
-  async function resetVendor(
+  function resetVendor(
     vendorId
   ) {
 
     const vendor =
       vendors.find(
         v =>
-          v.id ===
-          vendorId
+          v.id === vendorId
       );
 
 
@@ -2916,6 +3130,7 @@
     document.getElementById(
       "resetInfo"
     ).innerHTML = `
+
       <strong>
         ${escapeHtml(
           vendor.name ||
@@ -2928,6 +3143,7 @@
       ${resetVendorCount}
       lien(s) seront enregistrés
       dans l'historique.
+
     `;
 
 
@@ -2964,8 +3180,6 @@
 
     if (error) {
 
-      console.error(error);
-
       showToast(
         error.message ||
         "Erreur lors de la réinitialisation."
@@ -2998,9 +3212,9 @@
   }
 
 
-  /* =========================
+  /* =========================================
      HISTORY
-  ========================= */
+  ========================================= */
 
   async function showHistory(
     vendorId,
@@ -3020,7 +3234,9 @@
 
 
     list.innerHTML =
-      "Chargement...";
+      `<div class="loading">
+        Chargement...
+      </div>`;
 
 
     document.getElementById(
@@ -3053,10 +3269,10 @@
 
     if (error) {
 
-      console.error(error);
-
       list.innerHTML =
-        "Erreur lors du chargement.";
+        `<div class="empty">
+          Erreur lors du chargement.
+        </div>`;
 
       return;
 
@@ -3068,17 +3284,10 @@
       !data.length
     ) {
 
-      list.innerHTML = `
-        <div
-          style="
-            text-align:center;
-            padding:25px;
-            color:#777d85;
-          "
-        >
+      list.innerHTML =
+        `<div class="empty">
           Aucun historique.
-        </div>
-      `;
+        </div>`;
 
       return;
 
@@ -3098,6 +3307,7 @@
 
 
           return `
+
             <div class="history-item">
 
               <div class="history-count">
@@ -3109,6 +3319,7 @@
               </div>
 
             </div>
+
           `;
 
         }
@@ -3117,27 +3328,11 @@
   }
 
 
-  /* =========================
-     LOGOUT
-  ========================= */
-
-  async function logout() {
-
-    await supabaseClient.auth.signOut();
-
-    window.location.href =
-      "index.html";
-
-  }
-
-
-  /* =========================
+  /* =========================================
      MODAL
-  ========================= */
+  ========================================= */
 
-  function closeModal(
-    id
-  ) {
+  function closeModal(id) {
 
     const modal =
       document.getElementById(
@@ -3156,9 +3351,80 @@
   }
 
 
-  /* =========================
+  document.addEventListener(
+    "click",
+    function(event) {
+
+      if (
+        event.target.classList.contains(
+          "modal"
+        )
+      ) {
+
+        event.target.classList.remove(
+          "show"
+        );
+
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        event.key ===
+        "Escape"
+      ) {
+
+        document
+          .querySelectorAll(
+            ".modal.show"
+          )
+          .forEach(
+            modal => {
+              modal.classList.remove(
+                "show"
+              );
+            }
+          );
+
+      }
+
+    }
+  );
+
+
+  /* =========================================
+     ERROR
+  ========================================= */
+
+  function showError(
+    message
+  ) {
+
+    const element =
+      document.getElementById(
+        "errorMessage"
+      );
+
+
+    element.textContent =
+      message;
+
+
+    element.style.display =
+      "block";
+
+  }
+
+
+  /* =========================================
      TOAST
-  ========================= */
+  ========================================= */
 
   function showToast(
     message
@@ -3193,15 +3459,17 @@
   }
 
 
-  /* =========================
+  /* =========================================
      ESCAPE
-  ========================= */
+  ========================================= */
 
   function escapeHtml(
     value
   ) {
 
-    return String(value)
+    return String(
+      value || ""
+    )
       .replace(
         /&/g,
         "&amp;"
@@ -3226,23 +3494,21 @@
   }
 
 
-  function escapeAttribute(
-    value
-  ) {
+  /* =========================================
+     LOGOUT
+  ========================================= */
 
-    return String(value)
-      .replace(
-        /\\/g,
-        "\\\\"
-      )
-      .replace(
-        /'/g,
-        "\\'"
-      );
+  async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href =
+      "index.html";
 
   }
 
 </script>
 
 </body>
+
 </html>
