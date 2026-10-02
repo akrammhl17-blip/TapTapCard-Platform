@@ -4,12 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Dashboard vendeur - TapTapCard</title>
+  <title>Dashboard - TapTapCard</title>
 
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-  >
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     * {
@@ -18,324 +15,187 @@
 
     body {
       margin: 0;
-      min-height: 100vh;
+      padding: 20px;
+      background: #f6f6f7;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f8e7e3, #fffaf8);
-      color: #332522;
+      color: #222;
     }
 
     .container {
-      width: 100%;
-      max-width: 900px;
+      max-width: 700px;
       margin: auto;
-      padding: 20px;
     }
 
     .header {
       background: white;
-      border-radius: 22px;
       padding: 20px;
+      border-radius: 18px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.07);
       margin-bottom: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
 
+    .top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 15px;
+      gap: 10px;
     }
 
-    .welcome {
+    h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .seller {
+      margin-top: 8px;
+      color: #777;
+      font-size: 14px;
+    }
+
+    .count-box {
+      margin-top: 20px;
+      background: #f4f4f5;
+      border-radius: 14px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .count-label {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .count {
+      font-size: 35px;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .add-button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .logout {
+      border: none;
+      background: #eee;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .client-card {
+      background: white;
+      border-radius: 16px;
+      padding: 15px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    }
+
+    .client-top {
       display: flex;
       align-items: center;
       gap: 14px;
     }
 
-    .avatar {
-      width: 52px;
-      height: 52px;
-      border-radius: 16px;
-      background: #332522;
-      color: white;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-size: 21px;
-    }
-
-    .welcome h1 {
-      margin: 0;
-      font-size: 20px;
-    }
-
-    .welcome p {
-      margin: 4px 0 0;
-      color: #777;
-      font-size: 13px;
-    }
-
-    .logout-btn {
-      border: none;
-      background: #f4eeee;
-      color: #332522;
-      padding: 11px 14px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .logout-btn:hover {
-      background: #eadfdd;
-    }
-
-    .stat-card {
-      background: #332522;
-      color: white;
-      border-radius: 22px;
-      padding: 24px;
-      margin-bottom: 20px;
-
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .stat-card p {
-      margin: 0 0 7px;
-      opacity: 0.7;
-      font-size: 14px;
-    }
-
-    .stat-card h2 {
-      margin: 0;
-      font-size: 34px;
-    }
-
-    .stat-icon {
-      width: 55px;
-      height: 55px;
-      border-radius: 17px;
-      background: rgba(255,255,255,0.12);
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-size: 23px;
-    }
-
-    .section {
-      background: white;
-      border-radius: 22px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.07);
-    }
-
-    .section-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-      gap: 10px;
-    }
-
-    .section-title h2 {
-      margin: 0;
-      font-size: 19px;
-    }
-
-    .add-btn {
-      border: none;
-      background: #a64635;
-      color: white;
-      padding: 11px 15px;
-      border-radius: 12px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .add-btn:hover {
-      opacity: 0.9;
-    }
-
-    .client-card {
-      border: 1px solid #eee;
-      border-radius: 17px;
-      padding: 15px;
-      margin-bottom: 12px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
+    .client-image {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #eee;
+      flex-shrink: 0;
     }
 
     .client-info {
-      display: flex;
-      align-items: center;
-      gap: 13px;
       min-width: 0;
+      flex: 1;
     }
 
-    .client-image {
-      width: 55px;
-      height: 55px;
-      border-radius: 15px;
-      object-fit: cover;
-      background: #f3eeee;
-      flex-shrink: 0;
+    .client-name {
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 5px;
     }
 
-    .client-placeholder {
-      width: 55px;
-      height: 55px;
-      border-radius: 15px;
-      background: #f3eeee;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      color: #999;
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-
-    .client-text {
-      min-width: 0;
-    }
-
-    .client-text h3 {
-      margin: 0 0 5px;
-      font-size: 16px;
-
-      white-space: nowrap;
+    .client-description {
+      color: #777;
+      font-size: 13px;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-
-    .client-text p {
-      margin: 0;
-      color: #888;
-      font-size: 12px;
-
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
-    .open-btn {
-      text-decoration: none;
-      background: #f8e7e3;
-      color: #a64635;
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
 
-      padding: 10px 13px;
-      border-radius: 11px;
-
+    .action-button {
+      border: none;
+      padding: 11px 5px;
+      border-radius: 10px;
       font-size: 13px;
       font-weight: bold;
-
-      white-space: nowrap;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
     }
 
-    .open-btn:hover {
-      background: #f1ddd8;
+    .open-button {
+      background: #111;
+      color: white;
+    }
+
+    .edit-button {
+      background: #e9e9eb;
+      color: #222;
+    }
+
+    .delete-button {
+      background: #ffe8e8;
+      color: #c62828;
     }
 
     .empty {
+      background: white;
+      padding: 30px;
       text-align: center;
-      padding: 40px 20px;
-      color: #888;
+      border-radius: 16px;
+      color: #777;
     }
 
-    .empty i {
-      font-size: 38px;
-      margin-bottom: 14px;
-      color: #cdbfbc;
-    }
-
-    .empty p {
-      margin: 0;
-      font-size: 14px;
+    .error {
+      background: #fdeaea;
+      color: #b42318;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      display: none;
     }
 
     .loading {
       text-align: center;
-      padding: 40px;
       color: #777;
+      padding: 30px;
     }
 
-    .loading i {
-      font-size: 25px;
-      animation: spin 1s linear infinite;
-    }
+    @media (max-width: 420px) {
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .error {
-      background: #fff0f0;
-      color: #b42318;
-      padding: 15px;
-      border-radius: 14px;
-      text-align: center;
-      font-size: 14px;
-      display: none;
-      margin-bottom: 15px;
-    }
-
-    @media (max-width: 600px) {
-
-      .container {
-        padding: 14px;
+      .actions {
+        grid-template-columns: 1fr;
       }
 
-      .header {
-        padding: 16px;
-      }
-
-      .welcome h1 {
-        font-size: 17px;
-      }
-
-      .welcome p {
-        font-size: 11px;
-      }
-
-      .logout-btn {
-        padding: 9px 11px;
-        font-size: 12px;
-      }
-
-      .stat-card {
-        padding: 20px;
-      }
-
-      .stat-card h2 {
-        font-size: 30px;
-      }
-
-      .client-card {
-        padding: 12px;
-      }
-
-      .open-btn {
-        padding: 9px 10px;
-        font-size: 12px;
-      }
-
-      .section-title h2 {
-        font-size: 17px;
-      }
-
-      .add-btn {
-        padding: 10px 12px;
-        font-size: 12px;
-      }
     }
   </style>
 </head>
@@ -344,96 +204,60 @@
 
   <div class="container">
 
-    <!-- HEADER -->
+    <div id="errorMessage" class="error"></div>
 
     <div class="header">
 
-      <div class="welcome">
-
-        <div class="avatar">
-          <i class="fa-solid fa-user"></i>
-        </div>
+      <div class="top">
 
         <div>
-          <h1 id="vendorName">Chargement...</h1>
-          <p>Votre espace vendeur TapTapCard</p>
+          <h1>Mon Dashboard</h1>
+
+          <div class="seller" id="sellerName">
+            Chargement...
+          </div>
         </div>
 
-      </div>
-
-      <button
-        class="logout-btn"
-        onclick="logout()"
-      >
-        <i class="fa-solid fa-right-from-bracket"></i>
-        Déconnexion
-      </button>
-
-    </div>
-
-
-    <!-- ERROR -->
-
-    <div
-      id="errorBox"
-      class="error"
-    ></div>
-
-
-    <!-- STAT -->
-
-    <div class="stat-card">
-
-      <div>
-
-        <p>Mes pages</p>
-
-        <h2 id="clientCount">
-          0
-        </h2>
-
-      </div>
-
-      <div class="stat-icon">
-
-        <i class="fa-solid fa-address-card"></i>
-
-      </div>
-
-    </div>
-
-
-    <!-- CLIENTS -->
-
-    <div class="section">
-
-      <div class="section-title">
-
-        <h2>Mes clients</h2>
-
         <button
-          class="add-btn"
-          onclick="addClient()"
+          class="logout"
+          onclick="logout()"
         >
-          <i class="fa-solid fa-plus"></i>
-          Ajouter
+          Déconnexion
         </button>
 
       </div>
 
 
-      <div id="clientsList">
+      <div class="count-box">
 
-        <div class="loading">
-
-          <i class="fa-solid fa-spinner"></i>
-
-          <p>
-            Chargement...
-          </p>
-
+        <div class="count-label">
+          Mes clients
         </div>
 
+        <div
+          class="count"
+          id="clientCount"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <button
+        class="add-button"
+        onclick="addClient()"
+      >
+        + Ajouter un client
+      </button>
+
+    </div>
+
+
+    <div id="clientsContainer">
+
+      <div class="loading">
+        Chargement des clients...
       </div>
 
     </div>
@@ -441,350 +265,35 @@
   </div>
 
 
-  <!-- SUPABASE -->
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script src="supabase.js"></script>
-
 
   <script>
 
-    let session = null;
-    let clients = [];
+    /*
+      RÉCUPÉRER LA SESSION
+    */
 
+    const sessionData =
+      localStorage.getItem("vendor_session");
 
-    /* =========================
-       START DASHBOARD
-    ========================= */
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      startDashboard
-    );
-
-
-    async function startDashboard() {
-
-      const savedSession =
-        localStorage.getItem(
-          "vendor_session"
-        );
-
-
-      if (!savedSession) {
-
-        showError(
-          "Session expirée. Veuillez utiliser votre lien vendeur."
-        );
-
-        return;
-      }
-
-
-      try {
-
-        session =
-          JSON.parse(savedSession);
-
-      } catch (error) {
-
-        console.error(error);
-
-        localStorage.removeItem(
-          "vendor_session"
-        );
-
-        showError(
-          "Session invalide."
-        );
-
-        return;
-      }
-
-
-      if (
-        !session.session_token ||
-        !session.vendor_id
-      ) {
-
-        localStorage.removeItem(
-          "vendor_session"
-        );
-
-        showError(
-          "Session invalide."
-        );
-
-        return;
-      }
-
-
-      /*
-        Vérification réelle
-        de la session
-      */
-
-      const {
-        data,
-        error
-      } = await supabaseClient.rpc(
-        "verify_vendor_session",
-        {
-          p_session_token:
-            session.session_token
-        }
-      );
-
-
-      if (error) {
-
-        console.error(error);
-
-        showError(
-          "Impossible de vérifier la session."
-        );
-
-        return;
-      }
-
-
-      if (
-        !data ||
-        data.length === 0
-      ) {
-
-        localStorage.removeItem(
-          "vendor_session"
-        );
-
-        showError(
-          "Votre session a expiré. Veuillez utiliser votre lien vendeur."
-        );
-
-        return;
-      }
-
-
-      const vendor =
-        data[0];
-
-
-      /*
-        Mise à jour
-        des informations vendeur
-      */
-
-      session.vendor_id =
-        vendor.vendor_id;
-
-      session.vendor_name =
-        vendor.vendor_name;
-
-
-      localStorage.setItem(
-        "vendor_session",
-        JSON.stringify(session)
-      );
-
-
-      document.getElementById(
-        "vendorName"
-      ).textContent =
-        "Bonjour " +
-        vendor.vendor_name;
-
-
-      /*
-        Charger les clients
-      */
-
-      await loadClients();
-
-    }
-
-
-    /* =========================
-       LOAD CLIENTS
-    ========================= */
-
-    async function loadClients() {
-
-      const {
-        data,
-        error
-      } = await supabaseClient.rpc(
-        "get_vendor_clients",
-        {
-          p_session_token:
-            session.session_token
-        }
-      );
-
-
-      if (error) {
-
-        console.error(error);
-
-        showError(
-          "Impossible de charger vos clients."
-        );
-
-        return;
-      }
-
-
-      clients =
-        data || [];
-
-
-      document.getElementById(
-        "clientCount"
-      ).textContent =
-        clients.length;
-
-
-      renderClients();
-
-    }
-
-
-    /* =========================
-       RENDER CLIENTS
-    ========================= */
-
-    function renderClients() {
-
-      const list =
-        document.getElementById(
-          "clientsList"
-        );
-
-
-      if (clients.length === 0) {
-
-        list.innerHTML = `
-
-          <div class="empty">
-
-            <i class="fa-regular fa-folder-open"></i>
-
-            <p>
-              Aucun client pour le moment.
-            </p>
-
-          </div>
-
-        `;
-
-        return;
-      }
-
-
-      list.innerHTML =
-        clients.map(
-          client => {
-
-            const image =
-              client.profile_image;
-
-
-            return `
-
-              <div class="client-card">
-
-                <div class="client-info">
-
-                  ${
-                    image
-
-                    ?
-
-                    `
-                    <img
-                      src="${escapeHtml(image)}"
-                      class="client-image"
-                      alt=""
-                    >
-                    `
-
-                    :
-
-                    `
-                    <div class="client-placeholder">
-
-                      <i class="fa-solid fa-store"></i>
-
-                    </div>
-                    `
-                  }
-
-
-                  <div class="client-text">
-
-                    <h3>
-
-                      ${escapeHtml(
-                        client.name ||
-                        "Sans nom"
-                      )}
-
-                    </h3>
-
-
-                    <p>
-
-                      ${escapeHtml(
-                        client.description ||
-                        "Aucune description"
-                      )}
-
-                    </p>
-
-                  </div>
-
-                </div>
-
-
-                <a
-                  class="open-btn"
-                  href="client.html?id=${client.id}"
-                  target="_blank"
-                >
-
-                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-                  Ouvrir
-
-                </a>
-
-              </div>
-
-            `;
-
-          }
-        ).join("");
-
-    }
-
-
-    /* =========================
-       ADD CLIENT
-    ========================= */
-
-    function addClient() {
+    if (!sessionData) {
 
       window.location.href =
-        "vendor-add-client.html";
+        "vendor.html";
 
     }
 
 
-    /* =========================
-       LOGOUT
-    ========================= */
+    let vendorSession;
 
-    function logout() {
+
+    try {
+
+      vendorSession =
+        JSON.parse(sessionData);
+
+    } catch (error) {
 
       localStorage.removeItem(
         "vendor_session"
@@ -796,62 +305,434 @@
     }
 
 
-    /* =========================
-       ERROR
-    ========================= */
+    /*
+      ÉLÉMENTS
+    */
+
+    const sellerName =
+      document.getElementById(
+        "sellerName"
+      );
+
+    const clientCount =
+      document.getElementById(
+        "clientCount"
+      );
+
+    const clientsContainer =
+      document.getElementById(
+        "clientsContainer"
+      );
+
+    const errorMessage =
+      document.getElementById(
+        "errorMessage"
+      );
+
+
+    /*
+      MESSAGE ERREUR
+    */
 
     function showError(message) {
 
-      const box =
-        document.getElementById(
-          "errorBox"
-        );
-
-
-      box.textContent =
+      errorMessage.textContent =
         message;
 
-
-      box.style.display =
+      errorMessage.style.display =
         "block";
-
-
-      document.getElementById(
-        "clientsList"
-      ).innerHTML = "";
-
     }
 
 
-    /* =========================
-       ESCAPE HTML
-    ========================= */
+    /*
+      VÉRIFIER SESSION
+    */
+
+    async function verifySession() {
+
+      if (
+        !vendorSession ||
+        !vendorSession.session_token
+      ) {
+
+        window.location.href =
+          "vendor.html";
+
+        return false;
+      }
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.rpc(
+          "verify_vendor_session",
+          {
+            p_session_token:
+              vendorSession.session_token
+          }
+        );
+
+
+      if (
+        error ||
+        !data ||
+        data.length === 0
+      ) {
+
+        localStorage.removeItem(
+          "vendor_session"
+        );
+
+        window.location.href =
+          "vendor.html";
+
+        return false;
+      }
+
+
+      sellerName.textContent =
+        "Vendeur : " +
+        data[0].vendor_name;
+
+
+      return true;
+    }
+
+
+    /*
+      AJOUTER CLIENT
+    */
+
+    function addClient() {
+
+      window.location.href =
+        "vendor-add-client.html";
+    }
+
+
+    /*
+      OUVRIR CLIENT
+    */
+
+    function openClient(client) {
+
+      /*
+        لاحقاً نربط هنا رابط الصفحة
+        العامة الخاصة بالعميل.
+
+        حالياً نستخدم صفحة مؤقتة
+        حسب ID العميل.
+      */
+
+      window.open(
+        "client.html?id=" +
+        encodeURIComponent(client.id),
+        "_blank"
+      );
+    }
+
+
+    /*
+      MODIFIER CLIENT
+    */
+
+    function editClient(clientId) {
+
+      window.location.href =
+        "vendor-edit-client.html?id=" +
+        encodeURIComponent(clientId);
+    }
+
+
+    /*
+      SUPPRIMER CLIENT
+    */
+
+    async function deleteClient(
+      clientId,
+      clientName
+    ) {
+
+      const confirmed =
+        confirm(
+          'Voulez-vous vraiment supprimer "' +
+          clientName +
+          '" ?\n\nCette action est irréversible.'
+        );
+
+
+      if (!confirmed) {
+
+        return;
+      }
+
+
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient.rpc(
+            "delete_vendor_client",
+            {
+              p_session_token:
+                vendorSession.session_token,
+
+              p_client_id:
+                clientId
+            }
+          );
+
+
+        if (error) {
+
+          console.error(error);
+
+          showError(
+            error.message ||
+            "Impossible de supprimer le client."
+          );
+
+          return;
+        }
+
+
+        /*
+          إعادة تحميل القائمة
+        */
+
+        await loadClients();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        showError(
+          "Une erreur est survenue lors de la suppression."
+        );
+      }
+    }
+
+
+    /*
+      CHARGER CLIENTS
+    */
+
+    async function loadClients() {
+
+      clientsContainer.innerHTML =
+        '<div class="loading">Chargement des clients...</div>';
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.rpc(
+          "get_vendor_clients",
+          {
+            p_session_token:
+              vendorSession.session_token
+          }
+        );
+
+
+      if (error) {
+
+        console.error(error);
+
+        showError(
+          error.message ||
+          "Impossible de charger les clients."
+        );
+
+        clientsContainer.innerHTML =
+          '<div class="empty">Impossible de charger les clients.</div>';
+
+        return;
+      }
+
+
+      clientCount.textContent =
+        data ? data.length : 0;
+
+
+      if (
+        !data ||
+        data.length === 0
+      ) {
+
+        clientsContainer.innerHTML =
+          `
+          <div class="empty">
+            Aucun client pour le moment.
+            <br><br>
+            Cliquez sur « Ajouter un client ».
+          </div>
+          `;
+
+        return;
+      }
+
+
+      clientsContainer.innerHTML =
+        "";
+
+
+      data.forEach(
+        function(client) {
+
+          const card =
+            document.createElement(
+              "div"
+            );
+
+          card.className =
+            "client-card";
+
+
+          /*
+            Image
+          */
+
+          const image =
+            client.profile_image &&
+            client.profile_image.trim() !== ""
+              ? client.profile_image
+              : "https://placehold.co/150x150?text=Client";
+
+
+          /*
+            Description
+          */
+
+          const description =
+            client.description ||
+            "Aucune description";
+
+
+          card.innerHTML =
+            `
+            <div class="client-top">
+
+              <img
+                class="client-image"
+                src="${escapeHtml(image)}"
+                alt=""
+                onerror="this.src='https://placehold.co/150x150?text=Client'"
+              >
+
+              <div class="client-info">
+
+                <div class="client-name">
+                  ${escapeHtml(client.name || "Sans nom")}
+                </div>
+
+                <div class="client-description">
+                  ${escapeHtml(description)}
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="actions">
+
+              <button
+                class="action-button open-button"
+                onclick="openClient(${JSON.stringify(client)})"
+              >
+                Ouvrir
+              </button>
+
+
+              <button
+                class="action-button edit-button"
+                onclick="editClient(${client.id})"
+              >
+                Modifier
+              </button>
+
+
+              <button
+                class="action-button delete-button"
+                onclick="deleteClient(
+                  ${client.id},
+                  ${JSON.stringify(client.name || "ce client")}
+                )"
+              >
+                Supprimer
+              </button>
+
+            </div>
+            `;
+
+
+          clientsContainer.appendChild(
+            card
+          );
+
+        }
+      );
+    }
+
+
+    /*
+      PROTECTION HTML
+    */
 
     function escapeHtml(value) {
 
       return String(value)
-        .replace(
-          /&/g,
-          "&amp;"
-        )
-        .replace(
-          /</g,
-          "&lt;"
-        )
-        .replace(
-          />/g,
-          "&gt;"
-        )
-        .replace(
-          /"/g,
-          "&quot;"
-        )
-        .replace(
-          /'/g,
-          "&#039;"
-        );
-
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
+
+
+    /*
+      DÉCONNEXION
+    */
+
+    function logout() {
+
+      localStorage.removeItem(
+        "vendor_session"
+      );
+
+      window.location.href =
+        "vendor.html";
+    }
+
+
+    /*
+      INITIALISATION
+    */
+
+    async function init() {
+
+      const valid =
+        await verifySession();
+
+
+      if (!valid) {
+
+        return;
+      }
+
+
+      await loadClients();
+    }
+
+
+    init();
 
   </script>
 
