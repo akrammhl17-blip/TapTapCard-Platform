@@ -1857,23 +1857,16 @@ if (vendor) {
 BUILD VENDOR LINK
 ========================= */
 
-function buildVendorLink(
-loginToken
-) {
-
-return (    
-  location.origin +    
-  location.pathname    
-    .replace(    
-      "admin.html",    
-      "vendor.html"    
-    ) +    
-  "?token=" +    
-  encodeURIComponent(    
-    loginToken || ""    
-  )    
-);
-
+function buildVendorLink(loginToken) {
+  return (
+    location.origin +
+    location.pathname.substring(
+      0,
+      location.pathname.lastIndexOf("/") + 1
+    ) +
+    "vendor.html?token=" +
+    encodeURIComponent(loginToken || "")
+  );
 }
 
 /* =========================
