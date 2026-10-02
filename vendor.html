@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Connexion vendeur - TapTapCard</title>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  >
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -16,57 +26,95 @@
     body {
       margin: 0;
       min-height: 100vh;
+
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f8e7e3, #fffaf8);
+
+      background:
+        linear-gradient(
+          135deg,
+          #f8e7e3,
+          #fffaf8
+        );
+
       display: flex;
       justify-content: center;
       align-items: center;
+
       padding: 20px;
+
       color: #332522;
     }
 
     .login-box {
       width: 100%;
       max-width: 390px;
-      background: rgba(255, 255, 255, 0.9);
+
+      background:
+        rgba(255, 255, 255, 0.9);
+
       padding: 35px 25px;
+
       border-radius: 24px;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+
+      box-shadow:
+        0 15px 40px
+        rgba(0, 0, 0, 0.12);
+
       text-align: center;
     }
 
     .logo {
       width: 70px;
       height: 70px;
-      margin: 0 auto 20px;
+
+      margin:
+        0 auto 20px;
+
       border-radius: 20px;
+
       background: #332522;
+
       color: white;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       font-size: 28px;
     }
 
     h1 {
-      margin: 0 0 8px;
+      margin:
+        0 0 8px;
+
       font-size: 25px;
     }
 
     .subtitle {
-      margin: 0 0 28px;
+      margin:
+        0 0 28px;
+
       color: #777;
+
       font-size: 14px;
     }
 
     .pin-input {
       width: 100%;
+
       padding: 16px;
-      border: 1px solid #ddd;
+
+      border:
+        1px solid #ddd;
+
       border-radius: 14px;
+
       font-size: 22px;
+
       text-align: center;
+
       letter-spacing: 8px;
+
       outline: none;
     }
 
@@ -76,51 +124,77 @@
 
     .login-btn {
       width: 100%;
+
       margin-top: 18px;
+
       padding: 15px;
+
       border: none;
+
       border-radius: 14px;
+
       background: #332522;
+
       color: white;
+
       font-size: 16px;
+
       font-weight: bold;
+
       cursor: pointer;
     }
 
     .login-btn:disabled {
       opacity: 0.6;
+
       cursor: not-allowed;
     }
 
     .error {
       display: none;
+
       margin-top: 15px;
+
       color: #b42318;
+
       font-size: 14px;
     }
 
     .success {
       display: none;
+
       margin-top: 15px;
+
       color: #18794e;
+
       font-size: 14px;
     }
+
   </style>
+
 </head>
+
 
 <body>
 
   <div class="login-box">
 
     <div class="logo">
+
       <i class="fa-solid fa-user"></i>
+
     </div>
 
-    <h1>Connexion vendeur</h1>
+
+    <h1>
+      Connexion vendeur
+    </h1>
+
 
     <p class="subtitle">
       Entrez votre code secret pour continuer
     </p>
+
 
     <input
       type="password"
@@ -132,46 +206,85 @@
       autocomplete="off"
     >
 
-    <button id="loginBtn" class="login-btn">
+
+    <button
+      id="loginBtn"
+      class="login-btn"
+    >
       Se connecter
     </button>
 
-    <div id="error" class="error">
+
+    <div
+      id="error"
+      class="error"
+    >
       Code incorrect.
     </div>
 
-    <div id="success" class="success">
+
+    <div
+      id="success"
+      class="success"
+    >
       Connexion réussie...
     </div>
 
   </div>
 
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script src="supabase.js"></script>
 
+
   <script>
+
+    /* =========================================
+       GET SELLER TOKEN
+    ========================================= */
 
     const params =
       new URLSearchParams(
         window.location.search
       );
 
+
     const token =
       params.get("token");
 
 
+    /* =========================================
+       ELEMENTS
+    ========================================= */
+
     const pinInput =
-      document.getElementById("pin");
+      document.getElementById(
+        "pin"
+      );
+
 
     const loginBtn =
-      document.getElementById("loginBtn");
+      document.getElementById(
+        "loginBtn"
+      );
+
 
     const errorBox =
-      document.getElementById("error");
+      document.getElementById(
+        "error"
+      );
+
 
     const successBox =
-      document.getElementById("success");
+      document.getElementById(
+        "success"
+      );
 
+
+    /* =========================================
+       EVENTS
+    ========================================= */
 
     loginBtn.addEventListener(
       "click",
@@ -183,51 +296,86 @@
       "keydown",
       function(event) {
 
-        if (event.key === "Enter") {
+        if (
+          event.key ===
+          "Enter"
+        ) {
+
           login();
+
         }
 
       }
     );
 
 
+    /* =========================================
+       LOGIN
+    ========================================= */
+
     async function login() {
 
-      errorBox.style.display = "none";
-      successBox.style.display = "none";
+      errorBox.style.display =
+        "none";
+
+
+      successBox.style.display =
+        "none";
 
 
       const pin =
         pinInput.value.trim();
 
 
+      /* =========================================
+         CHECK TOKEN
+      ========================================= */
+
       if (!token) {
 
         errorBox.textContent =
           "Lien vendeur invalide.";
 
+
         errorBox.style.display =
           "block";
+
 
         return;
 
       }
 
 
-      if (!/^\d{6}$/.test(pin)) {
+      /* =========================================
+         CHECK PIN
+      ========================================= */
+
+      if (
+        !/^\d{6}$/.test(
+          pin
+        )
+      ) {
 
         errorBox.textContent =
           "Entrez un code de 6 chiffres.";
 
+
         errorBox.style.display =
           "block";
+
 
         return;
 
       }
 
 
-      loginBtn.disabled = true;
+      /* =========================================
+         BUTTON LOADING
+      ========================================= */
+
+      loginBtn.disabled =
+        true;
+
 
       loginBtn.textContent =
         "Connexion...";
@@ -235,39 +383,61 @@
 
       try {
 
+        /* =========================================
+           VERIFY LOGIN
+        ========================================= */
+
         const {
           data,
           error
         } =
-          await supabaseClient
-            .rpc(
-              "verify_vendor_login",
-              {
-                p_login_token: token,
-                p_pin: pin
-              }
-            );
+          await supabaseClient.rpc(
+            "verify_vendor_login",
+            {
+              p_login_token:
+                token,
 
+              p_pin:
+                pin
+            }
+          );
+
+
+        /* =========================================
+           SUPABASE ERROR
+        ========================================= */
 
         if (error) {
 
-          console.error(error);
+          console.error(
+            error
+          );
+
 
           errorBox.textContent =
             "Une erreur est survenue. Réessayez.";
 
+
           errorBox.style.display =
             "block";
 
-          loginBtn.disabled = false;
+
+          loginBtn.disabled =
+            false;
+
 
           loginBtn.textContent =
             "Se connecter";
+
 
           return;
 
         }
 
+
+        /* =========================================
+           INVALID LOGIN
+        ========================================= */
 
         if (
           !data ||
@@ -277,13 +447,18 @@
           errorBox.textContent =
             "Code incorrect.";
 
+
           errorBox.style.display =
             "block";
 
-          loginBtn.disabled = false;
+
+          loginBtn.disabled =
+            false;
+
 
           loginBtn.textContent =
             "Se connecter";
+
 
           return;
 
@@ -294,31 +469,44 @@
           data[0];
 
 
-        if (!vendor.session_token) {
+        /* =========================================
+           CHECK SESSION
+        ========================================= */
+
+        if (
+          !vendor.session_token
+        ) {
 
           errorBox.textContent =
             "Impossible de créer la session.";
 
+
           errorBox.style.display =
             "block";
 
-          loginBtn.disabled = false;
+
+          loginBtn.disabled =
+            false;
+
 
           loginBtn.textContent =
             "Se connecter";
+
 
           return;
 
         }
 
 
-        /*
-          تخزين جلسة البائع
-        */
+        /* =========================================
+           SAVE VENDOR SESSION
+        ========================================= */
 
         localStorage.setItem(
           "vendor_session",
+
           JSON.stringify({
+
             vendor_id:
               vendor.vendor_id,
 
@@ -327,16 +515,15 @@
 
             session_token:
               vendor.session_token
+
           })
         );
 
 
-        /*
-          تخزين login_token مؤقتاً
-          فقط أثناء جلسة التصفح.
-
-          لا يتم وضعه في localStorage.
-        */
+        /* =========================================
+           SAVE LOGIN TOKEN
+           SESSION ONLY
+        ========================================= */
 
         sessionStorage.setItem(
           "vendor_login_token",
@@ -344,20 +531,33 @@
         );
 
 
+        /* =========================================
+           SUCCESS
+        ========================================= */
+
         successBox.textContent =
           "Bienvenue " +
           vendor.vendor_name +
           " !";
 
+
         successBox.style.display =
           "block";
 
+
+        /* =========================================
+           GO TO DASHBOARD
+           TOKEN IS PASSED DIRECTLY
+        ========================================= */
 
         setTimeout(
           function() {
 
             window.location.href =
-              "vendor-dashboard.html";
+              "vendor-dashboard.html?token=" +
+              encodeURIComponent(
+                token
+              );
 
           },
           800
@@ -366,15 +566,22 @@
 
       } catch (err) {
 
-        console.error(err);
+        console.error(
+          err
+        );
+
 
         errorBox.textContent =
           "Une erreur est survenue. Réessayez.";
 
+
         errorBox.style.display =
           "block";
 
-        loginBtn.disabled = false;
+
+        loginBtn.disabled =
+          false;
+
 
         loginBtn.textContent =
           "Se connecter";
@@ -386,4 +593,5 @@
   </script>
 
 </body>
+
 </html>
