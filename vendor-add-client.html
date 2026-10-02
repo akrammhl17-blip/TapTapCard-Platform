@@ -78,6 +78,45 @@
       margin-top: 30px;
       margin-bottom: 5px;
       font-size: 18px;
+      font-weight: bold;
+    }
+
+    .upload-box {
+      border: 2px dashed #ddd;
+      border-radius: 14px;
+      padding: 15px;
+      text-align: center;
+      background: #fafafa;
+    }
+
+    .upload-box input[type="file"] {
+      border: none;
+      padding: 8px 0;
+      background: transparent;
+    }
+
+    .preview {
+      display: none;
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-top: 12px;
+    }
+
+    .profile-preview {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 12px auto 0;
+    }
+
+    .upload-status {
+      display: none;
+      margin-top: 8px;
+      font-size: 13px;
+      color: #666;
     }
 
     button {
@@ -141,7 +180,7 @@
 
       <form id="clientForm">
 
-        <!-- Informations principales -->
+        <!-- INFORMATIONS PRINCIPALES -->
 
         <label for="name">
           Nom du client
@@ -165,35 +204,70 @@
         ></textarea>
 
 
-        <!-- Images -->
+        <!-- IMAGES -->
 
         <div class="section-title">
           Images
         </div>
 
-        <label for="profileImage">
+
+        <label for="profileFile">
           Photo de profil
         </label>
 
-        <input
-          type="url"
-          id="profileImage"
-          placeholder="https://..."
-        >
+        <div class="upload-box">
+
+          <input
+            type="file"
+            id="profileFile"
+            accept="image/*"
+          >
+
+          <img
+            id="profilePreview"
+            class="preview profile-preview"
+            alt="Aperçu"
+          >
+
+          <div
+            id="profileStatus"
+            class="upload-status"
+          >
+            Image sélectionnée
+          </div>
+
+        </div>
 
 
-        <label for="coverImage">
+        <label for="coverFile">
           Image de couverture
         </label>
 
-        <input
-          type="url"
-          id="coverImage"
-          placeholder="https://..."
-        >
+        <div class="upload-box">
+
+          <input
+            type="file"
+            id="coverFile"
+            accept="image/*"
+          >
+
+          <img
+            id="coverPreview"
+            class="preview"
+            alt="Aperçu"
+          >
+
+          <div
+            id="coverStatus"
+            class="upload-status"
+          >
+            Image sélectionnée
+          </div>
+
+        </div>
 
 
-        <!-- Réseaux sociaux -->
+        <!-- RÉSEAUX SOCIAUX -->
 
         <div class="section-title">
           Réseaux sociaux
@@ -255,7 +329,7 @@
         >
 
 
-        <!-- Contact -->
+        <!-- CONTACT -->
 
         <div class="section-title">
           Contact
@@ -327,22 +401,46 @@
 
   <script>
 
-    const form = document.getElementById("clientForm");
-    const submitButton = document.getElementById("submitButton");
-    const message = document.getElementById("message");
+    const form =
+      document.getElementById("clientForm");
+
+    const submitButton =
+      document.getElementById("submitButton");
+
+    const message =
+      document.getElementById("message");
 
 
-    function showMessage(text, type) {
+    const profileFile =
+      document.getElementById("profileFile");
 
-      message.textContent = text;
+    const coverFile =
+      document.getElementById("coverFile");
 
-      message.className = "message " + type;
+    const profilePreview =
+      document.getElementById("profilePreview");
 
-      message.style.display = "block";
-    }
+    const coverPreview =
+      document.getElementById("coverPreview");
+
+    const profileStatus =
+      document.getElementById("profileStatus");
+
+    const coverStatus =
+      document.getElementById("coverStatus");
 
 
-    // Récupérer la session du vendeur
+    /*
+      BUCKET SUPABASE
+    */
+
+    const STORAGE_BUCKET =
+      "client-images";
+
+
+    /*
+      SESSION VENDEUR
+    */
 
     const sessionData =
       localStorage.getItem("vendor_session");
@@ -350,12 +448,14 @@
 
     if (!sessionData) {
 
-      window.location.href = "vendor.html";
+      window.location.href =
+        "vendor.html";
 
     }
 
 
     let vendorSession;
+
 
     try {
 
@@ -364,14 +464,115 @@
 
     } catch (error) {
 
-      localStorage.removeItem("vendor_session");
+      localStorage.removeItem(
+        "vendor_session"
+      );
 
-      window.location.href = "vendor.html";
+      window.location.href =
+        "vendor.html";
 
     }
 
 
-    // Vérifier la session
+    /*
+      MESSAGE
+    */
+
+    function showMessage(
+      text,
+      type
+    ) {
+
+      message.textContent =
+        text;
+
+      message.className =
+        "message " + type;
+
+      message.style.display =
+        "block";
+    }
+
+
+    /*
+      PREVIEW PHOTO DE PROFIL
+    */
+
+    profileFile.addEventListener(
+      "change",
+      function() {
+
+        const file =
+          profileFile.files[0];
+
+        if (!file) {
+
+          profilePreview.style.display =
+            "none";
+
+          profileStatus.style.display =
+            "none";
+
+          return;
+        }
+
+
+        profilePreview.src =
+          URL.createObjectURL(file);
+
+        profilePreview.style.display =
+          "block";
+
+        profileStatus.textContent =
+          file.name;
+
+        profileStatus.style.display =
+          "block";
+      }
+    );
+
+
+    /*
+      PREVIEW COVER
+    */
+
+    coverFile.addEventListener(
+      "change",
+      function() {
+
+        const file =
+          coverFile.files[0];
+
+        if (!file) {
+
+          coverPreview.style.display =
+            "none";
+
+          coverStatus.style.display =
+            "none";
+
+          return;
+        }
+
+
+        coverPreview.src =
+          URL.createObjectURL(file);
+
+        coverPreview.style.display =
+          "block";
+
+        coverStatus.textContent =
+          file.name;
+
+        coverStatus.style.display =
+          "block";
+      }
+    );
+
+
+    /*
+      VÉRIFIER SESSION
+    */
 
     async function verifySession() {
 
@@ -380,13 +581,17 @@
         !vendorSession.session_token
       ) {
 
-        window.location.href = "vendor.html";
+        window.location.href =
+          "vendor.html";
 
         return false;
       }
 
 
-      const { data, error } =
+      const {
+        data,
+        error
+      } =
         await supabaseClient.rpc(
           "verify_vendor_session",
           {
@@ -417,7 +622,139 @@
     }
 
 
-    // Créer le client
+    /*
+      UPLOAD IMAGE
+    */
+
+    async function uploadImage(
+      file,
+      folder
+    ) {
+
+      if (!file) {
+
+        return "";
+      }
+
+
+      /*
+        Vérification du type
+      */
+
+      if (
+        !file.type.startsWith("image/")
+      ) {
+
+        throw new Error(
+          "Le fichier doit être une image."
+        );
+      }
+
+
+      /*
+        Limite 10 MB
+      */
+
+      if (
+        file.size >
+        10 * 1024 * 1024
+      ) {
+
+        throw new Error(
+          "L'image doit faire moins de 10 MB."
+        );
+      }
+
+
+      /*
+        Nom unique
+      */
+
+      const extension =
+        file.name
+          .split(".")
+          .pop()
+          .toLowerCase();
+
+
+      const randomPart =
+        Math.random()
+          .toString(36)
+          .substring(2, 10);
+
+
+      const timestamp =
+        Date.now();
+
+
+      const filePath =
+        vendorSession.vendor_id +
+        "/" +
+        folder +
+        "/" +
+        timestamp +
+        "-" +
+        randomPart +
+        "." +
+        extension;
+
+
+      /*
+        Upload vers Supabase Storage
+      */
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.storage
+          .from(STORAGE_BUCKET)
+          .upload(
+            filePath,
+            file,
+            {
+              cacheControl: "3600",
+              upsert: false,
+              contentType: file.type
+            }
+          );
+
+
+      if (error) {
+
+        console.error(
+          "Storage upload error:",
+          error
+        );
+
+        throw new Error(
+          "Impossible d'envoyer l'image : " +
+          error.message
+        );
+      }
+
+
+      /*
+        URL publique
+      */
+
+      const {
+        data: publicData
+      } =
+        supabaseClient.storage
+          .from(STORAGE_BUCKET)
+          .getPublicUrl(
+            data.path
+          );
+
+
+      return publicData.publicUrl;
+    }
+
+
+    /*
+      CRÉER CLIENT
+    */
 
     form.addEventListener(
       "submit",
@@ -426,88 +763,22 @@
         event.preventDefault();
 
 
-        submitButton.disabled = true;
+        submitButton.disabled =
+          true;
 
         submitButton.textContent =
           "Création en cours...";
 
 
-        message.style.display = "none";
-
-
-        const name =
-          document.getElementById(
-            "name"
-          ).value.trim();
-
-
-        const description =
-          document.getElementById(
-            "description"
-          ).value.trim();
-
-
-        const profileImage =
-          document.getElementById(
-            "profileImage"
-          ).value.trim();
-
-
-        const coverImage =
-          document.getElementById(
-            "coverImage"
-          ).value.trim();
-
-
-        const instagram =
-          document.getElementById(
-            "instagram"
-          ).value.trim();
-
-
-        const facebook =
-          document.getElementById(
-            "facebook"
-          ).value.trim();
-
-
-        const tiktok =
-          document.getElementById(
-            "tiktok"
-          ).value.trim();
-
-
-        const snapchat =
-          document.getElementById(
-            "snapchat"
-          ).value.trim();
-
-
-        const website =
-          document.getElementById(
-            "website"
-          ).value.trim();
-
-
-        const phone =
-          document.getElementById(
-            "phone"
-          ).value.trim();
-
-
-        const whatsapp =
-          document.getElementById(
-            "whatsapp"
-          ).value.trim();
-
-
-        const googleMaps =
-          document.getElementById(
-            "googleMaps"
-          ).value.trim();
+        message.style.display =
+          "none";
 
 
         try {
+
+          /*
+            Vérifier session
+          */
 
           const valid =
             await verifySession();
@@ -519,10 +790,138 @@
           }
 
 
-          const { data, error } =
+          /*
+            Récupérer données
+          */
+
+          const name =
+            document
+              .getElementById("name")
+              .value
+              .trim();
+
+
+          const description =
+            document
+              .getElementById("description")
+              .value
+              .trim();
+
+
+          const instagram =
+            document
+              .getElementById("instagram")
+              .value
+              .trim();
+
+
+          const facebook =
+            document
+              .getElementById("facebook")
+              .value
+              .trim();
+
+
+          const tiktok =
+            document
+              .getElementById("tiktok")
+              .value
+              .trim();
+
+
+          const snapchat =
+            document
+              .getElementById("snapchat")
+              .value
+              .trim();
+
+
+          const website =
+            document
+              .getElementById("website")
+              .value
+              .trim();
+
+
+          const phone =
+            document
+              .getElementById("phone")
+              .value
+              .trim();
+
+
+          const whatsapp =
+            document
+              .getElementById("whatsapp")
+              .value
+              .trim();
+
+
+          const googleMaps =
+            document
+              .getElementById("googleMaps")
+              .value
+              .trim();
+
+
+          /*
+            Fichiers
+          */
+
+          const profileFileValue =
+            profileFile.files[0];
+
+
+          const coverFileValue =
+            coverFile.files[0];
+
+
+          /*
+            Upload profile
+          */
+
+          submitButton.textContent =
+            "Envoi de la photo de profil...";
+
+
+          const profileImage =
+            await uploadImage(
+              profileFileValue,
+              "profile"
+            );
+
+
+          /*
+            Upload cover
+          */
+
+          submitButton.textContent =
+            "Envoi de la couverture...";
+
+
+          const coverImage =
+            await uploadImage(
+              coverFileValue,
+              "cover"
+            );
+
+
+          /*
+            Créer le client
+          */
+
+          submitButton.textContent =
+            "Création du client...";
+
+
+          const {
+            data,
+            error
+          } =
             await supabaseClient.rpc(
               "create_vendor_client",
               {
+
                 p_session_token:
                   vendorSession.session_token,
 
@@ -561,29 +960,27 @@
 
                 p_google_maps:
                   googleMaps
+
               }
             );
 
 
           if (error) {
 
-            console.error(error);
-
-            showMessage(
-              error.message ||
-              "Une erreur est survenue.",
-              "error"
+            console.error(
+              "Create client error:",
+              error
             );
 
-            submitButton.disabled =
-              false;
-
-            submitButton.textContent =
-              "Créer le client";
-
-            return;
+            throw new Error(
+              error.message
+            );
           }
 
+
+          /*
+            Succès
+          */
 
           showMessage(
             "Client créé avec succès !",
@@ -593,6 +990,27 @@
 
           form.reset();
 
+
+          profilePreview.style.display =
+            "none";
+
+          coverPreview.style.display =
+            "none";
+
+          profileStatus.style.display =
+            "none";
+
+          coverStatus.style.display =
+            "none";
+
+
+          submitButton.textContent =
+            "Client créé";
+
+
+          /*
+            Retour dashboard
+          */
 
           setTimeout(
             function() {
@@ -609,7 +1027,9 @@
 
           console.error(error);
 
+
           showMessage(
+            error.message ||
             "Une erreur est survenue.",
             "error"
           );
