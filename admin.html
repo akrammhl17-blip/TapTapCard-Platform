@@ -1,55 +1,29 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>TapTapCard Admin</title>
+  <title>TAPTAPCARD — Admin</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #f4f6f8;
-      --card: #ffffff;
-      --text: #17191c;
-      --muted: #7b818a;
-      --border: #e8ebee;
-      --soft: #f7f8fa;
-      --dark: #17191c;
-      --green: #159447;
-      --green-bg: #e9f8ef;
-      --red: #d43b3b;
-      --red-bg: #fff0f0;
-      --shadow: 0 10px 35px rgba(20, 25, 30, 0.06);
-      --shadow-hover: 0 15px 40px rgba(20, 25, 30, 0.10);
     }
 
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
       background:
-        radial-gradient(
-          circle at top left,
-          #ffffff 0,
-          #f4f6f8 42%,
-          #eef1f4 100%
+        linear-gradient(
+          135deg,
+          #f8f9fb 0%,
+          #eef1f5 50%,
+          #e7ebf0 100%
         );
-      color: var(--text);
-      min-height: 100vh;
-      padding: 24px;
+      color: #17191c;
     }
 
     button,
@@ -57,248 +31,149 @@
       font-family: inherit;
     }
 
-    button {
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .container {
+    .page {
       width: 100%;
-      max-width: 1240px;
+      max-width: 1250px;
       margin: auto;
+      padding: 25px;
     }
 
-    /* =========================
-       HEADER
-    ========================= */
+    /* HEADER */
 
-    header {
-      background: rgba(255,255,255,0.92);
-      border: 1px solid rgba(255,255,255,0.9);
-      padding: 22px 24px;
-      border-radius: 22px;
-      margin-bottom: 20px;
+    .header {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
       gap: 20px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
+      margin-bottom: 25px;
     }
 
-    .brand-area {
+    .brand {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 13px;
     }
 
     .brand-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 15px;
+      width: 45px;
+      height: 45px;
+      border-radius: 13px;
       background: #17191c;
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 19px;
       font-weight: 800;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+      font-size: 15px;
     }
 
-    header h1 {
-      font-size: 22px;
+    .brand-title {
+      font-size: 20px;
       font-weight: 800;
-      letter-spacing: -0.4px;
     }
 
-    header p {
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 13px;
+    .brand-subtitle {
+      font-size: 12px;
+      color: #777d85;
+      margin-top: 3px;
     }
 
     .header-actions {
       display: flex;
-      gap: 9px;
-      align-items: center;
+      gap: 10px;
     }
 
-    .add-vendor-btn,
-    .logout-btn {
+    .top-btn {
       border: none;
       padding: 11px 16px;
-      border-radius: 12px;
+      border-radius: 10px;
       cursor: pointer;
-      font-size: 13px;
       font-weight: 700;
-      transition: 0.2s ease;
+      font-size: 13px;
     }
 
-    .add-vendor-btn {
-      background: var(--dark);
+    .add-btn {
+      background: #17191c;
       color: white;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.10);
     }
 
     .logout-btn {
-      background: #f1f2f4;
-      color: #33373c;
+      background: white;
+      color: #333;
+      border: 1px solid #e1e4e8;
     }
 
-    .add-vendor-btn:hover,
-    .logout-btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .add-vendor-btn:active,
-    .logout-btn:active {
-      transform: translateY(0);
-    }
-
-    /* =========================
-       ERROR
-    ========================= */
-
-    .error {
-      background: var(--red-bg);
-      color: var(--red);
-      border: 1px solid #ffd7d7;
-      padding: 14px 16px;
-      border-radius: 13px;
-      margin-bottom: 18px;
-      display: none;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    /* =========================
-       STATS
-    ========================= */
+    /* STATS */
 
     .stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 15px;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
 
     .stat-card {
-      position: relative;
-      overflow: hidden;
-      background: var(--card);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.86);
+      border: 1px solid #e4e7eb;
+      border-radius: 16px;
       padding: 20px;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.04);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #7b8188;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    /* MAIN CARD */
+
+    .main-card {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid #e4e7eb;
       border-radius: 18px;
-      box-shadow: var(--shadow);
-      transition: 0.2s ease;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+      overflow: hidden;
     }
 
-    .stat-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-hover);
-    }
-
-    .stat-card::after {
-      content: "";
-      position: absolute;
-      width: 85px;
-      height: 85px;
-      border-radius: 50%;
-      background: #f5f6f8;
-      right: -28px;
-      top: -30px;
-    }
-
-    .stat-card span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 10px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .stat-card strong {
-      font-size: 31px;
-      font-weight: 800;
-      letter-spacing: -1px;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* =========================
-       PANEL
-    ========================= */
-
-    .panel {
-      background: rgba(255,255,255,0.95);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 22px;
-      box-shadow: var(--shadow);
-    }
-
-    .panel-header {
+    .card-header {
+      padding: 20px;
+      border-bottom: 1px solid #eceef1;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 15px;
-      margin-bottom: 20px;
     }
 
-    .panel-title h2 {
-      font-size: 19px;
+    .card-title {
+      font-size: 18px;
       font-weight: 800;
-      letter-spacing: -0.3px;
     }
 
-    .panel-title p {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 5px;
-    }
-
-    .search-wrap {
-      position: relative;
-      width: 280px;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 13px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #9298a0;
-      font-size: 14px;
-      pointer-events: none;
-    }
-
-    .search {
-      width: 100%;
-      padding: 12px 13px 12px 37px;
-      border: 1px solid var(--border);
-      background: #fafbfc;
-      border-radius: 12px;
+    .search-box {
+      width: 260px;
+      max-width: 100%;
+      padding: 11px 13px;
+      border: 1px solid #dfe3e8;
+      border-radius: 10px;
       outline: none;
-      font-size: 13px;
-      transition: 0.2s ease;
-    }
-
-    .search:focus {
       background: white;
-      border-color: #b8bdc4;
-      box-shadow: 0 0 0 3px rgba(20,25,30,0.04);
     }
 
-    /* =========================
-       TABLE
-    ========================= */
+    .search-box:focus {
+      border-color: #999;
+    }
+
+    /* TABLE */
 
     .table-wrapper {
+      width: 100%;
       overflow-x: auto;
-      border: 1px solid var(--border);
-      border-radius: 15px;
     }
 
     table {
@@ -307,62 +182,40 @@
       min-width: 850px;
     }
 
-    th,
-    td {
-      padding: 15px 14px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-
     th {
+      text-align: left;
+      padding: 13px 20px;
       font-size: 11px;
-      color: #858b93;
-      background: #fafbfc;
+      color: #81868d;
       text-transform: uppercase;
-      letter-spacing: 0.4px;
-      font-weight: 800;
+      letter-spacing: .04em;
+      background: #fafbfc;
     }
 
     td {
+      padding: 15px 20px;
+      border-top: 1px solid #edf0f2;
       font-size: 13px;
-      background: white;
-    }
-
-    tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    tbody tr {
-      transition: 0.15s ease;
-    }
-
-    tbody tr:hover td {
-      background: #fcfcfd;
     }
 
     .vendor-name {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 10px;
     }
 
     .vendor-avatar {
       width: 36px;
       height: 36px;
-      flex-shrink: 0;
-      border-radius: 11px;
+      border-radius: 10px;
       background: #17191c;
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13px;
       font-weight: 800;
-    }
-
-    .vendor-name strong {
       font-size: 13px;
-      font-weight: 750;
+      flex-shrink: 0;
     }
 
     .vendor-email {
@@ -370,63 +223,36 @@
       font-size: 12px;
     }
 
-    /* =========================
-       STATUS
-    ========================= */
-
     .status {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 10px;
+      padding: 5px 9px;
       border-radius: 20px;
       font-size: 11px;
-      font-weight: 800;
+      font-weight: 700;
     }
 
-    .status::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: currentColor;
+    .status-active {
+      background: #eaf8ef;
+      color: #16833b;
     }
 
-    .status.active {
-      background: var(--green-bg);
-      color: var(--green);
+    .status-inactive {
+      background: #f1f2f4;
+      color: #73777d;
     }
-
-    .status.inactive {
-      background: var(--red-bg);
-      color: var(--red);
-    }
-
-    /* =========================
-       LINKS
-    ========================= */
 
     .links-count {
-      display: inline-flex;
-      min-width: 36px;
-      height: 32px;
-      padding: 0 10px;
-      align-items: center;
-      justify-content: center;
-      border-radius: 9px;
-      background: #f3f4f6;
       font-weight: 800;
-      font-size: 13px;
+      font-size: 16px;
     }
 
-    /* =========================
-       ACTIONS
-    ========================= */
+    /* ACTIONS */
 
     .actions {
       display: flex;
-      gap: 7px;
       flex-wrap: wrap;
+      gap: 7px;
     }
 
     .action-btn {
@@ -439,9 +265,23 @@
       transition: 0.18s ease;
     }
 
+    .manage-btn {
+      background: #eef4ff;
+      color: #2457a6;
+      border-color: #d8e5ff;
+    }
+
+    .manage-btn:hover {
+      background: #e1ecff;
+    }
+
     .reset-btn {
       background: #17191c;
       color: white;
+    }
+
+    .reset-btn:hover {
+      background: #30343a;
     }
 
     .history-btn {
@@ -450,525 +290,212 @@
       border-color: #e6e8eb;
     }
 
-    .action-btn:hover {
-      transform: translateY(-1px);
+    .history-btn:hover {
+      background: #e7e9ec;
     }
 
-    /* =========================
-       MESSAGE
-    ========================= */
-
-    .message {
-      padding: 28px !important;
-      text-align: center !important;
-      color: #858b93;
-      font-size: 13px;
-    }
-
-    /* =========================
-       MODAL
-    ========================= */
+    /* MODAL */
 
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(12,15,18,0.58);
+      background: rgba(0,0,0,0.45);
       display: none;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       padding: 20px;
-      z-index: 9999;
-      backdrop-filter: blur(7px);
+      z-index: 1000;
     }
 
     .modal.show {
       display: flex;
     }
 
-    .modal-box {
-      background: white;
+    .modal-card {
       width: 100%;
-      max-width: 500px;
-      border-radius: 21px;
-      padding: 24px;
-      max-height: 88vh;
-      overflow-y: auto;
-      box-shadow: 0 25px 70px rgba(0,0,0,0.20);
-      animation: modalAppear 0.2s ease;
-    }
-
-    @keyframes modalAppear {
-      from {
-        opacity: 0;
-        transform: translateY(12px) scale(0.97);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 21px;
-    }
-
-    .modal-header h3 {
-      font-size: 19px;
-      font-weight: 800;
-    }
-
-    .close-btn {
-      border: none;
-      background: #f1f2f4;
-      color: #555b62;
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 18px;
-      transition: 0.18s ease;
-    }
-
-    .close-btn:hover {
-      background: #e7e9ec;
-    }
-
-    /* =========================
-       FORM
-    ========================= */
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 12px;
-      font-weight: 800;
-      color: #33373c;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #dfe2e6;
-      background: #fafbfc;
-      border-radius: 11px;
-      outline: none;
-      font-size: 14px;
-      transition: 0.2s ease;
-    }
-
-    .form-input:focus {
+      max-width: 480px;
       background: white;
-      border-color: #999fa7;
-      box-shadow: 0 0 0 3px rgba(20,25,30,0.04);
+      border-radius: 18px;
+      padding: 25px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.18);
     }
 
-    .pin-input {
-      letter-spacing: 6px;
+    .modal-title {
       font-size: 20px;
       font-weight: 800;
+      margin-bottom: 7px;
     }
 
-    .form-help {
-      color: #8a9098;
-      font-size: 11px;
-      margin-top: 6px;
-    }
-
-    .form-error {
-      display: none;
-      background: var(--red-bg);
-      color: var(--red);
-      border: 1px solid #ffd7d7;
-      padding: 11px 12px;
-      border-radius: 10px;
-      font-size: 12px;
-      margin-bottom: 15px;
-      font-weight: 600;
-    }
-
-    .form-actions {
-      display: flex;
-      gap: 9px;
-      margin-top: 21px;
-    }
-
-    .form-actions button {
-      flex: 1;
-      border: none;
-      padding: 13px;
-      border-radius: 11px;
-      cursor: pointer;
+    .modal-subtitle {
+      color: #777d85;
       font-size: 13px;
-      font-weight: 750;
+      margin-bottom: 20px;
+    }
+
+    .field {
+      margin-bottom: 15px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #dfe3e8;
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .field input:focus {
+      border-color: #999;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 9px;
+      margin-top: 20px;
+    }
+
+    .modal-btn {
+      padding: 10px 15px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
     }
 
     .cancel-btn {
-      background: #f0f1f3;
-      color: #30343a;
+      background: #f1f2f4;
+      color: #333;
     }
 
-    .create-btn {
+    .confirm-btn {
       background: #17191c;
       color: white;
     }
 
-    .create-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    /* HISTORY */
+
+    .history-list {
+      max-height: 350px;
+      overflow-y: auto;
     }
-
-    /* =========================
-       CREATED VENDOR
-    ========================= */
-
-    .created-box {
-      display: none;
-    }
-
-    .success-icon {
-      width: 62px;
-      height: 62px;
-      margin: 0 auto 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--green-bg);
-      color: var(--green);
-      border-radius: 18px;
-      font-size: 29px;
-      font-weight: 800;
-    }
-
-    .created-title {
-      text-align: center;
-      font-size: 20px;
-      margin-bottom: 8px;
-      font-weight: 800;
-    }
-
-    .created-description {
-      text-align: center;
-      color: #777e86;
-      font-size: 13px;
-      margin-bottom: 20px;
-      line-height: 1.55;
-    }
-
-    .credential-box {
-      background: #f8f9fa;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 13px;
-      margin-bottom: 10px;
-    }
-
-    .credential-label {
-      color: #858b93;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-
-    .credential-value {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .credential-value span {
-      flex: 1;
-      word-break: break-all;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .copy-btn {
-      border: none;
-      background: #17191c;
-      color: white;
-      padding: 8px 11px;
-      border-radius: 8px;
-      cursor: pointer;
-      white-space: nowrap;
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    .pin-display {
-      letter-spacing: 5px;
-      font-size: 20px !important;
-    }
-
-    .done-btn {
-      width: 100%;
-      border: none;
-      background: #17191c;
-      color: white;
-      padding: 13px;
-      border-radius: 11px;
-      cursor: pointer;
-      margin-top: 8px;
-      font-weight: 750;
-    }
-
-    /* =========================
-       HISTORY
-    ========================= */
 
     .history-item {
-      padding: 14px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 9px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      background: #fafbfc;
+      padding: 13px;
+      border: 1px solid #eceef1;
+      border-radius: 10px;
+      margin-bottom: 8px;
     }
 
     .history-count {
       font-weight: 800;
-      font-size: 13px;
     }
 
     .history-date {
-      color: #777e86;
+      color: #777d85;
       font-size: 11px;
-      text-align: right;
+      margin-top: 4px;
     }
 
-    /* =========================
-       RESET
-    ========================= */
+    /* CREDENTIALS */
 
-    .reset-confirm-box {
-      max-width: 400px;
-      text-align: center;
-      padding: 30px 24px;
+    .credential-box {
+      background: #f6f7f9;
+      border: 1px solid #e5e7ea;
+      border-radius: 11px;
+      padding: 13px;
+      margin-bottom: 10px;
+      word-break: break-all;
     }
 
-    .reset-icon {
-      width: 62px;
-      height: 62px;
-      margin: 0 auto 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 18px;
-      background: #f1f2f4;
-      font-size: 28px;
-      color: #22262a;
+    .credential-label {
+      font-size: 11px;
+      color: #777d85;
+      margin-bottom: 5px;
     }
 
-    .reset-confirm-box h3 {
-      font-size: 20px;
-      margin-bottom: 9px;
-      font-weight: 800;
-    }
-
-    .reset-confirm-box p {
-      color: #777e86;
+    .credential-value {
+      font-weight: 700;
       font-size: 13px;
-      line-height: 1.55;
-      margin-bottom: 23px;
     }
 
-    .reset-actions {
-      display: flex;
-      gap: 9px;
-    }
+    /* TOAST */
 
-    .reset-actions button {
-      flex: 1;
-      border: none;
-      padding: 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 750;
-    }
-
-    .cancel-reset-btn {
-      background: #eeeeef;
-      color: #22262a;
-    }
-
-    .confirm-reset-btn {
-      background: #17191c;
-      color: white;
-    }
-
-    /* =========================
-       TOAST
-    ========================= */
-
-    .success-toast {
+    .toast {
       position: fixed;
-      left: 50%;
-      bottom: 24px;
-      transform: translateX(-50%) translateY(20px);
+      right: 20px;
+      bottom: 20px;
       background: #17191c;
       color: white;
-      padding: 12px 18px;
-      border-radius: 12px;
-      font-size: 12px;
+      padding: 13px 17px;
+      border-radius: 11px;
+      font-size: 13px;
       font-weight: 700;
       opacity: 0;
+      transform: translateY(15px);
       pointer-events: none;
-      transition: 0.25s ease;
-      z-index: 10000;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.20);
+      transition: .25s;
+      z-index: 2000;
     }
 
-    .success-toast.show {
+    .toast.show {
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
+      transform: translateY(0);
     }
 
-    /* =========================
-       MOBILE
-    ========================= */
+    /* MOBILE */
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
 
-      body {
-        padding: 12px;
+      .page {
+        padding: 15px;
       }
 
-      header {
-        padding: 17px;
-        border-radius: 18px;
-        align-items: stretch;
-      }
-
-      .brand-area {
+      .header {
         align-items: flex-start;
-      }
-
-      .brand-icon {
-        width: 43px;
-        height: 43px;
-        border-radius: 13px;
-      }
-
-      header h1 {
-        font-size: 19px;
+        flex-direction: column;
       }
 
       .header-actions {
         width: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
       }
 
-      .header-actions button {
-        width: 100%;
+      .top-btn {
+        flex: 1;
       }
-
-      .stats {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-      }
-
-      .stat-card {
-        padding: 14px 11px;
-        border-radius: 14px;
-      }
-
-      .stat-card span {
-        font-size: 9px;
-        line-height: 1.35;
-        min-height: 25px;
-      }
-
-      .stat-card strong {
-        font-size: 24px;
-      }
-
-      .panel {
-        padding: 15px;
-        border-radius: 17px;
-      }
-
-      .panel-header {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .search-wrap {
-        width: 100%;
-      }
-
-      .table-wrapper {
-        margin: 0 -1px;
-      }
-
-      .modal {
-        padding: 12px;
-      }
-
-      .modal-box {
-        border-radius: 17px;
-        padding: 20px;
-      }
-
-    }
-
-    @media (max-width: 430px) {
 
       .stats {
         grid-template-columns: 1fr;
       }
 
-      .stat-card {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 15px 16px;
-      }
-
-      .stat-card span {
-        min-height: auto;
-        margin-bottom: 0;
-      }
-
-      .stat-card strong {
-        font-size: 25px;
-      }
-
-      .form-actions,
-      .reset-actions {
+      .card-header {
+        align-items: flex-start;
         flex-direction: column;
       }
 
+      .search-box {
+        width: 100%;
+      }
     }
-
   </style>
-
 </head>
-
 
 <body>
 
-<div class="container">
-
+<div class="page">
 
   <!-- HEADER -->
 
-  <header>
+  <header class="header">
 
-    <div class="brand-area">
+    <div class="brand">
 
       <div class="brand-icon">
         TC
@@ -976,13 +503,13 @@
 
       <div>
 
-        <h1>
-          TAPTAPCARD Admin
-        </h1>
+        <div class="brand-title">
+          TAPTAPCARD
+        </div>
 
-        <p id="welcome">
-          Chargement...
-        </p>
+        <div class="brand-subtitle">
+          Administration
+        </div>
 
       </div>
 
@@ -992,15 +519,14 @@
     <div class="header-actions">
 
       <button
-        class="add-vendor-btn"
+        class="top-btn add-btn"
         onclick="openAddVendor()"
       >
         + Ajouter un vendeur
       </button>
 
-
       <button
-        class="logout-btn"
+        class="top-btn logout-btn"
         onclick="logout()"
       >
         Déconnexion
@@ -1011,93 +537,77 @@
   </header>
 
 
-  <!-- ERROR -->
-
-  <div
-    id="errorBox"
-    class="error"
-  ></div>
-
-
   <!-- STATS -->
 
   <section class="stats">
 
     <div class="stat-card">
 
-      <span>
+      <div class="stat-label">
         Total vendeurs
-      </span>
+      </div>
 
-      <strong id="totalVendors">
+      <div
+        class="stat-value"
+        id="totalVendors"
+      >
         0
-      </strong>
+      </div>
 
     </div>
 
 
     <div class="stat-card">
 
-      <span>
+      <div class="stat-label">
         Vendeurs actifs
-      </span>
+      </div>
 
-      <strong id="activeVendors">
+      <div
+        class="stat-value"
+        id="activeVendors"
+      >
         0
-      </strong>
+      </div>
 
     </div>
 
 
     <div class="stat-card">
 
-      <span>
+      <div class="stat-label">
         Liens actifs à compter
-      </span>
+      </div>
 
-      <strong id="totalLinks">
+      <div
+        class="stat-value"
+        id="totalLinks"
+      >
         0
-      </strong>
+      </div>
 
     </div>
 
   </section>
 
 
-  <!-- VENDORS -->
+  <!-- MAIN -->
 
-  <section class="panel">
+  <section class="main-card">
 
-    <div class="panel-header">
+    <div class="card-header">
 
-      <div class="panel-title">
-
-        <h2>
-          Gestion des vendeurs
-        </h2>
-
-        <p>
-          Gérez les vendeurs et leurs compteurs de liens.
-        </p>
-
+      <div class="card-title">
+        Mes vendeurs
       </div>
 
-
-      <div class="search-wrap">
-
-        <span class="search-icon">
-          ⌕
-        </span>
-
-        <input
-          type="text"
-          id="searchInput"
-          class="search"
-          placeholder="Rechercher un vendeur..."
-          oninput="renderVendors()"
-        >
-
-      </div>
+      <input
+        id="searchInput"
+        class="search-box"
+        type="text"
+        placeholder="Rechercher un vendeur..."
+        oninput="renderVendors()"
+      >
 
     </div>
 
@@ -1123,7 +633,7 @@
             </th>
 
             <th>
-              Liens actuels
+              Liens
             </th>
 
             <th>
@@ -1134,21 +644,7 @@
 
         </thead>
 
-
-        <tbody id="vendorsTable">
-
-          <tr>
-
-            <td
-              colspan="5"
-              class="message"
-            >
-              Chargement...
-            </td>
-
-          </tr>
-
-        </tbody>
+        <tbody id="vendorsBody"></tbody>
 
       </table>
 
@@ -1156,286 +652,240 @@
 
   </section>
 
-
 </div>
 
 
-<!-- =========================
-     ADD VENDOR MODAL
-========================= -->
+<!-- ADD VENDOR MODAL -->
 
 <div
+  class="modal"
   id="addVendorModal"
-  class="modal"
 >
 
-  <div class="modal-box">
+  <div class="modal-card">
 
-    <div id="addVendorForm">
+    <div class="modal-title">
+      Ajouter un vendeur
+    </div>
 
-      <div class="modal-header">
-
-        <h3>
-          Ajouter un vendeur
-        </h3>
-
-        <button
-          class="close-btn"
-          onclick="closeAddVendor()"
-        >
-          ×
-        </button>
-
-      </div>
-
-
-      <div
-        id="vendorFormError"
-        class="form-error"
-      ></div>
-
-
-      <div class="form-group">
-
-        <label for="vendorName">
-          Nom du vendeur
-        </label>
-
-        <input
-          id="vendorName"
-          class="form-input"
-          type="text"
-          placeholder="Ex : Mohamed"
-          maxlength="100"
-          autocomplete="off"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="vendorPin">
-          PIN de connexion
-        </label>
-
-        <input
-          id="vendorPin"
-          class="form-input pin-input"
-          type="password"
-          inputmode="numeric"
-          maxlength="6"
-          placeholder="••••••"
-          autocomplete="new-password"
-        >
-
-        <div class="form-help">
-          Le PIN doit contenir exactement 6 chiffres.
-        </div>
-
-      </div>
-
-
-      <div class="form-actions">
-
-        <button
-          class="cancel-btn"
-          onclick="closeAddVendor()"
-        >
-          Annuler
-        </button>
-
-        <button
-          id="createVendorBtn"
-          class="create-btn"
-          onclick="createVendor()"
-        >
-          Créer le vendeur
-        </button>
-
-      </div>
-
+    <div class="modal-subtitle">
+      Créez un accès privé pour le vendeur.
     </div>
 
 
-    <!-- CREATED -->
+    <div class="field">
 
-    <div
-      id="createdVendorBox"
-      class="created-box"
-    >
+      <label>
+        Nom du vendeur
+      </label>
 
-      <div class="success-icon">
-        ✓
-      </div>
-
-
-      <h3 class="created-title">
-        Vendeur créé
-      </h3>
-
-
-      <p class="created-description">
-        Conservez ces informations et transmettez-les
-        au vendeur.
-      </p>
-
-
-      <div class="credential-box">
-
-        <div class="credential-label">
-          Nom
-        </div>
-
-        <div class="credential-value">
-
-          <span id="createdVendorName">
-            -
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div class="credential-box">
-
-        <div class="credential-label">
-          Lien de connexion
-        </div>
-
-        <div class="credential-value">
-
-          <span id="createdVendorUrl">
-            -
-          </span>
-
-          <button
-            class="copy-btn"
-            onclick="copyCreatedUrl()"
-          >
-            Copier
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <div class="credential-box">
-
-        <div class="credential-label">
-          PIN
-        </div>
-
-        <div class="credential-value">
-
-          <span
-            id="createdVendorPin"
-            class="pin-display"
-          >
-            -
-          </span>
-
-          <button
-            class="copy-btn"
-            onclick="copyCreatedPin()"
-          >
-            Copier
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <button
-        class="done-btn"
-        onclick="finishCreatedVendor()"
+      <input
+        id="vendorNameInput"
+        type="text"
+        placeholder="Nom du vendeur"
       >
-        Terminé
-      </button>
 
     </div>
 
-  </div>
 
-</div>
+    <div class="field">
 
+      <label>
+        PIN
+      </label>
 
-<!-- =========================
-     HISTORY MODAL
-========================= -->
-
-<div
-  id="historyModal"
-  class="modal"
->
-
-  <div class="modal-box">
-
-    <div class="modal-header">
-
-      <h3 id="historyTitle">
-        Historique
-      </h3>
-
-      <button
-        class="close-btn"
-        onclick="closeHistory()"
+      <input
+        id="vendorPinInput"
+        type="text"
+        inputmode="numeric"
+        maxlength="6"
+        placeholder="6 chiffres"
       >
-        ×
-      </button>
 
     </div>
 
 
-    <div id="historyContent">
-      Chargement...
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     RESET MODAL
-========================= -->
-
-<div
-  id="resetModal"
-  class="modal"
->
-
-  <div
-    class="modal-box reset-confirm-box"
-  >
-
-    <div class="reset-icon">
-      ↻
-    </div>
-
-    <h3>
-      Réinitialiser le compteur ?
-    </h3>
-
-    <p id="resetMessage">
-      Les liens actuels seront archivés
-      dans l'historique.
-    </p>
-
-    <div class="reset-actions">
+    <div class="modal-actions">
 
       <button
-        class="cancel-reset-btn"
-        onclick="closeResetModal()"
+        class="modal-btn cancel-btn"
+        onclick="closeModal('addVendorModal')"
       >
         Annuler
       </button>
 
       <button
-        class="confirm-reset-btn"
+        class="modal-btn confirm-btn"
+        onclick="createVendor()"
+      >
+        Créer
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- CREDENTIALS MODAL -->
+
+<div
+  class="modal"
+  id="credentialsModal"
+>
+
+  <div class="modal-card">
+
+    <div class="modal-title">
+      Vendeur créé
+    </div>
+
+    <div class="modal-subtitle">
+      Conservez ces informations.
+    </div>
+
+
+    <div class="credential-box">
+
+      <div class="credential-label">
+        Nom
+      </div>
+
+      <div
+        class="credential-value"
+        id="createdVendorName"
+      >
+      </div>
+
+    </div>
+
+
+    <div class="credential-box">
+
+      <div class="credential-label">
+        Lien vendeur
+      </div>
+
+      <div
+        class="credential-value"
+        id="createdVendorLink"
+      >
+      </div>
+
+    </div>
+
+
+    <div class="credential-box">
+
+      <div class="credential-label">
+        PIN
+      </div>
+
+      <div
+        class="credential-value"
+        id="createdVendorPin"
+      >
+      </div>
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="modal-btn confirm-btn"
+        onclick="closeModal('credentialsModal')"
+      >
+        Fermer
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- HISTORY MODAL -->
+
+<div
+  class="modal"
+  id="historyModal"
+>
+
+  <div class="modal-card">
+
+    <div class="modal-title">
+      Historique
+    </div>
+
+    <div
+      class="modal-subtitle"
+      id="historySubtitle"
+    >
+    </div>
+
+
+    <div
+      class="history-list"
+      id="historyList"
+    >
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="modal-btn confirm-btn"
+        onclick="closeModal('historyModal')"
+      >
+        Fermer
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- RESET CONFIRMATION MODAL -->
+
+<div
+  class="modal"
+  id="resetModal"
+>
+
+  <div class="modal-card">
+
+    <div class="modal-title">
+      Réinitialiser le compteur
+    </div>
+
+    <div class="modal-subtitle">
+      Le nombre actuel sera enregistré dans l'historique puis remis à zéro.
+    </div>
+
+
+    <div
+      class="credential-box"
+      id="resetInfo"
+    >
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="modal-btn cancel-btn"
+        onclick="closeModal('resetModal')"
+      >
+        Annuler
+      </button>
+
+      <button
+        class="modal-btn confirm-btn"
         onclick="confirmReset()"
       >
         Réinitialiser
@@ -1448,13 +898,10 @@
 </div>
 
 
-<!-- SUCCESS TOAST -->
-
 <div
-  id="successToast"
-  class="success-toast"
+  class="toast"
+  id="toast"
 >
-  Opération réussie.
 </div>
 
 
@@ -1478,179 +925,82 @@
 
 
   /* =========================
-     VARIABLES
+     GLOBAL DATA
   ========================= */
 
-  let currentUser = null;
-  let currentAdmin = null;
   let vendors = [];
-  let clients = [];
-  let resets = [];
+
   let resetVendorId = null;
-  let resetVendorLinks = 0;
-  let createdVendorUrlValue = "";
-  let createdVendorPinValue = "";
+
+  let resetVendorCount = 0;
 
 
   /* =========================
-     START
+     INIT
   ========================= */
 
   document.addEventListener(
     "DOMContentLoaded",
-    init
+    async () => {
+
+      await checkAdmin();
+
+      await loadVendors();
+
+    }
   );
 
 
-  async function init() {
+  /* =========================
+     ADMIN CHECK
+  ========================= */
 
-    try {
+  async function checkAdmin() {
 
-      const {
-        data: {
-          user
-        },
-        error
-      } =
-        await supabaseClient
-          .auth
-          .getUser();
-
-
-      if (
-        error ||
-        !user
-      ) {
-
-        window.location.href =
-          "index.html";
-
-        return;
-
+    const {
+      data: {
+        user
       }
+    } =
+      await supabaseClient.auth.getUser();
 
 
-      currentUser = user;
+    if (!user) {
 
+      window.location.href =
+        "index.html";
 
-      /* =========================
-         ADMIN CHECK
-      ========================= */
-
-      const {
-        data: vendor,
-        error: vendorError
-      } =
-        await supabaseClient
-          .from("vendors")
-          .select(`
-            id,
-            name,
-            email,
-            role,
-            status,
-            user_id
-          `)
-          .eq(
-            "user_id",
-            user.id
-          )
-          .maybeSingle();
-
-
-      if (vendorError) {
-
-        showError(
-          "Erreur : " +
-          vendorError.message
-        );
-
-        return;
-
-      }
-
-
-      if (!vendor) {
-
-        showError(
-          "Accès refusé."
-        );
-
-        return;
-
-      }
-
-
-      const role =
-        String(
-          vendor.role || ""
-        )
-        .trim()
-        .toLowerCase();
-
-
-      const status =
-        String(
-          vendor.status || ""
-        )
-        .trim()
-        .toLowerCase();
-
-
-      if (
-        role !== "admin" ||
-        status !== "active"
-      ) {
-
-        showError(
-          "Accès refusé."
-        );
-
-        return;
-
-      }
-
-
-      currentAdmin = vendor;
-
-
-      document.getElementById(
-        "welcome"
-      ).textContent =
-        "Bienvenue " +
-        (
-          vendor.name ||
-          "Admin"
-        );
-
-
-      await loadData();
-
-
-    } catch (error) {
-
-      showError(
-        "Erreur : " +
-        error.message
-      );
+      return;
 
     }
 
-  }
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("vendors")
+        .select("id,name,role,status")
+        .eq("user_id", user.id)
+        .maybeSingle();
 
 
-  /* =========================
-     LOAD DATA
-  ========================= */
+    if (
+      error ||
+      !data ||
+      data.role !== "admin" ||
+      data.status !== "active"
+    ) {
 
-  async function loadData() {
+      await supabaseClient.auth.signOut();
 
-    await loadVendors();
-    await loadClients();
-    await loadResets();
+      window.location.href =
+        "index.html";
 
-    updateStats();
-    renderVendors();
+      return;
+
+    }
 
   }
 
@@ -1667,28 +1017,19 @@
     } =
       await supabaseClient
         .from("vendors")
-        .select(`
-          id,
-          name,
-          email,
-          role,
-          status,
-          user_id,
-          created_at
-        `)
-        .order(
-          "created_at",
-          {
-            ascending: false
-          }
-        );
+        .select("*")
+        .neq("role", "admin")
+        .order("created_at", {
+          ascending: false
+        });
 
 
     if (error) {
 
-      showError(
-        "Erreur vendeurs : " +
-        error.message
+      console.error(error);
+
+      showToast(
+        "Erreur lors du chargement des vendeurs."
       );
 
       return;
@@ -1698,168 +1039,113 @@
 
     vendors = data || [];
 
-  }
+    await calculateCounts();
 
-
-  /* =========================
-     LOAD CLIENTS
-  ========================= */
-
-  async function loadClients() {
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("clients")
-        .select(`
-          id,
-          vendor_id,
-          created_at
-        `);
-
-
-    if (error) {
-
-      showError(
-        "Erreur clients : " +
-        error.message
-      );
-
-      return;
-
-    }
-
-
-    clients = data || [];
+    renderVendors();
 
   }
 
 
   /* =========================
-     LOAD RESETS
+     CALCULATE COUNTS
   ========================= */
 
-  async function loadResets() {
+  async function calculateCounts() {
 
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("vendor_resets")
-        .select(`
-          id,
-          vendor_id,
-          units_count,
-          reset_at
-        `)
-        .order(
-          "reset_at",
-          {
-            ascending: false
-          }
-        );
+    let totalLinks = 0;
 
 
-    if (error) {
+    for (const vendor of vendors) {
 
-      showError(
-        "Erreur historique : " +
-        error.message
-      );
-
-      return;
-
-    }
-
-
-    resets = data || [];
-
-  }
-
-
-  /* =========================
-     LAST RESET
-  ========================= */
-
-  function getLastReset(
-    vendorId
-  ) {
-
-    const vendorResets =
-      resets
-        .filter(
-          reset =>
-            Number(reset.vendor_id) ===
-            Number(vendorId)
-        )
-        .sort(
-          (a, b) =>
-            new Date(b.reset_at) -
-            new Date(a.reset_at)
-        );
+      const {
+        data: clients,
+        error
+      } =
+        await supabaseClient
+          .from("clients")
+          .select(
+            "id,created_at"
+          )
+          .eq(
+            "vendor_id",
+            vendor.id
+          );
 
 
-    return vendorResets.length
-      ? vendorResets[0]
-      : null;
+      if (error) {
 
-  }
+        console.error(error);
 
+        vendor.currentLinks = 0;
 
-  /* =========================
-     CURRENT LINKS
-  ========================= */
-
-  function getCurrentLinks(
-    vendorId
-  ) {
-
-    const lastReset =
-      getLastReset(vendorId);
-
-
-    const resetDate =
-      lastReset
-        ? new Date(lastReset.reset_at)
-        : null;
-
-
-    return clients.filter(
-      client => {
-
-        if (
-          Number(client.vendor_id) !==
-          Number(vendorId)
-        ) {
-
-          return false;
-
-        }
-
-
-        if (!resetDate) {
-          return true;
-        }
-
-
-        return new Date(
-          client.created_at
-        ) > resetDate;
+        continue;
 
       }
-    ).length;
-
-  }
 
 
-  /* =========================
-     UPDATE STATS
-  ========================= */
+      const {
+        data: resets
+      } =
+        await supabaseClient
+          .from("vendor_resets")
+          .select(
+            "reset_at"
+          )
+          .eq(
+            "vendor_id",
+            vendor.id
+          )
+          .order(
+            "reset_at",
+            {
+              ascending: false
+            }
+          )
+          .limit(1);
 
-  function updateStats() {
+
+      let lastReset = null;
+
+
+      if (
+        resets &&
+        resets.length
+      ) {
+
+        lastReset =
+          new Date(
+            resets[0].reset_at
+          );
+
+      }
+
+
+      const current =
+        clients.filter(
+          client => {
+
+            if (!lastReset) {
+              return true;
+            }
+
+            return (
+              new Date(
+                client.created_at
+              ) > lastReset
+            );
+
+          }
+        ).length;
+
+
+      vendor.currentLinks =
+        current;
+
+
+      totalLinks += current;
+
+    }
+
 
     document.getElementById(
       "totalVendors"
@@ -1872,33 +1158,14 @@
     ).textContent =
       vendors.filter(
         vendor =>
-          String(
-            vendor.status || ""
-          )
-          .toLowerCase() ===
-          "active"
+          vendor.status === "active"
       ).length;
-
-
-    let total = 0;
-
-
-    vendors.forEach(
-      vendor => {
-
-        total +=
-          getCurrentLinks(
-            vendor.id
-          );
-
-      }
-    );
 
 
     document.getElementById(
       "totalLinks"
     ).textContent =
-      total;
+      totalLinks;
 
   }
 
@@ -1909,62 +1176,48 @@
 
   function renderVendors() {
 
-    const tbody =
+    const body =
       document.getElementById(
-        "vendorsTable"
+        "vendorsBody"
       );
 
 
     const search =
-      String(
+      (
         document.getElementById(
           "searchInput"
         ).value || ""
       )
-      .trim()
-      .toLowerCase();
+        .trim()
+        .toLowerCase();
 
 
     const filtered =
       vendors.filter(
-        vendor => {
-
-          const name =
-            String(
-              vendor.name || ""
-            ).toLowerCase();
-
-
-          const email =
-            String(
-              vendor.email || ""
-            ).toLowerCase();
-
-
-          return (
-            name.includes(search) ||
-            email.includes(search)
-          );
-
-        }
+        vendor =>
+          String(
+            vendor.name || ""
+          )
+            .toLowerCase()
+            .includes(search)
       );
 
 
     if (!filtered.length) {
 
-      tbody.innerHTML = `
-
+      body.innerHTML = `
         <tr>
-
           <td
             colspan="5"
-            class="message"
+            style="
+              text-align:center;
+              padding:40px;
+              color:#777d85;
+            "
           >
             Aucun vendeur trouvé.
           </td>
-
         </tr>
-
       `;
 
       return;
@@ -1972,141 +1225,164 @@
     }
 
 
-    tbody.innerHTML =
-      filtered
-        .map(
-          vendor => {
+    body.innerHTML =
+      filtered.map(
+        vendor => {
 
-            const currentLinks =
-              getCurrentLinks(
-                vendor.id
-              );
+          const vendorName =
+            vendor.name ||
+            "Vendeur";
 
 
-            const status =
-              String(
-                vendor.status || ""
-              ).toLowerCase();
+          const avatar =
+            vendorName
+              .charAt(0)
+              .toUpperCase();
 
 
-            const statusClass =
-              status === "active"
-                ? "active"
-                : "inactive";
+          const currentLinks =
+            vendor.currentLinks || 0;
 
 
-            const statusText =
-              status === "active"
-                ? "Actif"
-                : "Inactif";
+          const statusClass =
+            vendor.status === "active"
+              ? "status-active"
+              : "status-inactive";
 
 
-            const vendorName =
-              vendor.name ||
-              "Vendeur";
+          const statusText =
+            vendor.status === "active"
+              ? "Actif"
+              : "Inactif";
 
 
-            const avatar =
-              vendorName
-                .trim()
-                .charAt(0)
-                .toUpperCase();
+          return `
+
+            <tr>
+
+              <td>
+
+                <div class="vendor-name">
+
+                  <div class="vendor-avatar">
+                    ${escapeHtml(avatar)}
+                  </div>
+
+                  <strong>
+                    ${escapeHtml(vendorName)}
+                  </strong>
+
+                </div>
+
+              </td>
 
 
-            return `
+              <td>
 
-              <tr>
+                <span class="vendor-email">
+                  ${escapeHtml(
+                    vendor.email || "-"
+                  )}
+                </span>
 
-                <td>
+              </td>
 
-                  <div class="vendor-name">
 
-                    <div class="vendor-avatar">
-                      ${escapeHtml(avatar)}
-                    </div>
+              <td>
 
-                    <strong>
-                      ${escapeHtml(
+                <span
+                  class="status ${statusClass}"
+                >
+                  ${statusText}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <span
+                  class="links-count"
+                >
+                  ${currentLinks}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <div class="actions">
+
+                  <button
+                    class="action-btn manage-btn"
+                    onclick="manageVendor(${vendor.id})"
+                  >
+                    Gérer
+                  </button>
+
+
+                  <button
+                    class="action-btn reset-btn"
+                    onclick="resetVendor(${vendor.id})"
+                  >
+                    Réinitialiser
+                  </button>
+
+
+                  <button
+                    class="action-btn history-btn"
+                    onclick="showHistory(
+                      ${vendor.id},
+                      '${escapeAttribute(
                         vendorName
-                      )}
-                    </strong>
-
-                  </div>
-
-                </td>
-
-
-                <td>
-
-                  <span class="vendor-email">
-                    ${escapeHtml(
-                      vendor.email ||
-                      "-"
-                    )}
-                  </span>
-
-                </td>
-
-
-                <td>
-
-                  <span
-                    class="status ${statusClass}"
+                      )}'
+                    )"
                   >
-                    ${statusText}
-                  </span>
+                    Historique
+                  </button>
 
-                </td>
+                </div>
 
+              </td>
 
-                <td>
+            </tr>
 
-                  <span
-                    class="links-count"
-                  >
-                    ${currentLinks}
-                  </span>
+          `;
 
-                </td>
+        }
+      ).join("");
 
-
-                <td>
-
-                  <div
-                    class="actions"
-                  >
-
-                    <button
-                      class="action-btn reset-btn"
-                      onclick="resetVendor(${vendor.id})"
-                    >
-                      Réinitialiser
-                    </button>
+  }
 
 
-                    <button
-                      class="action-btn history-btn"
-                      onclick="showHistory(
-                        ${vendor.id},
-                        '${escapeAttribute(
-                          vendorName
-                        )}'
-                      )"
-                    >
-                      Historique
-                    </button>
+  /* =========================
+     GÉRER
+  ========================= */
 
-                  </div>
+  function manageVendor(
+    vendorId
+  ) {
 
-                </td>
+    const vendor =
+      vendors.find(
+        v => v.id === vendorId
+      );
 
-              </tr>
 
-            `;
+    if (!vendor) {
+      return;
+    }
 
-          }
-        )
-        .join("");
+
+    showToast(
+      "Gestion de " +
+      (
+        vendor.name ||
+        "ce vendeur"
+      ) +
+      " — bientôt disponible."
+    );
 
   }
 
@@ -2118,44 +1394,17 @@
   function openAddVendor() {
 
     document.getElementById(
+      "vendorNameInput"
+    ).value = "";
+
+    document.getElementById(
+      "vendorPinInput"
+    ).value = "";
+
+
+    document.getElementById(
       "addVendorModal"
     ).classList.add("show");
-
-
-    document.getElementById(
-      "addVendorForm"
-    ).style.display =
-      "block";
-
-
-    document.getElementById(
-      "createdVendorBox"
-    ).style.display =
-      "none";
-
-
-    document.getElementById(
-      "vendorName"
-    ).value =
-      "";
-
-
-    document.getElementById(
-      "vendorPin"
-    ).value =
-      "";
-
-
-    hideVendorFormError();
-
-  }
-
-
-  function closeAddVendor() {
-
-    document.getElementById(
-      "addVendorModal"
-    ).classList.remove("show");
 
   }
 
@@ -2163,28 +1412,21 @@
   async function createVendor() {
 
     const name =
-      String(
-        document.getElementById(
-          "vendorName"
-        ).value || ""
-      ).trim();
+      document.getElementById(
+        "vendorNameInput"
+      ).value.trim();
 
 
     const pin =
-      String(
-        document.getElementById(
-          "vendorPin"
-        ).value || ""
-      ).trim();
-
-
-    hideVendorFormError();
+      document.getElementById(
+        "vendorPinInput"
+      ).value.trim();
 
 
     if (!name) {
 
-      showVendorFormError(
-        "Veuillez entrer le nom du vendeur."
+      showToast(
+        "Veuillez saisir le nom du vendeur."
       );
 
       return;
@@ -2192,11 +1434,9 @@
     }
 
 
-    if (
-      !/^[0-9]{6}$/.test(pin)
-    ) {
+    if (!/^\d{6}$/.test(pin)) {
 
-      showVendorFormError(
+      showToast(
         "Le PIN doit contenir exactement 6 chiffres."
       );
 
@@ -2205,80 +1445,68 @@
     }
 
 
-    const button =
-      document.getElementById(
-        "createVendorBtn"
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.rpc(
+        "create_vendor",
+        {
+          p_name: name,
+          p_pin: pin
+        }
       );
 
 
-    button.disabled = true;
-    button.textContent = "Création...";
+    if (error) {
+
+      console.error(error);
+
+      showToast(
+        error.message ||
+        "Erreur lors de la création."
+      );
+
+      return;
+
+    }
 
 
-    try {
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient.rpc(
-          "create_vendor",
-          {
-            p_name: name,
-            p_pin: pin
-          }
-        );
+    closeModal(
+      "addVendorModal"
+    );
 
 
-      if (error) {
-        throw error;
-      }
+    if (
+      data &&
+      data.length
+    ) {
 
-
-      if (
-        !data ||
-        !data.length
-      ) {
-
-        throw new Error(
-          "Aucune donnée retournée."
-        );
-
-      }
-
-
-      const created =
+      const vendor =
         data[0];
 
 
-      const vendorUrl =
-        new URL(
-          "vendor.html?token=" +
-          encodeURIComponent(
-            created.login_token
-          ),
-          window.location.href
-        ).href;
-
-
-      createdVendorUrlValue =
-        vendorUrl;
-
-
-      createdVendorPinValue =
-        pin;
+      const link =
+        location.origin +
+        location.pathname
+          .replace(
+            "admin.html",
+            "vendor.html"
+          ) +
+        "?token=" +
+        vendor.login_token;
 
 
       document.getElementById(
         "createdVendorName"
       ).textContent =
-        created.vendor_name;
+        vendor.vendor_name;
 
 
       document.getElementById(
-        "createdVendorUrl"
+        "createdVendorLink"
       ).textContent =
-        vendorUrl;
+        link;
 
 
       document.getElementById(
@@ -2288,168 +1516,13 @@
 
 
       document.getElementById(
-        "addVendorForm"
-      ).style.display =
-        "none";
-
-
-      document.getElementById(
-        "createdVendorBox"
-      ).style.display =
-        "block";
-
-
-      await loadData();
-
-
-    } catch (error) {
-
-      showVendorFormError(
-        error.message ||
-        "Une erreur est survenue."
-      );
-
-    } finally {
-
-      button.disabled = false;
-      button.textContent =
-        "Créer le vendeur";
+        "credentialsModal"
+      ).classList.add("show");
 
     }
 
-  }
 
-
-  /* =========================
-     COPY
-  ========================= */
-
-  async function copyCreatedUrl() {
-
-    if (!createdVendorUrlValue) {
-      return;
-    }
-
-
-    await copyText(
-      createdVendorUrlValue
-    );
-
-
-    showSuccess(
-      "Lien copié."
-    );
-
-  }
-
-
-  async function copyCreatedPin() {
-
-    if (!createdVendorPinValue) {
-      return;
-    }
-
-
-    await copyText(
-      createdVendorPinValue
-    );
-
-
-    showSuccess(
-      "PIN copié."
-    );
-
-  }
-
-
-  async function copyText(text) {
-
-    try {
-
-      await navigator.clipboard.writeText(
-        text
-      );
-
-    } catch (error) {
-
-      const textarea =
-        document.createElement(
-          "textarea"
-        );
-
-
-      textarea.value = text;
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-
-
-      document.body.appendChild(
-        textarea
-      );
-
-
-      textarea.select();
-
-
-      document.execCommand(
-        "copy"
-      );
-
-
-      document.body.removeChild(
-        textarea
-      );
-
-    }
-
-  }
-
-
-  function finishCreatedVendor() {
-
-    closeAddVendor();
-
-  }
-
-
-  /* =========================
-     FORM ERROR
-  ========================= */
-
-  function showVendorFormError(
-    message
-  ) {
-
-    const box =
-      document.getElementById(
-        "vendorFormError"
-      );
-
-
-    box.textContent =
-      message;
-
-
-    box.style.display =
-      "block";
-
-  }
-
-
-  function hideVendorFormError() {
-
-    const box =
-      document.getElementById(
-        "vendorFormError"
-      );
-
-
-    box.textContent =
-      "";
-
-
-    box.style.display =
-      "none";
+    await loadVendors();
 
   }
 
@@ -2458,73 +1531,46 @@
      RESET
   ========================= */
 
-  function resetVendor(
+  async function resetVendor(
     vendorId
   ) {
 
     const vendor =
       vendors.find(
-        v =>
-          Number(v.id) ===
-          Number(vendorId)
+        v => v.id === vendorId
       );
 
 
     if (!vendor) {
-
-      showError(
-        "Vendeur introuvable."
-      );
-
       return;
-
     }
-
-
-    const currentLinks =
-      getCurrentLinks(
-        vendorId
-      );
 
 
     resetVendorId =
       vendorId;
 
 
-    resetVendorLinks =
-      currentLinks;
+    resetVendorCount =
+      vendor.currentLinks || 0;
 
 
     document.getElementById(
-      "resetMessage"
-    ).textContent =
-      `${currentLinks} lien${
-        currentLinks > 1
-          ? "s"
-          : ""
-      } seront archivés dans l'historique.`;
+      "resetInfo"
+    ).innerHTML = `
+      <strong>
+        ${escapeHtml(
+          vendor.name || "Vendeur"
+        )}
+      </strong>
+      <br><br>
+      ${resetVendorCount} lien(s)
+      seront enregistrés dans l'historique.
+    `;
 
-
-    document.getElementById(
-      "resetModal"
-    ).classList.add(
-      "show"
-    );
-
-  }
-
-
-  function closeResetModal() {
 
     document.getElementById(
       "resetModal"
-    ).classList.remove(
-      "show"
-    );
-
-
-    resetVendorId = null;
-    resetVendorLinks = 0;
+    ).classList.add("show");
 
   }
 
@@ -2536,14 +1582,6 @@
     }
 
 
-    const vendorId =
-      resetVendorId;
-
-
-    const currentLinks =
-      resetVendorLinks;
-
-
     const {
       error
     } =
@@ -2551,54 +1589,208 @@
         "reset_vendor_counter",
         {
           p_vendor_id:
-            vendorId,
+            resetVendorId,
 
           p_units_count:
-            currentLinks
+            resetVendorCount
         }
       );
 
 
     if (error) {
 
-      closeResetModal();
+      console.error(error);
 
-
-      showError(
-        "Erreur : " +
-        error.message
+      showToast(
+        error.message ||
+        "Erreur lors de la réinitialisation."
       );
-
 
       return;
 
     }
 
 
-    closeResetModal();
-
-
-    showSuccess(
-      "Compteur réinitialisé avec succès."
+    closeModal(
+      "resetModal"
     );
 
 
-    await loadData();
+    showToast(
+      "Compteur réinitialisé."
+    );
+
+
+    resetVendorId =
+      null;
+
+
+    resetVendorCount =
+      0;
+
+
+    await loadVendors();
 
   }
 
 
   /* =========================
-     SUCCESS TOAST
+     HISTORY
   ========================= */
 
-  function showSuccess(
+  async function showHistory(
+    vendorId,
+    vendorName
+  ) {
+
+    document.getElementById(
+      "historySubtitle"
+    ).textContent =
+      vendorName;
+
+
+    const list =
+      document.getElementById(
+        "historyList"
+      );
+
+
+    list.innerHTML =
+      "Chargement...";
+
+
+    document.getElementById(
+      "historyModal"
+    ).classList.add("show");
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("vendor_resets")
+        .select(
+          "units_count,reset_at"
+        )
+        .eq(
+          "vendor_id",
+          vendorId
+        )
+        .order(
+          "reset_at",
+          {
+            ascending: false
+          }
+        );
+
+
+    if (error) {
+
+      console.error(error);
+
+      list.innerHTML =
+        "Erreur lors du chargement.";
+
+      return;
+
+    }
+
+
+    if (
+      !data ||
+      !data.length
+    ) {
+
+      list.innerHTML = `
+        <div
+          style="
+            text-align:center;
+            padding:25px;
+            color:#777d85;
+          "
+        >
+          Aucun historique.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    list.innerHTML =
+      data.map(
+        item => {
+
+          const date =
+            new Date(
+              item.reset_at
+            ).toLocaleString(
+              "fr-FR"
+            );
+
+
+          return `
+            <div class="history-item">
+
+              <div class="history-count">
+                ${item.units_count} lien(s)
+              </div>
+
+              <div class="history-date">
+                ${date}
+              </div>
+
+            </div>
+          `;
+
+        }
+      ).join("");
+
+  }
+
+
+  /* =========================
+     LOGOUT
+  ========================= */
+
+  async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href =
+      "index.html";
+
+  }
+
+
+  /* =========================
+     MODAL
+  ========================= */
+
+  function closeModal(
+    id
+  ) {
+
+    document.getElementById(
+      id
+    ).classList.remove("show");
+
+  }
+
+
+  /* =========================
+     TOAST
+  ========================= */
+
+  function showToast(
     message
   ) {
 
     const toast =
       document.getElementById(
-        "successToast"
+        "toast"
       );
 
 
@@ -2619,246 +1811,8 @@
         );
 
       },
-      2500
+      3000
     );
-
-  }
-
-
-  /* =========================
-     HISTORY
-  ========================= */
-
-  async function showHistory(
-    vendorId,
-    vendorName
-  ) {
-
-    const modal =
-      document.getElementById(
-        "historyModal"
-      );
-
-
-    const title =
-      document.getElementById(
-        "historyTitle"
-      );
-
-
-    const content =
-      document.getElementById(
-        "historyContent"
-      );
-
-
-    title.textContent =
-      "Historique — " +
-      vendorName;
-
-
-    content.innerHTML =
-      "Chargement...";
-
-
-    modal.classList.add(
-      "show"
-    );
-
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("vendor_resets")
-        .select(`
-          id,
-          units_count,
-          reset_at
-        `)
-        .eq(
-          "vendor_id",
-          vendorId
-        )
-        .order(
-          "reset_at",
-          {
-            ascending: false
-          }
-        );
-
-
-    if (error) {
-
-      content.innerHTML = `
-
-        <div class="message">
-          Erreur :
-          ${escapeHtml(
-            error.message
-          )}
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-
-    if (
-      !data ||
-      !data.length
-    ) {
-
-      content.innerHTML = `
-
-        <div class="message">
-          Aucun historique.
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-
-    content.innerHTML =
-      data
-        .map(
-          item => {
-
-            const date =
-              formatDate(
-                item.reset_at
-              );
-
-
-            return `
-
-              <div class="history-item">
-
-                <div>
-
-                  <div class="history-count">
-
-                    ${item.units_count}
-
-                    lien${
-                      Number(
-                        item.units_count
-                      ) > 1
-                        ? "s"
-                        : ""
-                    }
-
-                  </div>
-
-                </div>
-
-
-                <div class="history-date">
-
-                  ${date}
-
-                </div>
-
-              </div>
-
-            `;
-
-          }
-        )
-        .join("");
-
-  }
-
-
-  function closeHistory() {
-
-    document
-      .getElementById(
-        "historyModal"
-      )
-      .classList.remove(
-        "show"
-      );
-
-  }
-
-
-  /* =========================
-     DATE
-  ========================= */
-
-  function formatDate(
-    dateString
-  ) {
-
-    if (!dateString) {
-      return "-";
-    }
-
-
-    const date =
-      new Date(
-        dateString
-      );
-
-
-    return date.toLocaleString(
-      "fr-FR",
-      {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-      }
-    );
-
-  }
-
-
-  /* =========================
-     LOGOUT
-  ========================= */
-
-  async function logout() {
-
-    await supabaseClient
-      .auth
-      .signOut();
-
-
-    window.location.href =
-      "index.html";
-
-  }
-
-
-  /* =========================
-     ERROR
-  ========================= */
-
-  function showError(
-    message
-  ) {
-
-    const box =
-      document.getElementById(
-        "errorBox"
-      );
-
-
-    box.textContent =
-      message;
-
-
-    box.style.display =
-      "block";
 
   }
 
@@ -2908,107 +1862,11 @@
       .replace(
         /'/g,
         "\\'"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
       );
 
   }
 
-
-  /* =========================
-     CLICK OUTSIDE
-  ========================= */
-
-  document
-    .getElementById(
-      "historyModal"
-    )
-    .addEventListener(
-      "click",
-      function(event) {
-
-        if (
-          event.target === this
-        ) {
-
-          closeHistory();
-
-        }
-
-      }
-    );
-
-
-  document
-    .getElementById(
-      "resetModal"
-    )
-    .addEventListener(
-      "click",
-      function(event) {
-
-        if (
-          event.target === this
-        ) {
-
-          closeResetModal();
-
-        }
-
-      }
-    );
-
-
-  document
-    .getElementById(
-      "addVendorModal"
-    )
-    .addEventListener(
-      "click",
-      function(event) {
-
-        if (
-          event.target === this
-        ) {
-
-          closeAddVendor();
-
-        }
-
-      }
-    );
-
-
-  /* =========================
-     PIN INPUT
-  ========================= */
-
-  document
-    .getElementById(
-      "vendorPin"
-    )
-    .addEventListener(
-      "input",
-      function() {
-
-        this.value =
-          this.value
-            .replace(
-              /[^0-9]/g,
-              ""
-            )
-            .slice(
-              0,
-              6
-            );
-
-      }
-    );
-
 </script>
 
 </body>
-
 </html>
