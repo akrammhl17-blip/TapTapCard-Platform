@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Dashboard - TapTapCard</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -233,6 +239,143 @@
       word-break: break-word;
     }
 
+
+    /* =========================================
+       DELETE MODAL
+    ========================================= */
+
+    .delete-modal {
+      position: fixed;
+      inset: 0;
+
+      background: rgba(0,0,0,0.45);
+
+      display: none;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      z-index: 9999;
+
+      backdrop-filter: blur(4px);
+    }
+
+    .delete-modal.show {
+      display: flex;
+    }
+
+    .delete-box {
+      width: 100%;
+      max-width: 390px;
+
+      background: white;
+
+      border-radius: 20px;
+
+      padding: 24px;
+
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.20);
+
+      text-align: center;
+
+      animation: modalIn 0.18s ease;
+    }
+
+    @keyframes modalIn {
+
+      from {
+        opacity: 0;
+        transform: scale(0.94);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+    }
+
+    .delete-icon {
+      width: 55px;
+      height: 55px;
+
+      margin: 0 auto 15px;
+
+      border-radius: 50%;
+
+      background: #ffe8e8;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      font-size: 25px;
+    }
+
+    .delete-title {
+      font-size: 19px;
+      font-weight: bold;
+
+      margin-bottom: 10px;
+    }
+
+    .delete-text {
+      color: #777;
+
+      font-size: 14px;
+
+      line-height: 1.5;
+
+      margin-bottom: 20px;
+    }
+
+    .delete-client-name {
+      color: #222;
+      font-weight: bold;
+    }
+
+    .delete-actions {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 10px;
+    }
+
+    .modal-button {
+      border: none;
+
+      padding: 13px;
+
+      border-radius: 11px;
+
+      font-size: 14px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    .cancel-delete {
+      background: #eee;
+      color: #222;
+    }
+
+    .confirm-delete {
+      background: #d32f2f;
+      color: white;
+    }
+
+    .modal-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+
     @media (max-width: 420px) {
 
       .actions {
@@ -246,13 +389,19 @@
       .logout {
         padding: 9px 10px;
       }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
+
   <div class="container">
+
 
     <!-- ERROR -->
 
@@ -294,8 +443,6 @@
       </div>
 
 
-      <!-- COUNT -->
-
       <div class="count-box">
 
         <div class="count-label">
@@ -311,8 +458,6 @@
 
       </div>
 
-
-      <!-- ADD -->
 
       <button
         class="add-button"
@@ -359,12 +504,80 @@
   </div>
 
 
+  <!-- =========================================
+       DELETE MODAL
+  ========================================= -->
+
+  <div
+    id="deleteModal"
+    class="delete-modal"
+  >
+
+    <div class="delete-box">
+
+
+      <div class="delete-icon">
+        🗑️
+      </div>
+
+
+      <div class="delete-title">
+        Supprimer le client ?
+      </div>
+
+
+      <div class="delete-text">
+
+        Voulez-vous vraiment supprimer
+
+        <span
+          id="deleteClientName"
+          class="delete-client-name"
+        ></span>
+
+        ?
+
+        <br>
+
+        Cette action est irréversible.
+
+      </div>
+
+
+      <div class="delete-actions">
+
+        <button
+          id="cancelDeleteButton"
+          class="modal-button cancel-delete"
+          onclick="closeDeleteModal()"
+        >
+          Annuler
+        </button>
+
+
+        <button
+          id="confirmDeleteButton"
+          class="modal-button confirm-delete"
+          onclick="confirmDelete()"
+        >
+          Supprimer
+        </button>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
   <!-- SUPABASE -->
 
   <script src="supabase.js"></script>
 
 
   <script>
+
 
     /* =========================================
        SESSION
@@ -440,10 +653,38 @@
 
 
     /* =========================================
+       DELETE MODAL ELEMENTS
+    ========================================= */
+
+    const deleteModal =
+      document.getElementById(
+        "deleteModal"
+      );
+
+    const deleteClientName =
+      document.getElementById(
+        "deleteClientName"
+      );
+
+    const confirmDeleteButton =
+      document.getElementById(
+        "confirmDeleteButton"
+      );
+
+    const cancelDeleteButton =
+      document.getElementById(
+        "cancelDeleteButton"
+      );
+
+
+    /* =========================================
        DATA
     ========================================= */
 
     let allClients = [];
+
+
+    let clientToDelete = null;
 
 
     /* =========================================
@@ -457,6 +698,7 @@
 
       errorMessage.style.display =
         "block";
+
     }
 
 
@@ -464,6 +706,7 @@
 
       errorMessage.style.display =
         "none";
+
     }
 
 
@@ -479,6 +722,7 @@
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+
     }
 
 
@@ -497,6 +741,7 @@
           "vendor.html";
 
         return false;
+
       }
 
 
@@ -527,6 +772,7 @@
           "vendor.html";
 
         return false;
+
       }
 
 
@@ -536,6 +782,7 @@
 
 
       return true;
+
     }
 
 
@@ -547,6 +794,7 @@
 
       window.location.href =
         "vendor-add-client.html";
+
     }
 
 
@@ -561,6 +809,7 @@
         encodeURIComponent(clientId),
         "_blank"
       );
+
     }
 
 
@@ -573,40 +822,99 @@
       window.location.href =
         "vendor-edit-client.html?id=" +
         encodeURIComponent(clientId);
+
     }
 
 
     /* =========================================
-       DELETE CLIENT
+       OPEN DELETE MODAL
     ========================================= */
 
-    async function deleteClient(
+    function deleteClient(
       clientId,
-      clientName,
-      button
+      clientName
     ) {
 
-      const confirmed =
-        confirm(
-          'Voulez-vous vraiment supprimer "' +
-          clientName +
-          '" ?\n\nCette action est irréversible.'
-        );
+      clientToDelete = {
+
+        id: clientId,
+
+        name:
+          clientName ||
+          "ce client"
+
+      };
 
 
-      if (!confirmed) {
+      deleteClientName.textContent =
+        clientToDelete.name;
+
+
+      confirmDeleteButton.disabled =
+        false;
+
+
+      cancelDeleteButton.disabled =
+        false;
+
+
+      confirmDeleteButton.textContent =
+        "Supprimer";
+
+
+      deleteModal.classList.add(
+        "show"
+      );
+
+    }
+
+
+    /* =========================================
+       CLOSE DELETE MODAL
+    ========================================= */
+
+    function closeDeleteModal() {
+
+      deleteModal.classList.remove(
+        "show"
+      );
+
+
+      clientToDelete =
+        null;
+
+    }
+
+
+    /* =========================================
+       CONFIRM DELETE
+    ========================================= */
+
+    async function confirmDelete() {
+
+      if (!clientToDelete) {
 
         return;
+
       }
 
 
       hideError();
 
 
-      button.disabled =
+      const id =
+        clientToDelete.id;
+
+
+      confirmDeleteButton.disabled =
         true;
 
-      button.textContent =
+
+      cancelDeleteButton.disabled =
+        true;
+
+
+      confirmDeleteButton.textContent =
         "Suppression...";
 
 
@@ -619,11 +927,13 @@
           await supabaseClient.rpc(
             "delete_vendor_client",
             {
+
               p_session_token:
                 vendorSession.session_token,
 
               p_client_id:
-                clientId
+                id
+
             }
           );
 
@@ -635,16 +945,17 @@
             error
           );
 
+
           throw new Error(
             error.message ||
             "Impossible de supprimer le client."
           );
+
         }
 
 
         /*
-          نحذف من القائمة المحلية
-          مباشرة
+          Supprimer de la liste locale
         */
 
         allClients =
@@ -652,7 +963,7 @@
             function(client) {
 
               return Number(client.id) !==
-                Number(clientId);
+                Number(id);
 
             }
           );
@@ -667,9 +978,17 @@
         );
 
 
+        closeDeleteModal();
+
+
       } catch (error) {
 
-        console.error(error);
+        console.error(
+          error
+        );
+
+
+        closeDeleteModal();
 
 
         showError(
@@ -677,14 +996,50 @@
           error.message
         );
 
-
-        button.disabled =
-          false;
-
-        button.textContent =
-          "Supprimer";
       }
+
     }
+
+
+    /* =========================================
+       CLICK OUTSIDE MODAL
+    ========================================= */
+
+    deleteModal.addEventListener(
+      "click",
+      function(event) {
+
+        if (
+          event.target ===
+          deleteModal
+        ) {
+
+          closeDeleteModal();
+
+        }
+
+      }
+    );
+
+
+    /* =========================================
+       ESC KEY
+    ========================================= */
+
+    document.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          closeDeleteModal();
+
+        }
+
+      }
+    );
 
 
     /* =========================================
@@ -711,8 +1066,10 @@
         await supabaseClient.rpc(
           "get_vendor_clients",
           {
+
             p_session_token:
               vendorSession.session_token
+
           }
         );
 
@@ -738,7 +1095,9 @@
           </div>
           `;
 
+
         return;
+
       }
 
 
@@ -753,6 +1112,7 @@
       renderClients(
         searchInput.value
       );
+
     }
 
 
@@ -792,12 +1152,11 @@
 
             }
           );
+
       }
 
 
-      /*
-        Search counter
-      */
+      /* SEARCH COUNTER */
 
       if (!term) {
 
@@ -820,12 +1179,11 @@
               ? "s"
               : ""
           );
+
       }
 
 
-      /*
-        Aucun résultat
-      */
+      /* EMPTY */
 
       if (
         filteredClients.length === 0
@@ -836,10 +1194,13 @@
           clientsContainer.innerHTML =
             `
             <div class="empty">
+
               Aucun client trouvé pour
+
               <strong>
                 "${escapeHtml(searchTerm)}"
               </strong>
+
             </div>
             `;
 
@@ -848,21 +1209,26 @@
           clientsContainer.innerHTML =
             `
             <div class="empty">
+
               Aucun client pour le moment.
+
               <br><br>
-              Cliquez sur « Ajouter un client ».
+
+              Cliquez sur
+              « Ajouter un client ».
+
             </div>
             `;
+
         }
 
 
         return;
+
       }
 
 
-      /*
-        Afficher les clients
-      */
+      /* DISPLAY */
 
       clientsContainer.innerHTML =
         "";
@@ -881,29 +1247,25 @@
             "client-card";
 
 
-          /*
-            IMAGE
-          */
+          /* IMAGE */
 
           const image =
             client.profile_image &&
             client.profile_image.trim() !== ""
+
               ? client.profile_image
+
               : "https://placehold.co/150x150?text=Client";
 
 
-          /*
-            DESCRIPTION
-          */
+          /* DESCRIPTION */
 
           const description =
             client.description ||
             "Aucune description";
 
 
-          /*
-            CARD
-          */
+          /* CARD */
 
           card.innerHTML =
             `
@@ -920,17 +1282,21 @@
               <div class="client-info">
 
                 <div class="client-name">
+
                   ${escapeHtml(
                     client.name ||
                     "Sans nom"
                   )}
+
                 </div>
 
 
                 <div class="client-description">
+
                   ${escapeHtml(
                     description
                   )}
+
                 </div>
 
               </div>
@@ -967,9 +1333,7 @@
             `;
 
 
-          /*
-            OUVRIR
-          */
+          /* OPEN */
 
           card
             .querySelector(
@@ -987,9 +1351,7 @@
             );
 
 
-          /*
-            MODIFIER
-          */
+          /* EDIT */
 
           card
             .querySelector(
@@ -1007,9 +1369,7 @@
             );
 
 
-          /*
-            SUPPRIMER
-          */
+          /* DELETE */
 
           card
             .querySelector(
@@ -1017,13 +1377,12 @@
             )
             .addEventListener(
               "click",
-              function(event) {
+              function() {
 
                 deleteClient(
                   client.id,
                   client.name ||
-                    "ce client",
-                  event.currentTarget
+                  "ce client"
                 );
 
               }
@@ -1036,6 +1395,7 @@
 
         }
       );
+
     }
 
 
@@ -1065,8 +1425,10 @@
         "vendor_session"
       );
 
+
       window.location.href =
         "vendor.html";
+
     }
 
 
@@ -1083,10 +1445,12 @@
       if (!valid) {
 
         return;
+
       }
 
 
       await loadClients();
+
     }
 
 
