@@ -6,10 +6,7 @@
 
   <title>Ajouter un client - TapTapCard</title>
 
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-  >
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     * {
@@ -18,88 +15,58 @@
 
     body {
       margin: 0;
-      min-height: 100vh;
+      padding: 20px;
+      background: #f7f7f8;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f8e7e3, #fffaf8);
-      color: #332522;
+      color: #222;
     }
 
     .container {
-      width: 100%;
-      max-width: 700px;
+      max-width: 600px;
       margin: auto;
-      padding: 20px;
     }
 
-    .header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .back-btn {
-      width: 42px;
-      height: 42px;
-      border: none;
-      border-radius: 13px;
+    .card {
       background: white;
-      color: #332522;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.07);
-      font-size: 17px;
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 22px;
-    }
-
-    .header p {
-      margin: 4px 0 0;
-      color: #777;
-      font-size: 13px;
-    }
-
-    .form-box {
-      background: white;
-      border-radius: 24px;
+      border-radius: 18px;
       padding: 22px;
-      box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+      box-shadow: 0 5px 25px rgba(0,0,0,0.08);
     }
 
-    .section-title {
-      margin: 0 0 16px;
-      font-size: 17px;
+    h1 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 25px;
     }
 
-    .field {
-      margin-bottom: 16px;
+    .subtitle {
+      color: #777;
+      margin-bottom: 25px;
+      font-size: 14px;
     }
 
     label {
       display: block;
+      margin-top: 17px;
       margin-bottom: 7px;
-      font-size: 13px;
       font-weight: bold;
+      font-size: 14px;
     }
 
     input,
     textarea {
       width: 100%;
-      border: 1px solid #e2dddd;
-      border-radius: 13px;
-      padding: 13px 14px;
-      font-family: inherit;
-      font-size: 14px;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
       outline: none;
       background: #fff;
-      color: #332522;
     }
 
     input:focus,
     textarea:focus {
-      border-color: #a64635;
+      border-color: #333;
     }
 
     textarea {
@@ -107,84 +74,55 @@
       resize: vertical;
     }
 
-    .social-title {
-      margin-top: 28px;
+    .section-title {
+      margin-top: 30px;
+      margin-bottom: 5px;
+      font-size: 18px;
     }
 
-    .input-icon {
-      position: relative;
-    }
-
-    .input-icon i {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #999;
-      pointer-events: none;
-    }
-
-    .input-icon input {
-      padding-left: 42px;
-    }
-
-    .submit-btn {
+    button {
       width: 100%;
+      margin-top: 25px;
+      padding: 14px;
       border: none;
-      border-radius: 14px;
-      padding: 15px;
-      margin-top: 8px;
-      background: #332522;
+      border-radius: 12px;
+      background: #111;
       color: white;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
     }
 
-    .submit-btn:disabled {
+    button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
     }
 
-    .message {
-      display: none;
-      margin-bottom: 16px;
-      padding: 13px;
-      border-radius: 13px;
+    .back {
+      display: block;
       text-align: center;
+      margin-top: 15px;
+      color: #555;
+      text-decoration: none;
       font-size: 14px;
     }
 
-    .error {
-      background: #fff0f0;
-      color: #b42318;
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
     }
 
     .success {
-      background: #edf9f2;
-      color: #18794e;
+      background: #e9f8ed;
+      color: #167333;
     }
 
-    .loading {
-      display: none;
-      text-align: center;
-      margin-top: 12px;
-      color: #777;
-      font-size: 13px;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        padding: 14px;
-      }
-
-      .form-box {
-        padding: 18px;
-      }
-
-      .header h1 {
-        font-size: 19px;
-      }
+    .error {
+      background: #fdeaea;
+      color: #b42318;
     }
   </style>
 </head>
@@ -193,48 +131,17 @@
 
   <div class="container">
 
-    <!-- HEADER -->
+    <div class="card">
 
-    <div class="header">
+      <h1>Ajouter un client</h1>
 
-      <button
-        class="back-btn"
-        onclick="goBack()"
-      >
-        <i class="fa-solid fa-arrow-left"></i>
-      </button>
-
-      <div>
-        <h1>Ajouter un client</h1>
-        <p>Créer une nouvelle page TapTapCard</p>
+      <div class="subtitle">
+        Créez une nouvelle page TapTapCard pour votre client.
       </div>
 
-    </div>
+      <form id="clientForm">
 
-
-    <!-- FORM -->
-
-    <div class="form-box">
-
-      <div
-        id="errorBox"
-        class="message error"
-      ></div>
-
-      <div
-        id="successBox"
-        class="message success"
-      ></div>
-
-
-      <!-- INFORMATIONS -->
-
-      <h2 class="section-title">
-        Informations
-      </h2>
-
-
-      <div class="field">
+        <!-- Informations principales -->
 
         <label for="name">
           Nom du client
@@ -244,12 +151,9 @@
           type="text"
           id="name"
           placeholder="Nom du client"
+          required
         >
 
-      </div>
-
-
-      <div class="field">
 
         <label for="description">
           Description
@@ -260,373 +164,240 @@
           placeholder="Description de l'activité"
         ></textarea>
 
-      </div>
 
+        <!-- Images -->
 
-      <!-- IMAGES -->
-
-      <h2 class="section-title">
-        Images
-      </h2>
-
-
-      <div class="field">
+        <div class="section-title">
+          Images
+        </div>
 
         <label for="profileImage">
-          URL de l'image de profil
+          Photo de profil
         </label>
 
         <input
           type="url"
           id="profileImage"
-          placeholder=""
+          placeholder="https://..."
         >
 
-      </div>
-
-
-      <div class="field">
 
         <label for="coverImage">
-          URL de l'image de couverture
+          Image de couverture
         </label>
 
         <input
           type="url"
           id="coverImage"
-          placeholder=""
+          placeholder="https://..."
         >
 
-      </div>
 
+        <!-- Réseaux sociaux -->
 
-      <!-- RESEAUX SOCIAUX -->
+        <div class="section-title">
+          Réseaux sociaux
+        </div>
 
-      <h2 class="section-title social-title">
-        Réseaux sociaux
-      </h2>
-
-
-      <div class="field">
 
         <label for="instagram">
           Instagram
         </label>
 
-        <div class="input-icon">
+        <input
+          type="url"
+          id="instagram"
+          placeholder="https://instagram.com/..."
+        >
 
-          <i class="fa-brands fa-instagram"></i>
-
-          <input
-            type="url"
-            id="instagram"
-            placeholder=""
-          >
-
-        </div>
-
-      </div>
-
-
-      <div class="field">
 
         <label for="facebook">
           Facebook
         </label>
 
-        <div class="input-icon">
+        <input
+          type="url"
+          id="facebook"
+          placeholder="https://facebook.com/..."
+        >
 
-          <i class="fa-brands fa-facebook-f"></i>
-
-          <input
-            type="url"
-            id="facebook"
-            placeholder=""
-          >
-
-        </div>
-
-      </div>
-
-
-      <div class="field">
 
         <label for="tiktok">
           TikTok
         </label>
 
-        <div class="input-icon">
+        <input
+          type="url"
+          id="tiktok"
+          placeholder="https://tiktok.com/@..."
+        >
 
-          <i class="fa-brands fa-tiktok"></i>
-
-          <input
-            type="url"
-            id="tiktok"
-            placeholder=""
-          >
-
-        </div>
-
-      </div>
-
-
-      <div class="field">
 
         <label for="snapchat">
           Snapchat
         </label>
 
-        <div class="input-icon">
+        <input
+          type="text"
+          id="snapchat"
+          placeholder="@username"
+        >
 
-          <i class="fa-brands fa-snapchat"></i>
-
-          <input
-            type="text"
-            id="snapchat"
-            placeholder=""
-          >
-
-        </div>
-
-      </div>
-
-
-      <div class="field">
 
         <label for="website">
           Website
         </label>
 
-        <div class="input-icon">
+        <input
+          type="url"
+          id="website"
+          placeholder="https://..."
+        >
 
-          <i class="fa-solid fa-globe"></i>
 
-          <input
-            type="url"
-            id="website"
-            placeholder=""
-          >
+        <!-- Contact -->
 
+        <div class="section-title">
+          Contact
         </div>
 
-      </div>
-
-
-      <!-- CONTACT -->
-
-      <h2 class="section-title social-title">
-        Contact
-      </h2>
-
-
-      <div class="field">
 
         <label for="phone">
           Téléphone
         </label>
 
-        <div class="input-icon">
+        <input
+          type="tel"
+          id="phone"
+          placeholder="0550..."
+        >
 
-          <i class="fa-solid fa-phone"></i>
-
-          <input
-            type="tel"
-            id="phone"
-            placeholder=""
-          >
-
-        </div>
-
-      </div>
-
-
-      <div class="field">
 
         <label for="whatsapp">
           WhatsApp
         </label>
 
-        <div class="input-icon">
+        <input
+          type="tel"
+          id="whatsapp"
+          placeholder="0550..."
+        >
 
-          <i class="fa-brands fa-whatsapp"></i>
-
-          <input
-            type="tel"
-            id="whatsapp"
-            placeholder=""
-          >
-
-        </div>
-
-      </div>
-
-
-      <div class="field">
 
         <label for="googleMaps">
           Google Maps
         </label>
 
-        <div class="input-icon">
-
-          <i class="fa-solid fa-location-dot"></i>
-
-          <input
-            type="url"
-            id="googleMaps"
-            placeholder=""
-          >
-
-        </div>
-
-      </div>
+        <input
+          type="url"
+          id="googleMaps"
+          placeholder="https://maps.google.com/..."
+        >
 
 
-      <!-- SUBMIT -->
+        <button
+          type="submit"
+          id="submitButton"
+        >
+          Créer le client
+        </button>
 
-      <button
-        id="submitBtn"
-        class="submit-btn"
-        onclick="createClient()"
-      >
-
-        <i class="fa-solid fa-plus"></i>
-
-        Créer la page
-
-      </button>
+      </form>
 
 
       <div
-        id="loading"
-        class="loading"
+        id="message"
+        class="message"
+      ></div>
+
+
+      <a
+        href="vendor-dashboard.html"
+        class="back"
       >
-        <i class="fa-solid fa-spinner fa-spin"></i>
-        Création en cours...
-      </div>
+        ← Retour au dashboard
+      </a>
 
     </div>
 
   </div>
 
 
-  <!-- SUPABASE -->
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script src="supabase.js"></script>
-
 
   <script>
 
-    let session = null;
+    const form = document.getElementById("clientForm");
+    const submitButton = document.getElementById("submitButton");
+    const message = document.getElementById("message");
 
 
-    /* =========================
-       START
-    ========================= */
+    function showMessage(text, type) {
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      checkSession
-    );
+      message.textContent = text;
 
+      message.className = "message " + type;
 
-    async function checkSession() {
-
-      const saved =
-        localStorage.getItem(
-          "vendor_session"
-        );
+      message.style.display = "block";
+    }
 
 
-      if (!saved) {
+    // Récupérer la session du vendeur
 
-        showError(
-          "Session expirée. Veuillez vous reconnecter."
-        );
-
-        document.getElementById(
-          "submitBtn"
-        ).disabled = true;
-
-        return;
-      }
+    const sessionData =
+      localStorage.getItem("vendor_session");
 
 
-      try {
+    if (!sessionData) {
 
-        session =
-          JSON.parse(saved);
+      window.location.href = "vendor.html";
 
-      } catch (error) {
+    }
 
-        console.error(error);
 
-        localStorage.removeItem(
-          "vendor_session"
-        );
+    let vendorSession;
 
-        showError(
-          "Session invalide."
-        );
+    try {
 
-        document.getElementById(
-          "submitBtn"
-        ).disabled = true;
+      vendorSession =
+        JSON.parse(sessionData);
 
-        return;
-      }
+    } catch (error) {
 
+      localStorage.removeItem("vendor_session");
+
+      window.location.href = "vendor.html";
+
+    }
+
+
+    // Vérifier la session
+
+    async function verifySession() {
 
       if (
-        !session.session_token ||
-        !session.vendor_id
+        !vendorSession ||
+        !vendorSession.session_token
       ) {
 
-        showError(
-          "Session invalide."
-        );
+        window.location.href = "vendor.html";
 
-        document.getElementById(
-          "submitBtn"
-        ).disabled = true;
-
-        return;
+        return false;
       }
 
 
-      /* Vérification réelle de la session */
-
-      const {
-        data,
-        error
-      } = await supabaseClient.rpc(
-        "verify_vendor_session",
-        {
-          p_session_token:
-            session.session_token
-        }
-      );
-
-
-      if (error) {
-
-        console.error(error);
-
-        showError(
-          "Impossible de vérifier la session."
+      const { data, error } =
+        await supabaseClient.rpc(
+          "verify_vendor_session",
+          {
+            p_session_token:
+              vendorSession.session_token
+          }
         );
-
-        document.getElementById(
-          "submitBtn"
-        ).disabled = true;
-
-        return;
-      }
 
 
       if (
+        error ||
         !data ||
         data.length === 0
       ) {
@@ -635,282 +406,224 @@
           "vendor_session"
         );
 
-        showError(
-          "Votre session a expiré."
-        );
+        window.location.href =
+          "vendor.html";
 
-        document.getElementById(
-          "submitBtn"
-        ).disabled = true;
-
-        return;
+        return false;
       }
 
 
-      session.vendor_id =
-        data[0].vendor_id;
-
-      session.vendor_name =
-        data[0].vendor_name;
-
-
-      localStorage.setItem(
-        "vendor_session",
-        JSON.stringify(session)
-      );
-
+      return true;
     }
 
 
-    /* =========================
-       CREATE CLIENT
-    ========================= */
+    // Créer le client
 
-    async function createClient() {
+    form.addEventListener(
+      "submit",
+      async function(event) {
 
-      hideMessages();
-
-
-      const name =
-        document.getElementById(
-          "name"
-        ).value.trim();
+        event.preventDefault();
 
 
-      const description =
-        document.getElementById(
-          "description"
-        ).value.trim();
+        submitButton.disabled = true;
+
+        submitButton.textContent =
+          "Création en cours...";
 
 
-      if (!name) {
-
-        showError(
-          "Veuillez entrer le nom du client."
-        );
-
-        return;
-      }
+        message.style.display = "none";
 
 
-      if (
-        !session ||
-        !session.session_token
-      ) {
-
-        showError(
-          "Session invalide."
-        );
-
-        return;
-      }
+        const name =
+          document.getElementById(
+            "name"
+          ).value.trim();
 
 
-      const submitBtn =
-        document.getElementById(
-          "submitBtn"
-        );
+        const description =
+          document.getElementById(
+            "description"
+          ).value.trim();
 
 
-      submitBtn.disabled = true;
+        const profileImage =
+          document.getElementById(
+            "profileImage"
+          ).value.trim();
 
 
-      document.getElementById(
-        "loading"
-      ).style.display = "block";
+        const coverImage =
+          document.getElementById(
+            "coverImage"
+          ).value.trim();
 
 
-      try {
+        const instagram =
+          document.getElementById(
+            "instagram"
+          ).value.trim();
 
-        const {
-          data,
-          error
-        } = await supabaseClient.rpc(
-          "create_vendor_client",
-          {
-            p_session_token:
-              session.session_token,
 
-            p_name:
-              name,
+        const facebook =
+          document.getElementById(
+            "facebook"
+          ).value.trim();
 
-            p_description:
-              description,
 
-            p_profile_image:
-              document.getElementById(
-                "profileImage"
-              ).value.trim(),
+        const tiktok =
+          document.getElementById(
+            "tiktok"
+          ).value.trim();
 
-            p_cover_image:
-              document.getElementById(
-                "coverImage"
-              ).value.trim(),
 
-            p_instagram:
-              document.getElementById(
-                "instagram"
-              ).value.trim(),
+        const snapchat =
+          document.getElementById(
+            "snapchat"
+          ).value.trim();
 
-            p_facebook:
-              document.getElementById(
-                "facebook"
-              ).value.trim(),
 
-            p_tiktok:
-              document.getElementById(
-                "tiktok"
-              ).value.trim(),
+        const website =
+          document.getElementById(
+            "website"
+          ).value.trim();
 
-            p_snapchat:
-              document.getElementById(
-                "snapchat"
-              ).value.trim(),
 
-            p_website:
-              document.getElementById(
-                "website"
-              ).value.trim(),
+        const phone =
+          document.getElementById(
+            "phone"
+          ).value.trim();
 
-            p_phone:
-              document.getElementById(
-                "phone"
-              ).value.trim(),
 
-            p_whatsapp:
-              document.getElementById(
-                "whatsapp"
-              ).value.trim(),
+        const whatsapp =
+          document.getElementById(
+            "whatsapp"
+          ).value.trim();
 
-            p_google_maps:
-              document.getElementById(
-                "googleMaps"
-              ).value.trim()
+
+        const googleMaps =
+          document.getElementById(
+            "googleMaps"
+          ).value.trim();
+
+
+        try {
+
+          const valid =
+            await verifySession();
+
+
+          if (!valid) {
+
+            return;
           }
-        );
 
 
-        if (error) {
+          const { data, error } =
+            await supabaseClient.rpc(
+              "create_vendor_client",
+              {
+                p_session_token:
+                  vendorSession.session_token,
+
+                p_name:
+                  name,
+
+                p_description:
+                  description,
+
+                p_profile_image:
+                  profileImage,
+
+                p_cover_image:
+                  coverImage,
+
+                p_instagram:
+                  instagram,
+
+                p_facebook:
+                  facebook,
+
+                p_tiktok:
+                  tiktok,
+
+                p_snapchat:
+                  snapchat,
+
+                p_website:
+                  website,
+
+                p_phone:
+                  phone,
+
+                p_whatsapp:
+                  whatsapp,
+
+                p_google_maps:
+                  googleMaps
+              }
+            );
+
+
+          if (error) {
+
+            console.error(error);
+
+            showMessage(
+              error.message ||
+              "Une erreur est survenue.",
+              "error"
+            );
+
+            submitButton.disabled =
+              false;
+
+            submitButton.textContent =
+              "Créer le client";
+
+            return;
+          }
+
+
+          showMessage(
+            "Client créé avec succès !",
+            "success"
+          );
+
+
+          form.reset();
+
+
+          setTimeout(
+            function() {
+
+              window.location.href =
+                "vendor-dashboard.html";
+
+            },
+            1000
+          );
+
+
+        } catch (error) {
 
           console.error(error);
 
-          showError(
-            error.message ||
-            "Impossible de créer la page."
+          showMessage(
+            "Une erreur est survenue.",
+            "error"
           );
 
-          submitBtn.disabled = false;
 
-          return;
+          submitButton.disabled =
+            false;
+
+          submitButton.textContent =
+            "Créer le client";
         }
 
-
-        showSuccess(
-          "La page a été créée avec succès."
-        );
-
-
-        setTimeout(
-          () => {
-
-            window.location.href =
-              "vendor-dashboard.html";
-
-          },
-          1000
-        );
-
-
-      } catch (error) {
-
-        console.error(error);
-
-        showError(
-          "Une erreur est survenue."
-        );
-
-        submitBtn.disabled = false;
-
-      } finally {
-
-        document.getElementById(
-          "loading"
-        ).style.display = "none";
-
       }
-
-    }
-
-
-    /* =========================
-       BACK
-    ========================= */
-
-    function goBack() {
-
-      window.location.href =
-        "vendor-dashboard.html";
-
-    }
-
-
-    /* =========================
-       MESSAGES
-    ========================= */
-
-    function hideMessages() {
-
-      document.getElementById(
-        "errorBox"
-      ).style.display = "none";
-
-      document.getElementById(
-        "successBox"
-      ).style.display = "none";
-
-    }
-
-
-    function showError(message) {
-
-      const box =
-        document.getElementById(
-          "errorBox"
-        );
-
-      box.textContent =
-        message;
-
-      box.style.display =
-        "block";
-
-      document.getElementById(
-        "successBox"
-      ).style.display =
-        "none";
-
-    }
-
-
-    function showSuccess(message) {
-
-      const box =
-        document.getElementById(
-          "successBox"
-        );
-
-      box.textContent =
-        message;
-
-      box.style.display =
-        "block";
-
-      document.getElementById(
-        "errorBox"
-      ).style.display =
-        "none";
-
-    }
+    );
 
   </script>
 
