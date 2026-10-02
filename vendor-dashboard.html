@@ -11,6 +11,7 @@
 
   <title>Dashboard - TapTapCard</title>
 
+  <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <!-- QR CODE -->
@@ -34,6 +35,10 @@
       max-width: 700px;
       margin: auto;
     }
+
+    /* =========================================
+       HEADER
+    ========================================= */
 
     .header {
       background: white;
@@ -102,7 +107,9 @@
       cursor: pointer;
     }
 
-    /* SEARCH */
+    /* =========================================
+       SEARCH
+    ========================================= */
 
     .search-box {
       background: white;
@@ -131,7 +138,9 @@
       color: #777;
     }
 
-    /* CLIENT CARD */
+    /* =========================================
+       CLIENT CARD
+    ========================================= */
 
     .client-card {
       background: white;
@@ -177,7 +186,9 @@
       flex: 1;
     }
 
-    /* QUICK ICONS */
+    /* =========================================
+       QUICK ACTIONS
+    ========================================= */
 
     .quick-actions {
       display: flex;
@@ -229,7 +240,9 @@
       white-space: nowrap;
     }
 
-    /* BUTTONS */
+    /* =========================================
+       MAIN BUTTONS
+    ========================================= */
 
     .actions {
       display: grid;
@@ -269,7 +282,9 @@
       cursor: not-allowed;
     }
 
-    /* STATES */
+    /* =========================================
+       STATES
+    ========================================= */
 
     .empty {
       background: white;
@@ -533,6 +548,21 @@
     }
 
     /* =========================================
+       QR GENERATOR
+    ========================================= */
+
+    #qrGenerator {
+      position: absolute;
+      left: -99999px;
+      top: -99999px;
+
+      width: 900px;
+      height: 900px;
+
+      background: white;
+    }
+
+    /* =========================================
        MOBILE
     ========================================= */
 
@@ -573,9 +603,7 @@
 
 <body>
 
-
   <div class="container">
-
 
     <!-- ERROR -->
 
@@ -802,19 +830,11 @@
   </div>
 
 
-  <!-- QR GENERATOR AREA -->
+  <!-- =========================================
+       HIDDEN QR GENERATOR
+  ========================================= -->
 
-  <div
-    id="qrGenerator"
-    style="
-      position:absolute;
-      left:-99999px;
-      top:-99999px;
-      width:320px;
-      height:320px;
-      background:white;
-    "
-  ></div>
+  <div id="qrGenerator"></div>
 
 
   <!-- SUPABASE -->
@@ -823,7 +843,6 @@
 
 
   <script>
-
 
     /* =========================================
        SESSION
@@ -1112,10 +1131,13 @@
 
 
     /* =========================================
-       COPY LINK - OPEN CONFIRMATION
+       COPY LINK CONFIRMATION
     ========================================= */
 
-    function askCopyLink(clientId, clientName) {
+    function askCopyLink(
+      clientId,
+      clientName
+    ) {
 
       clientForAction = {
 
@@ -1127,24 +1149,34 @@
 
       };
 
-      confirmActionType = "copy";
 
-      confirmIcon.textContent = "🔗";
+      confirmActionType =
+        "copy";
+
+
+      confirmIcon.textContent =
+        "🔗";
+
 
       confirmTitle.textContent =
         "Copier le lien ?";
 
+
       confirmClientName.textContent =
         clientForAction.name;
+
 
       confirmActionButton.textContent =
         "Copier";
 
+
       confirmActionButton.disabled =
         false;
 
+
       cancelConfirmButton.disabled =
         false;
+
 
       confirmModal.classList.add(
         "show"
@@ -1154,10 +1186,13 @@
 
 
     /* =========================================
-       QR - OPEN CONFIRMATION
+       QR CONFIRMATION
     ========================================= */
 
-    function askDownloadQr(clientId, clientName) {
+    function askDownloadQr(
+      clientId,
+      clientName
+    ) {
 
       clientForAction = {
 
@@ -1169,24 +1204,34 @@
 
       };
 
-      confirmActionType = "qr";
 
-      confirmIcon.textContent = "▣";
+      confirmActionType =
+        "qr";
+
+
+      confirmIcon.textContent =
+        "▣";
+
 
       confirmTitle.textContent =
         "Télécharger le QR Code ?";
 
+
       confirmClientName.textContent =
         clientForAction.name;
+
 
       confirmActionButton.textContent =
         "Télécharger";
 
+
       confirmActionButton.disabled =
         false;
 
+
       cancelConfirmButton.disabled =
         false;
+
 
       confirmModal.classList.add(
         "show"
@@ -1205,8 +1250,10 @@
         "show"
       );
 
+
       clientForAction =
         null;
+
 
       confirmActionType =
         null;
@@ -1215,7 +1262,7 @@
 
 
     /* =========================================
-       CONFIRM COPY / QR
+       CONFIRM ACTION
     ========================================= */
 
     async function confirmAction() {
@@ -1229,8 +1276,10 @@
 
       }
 
+
       confirmActionButton.disabled =
         true;
+
 
       cancelConfirmButton.disabled =
         true;
@@ -1246,12 +1295,15 @@
           confirmActionButton.textContent =
             "Copie...";
 
+
           await copyClientLink(
             clientForAction.id
           );
 
+
           confirmActionButton.textContent =
             "Copié ✓";
+
 
           setTimeout(
             function() {
@@ -1273,13 +1325,16 @@
           confirmActionButton.textContent =
             "Création...";
 
+
           await downloadClientQr(
             clientForAction.id,
             clientForAction.name
           );
 
+
           confirmActionButton.textContent =
             "Téléchargé ✓";
+
 
           setTimeout(
             function() {
@@ -1298,14 +1353,18 @@
           error
         );
 
+
         confirmActionButton.disabled =
           false;
+
 
         cancelConfirmButton.disabled =
           false;
 
+
         confirmActionButton.textContent =
           "Réessayer";
+
 
         showError(
           error.message ||
@@ -1318,13 +1377,17 @@
 
 
     /* =========================================
-       COPY CLIENT LINK
+       COPY LINK
     ========================================= */
 
-    async function copyClientLink(clientId) {
+    async function copyClientLink(
+      clientId
+    ) {
 
       const url =
-        getClientUrl(clientId);
+        getClientUrl(
+          clientId
+        );
 
 
       if (
@@ -1341,34 +1404,39 @@
       }
 
 
-      /* FALLBACK */
-
       const textarea =
         document.createElement(
           "textarea"
         );
 
+
       textarea.value =
         url;
+
 
       textarea.style.position =
         "fixed";
 
+
       textarea.style.opacity =
         "0";
+
 
       document.body.appendChild(
         textarea
       );
 
+
       textarea.focus();
 
       textarea.select();
+
 
       const success =
         document.execCommand(
           "copy"
         );
+
 
       document.body.removeChild(
         textarea
@@ -1387,7 +1455,7 @@
 
 
     /* =========================================
-       DOWNLOAD CLIENT QR
+       DOWNLOAD PROFESSIONAL QR
     ========================================= */
 
     async function downloadClientQr(
@@ -1406,65 +1474,61 @@
 
 
       const url =
-        getClientUrl(clientId);
+        getClientUrl(
+          clientId
+        );
+
+
+      /*
+        Generate large QR
+      */
+
+      const qrSize =
+        900;
 
 
       new QRCode(
         qrContainer,
         {
           text: url,
-          width: 320,
-          height: 320,
+
+          width: qrSize,
+
+          height: qrSize,
+
           colorDark: "#000000",
+
           colorLight: "#ffffff",
+
           correctLevel:
             QRCode.CorrectLevel.H
         }
       );
 
 
+      /*
+        Wait for QR
+      */
+
       await new Promise(
         function(resolve) {
 
           setTimeout(
             resolve,
-            250
+            300
           );
 
         }
       );
 
 
-      const canvas =
+      const qrCanvas =
         qrContainer.querySelector(
           "canvas"
         );
 
-      const image =
-        qrContainer.querySelector(
-          "img"
-        );
 
-
-      let downloadUrl = "";
-
-
-      if (canvas) {
-
-        downloadUrl =
-          canvas.toDataURL(
-            "image/png"
-          );
-
-      } else if (image) {
-
-        downloadUrl =
-          image.src;
-
-      }
-
-
-      if (!downloadUrl) {
+      if (!qrCanvas) {
 
         throw new Error(
           "Impossible de créer le QR Code."
@@ -1473,12 +1537,168 @@
       }
 
 
-      const safeName =
+      /*
+        Final image
+        1000 × 1000
+      */
+
+      const finalCanvas =
+        document.createElement(
+          "canvas"
+        );
+
+
+      finalCanvas.width =
+        1000;
+
+
+      finalCanvas.height =
+        1000;
+
+
+      const ctx =
+        finalCanvas.getContext(
+          "2d"
+        );
+
+
+      /*
+        White background
+      */
+
+      ctx.fillStyle =
+        "#ffffff";
+
+
+      ctx.fillRect(
+        0,
+        0,
+        1000,
+        1000
+      );
+
+
+      /*
+        QR
+      */
+
+      const qrPosition =
+        50;
+
+
+      const qrFinalSize =
+        900;
+
+
+      ctx.drawImage(
+        qrCanvas,
+
+        qrPosition,
+        qrPosition,
+
+        qrFinalSize,
+        qrFinalSize
+      );
+
+
+      /*
+        Client name
+      */
+
+      const displayName =
         String(
           clientName ||
-          "client"
-        )
-          .trim()
+          "TAPTAPCARD"
+        ).trim();
+
+
+      ctx.fillStyle =
+        "#111111";
+
+
+      ctx.font =
+        "bold 32px Arial";
+
+
+      ctx.textAlign =
+        "center";
+
+
+      ctx.textBaseline =
+        "middle";
+
+
+      /*
+        Prevent very long names
+      */
+
+      let finalName =
+        displayName;
+
+
+      const maxTextWidth =
+        880;
+
+
+      if (
+        ctx.measureText(
+          finalName
+        ).width >
+        maxTextWidth
+      ) {
+
+        while (
+          finalName.length > 3 &&
+          ctx.measureText(
+            finalName + "..."
+          ).width >
+          maxTextWidth
+        ) {
+
+          finalName =
+            finalName.slice(
+              0,
+              -1
+            );
+
+        }
+
+
+        finalName +=
+          "...";
+
+      }
+
+
+      /*
+        Name under QR
+      */
+
+      ctx.fillText(
+        finalName,
+
+        500,
+
+        975
+      );
+
+
+      /*
+        Convert to PNG
+      */
+
+      const downloadUrl =
+        finalCanvas.toDataURL(
+          "image/png"
+        );
+
+
+      /*
+        Safe filename
+      */
+
+      const safeName =
+        displayName
           .replace(
             /[^a-zA-Z0-9À-ÿ_-]+/g,
             "_"
@@ -1490,6 +1710,10 @@
         "client";
 
 
+      /*
+        Download
+      */
+
       const downloadLink =
         document.createElement(
           "a"
@@ -1498,6 +1722,7 @@
 
       downloadLink.href =
         downloadUrl;
+
 
       downloadLink.download =
         "TAPTAPCARD_" +
@@ -1509,12 +1734,18 @@
         downloadLink
       );
 
+
       downloadLink.click();
+
 
       document.body.removeChild(
         downloadLink
       );
 
+
+      /*
+        Cleanup
+      */
 
       qrContainer.innerHTML =
         "";
@@ -1526,17 +1757,21 @@
        EDIT CLIENT
     ========================================= */
 
-    function editClient(clientId) {
+    function editClient(
+      clientId
+    ) {
 
       window.location.href =
         "vendor-edit-client.html?id=" +
-        encodeURIComponent(clientId);
+        encodeURIComponent(
+          clientId
+        );
 
     }
 
 
     /* =========================================
-       OPEN DELETE MODAL
+       DELETE CLIENT
     ========================================= */
 
     function deleteClient(
@@ -1667,8 +1902,11 @@
           allClients.filter(
             function(client) {
 
-              return Number(client.id) !==
-                Number(id);
+              return Number(
+                client.id
+              ) !== Number(
+                id
+              );
 
             }
           );
@@ -1684,7 +1922,6 @@
 
 
         closeDeleteModal();
-
 
       } catch (error) {
 
@@ -1707,7 +1944,7 @@
 
 
     /* =========================================
-       CLICK OUTSIDE DELETE MODAL
+       DELETE MODAL OUTSIDE CLICK
     ========================================= */
 
     deleteModal.addEventListener(
@@ -1728,7 +1965,7 @@
 
 
     /* =========================================
-       CLICK OUTSIDE CONFIRM MODAL
+       CONFIRM MODAL OUTSIDE CLICK
     ========================================= */
 
     confirmModal.addEventListener(
@@ -1749,7 +1986,7 @@
 
 
     /* =========================================
-       ESC KEY
+       ESC
     ========================================= */
 
     document.addEventListener(
@@ -1757,7 +1994,8 @@
       function(event) {
 
         if (
-          event.key === "Escape"
+          event.key ===
+          "Escape"
         ) {
 
           closeDeleteModal();
@@ -1926,7 +2164,9 @@
               Aucun client trouvé pour
 
               <strong>
-                "${escapeHtml(searchTerm)}"
+                "${escapeHtml(
+                  searchTerm
+                )}"
               </strong>
 
             </div>
@@ -2001,7 +2241,9 @@
 
               <img
                 class="client-image"
-                src="${escapeHtml(image)}"
+                src="${escapeHtml(
+                  image
+                )}"
                 alt=""
                 onerror="this.src='https://placehold.co/150x150?text=Client'"
               >
@@ -2089,7 +2331,7 @@
             `;
 
 
-          /* COPY LINK */
+          /* COPY */
 
           card
             .querySelector(
