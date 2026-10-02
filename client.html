@@ -1,22 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>TAPTAPCARD</title>
-
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script src="supabase.js"></script>
-
+  <title>TapTapCard</title>
 
   <!-- Font Awesome -->
   <link
@@ -24,1644 +12,773 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
   >
 
-
   <style>
-
     * {
       box-sizing: border-box;
     }
 
-
     body {
-
       margin: 0;
-
       min-height: 100vh;
-
-      background:
-        linear-gradient(
-          135deg,
-          #faf9f7 0%,
-          #eef1f4 50%,
-          #e4e8ed 100%
-        );
-
       font-family: Arial, sans-serif;
-
-      color: #222;
-
+      background: linear-gradient(
+        135deg,
+        #faf9f7,
+        #eef1f4,
+        #e4e8ed
+      );
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
     }
-
 
     .page {
-
-      min-height: 100vh;
-
-      display: flex;
-
-      justify-content: center;
-
-      align-items: flex-start;
-
-      padding: 30px 15px;
-
-    }
-
-
-    .profile-card {
-
       width: 100%;
-
       max-width: 720px;
-
+      min-height: calc(100vh - 40px);
       background: #ffffff;
-
       border-radius: 28px;
-
       overflow: hidden;
-
-      box-shadow:
-        0 20px 60px
-        rgba(0, 0, 0, 0.10);
-
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.10);
       position: relative;
-
     }
 
-
-    /* =========================
-       COVER
-    ========================= */
+    /* ================= COVER ================= */
 
     .cover {
-
       width: 100%;
-
       height: 390px;
-
       position: relative;
-
+      background: #e9edf0;
       overflow: hidden;
-
-      background:
-        linear-gradient(
-          135deg,
-          #e8e8e8,
-          #f7f7f7
-        );
-
     }
-
 
     .cover img {
-
       width: 100%;
-
       height: 100%;
-
       object-fit: cover;
-
       display: block;
-
     }
-
 
     .cover::after {
-
       content: "";
-
       position: absolute;
-
       left: 0;
-
       right: 0;
-
       bottom: 0;
-
-      height: 170px;
-
-      background:
-        linear-gradient(
-          to bottom,
-          rgba(255,255,255,0),
-          #ffffff
-        );
-
+      height: 150px;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(255, 255, 255, 0.95)
+      );
+      pointer-events: none;
     }
 
+    /* ================= PROFILE ================= */
 
-    /* =========================
-       PROFILE IMAGE
-    ========================= */
-
-    .profile-image-wrapper {
-
+    .profile-area {
       position: relative;
-
-      margin-top: -85px;
-
-      display: flex;
-
-      justify-content: center;
-
-      z-index: 5;
-
+      margin-top: -75px;
+      z-index: 2;
+      text-align: center;
+      padding: 0 20px;
     }
-
 
     .profile-image {
-
       width: 150px;
-
       height: 150px;
-
       border-radius: 50%;
-
       object-fit: cover;
-
-      border: 7px solid #ffffff;
-
-      background: #f1f1f1;
-
-      box-shadow:
-        0 8px 25px
-        rgba(0,0,0,0.12);
-
+      border: 6px solid #ffffff;
+      background: #eeeeee;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      display: block;
+      margin: 0 auto 18px;
     }
 
-
-    /* =========================
-       CONTENT
-    ========================= */
-
-    .content {
-
-      padding:
-        5px 30px 30px;
-
-      text-align: center;
-
+    .profile-image.hidden {
+      display: none;
     }
 
+    /* ================= TEXT ================= */
 
     .name {
-
-      margin:
-
-        8px 0 8px;
-
-      font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
+      margin: 0;
+      font-family: Georgia, serif;
       font-size: 40px;
-
       line-height: 1.15;
-
-      color: #1f2933;
-
+      color: #202832;
+      font-weight: 700;
       word-break: break-word;
-
     }
-
 
     .description {
-
+      margin: 12px auto 0;
       max-width: 600px;
-
-      margin:
-        0 auto 28px;
-
-      color: #687789;
-
+      color: #697586;
       font-size: 16px;
-
       line-height: 1.6;
-
-      white-space: pre-line;
-
       word-break: break-word;
-
     }
 
-
-    /* =========================
-       BUTTONS
-    ========================= */
+    /* ================= BUTTONS ================= */
 
     .links {
+      width: 100%;
+      max-width: 560px;
+      margin: 28px auto 0;
+      padding: 0 20px 30px;
 
       display: flex;
-
       flex-direction: column;
-
       gap: 12px;
-
-      width: 100%;
-
-      max-width: 560px;
-
-      margin: 0 auto;
-
     }
 
-
-    .social-button,
-    .contact-button {
-
+    .social-btn {
       width: 100%;
-
-      min-height: 54px;
-
-      border-radius: 999px;
-
+      min-height: 52px;
+      border-radius: 16px;
       display: flex;
-
       align-items: center;
-
       justify-content: center;
-
-      gap: 11px;
+      gap: 10px;
 
       text-decoration: none;
-
+      color: white;
       font-size: 16px;
-
       font-weight: 600;
 
       transition:
-        transform .15s ease,
-        opacity .15s ease;
+        transform 0.2s ease,
+        opacity 0.2s ease;
 
-      cursor: pointer;
-
+      padding: 12px 18px;
     }
 
-
-    .social-button:hover,
-    .contact-button:hover {
-
-      transform:
-        translateY(-1px);
-
-      opacity: .92;
-
+    .social-btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.92;
     }
 
-
-    .social-button i,
-    .contact-button i {
-
+    .social-btn i {
       font-size: 20px;
-
     }
-
 
     /* Instagram */
-
-    .instagram {
-
-      color: #ffffff;
-
-      background:
-        linear-gradient(
-          45deg,
-          #f58529,
-          #dd2a7b,
-          #8134af,
-          #515bd4
-        );
-
+    .instagram-btn {
+      background: linear-gradient(
+        45deg,
+        #f58529,
+        #dd2a7b,
+        #8134af,
+        #515bd4
+      );
     }
-
 
     /* Facebook */
-
-    .facebook {
-
-      color: #ffffff;
-
+    .facebook-btn {
       background: #1877f2;
-
     }
-
 
     /* TikTok */
-
-    .tiktok {
-
-      color: #ffffff;
-
-      background: #111111;
-
+    .tiktok-btn {
+      background: #000000;
     }
-
 
     /* Snapchat */
-
-    .snapchat {
-
-      color: #111111;
-
+    .snapchat-btn {
       background: #fffc00;
-
+      color: #000000;
     }
-
 
     /* Website */
-
-    .website {
-
-      color: #ffffff;
-
-      background: #4b5563;
-
+    .website-btn {
+      background: #4d6478;
     }
 
+    /* ================= CONTACT ROW ================= */
 
-    /* WhatsApp */
-
-    .whatsapp {
-
-      color: #ffffff;
-
-      background: #25d366;
-
-    }
-
-
-    /* Phone */
-
-    .phone {
-
-      color: #ffffff;
-
-      background: #6b7280;
-
-    }
-
-
-    /* Google Maps */
-
-    .google-maps {
-
-      color: #ffffff;
-
-      background: #4285f4;
-
-    }
-
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    .footer {
-
-      margin-top: 30px;
-
-      padding-top: 20px;
-
-      border-top:
-        1px solid #eeeeee;
-
-      color: #8a96a3;
-
-      font-size: 13px;
-
-      line-height: 1.7;
-
-    }
-
-
-    .footer a {
-
-      color: #8a96a3;
-
-      text-decoration: none;
-
-      font-weight: 600;
-
-    }
-
-
-    .footer a:hover {
-
-      text-decoration: underline;
-
-    }
-
-
-    /* =========================
-       LOADING
-    ========================= */
-
-    .loading {
-
-      min-height: 500px;
-
+    .contact-row {
+      width: 100%;
       display: flex;
-
+      align-items: center;
       justify-content: center;
 
-      align-items: center;
-
-      color: #777;
-
-      font-size: 16px;
-
+      gap: 14px;
     }
 
+    .contact-row .social-btn {
+      flex: 1;
+      width: auto;
+      margin: 0;
+    }
 
-    /* =========================
-       ERROR
-    ========================= */
+    /* WhatsApp */
+    .whatsapp-btn {
+      background: #25d366;
+    }
+
+    /* Phone */
+    .phone-btn {
+      background: #667085;
+    }
+
+    /* Google Maps */
+    .maps-btn {
+      background: #4285f4;
+    }
+
+    /* ================= FOOTER ================= */
+
+    .footer {
+      text-align: center;
+      padding: 8px 20px 28px;
+      color: #98a2b3;
+      font-size: 13px;
+    }
+
+    .footer .heart {
+      color: #c54b5c;
+    }
+
+    .footer strong {
+      color: #667085;
+      font-weight: 600;
+    }
+
+    /* ================= LOADING ================= */
+
+    .loading {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #667085;
+      font-size: 16px;
+    }
 
     .error {
-
-      padding: 60px 25px;
-
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-
-      color: #777;
-
+      padding: 30px;
+      color: #667085;
+      font-size: 18px;
     }
 
-
-    .error-icon {
-
-      font-size: 45px;
-
-      margin-bottom: 15px;
-
-      color: #b0b7bf;
-
-    }
-
-
-    .error h2 {
-
-      margin:
-        0 0 10px;
-
-      color: #333;
-
-      font-family: Georgia, serif;
-
-    }
-
-
-    .error p {
-
-      margin: 0;
-
-      line-height: 1.6;
-
-    }
-
-
-    /* =========================
-       HIDDEN
-    ========================= */
-
-    .hidden {
-
-      display: none !important;
-
-    }
-
-
-    /* =========================
-       MOBILE
-    ========================= */
+    /* ================= MOBILE ================= */
 
     @media (max-width: 600px) {
 
+      body {
+        padding: 0;
+      }
+
       .page {
-
-        padding:
-          0;
-
-      }
-
-
-      .profile-card {
-
         min-height: 100vh;
-
         border-radius: 0;
-
       }
-
 
       .cover {
-
         height: 360px;
-
       }
 
+      .profile-area {
+        margin-top: -70px;
+        padding: 0 16px;
+      }
 
       .profile-image {
-
         width: 135px;
-
         height: 135px;
-
       }
-
-
-      .profile-image-wrapper {
-
-        margin-top: -75px;
-
-      }
-
-
-      .content {
-
-        padding:
-          5px 20px 25px;
-
-      }
-
 
       .name {
-
         font-size: 34px;
-
       }
-
 
       .description {
-
         font-size: 15px;
-
       }
 
-
-      .social-button,
-      .contact-button {
-
-        min-height: 52px;
-
-        font-size: 15px;
-
+      .links {
+        padding-left: 16px;
+        padding-right: 16px;
       }
 
+      .social-btn {
+        min-height: 50px;
+        font-size: 15px;
+      }
+
+      .contact-row {
+        gap: 12px;
+      }
+
+      .contact-row .social-btn {
+        min-height: 50px;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .contact-row .social-btn i {
+        font-size: 18px;
+      }
     }
-
   </style>
-
 </head>
-
 
 <body>
 
+  <div id="loading" class="loading">
+    Chargement...
+  </div>
 
-<div class="page">
+  <div id="error" class="error" style="display:none;">
+    Client introuvable
+  </div>
 
-
-  <!-- =========================
-       CARD
-  ========================= -->
-
-  <div
-    id="profileCard"
-    class="profile-card hidden"
-  >
-
+  <main id="page" class="page" style="display:none;">
 
     <!-- COVER -->
-
     <div class="cover">
-
-      <img
-        id="coverImage"
-        src=""
-        alt="Cover"
-        class="hidden"
-      >
-
+      <img id="coverImage" alt="Cover">
     </div>
 
-
-    <!-- PROFILE IMAGE -->
-
-    <div class="profile-image-wrapper">
+    <!-- PROFILE -->
+    <section class="profile-area">
 
       <img
         id="profileImage"
-        src=""
-        alt="Profile"
-        class="profile-image hidden"
+        class="profile-image"
+        alt="Photo de profil"
       >
 
-    </div>
+      <h1 id="name" class="name"></h1>
 
+      <p id="description" class="description"></p>
 
-    <!-- CONTENT -->
+    </section>
 
-    <div class="content">
+    <!-- LINKS -->
+    <div class="links">
 
-
-      <!-- NAME -->
-
-      <h1
-        id="clientName"
-        class="name"
+      <!-- Instagram -->
+      <a
+        id="instagramBtn"
+        class="social-btn instagram-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="display:none;"
       >
-      </h1>
+        <i class="fa-brands fa-instagram"></i>
+        Instagram
+      </a>
 
+      <!-- Facebook -->
+      <a
+        id="facebookBtn"
+        class="social-btn facebook-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="display:none;"
+      >
+        <i class="fa-brands fa-facebook-f"></i>
+        Facebook
+      </a>
 
-      <!-- DESCRIPTION -->
+      <!-- TikTok -->
+      <a
+        id="tiktokBtn"
+        class="social-btn tiktok-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="display:none;"
+      >
+        <i class="fa-brands fa-tiktok"></i>
+        TikTok
+      </a>
 
+      <!-- Snapchat -->
+      <a
+        id="snapchatBtn"
+        class="social-btn snapchat-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="display:none;"
+      >
+        <i class="fa-brands fa-snapchat"></i>
+        Snapchat
+      </a>
+
+      <!-- Website -->
+      <a
+        id="websiteBtn"
+        class="social-btn website-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="display:none;"
+      >
+        <span style="font-size:20px;">🌐</span>
+        Website
+      </a>
+
+      <!-- WhatsApp + Phone -->
       <div
-        id="clientDescription"
-        class="description"
-      >
-      </div>
-
-
-      <!-- LINKS -->
-
-      <div
-        id="links"
-        class="links"
+        id="contactRow"
+        class="contact-row"
+        style="display:none;"
       >
 
-
-        <!-- INSTAGRAM -->
-
+        <!-- WhatsApp -->
         <a
-          id="instagramButton"
-          class="social-button instagram hidden"
-          href="#"
+          id="whatsappBtn"
+          class="social-btn whatsapp-btn"
           target="_blank"
           rel="noopener noreferrer"
+          style="display:none;"
         >
-
-          <i class="fa-brands fa-instagram"></i>
-
-          <span>Instagram</span>
-
-        </a>
-
-
-        <!-- FACEBOOK -->
-
-        <a
-          id="facebookButton"
-          class="social-button facebook hidden"
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-
-          <i class="fa-brands fa-facebook-f"></i>
-
-          <span>Facebook</span>
-
-        </a>
-
-
-        <!-- TIKTOK -->
-
-        <a
-          id="tiktokButton"
-          class="social-button tiktok hidden"
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-
-          <i class="fa-brands fa-tiktok"></i>
-
-          <span>TikTok</span>
-
-        </a>
-
-
-        <!-- SNAPCHAT -->
-
-        <a
-          id="snapchatButton"
-          class="social-button snapchat hidden"
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-
-          <i class="fa-brands fa-snapchat"></i>
-
-          <span>Snapchat</span>
-
-        </a>
-
-
-        <!-- WEBSITE -->
-
-        <a
-          id="websiteButton"
-          class="social-button website hidden"
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-
-          <span style="font-size:20px;">
-            🌐
-          </span>
-
-          <span>Website</span>
-
-        </a>
-
-
-        <!-- WHATSAPP -->
-
-        <a
-          id="whatsappButton"
-          class="contact-button whatsapp hidden"
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-
           <i class="fa-brands fa-whatsapp"></i>
-
-          <span>WhatsApp</span>
-
+          WhatsApp
         </a>
 
-
-        <!-- PHONE -->
-
+        <!-- Phone -->
         <a
-          id="phoneButton"
-          class="contact-button phone hidden"
-          href="#"
+          id="phoneBtn"
+          class="social-btn phone-btn"
+          style="display:none;"
         >
-
           <i class="fa-solid fa-phone"></i>
-
-          <span>Téléphone</span>
-
+          Téléphone
         </a>
 
-
-        <!-- GOOGLE MAPS -->
-
-        <a
-          id="mapsButton"
-          class="contact-button google-maps hidden"
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-
-          <i class="fa-solid fa-location-dot"></i>
-
-          <span>Google Maps</span>
-
-        </a>
-
-
       </div>
 
-
-      <!-- FOOTER -->
-
-      <div class="footer">
-
-        <div>
-          Merci pour votre visite ♥
-        </div>
-
-        <div>
-
-          Produit par
-
-          <a
-            href="https://www.instagram.com/akram.mhl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            TAPTAPCARD
-          </a>
-
-        </div>
-
-      </div>
-
+      <!-- Google Maps -->
+      <a
+        id="mapsBtn"
+        class="social-btn maps-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="display:none;"
+      >
+        <i class="fa-solid fa-location-dot"></i>
+        Google Maps
+      </a>
 
     </div>
 
-  </div>
+    <!-- FOOTER -->
+    <footer class="footer">
+      Merci pour votre visite <span class="heart">♥</span><br>
+      Produit par <strong>TAPTAPCARD</strong>
+    </footer>
 
+  </main>
 
-  <!-- =========================
-       LOADING
-  ========================= -->
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <div
-    id="loading"
-    class="profile-card"
-  >
+  <script src="supabase.js"></script>
 
-    <div class="loading">
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const clientId = params.get("id");
 
-      Chargement...
+    const loading = document.getElementById("loading");
+    const error = document.getElementById("error");
+    const page = document.getElementById("page");
 
-    </div>
+    const coverImage = document.getElementById("coverImage");
+    const profileImage = document.getElementById("profileImage");
 
-  </div>
+    const name = document.getElementById("name");
+    const description = document.getElementById("description");
 
+    const instagramBtn = document.getElementById("instagramBtn");
+    const facebookBtn = document.getElementById("facebookBtn");
+    const tiktokBtn = document.getElementById("tiktokBtn");
+    const snapchatBtn = document.getElementById("snapchatBtn");
+    const websiteBtn = document.getElementById("websiteBtn");
 
-  <!-- =========================
-       ERROR
-  ========================= -->
+    const contactRow = document.getElementById("contactRow");
+    const whatsappBtn = document.getElementById("whatsappBtn");
+    const phoneBtn = document.getElementById("phoneBtn");
 
-  <div
-    id="errorCard"
-    class="profile-card hidden"
-  >
+    const mapsBtn = document.getElementById("mapsBtn");
 
-    <div class="error">
 
-      <div class="error-icon">
+    /* ================= URL HELPERS ================= */
 
-        <i class="fa-solid fa-circle-exclamation"></i>
+    function cleanUrl(value) {
+      if (!value) return "";
 
-      </div>
+      value = value.trim();
 
-      <h2>
-        Client introuvable
-      </h2>
+      if (!value) return "";
 
-      <p id="errorText">
-        Impossible de charger les informations du client.
-      </p>
+      if (
+        value.startsWith("http://") ||
+        value.startsWith("https://")
+      ) {
+        return value;
+      }
 
-    </div>
+      return "https://" + value;
+    }
 
-  </div>
 
+    function makeSnapchatUrl(value) {
+      if (!value) return "";
 
-</div>
+      value = value.trim();
 
+      if (!value) return "";
 
-<script>
+      if (value.startsWith("http://") || value.startsWith("https://")) {
+        return value;
+      }
 
-/* =====================================================
-   ELEMENTS
-===================================================== */
+      value = value.replace(/^@/, "");
 
-const loading =
-  document.getElementById(
-    "loading"
-  );
+      return "https://www.snapchat.com/add/" + value;
+    }
 
 
-const profileCard =
-  document.getElementById(
-    "profileCard"
-  );
+    function makePhoneUrl(value) {
+      if (!value) return "";
 
+      value = value.trim();
 
-const errorCard =
-  document.getElementById(
-    "errorCard"
-  );
+      if (!value) return "";
 
+      if (value.startsWith("tel:")) {
+        return value;
+      }
 
-const errorText =
-  document.getElementById(
-    "errorText"
-  );
+      return "tel:" + value.replace(/\s+/g, "");
+    }
 
 
-/* =====================================================
-   GET CLIENT ID
-===================================================== */
+    function makeWhatsappUrl(value) {
+      if (!value) return "";
 
-const params =
-  new URLSearchParams(
-    window.location.search
-  );
+      value = value.trim();
 
+      if (!value) return "";
 
-const clientId =
-  params.get("id");
+      if (
+        value.startsWith("http://") ||
+        value.startsWith("https://")
+      ) {
+        return value;
+      }
 
+      let number = value.replace(/[^\d+]/g, "");
 
-/* =====================================================
-   HELPERS
-===================================================== */
+      if (number.startsWith("+")) {
+        number = number.substring(1);
+      }
 
-function showElement(
-  element
-) {
+      if (number.startsWith("0")) {
+        number = "213" + number.substring(1);
+      }
 
-  element.classList.remove(
-    "hidden"
-  );
+      return "https://wa.me/" + number;
+    }
 
-}
 
+    /* ================= BUTTON HELPER ================= */
 
-function hideElement(
-  element
-) {
+    function showButton(button, url) {
+      if (!url) return;
 
-  element.classList.add(
-    "hidden"
-  );
+      button.href = url;
+      button.style.display = "flex";
+    }
 
-}
 
+    /* ================= LOAD CLIENT ================= */
 
-/* =====================================================
-   SAFE URL
-===================================================== */
+    async function loadClient() {
 
-function cleanUrl(
-  value
-) {
+      if (!clientId || isNaN(Number(clientId))) {
+        loading.style.display = "none";
+        error.style.display = "flex";
+        error.textContent = "Client introuvable";
+        return;
+      }
 
-  if (!value) {
+      try {
 
-    return "";
+        const { data, error: rpcError } =
+          await supabaseClient.rpc(
+            "get_public_client",
+            {
+              p_client_id: Number(clientId)
+            }
+          );
 
-  }
+        if (rpcError) {
+          console.error(rpcError);
 
-
-  const url =
-    value.trim();
-
-
-  if (!url) {
-
-    return "";
-
-  }
-
-
-  /*
-    Add https:// if the user entered
-    a website without protocol.
-  */
-
-  if (
-    !/^https?:\/\//i.test(
-      url
-    )
-  ) {
-
-    return (
-      "https://" +
-      url
-    );
-
-  }
-
-
-  return url;
-
-}
-
-
-/* =====================================================
-   SNAPCHAT URL
-===================================================== */
-
-function getSnapchatUrl(
-  value
-) {
-
-  if (!value) {
-
-    return "";
-
-  }
-
-
-  let username =
-    value.trim();
-
-
-  if (!username) {
-
-    return "";
-
-  }
-
-
-  /*
-    If the seller entered
-    a complete URL, use it.
-  */
-
-  if (
-    /^https?:\/\//i.test(
-      username
-    )
-  ) {
-
-    return username;
-
-  }
-
-
-  /*
-    Remove @
-  */
-
-  username =
-    username.replace(
-      /^@/,
-      ""
-    );
-
-
-  if (!username) {
-
-    return "";
-
-  }
-
-
-  return (
-    "https://www.snapchat.com/add/" +
-    encodeURIComponent(
-      username
-    )
-  );
-
-}
-
-
-/* =====================================================
-   PHONE
-===================================================== */
-
-function getPhoneUrl(
-  value
-) {
-
-  if (!value) {
-
-    return "";
-
-  }
-
-
-  /*
-    Keep + and numbers only
-  */
-
-  const phone =
-    value
-      .trim()
-      .replace(
-        /[^\d+]/g,
-        ""
-      );
-
-
-  if (!phone) {
-
-    return "";
-
-  }
-
-
-  return (
-    "tel:" +
-    phone
-  );
-
-}
-
-
-/* =====================================================
-   WHATSAPP
-===================================================== */
-
-function getWhatsappUrl(
-  value
-) {
-
-  if (!value) {
-
-    return "";
-
-  }
-
-
-  let phone =
-    value
-      .trim()
-      .replace(
-        /[^\d+]/g,
-        ""
-      );
-
-
-  if (!phone) {
-
-    return "";
-
-  }
-
-
-  /*
-    Algeria:
-    0550xxxxxx
-    0660xxxxxx
-    0770xxxxxx
-
-    Convert to:
-    213550xxxxxx
-  */
-
-  if (
-    /^0\d{9}$/.test(
-      phone
-    )
-  ) {
-
-    phone =
-      "213" +
-      phone.substring(
-        1
-      );
-
-  }
-
-
-  /*
-    Remove + if present
-  */
-
-  phone =
-    phone.replace(
-      /^\+/,
-      ""
-    );
-
-
-  return (
-    "https://wa.me/" +
-    phone
-  );
-
-}
-
-
-/* =====================================================
-   SET LINK
-===================================================== */
-
-function setLink(
-  id,
-  url
-) {
-
-  const element =
-    document.getElementById(
-      id
-    );
-
-
-  if (!element) {
-
-    return;
-
-  }
-
-
-  if (!url) {
-
-    hideElement(
-      element
-    );
-
-    element.removeAttribute(
-      "href"
-    );
-
-    return;
-
-  }
-
-
-  element.href =
-    url;
-
-
-  showElement(
-    element
-  );
-
-}
-
-
-/* =====================================================
-   LOAD CLIENT
-===================================================== */
-
-async function loadClient() {
-
-  /*
-    No ID
-  */
-
-  if (!clientId) {
-
-    loading.style.display =
-      "none";
-
-
-    errorText.textContent =
-      "Aucun identifiant de client n'a été fourni.";
-
-
-    showElement(
-      errorCard
-    );
-
-
-    return;
-
-  }
-
-
-  const numericId =
-    Number(
-      clientId
-    );
-
-
-  if (
-    !Number.isInteger(
-      numericId
-    ) ||
-    numericId <= 0
-  ) {
-
-    loading.style.display =
-      "none";
-
-
-    errorText.textContent =
-      "Identifiant du client invalide.";
-
-
-    showElement(
-      errorCard
-    );
-
-
-    return;
-
-  }
-
-
-  try {
-
-    /*
-      Public RPC.
-
-      The function:
-      get_public_client(bigint)
-    */
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.rpc(
-        "get_public_client",
-        {
-          p_client_id:
-            numericId
+          loading.style.display = "none";
+          error.style.display = "flex";
+          error.textContent = "Erreur de chargement";
+          return;
         }
-      );
+
+        if (!data || data.length === 0) {
+          loading.style.display = "none";
+          error.style.display = "flex";
+          error.textContent = "Client introuvable";
+          return;
+        }
+
+        const client = data[0];
 
 
-    if (error) {
+        /* ================= BASIC INFO ================= */
 
-      console.error(
-        "Supabase RPC error:",
-        error
-      );
+        name.textContent = client.name || "";
 
-      throw new Error(
-        "Impossible de charger les informations du client."
-      );
+        description.textContent =
+          client.description || "";
 
+
+        /* ================= PROFILE IMAGE ================= */
+
+        if (client.profile_image) {
+
+          profileImage.src = client.profile_image;
+
+          profileImage.style.display = "block";
+
+          profileImage.onerror = function() {
+            this.style.display = "none";
+          };
+
+        } else {
+
+          profileImage.style.display = "none";
+
+        }
+
+
+        /* ================= COVER IMAGE ================= */
+
+        if (client.cover_image) {
+
+          coverImage.src = client.cover_image;
+
+          coverImage.style.display = "block";
+
+          coverImage.onerror = function() {
+            this.style.display = "none";
+          };
+
+        } else {
+
+          coverImage.style.display = "none";
+
+        }
+
+
+        /* ================= SOCIAL LINKS ================= */
+
+        showButton(
+          instagramBtn,
+          cleanUrl(client.instagram)
+        );
+
+        showButton(
+          facebookBtn,
+          cleanUrl(client.facebook)
+        );
+
+        showButton(
+          tiktokBtn,
+          cleanUrl(client.tiktok)
+        );
+
+        showButton(
+          snapchatBtn,
+          makeSnapchatUrl(client.snapchat)
+        );
+
+        showButton(
+          websiteBtn,
+          cleanUrl(client.website)
+        );
+
+
+        /* ================= WHATSAPP ================= */
+
+        if (client.whatsapp) {
+
+          whatsappBtn.href =
+            makeWhatsappUrl(client.whatsapp);
+
+          whatsappBtn.style.display = "flex";
+
+        }
+
+
+        /* ================= PHONE ================= */
+
+        if (client.phone) {
+
+          phoneBtn.href =
+            makePhoneUrl(client.phone);
+
+          phoneBtn.style.display = "flex";
+
+        }
+
+
+        /* ================= CONTACT ROW ================= */
+
+        if (
+          client.whatsapp ||
+          client.phone
+        ) {
+
+          contactRow.style.display = "flex";
+
+        }
+
+
+        /* ================= GOOGLE MAPS ================= */
+
+        showButton(
+          mapsBtn,
+          cleanUrl(client.google_maps)
+        );
+
+
+        /* ================= SHOW PAGE ================= */
+
+        loading.style.display = "none";
+        page.style.display = "block";
+
+      } catch (err) {
+
+        console.error(err);
+
+        loading.style.display = "none";
+        error.style.display = "flex";
+        error.textContent = "Erreur de chargement";
+
+      }
     }
 
 
-    /*
-      RPC returns an array
-    */
-
-    if (
-      !data ||
-      data.length === 0
-    ) {
-
-      loading.style.display =
-        "none";
-
-
-      errorText.textContent =
-        "Ce client n'existe pas ou a été supprimé.";
-
-
-      showElement(
-        errorCard
-      );
-
-
-      return;
-
-    }
-
-
-    const client =
-      data[0];
-
-
-    /* =================================================
-       NAME
-    ================================================= */
-
-    document
-      .getElementById(
-        "clientName"
-      )
-      .textContent =
-        client.name ||
-        "Nom du client";
-
-
-    /* =================================================
-       DESCRIPTION
-    ================================================= */
-
-    const description =
-      document.getElementById(
-        "clientDescription"
-      );
-
-
-    if (
-      client.description &&
-      client.description.trim()
-    ) {
-
-      description.textContent =
-        client.description;
-
-
-      showElement(
-        description
-      );
-
-    } else {
-
-      hideElement(
-        description
-      );
-
-    }
-
-
-    /* =================================================
-       COVER
-    ================================================= */
-
-    const coverImage =
-      document.getElementById(
-        "coverImage"
-      );
-
-
-    if (
-      client.cover_image
-    ) {
-
-      coverImage.src =
-        client.cover_image;
-
-
-      coverImage.onload =
-        () => {
-
-          showElement(
-            coverImage
-          );
-
-        };
-
-
-      coverImage.onerror =
-        () => {
-
-          hideElement(
-            coverImage
-          );
-
-        };
-
-    }
-
-
-    /* =================================================
-       PROFILE
-    ================================================= */
-
-    const profileImage =
-      document.getElementById(
-        "profileImage"
-      );
-
-
-    if (
-      client.profile_image
-    ) {
-
-      profileImage.src =
-        client.profile_image;
-
-
-      profileImage.onload =
-        () => {
-
-          showElement(
-            profileImage
-          );
-
-        };
-
-
-      profileImage.onerror =
-        () => {
-
-          hideElement(
-            profileImage
-          );
-
-        };
-
-    }
-
-
-    /* =================================================
-       INSTAGRAM
-    ================================================= */
-
-    setLink(
-      "instagramButton",
-      cleanUrl(
-        client.instagram
-      )
-    );
-
-
-    /* =================================================
-       FACEBOOK
-    ================================================= */
-
-    setLink(
-      "facebookButton",
-      cleanUrl(
-        client.facebook
-      )
-    );
-
-
-    /* =================================================
-       TIKTOK
-    ================================================= */
-
-    setLink(
-      "tiktokButton",
-      cleanUrl(
-        client.tiktok
-      )
-    );
-
-
-    /* =================================================
-       SNAPCHAT
-    ================================================= */
-
-    setLink(
-      "snapchatButton",
-      getSnapchatUrl(
-        client.snapchat
-      )
-    );
-
-
-    /* =================================================
-       WEBSITE
-    ================================================= */
-
-    setLink(
-      "websiteButton",
-      cleanUrl(
-        client.website
-      )
-    );
-
-
-    /* =================================================
-       WHATSAPP
-    ================================================= */
-
-    setLink(
-      "whatsappButton",
-      getWhatsappUrl(
-        client.whatsapp
-      )
-    );
-
-
-    /* =================================================
-       PHONE
-    ================================================= */
-
-    setLink(
-      "phoneButton",
-      getPhoneUrl(
-        client.phone
-      )
-    );
-
-
-    /* =================================================
-       GOOGLE MAPS
-    ================================================= */
-
-    setLink(
-      "mapsButton",
-      cleanUrl(
-        client.google_maps
-      )
-    );
-
-
-    /* =================================================
-       SHOW PAGE
-    ================================================= */
-
-    loading.style.display =
-      "none";
-
-
-    showElement(
-      profileCard
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      error
-    );
-
-
-    loading.style.display =
-      "none";
-
-
-    errorText.textContent =
-      error.message ||
-      "Une erreur est survenue.";
-
-
-    showElement(
-      errorCard
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   START
-===================================================== */
-
-loadClient();
-
-</script>
-
+    loadClient();
+  </script>
 
 </body>
 </html>
