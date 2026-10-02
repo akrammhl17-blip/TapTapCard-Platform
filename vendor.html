@@ -151,115 +151,218 @@
 
   <script>
 
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
 
-    const pinInput = document.getElementById("pin");
-    const loginBtn = document.getElementById("loginBtn");
-    const errorBox = document.getElementById("error");
-    const successBox = document.getElementById("success");
+    const token =
+      params.get("token");
 
-    loginBtn.addEventListener("click", login);
 
-    pinInput.addEventListener("keydown", function(event) {
-      if (event.key === "Enter") {
-        login();
+    const pinInput =
+      document.getElementById("pin");
+
+    const loginBtn =
+      document.getElementById("loginBtn");
+
+    const errorBox =
+      document.getElementById("error");
+
+    const successBox =
+      document.getElementById("success");
+
+
+    loginBtn.addEventListener(
+      "click",
+      login
+    );
+
+
+    pinInput.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+          login();
+        }
+
       }
-    });
+    );
+
 
     async function login() {
 
       errorBox.style.display = "none";
       successBox.style.display = "none";
 
-      const pin = pinInput.value.trim();
+
+      const pin =
+        pinInput.value.trim();
+
 
       if (!token) {
-        errorBox.textContent = "Lien vendeur invalide.";
-        errorBox.style.display = "block";
+
+        errorBox.textContent =
+          "Lien vendeur invalide.";
+
+        errorBox.style.display =
+          "block";
+
         return;
+
       }
+
 
       if (!/^\d{6}$/.test(pin)) {
-        errorBox.textContent = "Entrez un code de 6 chiffres.";
-        errorBox.style.display = "block";
+
+        errorBox.textContent =
+          "Entrez un code de 6 chiffres.";
+
+        errorBox.style.display =
+          "block";
+
         return;
+
       }
 
+
       loginBtn.disabled = true;
-      loginBtn.textContent = "Connexion...";
+
+      loginBtn.textContent =
+        "Connexion...";
+
 
       try {
 
-        const { data, error } = await supabaseClient
-          .rpc("verify_vendor_login", {
-            p_login_token: token,
-            p_pin: pin
-          });
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+            .rpc(
+              "verify_vendor_login",
+              {
+                p_login_token: token,
+                p_pin: pin
+              }
+            );
+
 
         if (error) {
+
           console.error(error);
 
           errorBox.textContent =
             "Une erreur est survenue. Réessayez.";
 
-          errorBox.style.display = "block";
+          errorBox.style.display =
+            "block";
 
           loginBtn.disabled = false;
-          loginBtn.textContent = "Se connecter";
+
+          loginBtn.textContent =
+            "Se connecter";
 
           return;
+
         }
 
-        if (!data || data.length === 0) {
 
-          errorBox.textContent = "Code incorrect.";
-          errorBox.style.display = "block";
+        if (
+          !data ||
+          data.length === 0
+        ) {
+
+          errorBox.textContent =
+            "Code incorrect.";
+
+          errorBox.style.display =
+            "block";
 
           loginBtn.disabled = false;
-          loginBtn.textContent = "Se connecter";
+
+          loginBtn.textContent =
+            "Se connecter";
 
           return;
+
         }
 
-        const vendor = data[0];
+
+        const vendor =
+          data[0];
+
 
         if (!vendor.session_token) {
 
           errorBox.textContent =
             "Impossible de créer la session.";
 
-          errorBox.style.display = "block";
+          errorBox.style.display =
+            "block";
 
           loginBtn.disabled = false;
-          loginBtn.textContent = "Se connecter";
+
+          loginBtn.textContent =
+            "Se connecter";
 
           return;
+
         }
 
+
         /*
-          Stockage de la session.
-          Le login_token n'est volontairement
-          PAS stocké dans localStorage.
+          تخزين جلسة البائع
         */
 
         localStorage.setItem(
           "vendor_session",
           JSON.stringify({
-            vendor_id: vendor.vendor_id,
-            vendor_name: vendor.vendor_name,
-            session_token: vendor.session_token
+            vendor_id:
+              vendor.vendor_id,
+
+            vendor_name:
+              vendor.vendor_name,
+
+            session_token:
+              vendor.session_token
           })
         );
 
+
+        /*
+          تخزين login_token مؤقتاً
+          فقط أثناء جلسة التصفح.
+
+          لا يتم وضعه في localStorage.
+        */
+
+        sessionStorage.setItem(
+          "vendor_login_token",
+          token
+        );
+
+
         successBox.textContent =
-          "Bienvenue " + vendor.vendor_name + " !";
+          "Bienvenue " +
+          vendor.vendor_name +
+          " !";
 
-        successBox.style.display = "block";
+        successBox.style.display =
+          "block";
 
-        setTimeout(() => {
-          window.location.href = "vendor-dashboard.html";
-        }, 800);
+
+        setTimeout(
+          function() {
+
+            window.location.href =
+              "vendor-dashboard.html";
+
+          },
+          800
+        );
+
 
       } catch (err) {
 
@@ -268,11 +371,16 @@
         errorBox.textContent =
           "Une erreur est survenue. Réessayez.";
 
-        errorBox.style.display = "block";
+        errorBox.style.display =
+          "block";
 
         loginBtn.disabled = false;
-        loginBtn.textContent = "Se connecter";
+
+        loginBtn.textContent =
+          "Se connecter";
+
       }
+
     }
 
   </script>
