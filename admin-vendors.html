@@ -1,0 +1,2856 @@
+<!DOCTYPE html>  <html lang="fr">    <head>    
+  <meta charset="UTF-8">    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>TAPTAPCARD — Admin</title>    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    <style>    
+    * {    
+      box-sizing: border-box;    
+    }    body {    
+  margin: 0;    
+  font-family: Arial, sans-serif;    
+  background:    
+    linear-gradient(    
+      135deg,    
+      #f8f9fb 0%,    
+      #eef1f5 50%,    
+      #e7ebf0 100%    
+    );    
+  color: #17191c;    
+}    
+
+button,    
+input {    
+  font-family: inherit;    
+}    
+
+.page {    
+  width: 100%;    
+  max-width: 1250px;    
+  margin: auto;    
+  padding: 25px;    
+}    
+
+/* HEADER */    
+
+.header {    
+  display: flex;    
+  align-items: center;    
+  justify-content: space-between;    
+  gap: 20px;    
+  margin-bottom: 25px;    
+}    
+
+.brand {    
+  display: flex;    
+  align-items: center;    
+  gap: 13px;    
+}    
+
+.brand-icon {    
+  width: 45px;    
+  height: 45px;    
+  border-radius: 13px;    
+  background: #17191c;    
+  color: white;    
+  display: flex;    
+  align-items: center;    
+  justify-content: center;    
+  font-weight: 800;    
+  font-size: 15px;    
+}    
+
+.brand-title {    
+  font-size: 20px;    
+  font-weight: 800;    
+}    
+
+.brand-subtitle {    
+  font-size: 12px;    
+  color: #777d85;    
+  margin-top: 3px;    
+}    
+
+.header-actions {    
+  display: flex;    
+  gap: 10px;    
+}    
+
+.top-btn {    
+  border: none;    
+  padding: 11px 16px;    
+  border-radius: 10px;    
+  cursor: pointer;    
+  font-weight: 700;    
+  font-size: 13px;    
+}    
+
+.add-btn {    
+  background: #17191c;    
+  color: white;    
+}    
+
+.logout-btn {    
+  background: white;    
+  color: #333;    
+  border: 1px solid #e1e4e8;    
+}    
+
+/* STATS */    
+
+.stats {    
+  display: grid;    
+  grid-template-columns: repeat(3, 1fr);    
+  gap: 15px;    
+  margin-bottom: 25px;    
+}    
+
+.stat-card {    
+  background: rgba(255,255,255,0.86);    
+  border: 1px solid #e4e7eb;    
+  border-radius: 16px;    
+  padding: 20px;    
+  box-shadow: 0 5px 18px rgba(0,0,0,0.04);    
+}    
+
+.stat-label {    
+  font-size: 12px;    
+  color: #7b8188;    
+  margin-bottom: 8px;    
+}    
+
+.stat-value {    
+  font-size: 28px;    
+  font-weight: 800;    
+}    
+
+/* MAIN CARD */    
+
+.main-card {    
+  background: rgba(255,255,255,0.9);    
+  border: 1px solid #e4e7eb;    
+  border-radius: 18px;    
+  box-shadow: 0 8px 25px rgba(0,0,0,0.05);    
+  overflow: hidden;    
+}    
+
+.card-header {    
+  padding: 20px;    
+  border-bottom: 1px solid #eceef1;    
+  display: flex;    
+  align-items: center;    
+  justify-content: space-between;    
+  gap: 15px;    
+}    
+
+.card-title {    
+  font-size: 18px;    
+  font-weight: 800;    
+}    
+
+.search-box {    
+  width: 260px;    
+  max-width: 100%;    
+  padding: 11px 13px;    
+  border: 1px solid #dfe3e8;    
+  border-radius: 10px;    
+  outline: none;    
+  background: white;    
+}    
+
+.search-box:focus {    
+  border-color: #999;    
+}    
+
+/* TABLE */    
+
+.table-wrapper {    
+  width: 100%;    
+  overflow-x: auto;    
+}    
+
+table {    
+  width: 100%;    
+  border-collapse: collapse;    
+  min-width: 950px;    
+}    
+
+th {    
+  text-align: left;    
+  padding: 13px 20px;    
+  font-size: 11px;    
+  color: #81868d;    
+  text-transform: uppercase;    
+  letter-spacing: .04em;    
+  background: #fafbfc;    
+}    
+
+td {    
+  padding: 15px 20px;    
+  border-top: 1px solid #edf0f2;    
+  font-size: 13px;    
+}    
+
+.vendor-name {    
+  display: flex;    
+  align-items: center;    
+  gap: 10px;    
+}    
+
+.vendor-avatar {    
+  width: 36px;    
+  height: 36px;    
+  border-radius: 10px;    
+  background: #17191c;    
+  color: white;    
+  display: flex;    
+  align-items: center;    
+  justify-content: center;    
+  font-weight: 800;    
+  font-size: 13px;    
+  flex-shrink: 0;    
+}    
+
+.vendor-email {    
+  color: #70767e;    
+  font-size: 12px;    
+}    
+
+.status {    
+  display: inline-flex;    
+  align-items: center;    
+  padding: 5px 9px;    
+  border-radius: 20px;    
+  font-size: 11px;    
+  font-weight: 700;    
+}    
+
+.status-active {    
+  background: #eaf8ef;    
+  color: #16833b;    
+}    
+
+.status-suspended {    
+  background: #fff1f1;    
+  color: #c62828;    
+}    
+
+.status-inactive {    
+  background: #f1f2f4;    
+  color: #73777d;    
+}    
+
+.links-count {    
+  font-weight: 800;    
+  font-size: 16px;    
+}    
+
+/* ACTIONS */    
+
+.actions {    
+  display: flex;    
+  flex-wrap: wrap;    
+  gap: 7px;    
+}    
+
+.action-btn {    
+  border: 1px solid transparent;    
+  padding: 8px 11px;    
+  border-radius: 9px;    
+  cursor: pointer;    
+  font-size: 11px;    
+  font-weight: 700;    
+  transition: 0.18s ease;    
+}    
+
+.manage-btn {    
+  background: #eef4ff;    
+  color: #2457a6;    
+  border-color: #d8e5ff;    
+}    
+
+.manage-btn:hover {    
+  background: #e1ecff;    
+}    
+
+.suspend-btn {    
+  background: #fff1f1;    
+  color: #c62828;    
+  border-color: #ffd6d6;    
+}    
+
+.suspend-btn:hover {    
+  background: #ffe4e4;    
+}    
+
+.activate-btn {    
+  background: #eaf8ef;    
+  color: #16833b;    
+  border-color: #ccefd8;    
+}    
+
+.activate-btn:hover {    
+  background: #dcf5e5;    
+}    
+
+.reset-btn {    
+  background: #17191c;    
+  color: white;    
+}    
+
+.reset-btn:hover {    
+  background: #30343a;    
+}    
+
+.history-btn {    
+  background: #f1f2f4;    
+  color: #30343a;    
+  border-color: #e6e8eb;    
+}    
+
+.history-btn:hover {    
+  background: #e7e9ec;    
+}    
+
+/* MODAL */    
+
+.modal {    
+  position: fixed;    
+  inset: 0;    
+  background: rgba(0,0,0,0.45);    
+  display: none;    
+  align-items: center;    
+  justify-content: center;    
+  padding: 20px;    
+  z-index: 1000;    
+}    
+
+.modal.show {    
+  display: flex;    
+}    
+
+.modal-card {    
+  width: 100%;    
+  max-width: 480px;    
+  max-height: 90vh;    
+  overflow-y: auto;    
+  background: white;    
+  border-radius: 18px;    
+  padding: 25px;    
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);    
+}    
+
+.modal-title {    
+  font-size: 20px;    
+  font-weight: 800;    
+  margin-bottom: 7px;    
+}    
+
+.modal-subtitle {    
+  color: #777d85;    
+  font-size: 13px;    
+  margin-bottom: 20px;    
+}    
+
+.field {    
+  margin-bottom: 15px;    
+}    
+
+.field label {    
+  display: block;    
+  font-size: 12px;    
+  font-weight: 700;    
+  margin-bottom: 7px;    
+}    
+
+.field input {    
+  width: 100%;    
+  padding: 12px;    
+  border: 1px solid #dfe3e8;    
+  border-radius: 10px;    
+  outline: none;    
+}    
+
+.field input:focus {    
+  border-color: #999;    
+}    
+
+.modal-actions {    
+  display: flex;    
+  justify-content: flex-end;    
+  gap: 9px;    
+  margin-top: 20px;    
+  flex-wrap: wrap;    
+}    
+
+.modal-btn {    
+  padding: 10px 15px;    
+  border-radius: 10px;    
+  border: none;    
+  cursor: pointer;    
+  font-weight: 700;    
+}    
+
+.cancel-btn {    
+  background: #f1f2f4;    
+  color: #333;    
+}    
+
+.confirm-btn {    
+  background: #17191c;    
+  color: white;    
+}    
+
+.danger-btn {    
+  background: #c62828;    
+  color: white;    
+}    
+
+.success-btn {    
+  background: #16833b;    
+  color: white;    
+}    
+
+/* MANAGE */    
+
+.manage-info {    
+  background: #f6f7f9;    
+  border: 1px solid #e5e7ea;    
+  border-radius: 12px;    
+  padding: 15px;    
+  margin-bottom: 12px;    
+}    
+
+.manage-label {    
+  color: #777d85;    
+  font-size: 11px;    
+  margin-bottom: 6px;    
+}    
+
+.manage-value {    
+  font-size: 15px;    
+  font-weight: 800;    
+  word-break: break-all;    
+}    
+
+.manage-link-row {    
+  display: flex;    
+  gap: 8px;    
+  align-items: center;    
+}    
+
+.manage-link {    
+  flex: 1;    
+  min-width: 0;    
+}    
+
+.copy-small-btn {    
+  flex-shrink: 0;    
+  border: none;    
+  background: #17191c;    
+  color: white;    
+  border-radius: 8px;    
+  padding: 8px 11px;    
+  cursor: pointer;    
+  font-size: 11px;    
+  font-weight: 700;    
+}    
+
+.change-pin-btn {    
+  width: 100%;    
+  margin-top: 2px;    
+  padding: 12px;    
+  border: 1px solid #d8e5ff;    
+  background: #eef4ff;    
+  color: #2457a6;    
+  border-radius: 10px;    
+  cursor: pointer;    
+  font-weight: 800;    
+}    
+
+.change-pin-btn:hover {    
+  background: #e1ecff;    
+}    
+
+.delete-vendor-btn {    
+  width: 100%;    
+  margin-top: 15px;    
+  padding: 12px;    
+  border: 1px solid #ffd4d4;    
+  background: #fff1f1;    
+  color: #c62828;    
+  border-radius: 10px;    
+  cursor: pointer;    
+  font-weight: 800;    
+}    
+
+.delete-vendor-btn:hover {    
+  background: #ffe5e5;    
+}    
+
+/* DELETE */    
+
+.delete-option {    
+  width: 100%;    
+  text-align: left;    
+  border: 1px solid #e3e6ea;    
+  background: white;    
+  border-radius: 12px;    
+  padding: 15px;    
+  margin-bottom: 10px;    
+  cursor: pointer;    
+  transition: .18s ease;    
+}    
+
+.delete-option:hover {    
+  background: #fafafa;    
+}    
+
+.delete-option-title {    
+  font-weight: 800;    
+  font-size: 14px;    
+  margin-bottom: 5px;    
+}    
+
+.delete-option-text {    
+  font-size: 12px;    
+  color: #777d85;    
+  line-height: 1.5;    
+}    
+
+.delete-option.danger {    
+  border-color: #ffd0d0;    
+}    
+
+.delete-option.danger:hover {    
+  background: #fff7f7;    
+}    
+
+/* HISTORY */    
+
+.history-list {    
+  max-height: 350px;    
+  overflow-y: auto;    
+}    
+
+.history-item {    
+  padding: 13px;    
+  border: 1px solid #eceef1;    
+  border-radius: 10px;    
+  margin-bottom: 8px;    
+}    
+
+.history-count {    
+  font-weight: 800;    
+}    
+
+.history-date {    
+  color: #777d85;    
+  font-size: 11px;    
+  margin-top: 4px;    
+}    
+
+/* CREDENTIALS */    
+
+.credential-box {    
+  background: #f6f7f9;    
+  border: 1px solid #e5e7ea;    
+  border-radius: 11px;    
+  padding: 13px;    
+  margin-bottom: 10px;    
+  word-break: break-all;    
+}    
+
+.credential-label {    
+  font-size: 11px;    
+  color: #777d85;    
+  margin-bottom: 5px;    
+}    
+
+.credential-value {    
+  font-weight: 700;    
+  font-size: 13px;    
+}    
+
+/* TOAST */    
+
+.toast {    
+  position: fixed;    
+  right: 20px;    
+  bottom: 20px;    
+  background: #17191c;    
+  color: white;    
+  padding: 13px 17px;    
+  border-radius: 11px;    
+  font-size: 13px;    
+  font-weight: 700;    
+  opacity: 0;    
+  transform: translateY(15px);    
+  pointer-events: none;    
+  transition: .25s;    
+  z-index: 2000;    
+}    
+
+.toast.show {    
+  opacity: 1;    
+  transform: translateY(0);    
+}    
+
+/* MOBILE */    
+
+@media (max-width: 750px) {    
+
+  .page {    
+    padding: 15px;    
+  }    
+
+  .header {    
+    align-items: flex-start;    
+    flex-direction: column;    
+  }    
+
+  .header-actions {    
+    width: 100%;    
+  }    
+
+  .top-btn {    
+    flex: 1;    
+  }    
+
+  .stats {    
+    grid-template-columns: 1fr;    
+  }    
+
+  .card-header {    
+    align-items: flex-start;    
+    flex-direction: column;    
+  }    
+
+  .search-box {    
+    width: 100%;    
+  }    
+
+  .manage-link-row {    
+    align-items: stretch;    
+    flex-direction: column;    
+  }    
+
+  .copy-small-btn {    
+    width: 100%;    
+  }    
+}
+
+</style>  </head>  <body>  <div class="page">    <!-- HEADER -->    <header class="header">  <div class="brand">
+
+  <div class="brand-icon">    
+    TC    
+  </div>      <div>    <div class="brand-title">    
+  TAPTAPCARD    
+</div>    
+
+<div class="brand-subtitle">    
+  Administration    
+</div>
+
+  </div>    </div>    <div class="header-actions">    <button
+class="top-btn add-btn"
+onclick="openAddVendor()"
+
+> 
+
++ Ajouter un vendeur
+
+  </button>    <button
+class="top-btn logout-btn"
+onclick="logout()"
+
+> 
+
+Déconnexion
+
+  </button>    </div>    </header>    <!-- STATS -->    <section class="stats">  <div class="stat-card">      <div class="stat-label">    
+    Total vendeurs    
+  </div>      <div    
+    class="stat-value"    
+    id="totalVendors"    
+  >    
+    0    
+  </div>    </div>    <div class="stat-card">      <div class="stat-label">    
+    Vendeurs actifs    
+  </div>      <div    
+    class="stat-value"    
+    id="activeVendors"    
+  >    
+    0    
+  </div>    </div>    <div class="stat-card">      <div class="stat-label">    
+    Liens actifs à compter    
+  </div>      <div    
+    class="stat-value"    
+    id="totalLinks"    
+  >    
+    0    
+  </div>    </div>    </section>    <!-- MAIN -->    <section class="main-card">  <div class="card-header">      <div class="card-title">    
+    Mes vendeurs    
+  </div>    <input
+id="searchInput"
+class="search-box"
+type="text"
+placeholder="Rechercher un vendeur..."
+oninput="renderVendors()"
+
+> 
+
+</div>    <div class="table-wrapper">      <table>    <thead>    
+
+  <tr>    
+
+    <th>Vendeur</th>    
+    <th>Email</th>    
+    <th>Statut</th>    
+    <th>Liens</th>    
+    <th>Actions</th>    
+
+  </tr>    
+
+</thead>    
+
+<tbody id="vendorsBody"></tbody>
+
+  </table>    </div>    </section>  </div>  <!-- ADD VENDOR MODAL -->  <div    
+  class="modal"    
+  id="addVendorModal"    
+>    <div class="modal-card">  <div class="modal-title">    
+  Ajouter un vendeur    
+</div>    <div class="modal-subtitle">    
+  Créez un accès privé pour le vendeur.    
+</div>    <div class="field">      <label>    
+    Nom du vendeur    
+  </label>    <input
+id="vendorNameInput"
+type="text"
+placeholder="Nom du vendeur"
+
+> 
+
+</div>    <div class="field">      <label>    
+    PIN    
+  </label>    <input
+id="vendorPinInput"
+type="text"
+inputmode="numeric"
+maxlength="6"
+placeholder="6 chiffres"
+
+> 
+
+</div>    <div class="modal-actions">    <button
+class="modal-btn cancel-btn"
+onclick="closeModal('addVendorModal')"
+
+> 
+
+Annuler
+
+  </button>    <button
+class="modal-btn confirm-btn"
+onclick="createVendor()"
+
+> 
+
+Créer
+
+  </button>    </div>    </div>  </div>  <!-- CREDENTIALS MODAL -->  <div    
+  class="modal"    
+  id="credentialsModal"    
+>    <div class="modal-card">  <div class="modal-title">    
+  Vendeur créé    
+</div>    <div class="modal-subtitle">    
+  Conservez ces informations.    
+</div>    <div class="credential-box">      <div class="credential-label">    
+    Nom    
+  </div>      <div    
+    class="credential-value"    
+    id="createdVendorName"    
+  ></div>    </div>    <div class="credential-box">      <div class="credential-label">    
+    Lien vendeur    
+  </div>      <div    
+    class="credential-value"    
+    id="createdVendorLink"    
+  ></div>    </div>    <div class="credential-box">      <div class="credential-label">    
+    PIN    
+  </div>      <div    
+    class="credential-value"    
+    id="createdVendorPin"    
+  ></div>    </div>    <div class="modal-actions">    <button
+class="modal-btn confirm-btn"
+onclick="closeModal('credentialsModal')"
+
+> 
+
+Fermer
+
+  </button>    </div>    </div>  </div>  <!-- MANAGE MODAL -->  <div    
+  class="modal"    
+  id="manageModal"    
+>    <div class="modal-card">  <div class="modal-title">    
+  Gérer le vendeur    
+</div>    <div    
+  class="modal-subtitle"    
+  id="manageSubtitle"    
+></div>    <div class="manage-info">      <div class="manage-label">    
+    Nom du vendeur    
+  </div>      <div    
+    class="manage-value"    
+    id="manageName"    
+  ></div>    </div>    <div class="manage-info">      <div class="manage-label">    
+    Nombre total de liens créés    
+  </div>      <div    
+    class="manage-value"    
+    id="manageTotalLinks"    
+  >    
+    0    
+  </div>    </div>    <div class="manage-info">      <div class="manage-label">    
+    Lien du vendeur    
+  </div>      <div class="manage-link-row">    <div    
+  class="manage-value manage-link"    
+  id="manageVendorLink"    
+></div>    
+
+<button    
+  class="copy-small-btn"    
+  onclick="copyManageLink()"    
+>    
+  Copier    
+</button>
+
+  </div>    </div>    <div class="manage-info">      <div class="manage-label">    
+    PIN    
+  </div>      <div class="manage-value">    
+    ••••••    
+  </div>      <div    
+    style="    
+      color:#777d85;    
+      font-size:11px;    
+      margin-top:6px;    
+    "    
+  >    
+    Le PIN est sécurisé et ne peut pas être récupéré.    
+  </div>    </div>    <button
+class="change-pin-btn"
+onclick="openChangePinModal()"
+
+> 
+
+🔐 Changer le PIN
+</button>
+
+<button
+class="delete-vendor-btn"
+onclick="openDeleteVendorModal()"
+
+> 
+
+Supprimer ce vendeur
+</button>
+
+<div class="modal-actions">    <button
+class="modal-btn confirm-btn"
+onclick="closeModal('manageModal')"
+
+> 
+
+Fermer
+
+  </button>    </div>    </div>  </div>  <!-- CHANGE PIN MODAL -->  <div    
+  class="modal"    
+  id="changePinModal"    
+>    <div class="modal-card">  <div class="modal-title">    
+  Changer le PIN    
+</div>    <div    
+  class="modal-subtitle"    
+  id="changePinSubtitle"    
+></div>    <div class="field">      <label>    
+    Nouveau PIN    
+  </label>    <input
+id="newVendorPinInput"
+type="text"
+inputmode="numeric"
+maxlength="6"
+placeholder="6 chiffres"
+
+> 
+
+</div>    <div class="field">      <label>    
+    Confirmer le PIN    
+  </label>    <input
+id="confirmVendorPinInput"
+type="text"
+inputmode="numeric"
+maxlength="6"
+placeholder="6 chiffres"
+
+> 
+
+</div>    <div class="modal-actions">    <button
+class="modal-btn cancel-btn"
+onclick="closeModal('changePinModal')"
+
+> 
+
+Annuler
+
+  </button>    <button
+class="modal-btn confirm-btn"
+onclick="confirmChangePin()"
+
+> 
+
+Changer le PIN
+
+  </button>    </div>    </div>  </div>  <!-- DELETE VENDOR MODAL -->  <div    
+  class="modal"    
+  id="deleteVendorModal"    
+>    <div class="modal-card">  <div class="modal-title">    
+  Supprimer le vendeur    
+</div>    <div    
+  class="modal-subtitle"    
+  id="deleteVendorSubtitle"    
+></div>    <button
+class="delete-option"
+onclick="deleteVendorKeepClients()"
+
+> 
+
+  <div class="delete-option-title">    
+    Supprimer le vendeur uniquement    
+  </div>      <div class="delete-option-text">    
+    Le compte vendeur sera supprimé,    
+    mais tous ses clients, liens et QR codes    
+    resteront conservés.    
+  </div>    </button>    <button
+class="delete-option danger"
+onclick="openDeleteAllConfirm()"
+
+> 
+
+  <div class="delete-option-title">    
+    Supprimer le vendeur + ses clients    
+  </div>      <div class="delete-option-text">    
+    Le vendeur et tous ses clients seront    
+    définitivement supprimés.    
+  </div>    </button>    <div class="modal-actions">    <button
+class="modal-btn cancel-btn"
+onclick="closeModal('deleteVendorModal')"
+
+> 
+
+Annuler
+
+  </button>    </div>    </div>  </div>  <!-- DELETE ALL CONFIRMATION -->  <div    
+  class="modal"    
+  id="deleteAllConfirmModal"    
+>    <div class="modal-card">  <div class="modal-title">    
+  Confirmation définitive    
+</div>    <div    
+  class="modal-subtitle"    
+  id="deleteAllConfirmSubtitle"    
+></div>    <div class="credential-box">      <strong>    
+    Attention    
+  </strong>    <br><br>
+
+Cette action supprimera le vendeur
+ainsi que tous ses clients.
+
+<br><br>
+
+Les pages clients et leurs QR codes
+ne seront plus disponibles.
+
+</div>    <div class="modal-actions">    <button
+class="modal-btn cancel-btn"
+onclick="closeModal('deleteAllConfirmModal')"
+
+> 
+
+Annuler
+
+  </button>    <button
+class="modal-btn danger-btn"
+onclick="deleteVendorWithClients()"
+
+> 
+
+Supprimer définitivement
+
+  </button>    </div>    </div>  </div>  <!-- HISTORY MODAL -->  <div    
+  class="modal"    
+  id="historyModal"    
+>    <div class="modal-card">  <div class="modal-title">    
+  Historique    
+</div>    <div    
+  class="modal-subtitle"    
+  id="historySubtitle"    
+></div>    <div    
+  class="history-list"    
+  id="historyList"    
+></div>    <div class="modal-actions">    <button
+class="modal-btn confirm-btn"
+onclick="closeModal('historyModal')"
+
+> 
+
+Fermer
+
+  </button>    </div>    </div>  </div>  <!-- RESET CONFIRMATION MODAL -->  <div    
+  class="modal"    
+  id="resetModal"    
+>    <div class="modal-card">  <div class="modal-title">    
+  Réinitialiser le compteur    
+</div>    <div class="modal-subtitle">    
+  Le nombre actuel sera enregistré dans l'historique puis remis à zéro.    
+</div>    <div    
+  class="credential-box"    
+  id="resetInfo"    
+></div>    <div class="modal-actions">    <button
+class="modal-btn cancel-btn"
+onclick="closeModal('resetModal')"
+
+> 
+
+Annuler
+
+  </button>    <button
+class="modal-btn confirm-btn"
+onclick="confirmReset()"
+
+> 
+
+Réinitialiser
+
+  </button>    </div>    </div>  </div>  <!-- SUSPEND / ACTIVATE MODAL -->  <div    
+  class="modal"    
+  id="statusModal"    
+>    <div class="modal-card">  <div    
+  class="modal-title"    
+  id="statusModalTitle"    
+>    
+  Suspendre le vendeur    
+</div>    <div    
+  class="modal-subtitle"    
+  id="statusModalSubtitle"    
+></div>    <div    
+  class="credential-box"    
+  id="statusInfo"    
+></div>    <div class="modal-actions">    <button
+class="modal-btn cancel-btn"
+onclick="closeModal('statusModal')"
+
+> 
+
+Annuler
+
+  </button>    <button
+class="modal-btn danger-btn"
+id="statusConfirmBtn"
+onclick="confirmVendorStatus()"
+
+> 
+
+Suspendre
+
+  </button>    </div>    </div>  </div>  <div    
+  class="toast"    
+  id="toast"    
+></div>  <script>    /* =========================
+SUPABASE
+========================= */
+
+const SUPABASE_URL =
+"https://ogenizijjumwkiiikhrx.supabase.co";
+
+const SUPABASE_ANON_KEY =
+"sb_publishable_-83cFPPEgtOhG7G_MVsjaQ_UFoAnoIc";
+
+const supabaseClient =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_ANON_KEY
+);
+
+/* =========================
+GLOBAL DATA
+========================= */
+
+let vendors = [];
+
+let resetVendorId = null;
+let resetVendorCount = 0;
+
+let statusVendorId = null;
+let statusAction = null;
+
+let manageVendorId = null;
+
+/* =========================
+INIT
+========================= */
+
+document.addEventListener(
+"DOMContentLoaded",
+async () => {
+
+await checkAdmin();    
+  await loadVendors();    
+
+}
+
+);
+
+/* =========================
+ADMIN CHECK
+========================= */
+
+async function checkAdmin() {
+
+const {    
+  data: {    
+    user    
+  }    
+} =    
+  await supabaseClient.auth.getUser();    
+
+
+if (!user) {    
+
+  window.location.href =    
+    "index.html";    
+
+  return;    
+
+}    
+
+
+const {    
+  data,    
+  error    
+} =    
+  await supabaseClient    
+    .from("vendors")    
+    .select(    
+      "id,name,role,status"    
+    )    
+    .eq(    
+      "user_id",    
+      user.id    
+    )    
+    .maybeSingle();    
+
+
+if (    
+  error ||    
+  !data ||    
+  data.role !== "admin" ||    
+  data.status !== "active"    
+) {    
+
+  await supabaseClient.auth.signOut();    
+
+  window.location.href =    
+    "index.html";    
+
+  return;    
+
+}
+
+}
+
+/* =========================
+LOAD VENDORS
+========================= */
+
+async function loadVendors() {
+
+const {    
+  data,    
+  error    
+} =    
+  await supabaseClient    
+    .from("vendors")    
+    .select("*")    
+    .neq(    
+      "role",    
+      "admin"    
+    )    
+    .order(    
+      "created_at",    
+      {    
+        ascending: false    
+      }    
+    );    
+
+
+if (error) {    
+
+  console.error(error);    
+
+  showToast(    
+    "Erreur lors du chargement des vendeurs."    
+  );    
+
+  return;    
+
+}    
+
+
+vendors =    
+  data || [];    
+
+await calculateCounts();    
+
+renderVendors();
+
+}
+
+/* =========================
+CALCULATE COUNTS
+========================= */
+
+async function calculateCounts() {
+
+let totalLinks = 0;    
+
+
+for (    
+  const vendor of vendors    
+) {    
+
+  const {    
+    data: clients,    
+    error    
+  } =    
+    await supabaseClient    
+      .from("clients")    
+      .select(    
+        "id,created_at"    
+      )    
+      .eq(    
+        "vendor_id",    
+        vendor.id    
+      );    
+
+
+  if (error) {    
+
+    console.error(error);    
+
+    vendor.currentLinks = 0;    
+
+    continue;    
+
+  }    
+
+
+  const {    
+    data: resets    
+  } =    
+    await supabaseClient    
+      .from("vendor_resets")    
+      .select(    
+        "reset_at"    
+      )    
+      .eq(    
+        "vendor_id",    
+        vendor.id    
+      )    
+      .order(    
+        "reset_at",    
+        {    
+          ascending: false    
+        }    
+      )    
+      .limit(1);    
+
+
+  let lastReset = null;    
+
+
+  if (    
+    resets &&    
+    resets.length    
+  ) {    
+
+    lastReset =    
+      new Date(    
+        resets[0].reset_at    
+      );    
+
+  }    
+
+
+  const current =    
+    clients.filter(    
+      client => {    
+
+        if (!lastReset) {    
+          return true;    
+        }    
+
+        return (    
+          new Date(    
+            client.created_at    
+          ) > lastReset    
+        );    
+
+      }    
+    ).length;    
+
+
+  vendor.currentLinks =    
+    current;    
+
+  vendor.totalLinks =    
+    clients.length;    
+
+
+  totalLinks +=    
+    current;    
+
+}    
+
+
+document.getElementById(    
+  "totalVendors"    
+).textContent =    
+  vendors.length;    
+
+
+document.getElementById(    
+  "activeVendors"    
+).textContent =    
+  vendors.filter(    
+    vendor =>    
+      vendor.status === "active"    
+  ).length;    
+
+
+document.getElementById(    
+  "totalLinks"    
+).textContent =    
+  totalLinks;
+
+}
+
+/* =========================
+RENDER VENDORS
+========================= */
+
+function renderVendors() {
+
+const body =    
+  document.getElementById(    
+    "vendorsBody"    
+  );    
+
+
+const search =    
+  (    
+    document.getElementById(    
+      "searchInput"    
+    ).value || ""    
+  )    
+    .trim()    
+    .toLowerCase();    
+
+
+const filtered =    
+  vendors.filter(    
+    vendor =>    
+      String(    
+        vendor.name || ""    
+      )    
+        .toLowerCase()    
+        .includes(search)    
+  );    
+
+
+if (!filtered.length) {    
+
+  body.innerHTML = `    
+    <tr>    
+      <td    
+        colspan="5"    
+        style="    
+          text-align:center;    
+          padding:40px;    
+          color:#777d85;    
+        "    
+      >    
+        Aucun vendeur trouvé.    
+      </td>    
+    </tr>    
+  `;    
+
+  return;    
+
+}    
+
+
+body.innerHTML =    
+  filtered.map(    
+    vendor => {    
+
+      const vendorName =    
+        vendor.name ||    
+        "Vendeur";    
+
+
+      const avatar =    
+        vendorName    
+          .charAt(0)    
+          .toUpperCase();    
+
+
+      const currentLinks =    
+        vendor.currentLinks ||    
+        0;    
+
+
+      let statusClass =    
+        "status-inactive";    
+
+
+      let statusText =    
+        "Inactif";    
+
+
+      if (    
+        vendor.status ===    
+        "active"    
+      ) {    
+
+        statusClass =    
+          "status-active";    
+
+        statusText =    
+          "Actif";    
+
+      }    
+      else if (    
+        vendor.status ===    
+        "suspended"    
+      ) {    
+
+        statusClass =    
+          "status-suspended";    
+
+        statusText =    
+          "Suspendu";    
+
+      }    
+
+
+      const statusButton =    
+        vendor.status ===    
+        "active"    
+
+          ? `    
+            <button    
+              class="action-btn suspend-btn"    
+              onclick="openSuspendModal(${vendor.id})"    
+            >    
+              Suspendre    
+            </button>    
+          `    
+
+          : `    
+            <button    
+              class="action-btn activate-btn"    
+              onclick="openActivateModal(${vendor.id})"    
+            >    
+              Réactiver    
+            </button>    
+          `;    
+
+
+      return `    
+
+        <tr>    
+
+          <td>    
+
+            <div class="vendor-name">    
+
+              <div class="vendor-avatar">    
+                ${escapeHtml(    
+                  avatar    
+                )}    
+              </div>    
+
+              <strong>    
+                ${escapeHtml(    
+                  vendorName    
+                )}    
+              </strong>    
+
+            </div>    
+
+          </td>    
+
+
+          <td>    
+
+            <span class="vendor-email">    
+              ${escapeHtml(    
+                vendor.email ||    
+                "-"    
+              )}    
+            </span>    
+
+          </td>    
+
+
+          <td>    
+
+            <span    
+              class="status ${statusClass}"    
+            >    
+              ${statusText}    
+            </span>    
+
+          </td>    
+
+
+          <td>    
+
+            <span    
+              class="links-count"    
+            >    
+              ${currentLinks}    
+            </span>    
+
+          </td>    
+
+
+          <td>    
+
+            <div class="actions">    
+
+              <button    
+                class="action-btn manage-btn"    
+                onclick="manageVendor(${vendor.id})"    
+              >    
+                Gérer    
+              </button>    
+
+
+              ${statusButton}    
+
+
+              <button    
+                class="action-btn reset-btn"    
+                onclick="resetVendor(${vendor.id})"    
+              >    
+                Réinitialiser    
+              </button>    
+
+
+              <button    
+                class="action-btn history-btn"    
+                onclick="showHistory(    
+                  ${vendor.id},    
+                  '${escapeAttribute(    
+                    vendorName    
+                  )}'    
+                )"    
+              >    
+                Historique    
+              </button>    
+
+            </div>    
+
+          </td>    
+
+        </tr>    
+
+      `;    
+
+    }    
+  ).join("");
+
+}
+
+/* =========================
+GÉRER
+========================= */
+
+async function manageVendor(
+vendorId
+) {
+
+const vendor =    
+  vendors.find(    
+    v =>    
+      v.id ===    
+      vendorId    
+  );    
+
+
+if (!vendor) {    
+  return;    
+}    
+
+
+manageVendorId =    
+  vendorId;    
+
+
+document.getElementById(    
+  "manageSubtitle"    
+).textContent =    
+  vendor.name ||    
+  "Vendeur";    
+
+
+document.getElementById(    
+  "manageName"    
+).textContent =    
+  vendor.name ||    
+  "Vendeur";    
+
+
+document.getElementById(    
+  "manageTotalLinks"    
+).textContent =    
+  "Chargement...";    
+
+
+const vendorLink =    
+  buildVendorLink(    
+    vendor.login_token    
+  );    
+
+
+document.getElementById(    
+  "manageVendorLink"    
+).textContent =    
+  vendorLink;    
+
+
+document.getElementById(    
+  "manageModal"    
+).classList.add(    
+  "show"    
+);    
+
+
+const {    
+  count,    
+  error    
+} =    
+  await supabaseClient    
+    .from("clients")    
+    .select(    
+      "id",    
+      {    
+        count: "exact",    
+        head: true    
+      }    
+    )    
+    .eq(    
+      "vendor_id",    
+      vendorId    
+    );    
+
+
+if (error) {    
+
+  console.error(error);    
+
+  document.getElementById(    
+    "manageTotalLinks"    
+  ).textContent =    
+    "Erreur";    
+
+  return;    
+
+}    
+
+
+document.getElementById(    
+  "manageTotalLinks"    
+).textContent =    
+  count || 0;
+
+}
+
+/* =========================
+CHANGE PIN
+========================= */
+
+function openChangePinModal() {
+
+const vendor =    
+  vendors.find(    
+    v =>    
+      v.id ===    
+      manageVendorId    
+  );    
+
+
+if (!vendor) {    
+  return;    
+}    
+
+
+document.getElementById(    
+  "changePinSubtitle"    
+).textContent =    
+  "Vendeur : " +    
+  (    
+    vendor.name ||    
+    "Vendeur"    
+  );    
+
+
+document.getElementById(    
+  "newVendorPinInput"    
+).value = "";    
+
+
+document.getElementById(    
+  "confirmVendorPinInput"    
+).value = "";    
+
+
+closeModal(    
+  "manageModal"    
+);    
+
+
+document.getElementById(    
+  "changePinModal"    
+).classList.add(    
+  "show"    
+);
+
+}
+
+async function confirmChangePin() {
+
+if (!manageVendorId) {    
+  return;    
+}    
+
+
+const newPin =    
+  document.getElementById(    
+    "newVendorPinInput"    
+  ).value.trim();    
+
+
+const confirmPin =    
+  document.getElementById(    
+    "confirmVendorPinInput"    
+  ).value.trim();    
+
+
+if (!/^\d{6}$/.test(newPin)) {    
+
+  showToast(    
+    "Le PIN doit contenir exactement 6 chiffres."    
+  );    
+
+  return;    
+
+}    
+
+
+if (newPin !== confirmPin) {    
+
+  showToast(    
+    "Les deux PIN ne correspondent pas."    
+  );    
+
+  return;    
+
+}    
+
+
+const {    
+  error    
+} =    
+  await supabaseClient.rpc(    
+    "update_vendor_pin",    
+    {    
+      p_vendor_id:    
+        manageVendorId,    
+
+      p_new_pin:    
+        newPin    
+    }    
+  );    
+
+
+if (error) {    
+
+  console.error(error);    
+
+  showToast(    
+    error.message ||    
+    "Erreur lors du changement du PIN."    
+  );    
+
+  return;    
+
+}    
+
+
+const vendor =    
+  vendors.find(    
+    v =>    
+      v.id ===    
+      manageVendorId    
+  );    
+
+
+closeModal(    
+  "changePinModal"    
+);    
+
+
+showToast(    
+  "PIN modifié avec succès."    
+);    
+
+
+if (vendor) {    
+
+  document.getElementById(    
+    "createdVendorName"    
+  ).textContent =    
+    vendor.name ||    
+    "Vendeur";    
+
+
+  document.getElementById(    
+    "createdVendorLink"    
+  ).textContent =    
+    buildVendorLink(    
+      vendor.login_token    
+    );    
+
+
+  document.getElementById(    
+    "createdVendorPin"    
+  ).textContent =    
+    newPin;    
+
+
+  document.getElementById(    
+    "credentialsModal"    
+  ).classList.add(    
+    "show"    
+  );    
+
+}
+
+}
+
+/* =========================
+BUILD VENDOR LINK
+========================= */
+
+function buildVendorLink(
+loginToken
+) {
+
+return (    
+  location.origin +    
+  location.pathname    
+    .replace(    
+      "admin.html",    
+      "vendor.html"    
+    ) +    
+  "?token=" +    
+  encodeURIComponent(    
+    loginToken || ""    
+  )    
+);
+
+}
+
+/* =========================
+COPY MANAGE LINK
+========================= */
+
+async function copyManageLink() {
+
+const value =    
+  document.getElementById(    
+    "manageVendorLink"    
+  ).textContent;    
+
+
+if (!value) {    
+  return;    
+}    
+
+
+try {    
+
+  await navigator.clipboard.writeText(    
+    value    
+  );    
+
+  showToast(    
+    "Lien copié."    
+  );    
+
+}    
+catch (error) {    
+
+  console.error(error);    
+
+  showToast(    
+    "Impossible de copier le lien."    
+  );    
+
+}
+
+}
+
+/* =========================
+OPEN DELETE VENDOR
+========================= */
+
+function openDeleteVendorModal() {
+
+const vendor =    
+  vendors.find(    
+    v =>    
+      v.id ===    
+      manageVendorId    
+  );    
+
+
+if (!vendor) {    
+  return;    
+}    
+
+
+document.getElementById(    
+  "deleteVendorSubtitle"    
+).textContent =    
+  "Vendeur : " +    
+  (    
+    vendor.name ||    
+    "Vendeur"    
+  );    
+
+
+closeModal(    
+  "manageModal"    
+);    
+
+
+document.getElementById(    
+  "deleteVendorModal"    
+).classList.add(    
+  "show"    
+);
+
+}
+
+/* =========================
+DELETE VENDOR KEEP CLIENTS
+========================= */
+
+async function deleteVendorKeepClients() {
+
+if (!manageVendorId) {    
+  return;    
+}    
+
+
+const vendor =    
+  vendors.find(    
+    v =>    
+      v.id ===    
+      manageVendorId    
+  );    
+
+
+if (!vendor) {    
+  return;    
+}    
+
+
+const {    
+  error    
+} =    
+  await supabaseClient.rpc(    
+    "delete_vendor_keep_clients",    
+    {    
+      p_vendor_id:    
+        manageVendorId    
+    }    
+  );    
+
+
+if (error) {    
+
+  console.error(error);    
+
+  showToast(    
+    "Erreur : " +    
+    error.message    
+  );    
+
+  return;    
+
+}    
+
+
+closeModal(    
+  "deleteVendorModal"    
+);    
+
+
+showToast(    
+  "Vendeur supprimé. Les clients ont été conservés."    
+);    
+
+
+manageVendorId =    
+  null;    
+
+
+await loadVendors();
+
+}
+
+/* =========================
+OPEN DELETE ALL CONFIRM
+========================= */
+
+function openDeleteAllConfirm() {
+
+const vendor =    
+  vendors.find(    
+    v =>    
+      v.id ===    
+      manageVendorId    
+  );    
+
+
+if (!vendor) {    
+  return;    
+}    
+
+
+document.getElementById(    
+  "deleteAllConfirmSubtitle"    
+).textContent =    
+  "Vendeur : " +    
+  (    
+    vendor.name ||    
+    "Vendeur"    
+  );    
+
+
+closeModal(    
+  "deleteVendorModal"    
+);    
+
+
+document.getElementById(    
+  "deleteAllConfirmModal"    
+).classList.add(    
+  "show"    
+);
+
+}
+
+/* =========================
+DELETE VENDOR + CLIENTS
+========================= */
+
+async function deleteVendorWithClients() {
+
+if (!manageVendorId) {    
+  return;    
+}    
+
+
+const {    
+  error    
+} =    
+  await supabaseClient.rpc(    
+    "delete_vendor_with_clients",    
+    {    
+      p_vendor_id:    
+        manageVendorId    
+    }    
+  );    
+
+
+if (error) {    
+
+  console.error(error);    
+
+  showToast(    
+    "Erreur : " +    
+    error.message    
+  );    
+
+  return;    
+
+}    
+
+
+closeModal(    
+  "deleteAllConfirmModal"    
+);    
+
+
+showToast(    
+  "Vendeur et clients supprimés."    
+);    
+
+
+manageVendorId =    
+  null;    
+
+
+await loadVendors();
+
+}
+
+/* =========================
+SUSPENDRE
+========================= */
+
+function openSuspendModal(
+vendorId
+) {
+
+const vendor =    
+  vendors.find(    
+    v =>    
+      v.id ===    
+      vendorId    
+  );    
+
+
+if (!vendor) {    
+  return;    
+}    
+
+
+statusVendorId =    
+  vendorId;    
+
+statusAction =    
+  "suspend";    
+
+
+document.getElementById(    
+  "statusModalTitle"    
+).textContent =    
+  "Suspendre le vendeur";    
+
+
+document.getElementById(    
+  "statusModalSubtitle"    
+).textContent =    
+  "Le vendeur ne pourra plus se connecter à son espace.";    
+
+
+document.getElementById(    
+  "statusInfo"    
+).innerHTML = `    
+  <strong>    
+    ${escapeHtml(    
+      vendor.name ||    
+      "Vendeur"    
+    )}    
+  </strong>    
+
+  <br><br>    
+
+  Ses pages clients et leurs QR codes    
+  resteront accessibles publiquement.    
+`;    
+
+
+const button =    
+  document.getElementById(    
+    "statusConfirmBtn"    
+  );    
+
+
+button.textContent =    
+  "Suspendre";    
+
+
+button.className =    
+  "modal-btn danger-btn";    
+
+
+document.getElementById(    
+  "statusModal"    
+).classList.add(    
+  "show"    
+);
+
+}
+
+/* =========================
+RÉACTIVER
+========================= */
+
+function openActivateModal(
+vendorId
+) {
+
+const vendor =    
+  vendors.find(    
+    v =>    
+      v.id ===    
+      vendorId    
+  );    
+
+
+if (!vendor) {    
+  return;    
+}    
+
+
+statusVendorId =    
+  vendorId;    
+
+statusAction =    
+  "activate";    
+
+
+document.getElementById(    
+  "statusModalTitle"    
+).textContent =    
+  "Réactiver le vendeur";    
+
+
+document.getElementById(    
+  "statusModalSubtitle"    
+).textContent =    
+  "Le vendeur pourra de nouveau accéder à son espace.";    
+
+
+document.getElementById(    
+  "statusInfo"    
+).innerHTML = `    
+  <strong>    
+    ${escapeHtml(    
+      vendor.name ||    
+      "Vendeur"    
+    )}    
+  </strong>    
+
+  <br><br>    
+
+  Son accès vendeur sera réactivé.    
+`;    
+
+
+const button =    
+  document.getElementById(    
+    "statusConfirmBtn"    
+  );    
+
+
+button.textContent =    
+  "Réactiver";    
+
+
+button.className =    
+  "modal-btn success-btn";    
+
+
+document.getElementById(    
+  "statusModal"    
+).classList.add(    
+  "show"    
+);
+
+}
+
+/* =========================
+CONFIRM STATUS
+========================= */
+
+async function confirmVendorStatus() {
+
+if (    
+  !statusVendorId ||    
+  !statusAction    
+) {    
+  return;    
+}    
+
+
+const newStatus =    
+  statusAction ===    
+  "suspend"    
+
+    ? "suspended"    
+
+    : "active";    
+
+
+const {    
+  error    
+} =    
+  await supabaseClient    
+    .from("vendors")    
+    .update({    
+      status:    
+        newStatus    
+    })    
+    .eq(    
+      "id",    
+      statusVendorId    
+    );    
+
+
+if (error) {    
+
+  console.error(error);    
+
+  showToast(    
+    "Erreur : " +    
+    error.message    
+  );    
+
+  return;    
+
+}    
+
+
+closeModal(    
+  "statusModal"    
+);    
+
+
+showToast(    
+  newStatus === "suspended"    
+    ? "Vendeur suspendu."    
+    : "Vendeur réactivé."    
+);    
+
+
+statusVendorId =    
+  null;    
+
+statusAction =    
+  null;    
+
+
+await loadVendors();
+
+}
+
+/* =========================
+ADD VENDOR
+========================= */
+
+function openAddVendor() {
+
+document.getElementById(    
+  "vendorNameInput"    
+).value = "";    
+
+document.getElementById(    
+  "vendorPinInput"    
+).value = "";    
+
+
+document.getElementById(    
+  "addVendorModal"    
+).classList.add(    
+  "show"    
+);
+
+}
+
+async function createVendor() {
+
+const name =    
+  document.getElementById(    
+    "vendorNameInput"    
+  ).value.trim();    
+
+
+const pin =    
+  document.getElementById(    
+    "vendorPinInput"    
+  ).value.trim();    
+
+
+if (!name) {    
+
+  showToast(    
+    "Veuillez saisir le nom du vendeur."    
+  );    
+
+  return;    
+
+}    
+
+
+if (    
+  !/^\d{6}$/.test(    
+    pin    
+  )    
+) {    
+
+  showToast(    
+    "Le PIN doit contenir exactement 6 chiffres."    
+  );    
+
+  return;    
+
+}    
+
+
+const {    
+  data,    
+  error    
+} =    
+  await supabaseClient.rpc(    
+    "create_vendor",    
+    {    
+      p_name:    
+        name,    
+
+      p_pin:    
+        pin    
+    }    
+  );    
+
+
+if (error) {    
+
+  console.error(error);    
+
+  showToast(    
+    error.message ||    
+    "Erreur lors de la création."    
+  );    
+
+  return;    
+
+}    
+
+
+closeModal(    
+  "addVendorModal"    
+);    
+
+
+if (    
+  data &&    
+  data.length    
+) {    
+
+  const vendor =    
+    data[0];    
+
+
+  const link =    
+    buildVendorLink(    
+      vendor.login_token    
+    );    
+
+
+  document.getElementById(    
+    "createdVendorName"    
+  ).textContent =    
+    vendor.vendor_name;    
+
+
+  document.getElementById(    
+    "createdVendorLink"    
+  ).textContent =    
+    link;    
+
+
+  document.getElementById(    
+    "createdVendorPin"    
+  ).textContent =    
+    pin;    
+
+
+  document.getElementById(    
+    "credentialsModal"    
+  ).classList.add(    
+    "show"    
+  );    
+
+}    
+
+
+await loadVendors();
+
+}
+
+/* =========================
+RESET
+========================= */
+
+async function resetVendor(
+vendorId
+) {
+
+const vendor =    
+  vendors.find(    
+    v =>    
+      v.id ===    
+      vendorId    
+  );    
+
+
+if (!vendor) {    
+  return;    
+}    
+
+
+resetVendorId =    
+  vendorId;    
+
+
+resetVendorCount =    
+  vendor.currentLinks ||    
+  0;    
+
+
+document.getElementById(    
+  "resetInfo"    
+).innerHTML = `    
+  <strong>    
+    ${escapeHtml(    
+      vendor.name ||    
+      "Vendeur"    
+    )}    
+  </strong>    
+
+  <br><br>    
+
+  ${resetVendorCount}    
+  lien(s) seront enregistrés    
+  dans l'historique.    
+`;    
+
+
+document.getElementById(    
+  "resetModal"    
+).classList.add(    
+  "show"    
+);
+
+}
+
+async function confirmReset() {
+
+if (!resetVendorId) {    
+  return;    
+}    
+
+
+const {    
+  error    
+} =    
+  await supabaseClient.rpc(    
+    "reset_vendor_counter",    
+    {    
+      p_vendor_id:    
+        resetVendorId,    
+
+      p_units_count:    
+        resetVendorCount    
+    }    
+  );    
+
+
+if (error) {    
+
+  console.error(error);    
+
+  showToast(    
+    error.message ||    
+    "Erreur lors de la réinitialisation."    
+  );    
+
+  return;    
+
+}    
+
+
+closeModal(    
+  "resetModal"    
+);    
+
+
+showToast(    
+  "Compteur réinitialisé."    
+);    
+
+
+resetVendorId =    
+  null;    
+
+resetVendorCount =    
+  0;    
+
+
+await loadVendors();
+
+}
+
+/* =========================
+HISTORY
+========================= */
+
+async function showHistory(
+vendorId,
+vendorName
+) {
+
+document.getElementById(    
+  "historySubtitle"    
+).textContent =    
+  vendorName;    
+
+
+const list =    
+  document.getElementById(    
+    "historyList"    
+  );    
+
+
+list.innerHTML =    
+  "Chargement...";    
+
+
+document.getElementById(    
+  "historyModal"    
+).classList.add(    
+  "show"    
+);    
+
+
+const {    
+  data,    
+  error    
+} =    
+  await supabaseClient    
+    .from("vendor_resets")    
+    .select(    
+      "units_count,reset_at"    
+    )    
+    .eq(    
+      "vendor_id",    
+      vendorId    
+    )    
+    .order(    
+      "reset_at",    
+      {    
+        ascending: false    
+      }    
+    );    
+
+
+if (error) {    
+
+  console.error(error);    
+
+  list.innerHTML =    
+    "Erreur lors du chargement.";    
+
+  return;    
+
+}    
+
+
+if (    
+  !data ||    
+  !data.length    
+) {    
+
+  list.innerHTML = `    
+    <div    
+      style="    
+        text-align:center;    
+        padding:25px;    
+        color:#777d85;    
+      "    
+    >    
+      Aucun historique.    
+    </div>    
+  `;    
+
+  return;    
+
+}    
+
+
+list.innerHTML =    
+  data.map(    
+    item => {    
+
+      const date =    
+        new Date(    
+          item.reset_at    
+        ).toLocaleString(    
+          "fr-FR"    
+        );    
+
+
+      return `    
+        <div class="history-item">    
+
+          <div class="history-count">    
+            ${item.units_count} lien(s)    
+          </div>    
+
+          <div class="history-date">    
+            ${date}    
+          </div>    
+
+        </div>    
+      `;    
+
+    }    
+  ).join("");
+
+}
+
+/* =========================
+LOGOUT
+========================= */
+
+async function logout() {
+
+await supabaseClient.auth.signOut();    
+
+window.location.href =    
+  "index.html";
+
+}
+
+/* =========================
+MODAL
+========================= */
+
+function closeModal(
+id
+) {
+
+const modal =    
+  document.getElementById(    
+    id    
+  );    
+
+
+if (modal) {    
+
+  modal.classList.remove(    
+    "show"    
+  );    
+
+}
+
+}
+
+/* =========================
+TOAST
+========================= */
+
+function showToast(
+message
+) {
+
+const toast =    
+  document.getElementById(    
+    "toast"    
+  );    
+
+
+toast.textContent =    
+  message;    
+
+
+toast.classList.add(    
+  "show"    
+);    
+
+
+setTimeout(    
+  () => {    
+
+    toast.classList.remove(    
+      "show"    
+    );    
+
+  },    
+  3000    
+);
+
+}
+
+/* =========================
+ESCAPE
+========================= */
+
+function escapeHtml(
+value
+) {
+
+return String(value)    
+  .replace(    
+    /&/g,    
+    "&amp;"    
+  )    
+  .replace(    
+    /</g,    
+    "&lt;"    
+  )    
+  .replace(    
+    />/g,    
+    "&gt;"    
+  )    
+  .replace(    
+    /"/g,    
+    "&quot;"    
+  )    
+  .replace(    
+    /'/g,    
+    "&#039;"    
+  );
+
+}
+
+function escapeAttribute(
+value
+) {
+
+return String(value)    
+  .replace(    
+    /\\/g,    
+    "\\\\"    
+  )    
+  .replace(    
+    /'/g,    
+    "\\'"    
+  );
+
+}
+
+</script>  </body>
+
+</html>  
