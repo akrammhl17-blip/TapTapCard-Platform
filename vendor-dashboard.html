@@ -52,6 +52,15 @@
       font-size: 14px;
     }
 
+    .logout {
+      border: none;
+      background: #eee;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
     .count-box {
       margin-top: 20px;
       background: #f4f4f5;
@@ -84,13 +93,36 @@
       cursor: pointer;
     }
 
-    .logout {
-      border: none;
-      background: #eee;
-      padding: 10px 14px;
-      border-radius: 10px;
-      cursor: pointer;
+    /* SEARCH */
+
+    .search-box {
+      background: white;
+      padding: 15px;
+      border-radius: 16px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.05);
     }
+
+    .search-input {
+      width: 100%;
+      padding: 13px 15px;
+      border: 1px solid #ddd;
+      border-radius: 11px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: #222;
+    }
+
+    .search-result-count {
+      margin-top: 9px;
+      font-size: 13px;
+      color: #777;
+    }
+
+    /* CLIENT CARD */
 
     .client-card {
       background: white;
@@ -124,6 +156,7 @@
       font-size: 17px;
       font-weight: bold;
       margin-bottom: 5px;
+      word-break: break-word;
     }
 
     .client-description {
@@ -133,6 +166,8 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+
+    /* BUTTONS */
 
     .actions {
       display: grid;
@@ -167,12 +202,25 @@
       color: #c62828;
     }
 
+    .action-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* STATES */
+
     .empty {
       background: white;
       padding: 30px;
       text-align: center;
       border-radius: 16px;
       color: #777;
+    }
+
+    .loading {
+      text-align: center;
+      color: #777;
+      padding: 30px;
     }
 
     .error {
@@ -182,12 +230,7 @@
       border-radius: 12px;
       margin-bottom: 15px;
       display: none;
-    }
-
-    .loading {
-      text-align: center;
-      color: #777;
-      padding: 30px;
+      word-break: break-word;
     }
 
     @media (max-width: 420px) {
@@ -196,6 +239,13 @@
         grid-template-columns: 1fr;
       }
 
+      .top {
+        align-items: flex-start;
+      }
+
+      .logout {
+        padding: 9px 10px;
+      }
     }
   </style>
 </head>
@@ -204,19 +254,35 @@
 
   <div class="container">
 
-    <div id="errorMessage" class="error"></div>
+    <!-- ERROR -->
+
+    <div
+      id="errorMessage"
+      class="error"
+    ></div>
+
+
+    <!-- HEADER -->
 
     <div class="header">
 
       <div class="top">
 
         <div>
-          <h1>Mon Dashboard</h1>
 
-          <div class="seller" id="sellerName">
+          <h1>
+            Mon Dashboard
+          </h1>
+
+          <div
+            class="seller"
+            id="sellerName"
+          >
             Chargement...
           </div>
+
         </div>
+
 
         <button
           class="logout"
@@ -227,6 +293,8 @@
 
       </div>
 
+
+      <!-- COUNT -->
 
       <div class="count-box">
 
@@ -244,6 +312,8 @@
       </div>
 
 
+      <!-- ADD -->
+
       <button
         class="add-button"
         onclick="addClient()"
@@ -253,6 +323,30 @@
 
     </div>
 
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+      <input
+        type="search"
+        id="searchInput"
+        class="search-input"
+        placeholder="🔎 Rechercher un client..."
+        autocomplete="off"
+      >
+
+      <div
+        id="searchResultCount"
+        class="search-result-count"
+      >
+        Tous les clients
+      </div>
+
+    </div>
+
+
+    <!-- CLIENTS -->
 
     <div id="clientsContainer">
 
@@ -265,16 +359,21 @@
   </div>
 
 
+  <!-- SUPABASE -->
+
   <script src="supabase.js"></script>
+
 
   <script>
 
-    /*
-      RÉCUPÉRER LA SESSION
-    */
+    /* =========================================
+       SESSION
+    ========================================= */
 
     const sessionData =
-      localStorage.getItem("vendor_session");
+      localStorage.getItem(
+        "vendor_session"
+      );
 
 
     if (!sessionData) {
@@ -305,9 +404,9 @@
     }
 
 
-    /*
-      ÉLÉMENTS
-    */
+    /* =========================================
+       ELEMENTS
+    ========================================= */
 
     const sellerName =
       document.getElementById(
@@ -329,10 +428,27 @@
         "errorMessage"
       );
 
+    const searchInput =
+      document.getElementById(
+        "searchInput"
+      );
 
-    /*
-      MESSAGE ERREUR
-    */
+    const searchResultCount =
+      document.getElementById(
+        "searchResultCount"
+      );
+
+
+    /* =========================================
+       DATA
+    ========================================= */
+
+    let allClients = [];
+
+
+    /* =========================================
+       ERROR
+    ========================================= */
 
     function showError(message) {
 
@@ -344,9 +460,31 @@
     }
 
 
-    /*
-      VÉRIFIER SESSION
-    */
+    function hideError() {
+
+      errorMessage.style.display =
+        "none";
+    }
+
+
+    /* =========================================
+       ESCAPE HTML
+    ========================================= */
+
+    function escapeHtml(value) {
+
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+
+    /* =========================================
+       VERIFY SESSION
+    ========================================= */
 
     async function verifySession() {
 
@@ -401,9 +539,9 @@
     }
 
 
-    /*
-      AJOUTER CLIENT
-    */
+    /* =========================================
+       ADD CLIENT
+    ========================================= */
 
     function addClient() {
 
@@ -412,31 +550,23 @@
     }
 
 
-    /*
-      OUVRIR CLIENT
-    */
+    /* =========================================
+       OPEN CLIENT
+    ========================================= */
 
-    function openClient(client) {
-
-      /*
-        لاحقاً نربط هنا رابط الصفحة
-        العامة الخاصة بالعميل.
-
-        حالياً نستخدم صفحة مؤقتة
-        حسب ID العميل.
-      */
+    function openClient(clientId) {
 
       window.open(
         "client.html?id=" +
-        encodeURIComponent(client.id),
+        encodeURIComponent(clientId),
         "_blank"
       );
     }
 
 
-    /*
-      MODIFIER CLIENT
-    */
+    /* =========================================
+       EDIT CLIENT
+    ========================================= */
 
     function editClient(clientId) {
 
@@ -446,13 +576,14 @@
     }
 
 
-    /*
-      SUPPRIMER CLIENT
-    */
+    /* =========================================
+       DELETE CLIENT
+    ========================================= */
 
     async function deleteClient(
       clientId,
-      clientName
+      clientName,
+      button
     ) {
 
       const confirmed =
@@ -467,6 +598,16 @@
 
         return;
       }
+
+
+      hideError();
+
+
+      button.disabled =
+        true;
+
+      button.textContent =
+        "Suppression...";
 
 
       try {
@@ -489,43 +630,78 @@
 
         if (error) {
 
-          console.error(error);
+          console.error(
+            "Delete error:",
+            error
+          );
 
-          showError(
+          throw new Error(
             error.message ||
             "Impossible de supprimer le client."
           );
-
-          return;
         }
 
 
         /*
-          إعادة تحميل القائمة
+          نحذف من القائمة المحلية
+          مباشرة
         */
 
-        await loadClients();
+        allClients =
+          allClients.filter(
+            function(client) {
+
+              return Number(client.id) !==
+                Number(clientId);
+
+            }
+          );
+
+
+        clientCount.textContent =
+          allClients.length;
+
+
+        renderClients(
+          searchInput.value
+        );
 
 
       } catch (error) {
 
         console.error(error);
 
+
         showError(
-          "Une erreur est survenue lors de la suppression."
+          "Erreur lors de la suppression : " +
+          error.message
         );
+
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "Supprimer";
       }
     }
 
 
-    /*
-      CHARGER CLIENTS
-    */
+    /* =========================================
+       LOAD CLIENTS
+    ========================================= */
 
     async function loadClients() {
 
+      hideError();
+
+
       clientsContainer.innerHTML =
-        '<div class="loading">Chargement des clients...</div>';
+        `
+        <div class="loading">
+          Chargement des clients...
+        </div>
+        `;
 
 
       const {
@@ -543,35 +719,22 @@
 
       if (error) {
 
-        console.error(error);
+        console.error(
+          "Load clients error:",
+          error
+        );
+
 
         showError(
           error.message ||
           "Impossible de charger les clients."
         );
 
-        clientsContainer.innerHTML =
-          '<div class="empty">Impossible de charger les clients.</div>';
-
-        return;
-      }
-
-
-      clientCount.textContent =
-        data ? data.length : 0;
-
-
-      if (
-        !data ||
-        data.length === 0
-      ) {
 
         clientsContainer.innerHTML =
           `
           <div class="empty">
-            Aucun client pour le moment.
-            <br><br>
-            Cliquez sur « Ajouter un client ».
+            Impossible de charger les clients.
           </div>
           `;
 
@@ -579,11 +742,133 @@
       }
 
 
+      allClients =
+        data || [];
+
+
+      clientCount.textContent =
+        allClients.length;
+
+
+      renderClients(
+        searchInput.value
+      );
+    }
+
+
+    /* =========================================
+       RENDER CLIENTS
+    ========================================= */
+
+    function renderClients(
+      searchTerm = ""
+    ) {
+
+      const term =
+        searchTerm
+          .trim()
+          .toLowerCase();
+
+
+      let filteredClients;
+
+
+      if (!term) {
+
+        filteredClients =
+          allClients;
+
+      } else {
+
+        filteredClients =
+          allClients.filter(
+            function(client) {
+
+              return (
+                (client.name || "")
+                  .toLowerCase()
+                  .includes(term)
+              );
+
+            }
+          );
+      }
+
+
+      /*
+        Search counter
+      */
+
+      if (!term) {
+
+        searchResultCount.textContent =
+          allClients.length +
+          " client" +
+          (
+            allClients.length > 1
+              ? "s"
+              : ""
+          );
+
+      } else {
+
+        searchResultCount.textContent =
+          filteredClients.length +
+          " résultat" +
+          (
+            filteredClients.length > 1
+              ? "s"
+              : ""
+          );
+      }
+
+
+      /*
+        Aucun résultat
+      */
+
+      if (
+        filteredClients.length === 0
+      ) {
+
+        if (term) {
+
+          clientsContainer.innerHTML =
+            `
+            <div class="empty">
+              Aucun client trouvé pour
+              <strong>
+                "${escapeHtml(searchTerm)}"
+              </strong>
+            </div>
+            `;
+
+        } else {
+
+          clientsContainer.innerHTML =
+            `
+            <div class="empty">
+              Aucun client pour le moment.
+              <br><br>
+              Cliquez sur « Ajouter un client ».
+            </div>
+            `;
+        }
+
+
+        return;
+      }
+
+
+      /*
+        Afficher les clients
+      */
+
       clientsContainer.innerHTML =
         "";
 
 
-      data.forEach(
+      filteredClients.forEach(
         function(client) {
 
           const card =
@@ -591,12 +876,13 @@
               "div"
             );
 
+
           card.className =
             "client-card";
 
 
           /*
-            Image
+            IMAGE
           */
 
           const image =
@@ -607,13 +893,17 @@
 
 
           /*
-            Description
+            DESCRIPTION
           */
 
           const description =
             client.description ||
             "Aucune description";
 
+
+          /*
+            CARD
+          */
 
           card.innerHTML =
             `
@@ -626,14 +916,21 @@
                 onerror="this.src='https://placehold.co/150x150?text=Client'"
               >
 
+
               <div class="client-info">
 
                 <div class="client-name">
-                  ${escapeHtml(client.name || "Sans nom")}
+                  ${escapeHtml(
+                    client.name ||
+                    "Sans nom"
+                  )}
                 </div>
 
+
                 <div class="client-description">
-                  ${escapeHtml(description)}
+                  ${escapeHtml(
+                    description
+                  )}
                 </div>
 
               </div>
@@ -645,7 +942,7 @@
 
               <button
                 class="action-button open-button"
-                onclick="openClient(${JSON.stringify(client)})"
+                data-action="open"
               >
                 Ouvrir
               </button>
@@ -653,7 +950,7 @@
 
               <button
                 class="action-button edit-button"
-                onclick="editClient(${client.id})"
+                data-action="edit"
               >
                 Modifier
               </button>
@@ -661,16 +958,76 @@
 
               <button
                 class="action-button delete-button"
-                onclick="deleteClient(
-                  ${client.id},
-                  ${JSON.stringify(client.name || "ce client")}
-                )"
+                data-action="delete"
               >
                 Supprimer
               </button>
 
             </div>
             `;
+
+
+          /*
+            OUVRIR
+          */
+
+          card
+            .querySelector(
+              '[data-action="open"]'
+            )
+            .addEventListener(
+              "click",
+              function() {
+
+                openClient(
+                  client.id
+                );
+
+              }
+            );
+
+
+          /*
+            MODIFIER
+          */
+
+          card
+            .querySelector(
+              '[data-action="edit"]'
+            )
+            .addEventListener(
+              "click",
+              function() {
+
+                editClient(
+                  client.id
+                );
+
+              }
+            );
+
+
+          /*
+            SUPPRIMER
+          */
+
+          card
+            .querySelector(
+              '[data-action="delete"]'
+            )
+            .addEventListener(
+              "click",
+              function(event) {
+
+                deleteClient(
+                  client.id,
+                  client.name ||
+                    "ce client",
+                  event.currentTarget
+                );
+
+              }
+            );
 
 
           clientsContainer.appendChild(
@@ -682,24 +1039,25 @@
     }
 
 
-    /*
-      PROTECTION HTML
-    */
+    /* =========================================
+       SEARCH
+    ========================================= */
 
-    function escapeHtml(value) {
+    searchInput.addEventListener(
+      "input",
+      function() {
 
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
+        renderClients(
+          searchInput.value
+        );
+
+      }
+    );
 
 
-    /*
-      DÉCONNEXION
-    */
+    /* =========================================
+       LOGOUT
+    ========================================= */
 
     function logout() {
 
@@ -712,9 +1070,9 @@
     }
 
 
-    /*
-      INITIALISATION
-    */
+    /* =========================================
+       INIT
+    ========================================= */
 
     async function init() {
 
