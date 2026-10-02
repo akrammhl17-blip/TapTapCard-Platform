@@ -2480,13 +2480,45 @@
 
     function logout() {
 
+      /*
+        نحتفظ بـ login_token مؤقتاً
+        في sessionStorage حتى نرجع
+        لنفس رابط البائع.
+      */
+
+      const loginToken =
+        sessionStorage.getItem(
+          "vendor_login_token"
+        );
+
+
+      /*
+        حذف جلسة الـDashboard
+      */
+
       localStorage.removeItem(
         "vendor_session"
       );
 
 
-      window.location.href =
-        "vendor.html";
+      /*
+        الرجوع إلى رابط البائع
+      */
+
+      if (loginToken) {
+
+        window.location.href =
+          "vendor.html?token=" +
+          encodeURIComponent(
+            loginToken
+          );
+
+      } else {
+
+        window.location.href =
+          "vendor.html";
+
+      }
 
     }
 
