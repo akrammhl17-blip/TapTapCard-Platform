@@ -28,7 +28,7 @@
     .login-box {
       width: 100%;
       max-width: 390px;
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       padding: 35px 25px;
       border-radius: 24px;
       box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
@@ -89,6 +89,7 @@
 
     .login-btn:disabled {
       opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .error {
@@ -128,6 +129,7 @@
       inputmode="numeric"
       maxlength="6"
       placeholder="••••••"
+      autocomplete="off"
     >
 
     <button id="loginBtn" class="login-btn">
@@ -178,7 +180,7 @@
         return;
       }
 
-      if (pin.length !== 6) {
+      if (!/^\d{6}$/.test(pin)) {
         errorBox.textContent = "Entrez un code de 6 chiffres.";
         errorBox.style.display = "block";
         return;
@@ -187,56 +189,90 @@
       loginBtn.disabled = true;
       loginBtn.textContent = "Connexion...";
 
-      const { data, error } = await supabaseClient
-        .rpc("verify_vendor_login", {
-          p_login_token: token,
-          p_pin: pin
-        });
+      try {
 
-      if (error) {
+        const { data, error } = await supabaseClient
+          .rpc("verify_vendor_login", {
+            p_login_token: token,
+            p_pin: pin
+          });
 
-        console.error(error);
+        if (error) {
+          console.error(error);
 
-        errorBox.textContent = "Une erreur est survenue.";
+          errorBox.textContent =
+            "Une erreur est survenue. Réessayez.";
+
+          errorBox.style.display = "block";
+
+          loginBtn.disabled = false;
+          loginBtn.textContent = "Se connecter";
+
+          return;
+        }
+
+        if (!data || data.length === 0) {
+
+          errorBox.textContent = "Code incorrect.";
+          errorBox.style.display = "block";
+
+          loginBtn.disabled = false;
+          loginBtn.textContent = "Se connecter";
+
+          return;
+        }
+
+        const vendor = data[0];
+
+        if (!vendor.session_token) {
+
+          errorBox.textContent =
+            "Impossible de créer la session.";
+
+          errorBox.style.display = "block";
+
+          loginBtn.disabled = false;
+          loginBtn.textContent = "Se connecter";
+
+          return;
+        }
+
+        /*
+          Stockage de la session.
+          Le login_token n'est volontairement
+          PAS stocké dans localStorage.
+        */
+
+        localStorage.setItem(
+          "vendor_session",
+          JSON.stringify({
+            vendor_id: vendor.vendor_id,
+            vendor_name: vendor.vendor_name,
+            session_token: vendor.session_token
+          })
+        );
+
+        successBox.textContent =
+          "Bienvenue " + vendor.vendor_name + " !";
+
+        successBox.style.display = "block";
+
+        setTimeout(() => {
+          window.location.href = "vendor-dashboard.html";
+        }, 800);
+
+      } catch (err) {
+
+        console.error(err);
+
+        errorBox.textContent =
+          "Une erreur est survenue. Réessayez.";
+
         errorBox.style.display = "block";
 
         loginBtn.disabled = false;
         loginBtn.textContent = "Se connecter";
-
-        return;
       }
-
-      if (!data || data.length === 0) {
-
-        errorBox.textContent = "Code incorrect.";
-        errorBox.style.display = "block";
-
-        loginBtn.disabled = false;
-        loginBtn.textContent = "Se connecter";
-
-        return;
-      }
-
-      const vendor = data[0];
-
-      localStorage.setItem(
-        "vendor_session",
-        JSON.stringify({
-          vendor_id: vendor.vendor_id,
-          vendor_name: vendor.vendor_name,
-          login_token: token
-        })
-      );
-
-      successBox.textContent =
-        "Bienvenue " + vendor.vendor_name + " !";
-
-      successBox.style.display = "block";
-
-      setTimeout(() => {
-        window.location.href =
-          "vendor-dashboard.html";
-      }, 800);
     }
 
   </script>
