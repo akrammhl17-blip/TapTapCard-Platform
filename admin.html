@@ -339,6 +339,8 @@
     .modal-card {
       width: 100%;
       max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
       background: white;
       border-radius: 18px;
       padding: 25px;
@@ -385,6 +387,7 @@
       justify-content: flex-end;
       gap: 9px;
       margin-top: 20px;
+      flex-wrap: wrap;
     }
 
     .modal-btn {
@@ -413,6 +416,105 @@
     .success-btn {
       background: #16833b;
       color: white;
+    }
+
+    /* MANAGE */
+
+    .manage-info {
+      background: #f6f7f9;
+      border: 1px solid #e5e7ea;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 12px;
+    }
+
+    .manage-label {
+      color: #777d85;
+      font-size: 11px;
+      margin-bottom: 6px;
+    }
+
+    .manage-value {
+      font-size: 15px;
+      font-weight: 800;
+      word-break: break-all;
+    }
+
+    .manage-link-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .manage-link {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .copy-small-btn {
+      flex-shrink: 0;
+      border: none;
+      background: #17191c;
+      color: white;
+      border-radius: 8px;
+      padding: 8px 11px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .delete-vendor-btn {
+      width: 100%;
+      margin-top: 15px;
+      padding: 12px;
+      border: 1px solid #ffd4d4;
+      background: #fff1f1;
+      color: #c62828;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .delete-vendor-btn:hover {
+      background: #ffe5e5;
+    }
+
+    /* DELETE */
+
+    .delete-option {
+      width: 100%;
+      text-align: left;
+      border: 1px solid #e3e6ea;
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .delete-option:hover {
+      background: #fafafa;
+    }
+
+    .delete-option-title {
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .delete-option-text {
+      font-size: 12px;
+      color: #777d85;
+      line-height: 1.5;
+    }
+
+    .delete-option.danger {
+      border-color: #ffd0d0;
+    }
+
+    .delete-option.danger:hover {
+      background: #fff7f7;
     }
 
     /* HISTORY */
@@ -518,6 +620,15 @@
       .search-box {
         width: 100%;
       }
+
+      .manage-link-row {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .copy-small-btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -549,7 +660,6 @@
       </div>
 
     </div>
-
 
     <div class="header-actions">
 
@@ -655,25 +765,11 @@
 
           <tr>
 
-            <th>
-              Vendeur
-            </th>
-
-            <th>
-              Email
-            </th>
-
-            <th>
-              Statut
-            </th>
-
-            <th>
-              Liens
-            </th>
-
-            <th>
-              Actions
-            </th>
+            <th>Vendeur</th>
+            <th>Email</th>
+            <th>Statut</th>
+            <th>Liens</th>
+            <th>Actions</th>
 
           </tr>
 
@@ -707,7 +803,6 @@
       Créez un accès privé pour le vendeur.
     </div>
 
-
     <div class="field">
 
       <label>
@@ -721,7 +816,6 @@
       >
 
     </div>
-
 
     <div class="field">
 
@@ -738,7 +832,6 @@
       >
 
     </div>
-
 
     <div class="modal-actions">
 
@@ -780,7 +873,6 @@
       Conservez ces informations.
     </div>
 
-
     <div class="credential-box">
 
       <div class="credential-label">
@@ -793,7 +885,6 @@
       ></div>
 
     </div>
-
 
     <div class="credential-box">
 
@@ -808,7 +899,6 @@
 
     </div>
 
-
     <div class="credential-box">
 
       <div class="credential-label">
@@ -822,7 +912,6 @@
 
     </div>
 
-
     <div class="modal-actions">
 
       <button
@@ -830,6 +919,258 @@
         onclick="closeModal('credentialsModal')"
       >
         Fermer
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- MANAGE MODAL -->
+
+<div
+  class="modal"
+  id="manageModal"
+>
+
+  <div class="modal-card">
+
+    <div class="modal-title">
+      Gérer le vendeur
+    </div>
+
+    <div
+      class="modal-subtitle"
+      id="manageSubtitle"
+    ></div>
+
+
+    <div class="manage-info">
+
+      <div class="manage-label">
+        Nom du vendeur
+      </div>
+
+      <div
+        class="manage-value"
+        id="manageName"
+      ></div>
+
+    </div>
+
+
+    <div class="manage-info">
+
+      <div class="manage-label">
+        Nombre total de liens créés
+      </div>
+
+      <div
+        class="manage-value"
+        id="manageTotalLinks"
+      >
+        0
+      </div>
+
+    </div>
+
+
+    <div class="manage-info">
+
+      <div class="manage-label">
+        Lien du vendeur
+      </div>
+
+      <div class="manage-link-row">
+
+        <div
+          class="manage-value manage-link"
+          id="manageVendorLink"
+        ></div>
+
+        <button
+          class="copy-small-btn"
+          onclick="copyManageLink()"
+        >
+          Copier
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="manage-info">
+
+      <div class="manage-label">
+        PIN
+      </div>
+
+      <div class="manage-value">
+        ••••••
+      </div>
+
+      <div
+        style="
+          color:#777d85;
+          font-size:11px;
+          margin-top:6px;
+        "
+      >
+        Le PIN est sécurisé et ne peut pas être récupéré.
+      </div>
+
+    </div>
+
+
+    <button
+      class="delete-vendor-btn"
+      onclick="openDeleteVendorModal()"
+    >
+      Supprimer ce vendeur
+    </button>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="modal-btn confirm-btn"
+        onclick="closeModal('manageModal')"
+      >
+        Fermer
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- DELETE VENDOR MODAL -->
+
+<div
+  class="modal"
+  id="deleteVendorModal"
+>
+
+  <div class="modal-card">
+
+    <div class="modal-title">
+      Supprimer le vendeur
+    </div>
+
+    <div
+      class="modal-subtitle"
+      id="deleteVendorSubtitle"
+    ></div>
+
+
+    <button
+      class="delete-option"
+      onclick="deleteVendorKeepClients()"
+    >
+
+      <div class="delete-option-title">
+        Supprimer le vendeur uniquement
+      </div>
+
+      <div class="delete-option-text">
+        Le compte vendeur sera supprimé,
+        mais tous ses clients, liens et QR codes
+        resteront conservés.
+      </div>
+
+    </button>
+
+
+    <button
+      class="delete-option danger"
+      onclick="openDeleteAllConfirm()"
+    >
+
+      <div class="delete-option-title">
+        Supprimer le vendeur + ses clients
+      </div>
+
+      <div class="delete-option-text">
+        Le vendeur et tous ses clients seront
+        définitivement supprimés.
+      </div>
+
+    </button>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="modal-btn cancel-btn"
+        onclick="closeModal('deleteVendorModal')"
+      >
+        Annuler
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- DELETE ALL CONFIRMATION -->
+
+<div
+  class="modal"
+  id="deleteAllConfirmModal"
+>
+
+  <div class="modal-card">
+
+    <div class="modal-title">
+      Confirmation définitive
+    </div>
+
+    <div
+      class="modal-subtitle"
+      id="deleteAllConfirmSubtitle"
+    ></div>
+
+
+    <div class="credential-box">
+
+      <strong>
+        Attention
+      </strong>
+
+      <br><br>
+
+      Cette action supprimera le vendeur
+      ainsi que tous ses clients.
+
+      <br><br>
+
+      Les pages clients et leurs QR codes
+      ne seront plus disponibles.
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="modal-btn cancel-btn"
+        onclick="closeModal('deleteAllConfirmModal')"
+      >
+        Annuler
+      </button>
+
+      <button
+        class="modal-btn danger-btn"
+        onclick="deleteVendorWithClients()"
+      >
+        Supprimer définitivement
       </button>
 
     </div>
@@ -857,12 +1198,10 @@
       id="historySubtitle"
     ></div>
 
-
     <div
       class="history-list"
       id="historyList"
     ></div>
-
 
     <div class="modal-actions">
 
@@ -897,12 +1236,10 @@
       Le nombre actuel sera enregistré dans l'historique puis remis à zéro.
     </div>
 
-
     <div
       class="credential-box"
       id="resetInfo"
     ></div>
-
 
     <div class="modal-actions">
 
@@ -948,12 +1285,10 @@
       id="statusModalSubtitle"
     ></div>
 
-
     <div
       class="credential-box"
       id="statusInfo"
     ></div>
-
 
     <div class="modal-actions">
 
@@ -1011,12 +1346,12 @@
   let vendors = [];
 
   let resetVendorId = null;
-
   let resetVendorCount = 0;
 
   let statusVendorId = null;
-
   let statusAction = null;
+
+  let manageVendorId = null;
 
 
   /* =========================
@@ -1028,7 +1363,6 @@
     async () => {
 
       await checkAdmin();
-
       await loadVendors();
 
     }
@@ -1238,6 +1572,9 @@
 
       vendor.currentLinks =
         current;
+
+      vendor.totalLinks =
+        clients.length;
 
 
       totalLinks +=
@@ -1513,7 +1850,7 @@
      GÉRER
   ========================= */
 
-  function manageVendor(
+  async function manageVendor(
     vendorId
   ) {
 
@@ -1530,14 +1867,362 @@
     }
 
 
-    showToast(
-      "Gestion de " +
+    manageVendorId =
+      vendorId;
+
+
+    document.getElementById(
+      "manageSubtitle"
+    ).textContent =
+      vendor.name ||
+      "Vendeur";
+
+
+    document.getElementById(
+      "manageName"
+    ).textContent =
+      vendor.name ||
+      "Vendeur";
+
+
+    document.getElementById(
+      "manageTotalLinks"
+    ).textContent =
+      "Chargement...";
+
+
+    const vendorLink =
+      buildVendorLink(
+        vendor.login_token
+      );
+
+
+    document.getElementById(
+      "manageVendorLink"
+    ).textContent =
+      vendorLink;
+
+
+    document.getElementById(
+      "manageModal"
+    ).classList.add(
+      "show"
+    );
+
+
+    const {
+      count,
+      error
+    } =
+      await supabaseClient
+        .from("clients")
+        .select(
+          "id",
+          {
+            count: "exact",
+            head: true
+          }
+        )
+        .eq(
+          "vendor_id",
+          vendorId
+        );
+
+
+    if (error) {
+
+      console.error(error);
+
+      document.getElementById(
+        "manageTotalLinks"
+      ).textContent =
+        "Erreur";
+
+      return;
+
+    }
+
+
+    document.getElementById(
+      "manageTotalLinks"
+    ).textContent =
+      count || 0;
+
+  }
+
+
+  /* =========================
+     BUILD VENDOR LINK
+  ========================= */
+
+  function buildVendorLink(
+    loginToken
+  ) {
+
+    return (
+      location.origin +
+      location.pathname
+        .replace(
+          "admin.html",
+          "vendor.html"
+        ) +
+      "?token=" +
+      encodeURIComponent(
+        loginToken || ""
+      )
+    );
+
+  }
+
+
+  /* =========================
+     COPY MANAGE LINK
+  ========================= */
+
+  async function copyManageLink() {
+
+    const value =
+      document.getElementById(
+        "manageVendorLink"
+      ).textContent;
+
+
+    if (!value) {
+      return;
+    }
+
+
+    try {
+
+      await navigator.clipboard.writeText(
+        value
+      );
+
+      showToast(
+        "Lien copié."
+      );
+
+    }
+    catch (error) {
+
+      console.error(error);
+
+      showToast(
+        "Impossible de copier le lien."
+      );
+
+    }
+
+  }
+
+
+  /* =========================
+     OPEN DELETE VENDOR
+  ========================= */
+
+  function openDeleteVendorModal() {
+
+    const vendor =
+      vendors.find(
+        v =>
+          v.id ===
+          manageVendorId
+      );
+
+
+    if (!vendor) {
+      return;
+    }
+
+
+    document.getElementById(
+      "deleteVendorSubtitle"
+    ).textContent =
+      "Vendeur : " +
       (
         vendor.name ||
-        "ce vendeur"
-      ) +
-      " — bientôt disponible."
+        "Vendeur"
+      );
+
+
+    closeModal(
+      "manageModal"
     );
+
+
+    document.getElementById(
+      "deleteVendorModal"
+    ).classList.add(
+      "show"
+    );
+
+  }
+
+
+  /* =========================
+     DELETE VENDOR KEEP CLIENTS
+  ========================= */
+
+  async function deleteVendorKeepClients() {
+
+    if (!manageVendorId) {
+      return;
+    }
+
+
+    const vendor =
+      vendors.find(
+        v =>
+          v.id ===
+          manageVendorId
+      );
+
+
+    if (!vendor) {
+      return;
+    }
+
+
+    const {
+      error
+    } =
+      await supabaseClient.rpc(
+        "delete_vendor_keep_clients",
+        {
+          p_vendor_id:
+            manageVendorId
+        }
+      );
+
+
+    if (error) {
+
+      console.error(error);
+
+      showToast(
+        "Erreur : " +
+        error.message
+      );
+
+      return;
+
+    }
+
+
+    closeModal(
+      "deleteVendorModal"
+    );
+
+
+    showToast(
+      "Vendeur supprimé. Les clients ont été conservés."
+    );
+
+
+    manageVendorId =
+      null;
+
+
+    await loadVendors();
+
+  }
+
+
+  /* =========================
+     OPEN DELETE ALL CONFIRM
+  ========================= */
+
+  function openDeleteAllConfirm() {
+
+    const vendor =
+      vendors.find(
+        v =>
+          v.id ===
+          manageVendorId
+      );
+
+
+    if (!vendor) {
+      return;
+    }
+
+
+    document.getElementById(
+      "deleteAllConfirmSubtitle"
+    ).textContent =
+      "Vendeur : " +
+      (
+        vendor.name ||
+        "Vendeur"
+      );
+
+
+    closeModal(
+      "deleteVendorModal"
+    );
+
+
+    document.getElementById(
+      "deleteAllConfirmModal"
+    ).classList.add(
+      "show"
+    );
+
+  }
+
+
+  /* =========================
+     DELETE VENDOR + CLIENTS
+  ========================= */
+
+  async function deleteVendorWithClients() {
+
+    if (!manageVendorId) {
+      return;
+    }
+
+
+    const {
+      error
+    } =
+      await supabaseClient.rpc(
+        "delete_vendor_with_clients",
+        {
+          p_vendor_id:
+            manageVendorId
+        }
+      );
+
+
+    if (error) {
+
+      console.error(error);
+
+      showToast(
+        "Erreur : " +
+        error.message
+      );
+
+      return;
+
+    }
+
+
+    closeModal(
+      "deleteAllConfirmModal"
+    );
+
+
+    showToast(
+      "Vendeur et clients supprimés."
+    );
+
+
+    manageVendorId =
+      null;
+
+
+    await loadVendors();
 
   }
 
@@ -1758,23 +2443,11 @@
     );
 
 
-    if (
-      newStatus ===
-      "suspended"
-    ) {
-
-      showToast(
-        "Vendeur suspendu."
-      );
-
-    }
-    else {
-
-      showToast(
-        "Vendeur réactivé."
-      );
-
-    }
+    showToast(
+      newStatus === "suspended"
+        ? "Vendeur suspendu."
+        : "Vendeur réactivé."
+    );
 
 
     statusVendorId =
@@ -1898,14 +2571,9 @@
 
 
       const link =
-        location.origin +
-        location.pathname
-          .replace(
-            "admin.html",
-            "vendor.html"
-          ) +
-        "?token=" +
-        vendor.login_token;
+        buildVendorLink(
+          vendor.login_token
+        );
 
 
       document.getElementById(
@@ -2196,11 +2864,19 @@
     id
   ) {
 
-    document.getElementById(
-      id
-    ).classList.remove(
-      "show"
-    );
+    const modal =
+      document.getElementById(
+        id
+      );
+
+
+    if (modal) {
+
+      modal.classList.remove(
+        "show"
+      );
+
+    }
 
   }
 
