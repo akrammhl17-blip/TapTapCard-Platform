@@ -174,7 +174,6 @@
     }
 
     @media (max-width: 600px) {
-
       .container {
         padding: 14px;
       }
@@ -244,7 +243,7 @@
         <input
           type="text"
           id="name"
-          placeholder="Ex : Syly Cake"
+          placeholder="Nom du client"
         >
 
       </div>
@@ -258,7 +257,7 @@
 
         <textarea
           id="description"
-          placeholder="Ex : Pâtisserie & Gâteaux"
+          placeholder="Description de l'activité"
         ></textarea>
 
       </div>
@@ -280,7 +279,7 @@
         <input
           type="url"
           id="profileImage"
-          placeholder="https://..."
+          placeholder=""
         >
 
       </div>
@@ -295,13 +294,13 @@
         <input
           type="url"
           id="coverImage"
-          placeholder="https://..."
+          placeholder=""
         >
 
       </div>
 
 
-      <!-- RESEAUX -->
+      <!-- RESEAUX SOCIAUX -->
 
       <h2 class="section-title social-title">
         Réseaux sociaux
@@ -321,7 +320,7 @@
           <input
             type="url"
             id="instagram"
-            placeholder="https://instagram.com/..."
+            placeholder=""
           >
 
         </div>
@@ -342,7 +341,7 @@
           <input
             type="url"
             id="facebook"
-            placeholder="https://facebook.com/..."
+            placeholder=""
           >
 
         </div>
@@ -363,7 +362,7 @@
           <input
             type="url"
             id="tiktok"
-            placeholder="https://tiktok.com/@..."
+            placeholder=""
           >
 
         </div>
@@ -384,7 +383,7 @@
           <input
             type="text"
             id="snapchat"
-            placeholder="@username"
+            placeholder=""
           >
 
         </div>
@@ -405,7 +404,7 @@
           <input
             type="url"
             id="website"
-            placeholder="https://..."
+            placeholder=""
           >
 
         </div>
@@ -433,7 +432,7 @@
           <input
             type="tel"
             id="phone"
-            placeholder="0550..."
+            placeholder=""
           >
 
         </div>
@@ -454,7 +453,7 @@
           <input
             type="tel"
             id="whatsapp"
-            placeholder="0550..."
+            placeholder=""
           >
 
         </div>
@@ -475,7 +474,7 @@
           <input
             type="url"
             id="googleMaps"
-            placeholder="https://maps.google.com/..."
+            placeholder=""
           >
 
         </div>
@@ -562,6 +561,8 @@
 
       } catch (error) {
 
+        console.error(error);
+
         localStorage.removeItem(
           "vendor_session"
         );
@@ -595,10 +596,7 @@
       }
 
 
-      /*
-        Vérification réelle
-        de la session
-      */
+      /* Vérification réelle de la session */
 
       const {
         data,
@@ -695,7 +693,10 @@
       }
 
 
-      if (!session || !session.session_token) {
+      if (
+        !session ||
+        !session.session_token
+      ) {
 
         showError(
           "Session invalide."
@@ -808,11 +809,6 @@
           "La page a été créée avec succès."
         );
 
-
-        /*
-          الرجوع للـDashboard
-          بعد لحظة
-        */
 
         setTimeout(
           () => {
