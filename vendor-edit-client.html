@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Modifier le client - TAPTAPCARD</title>
+  <title>Modifier un client - TAPTAPCARD</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase.js"></script>
@@ -34,7 +34,7 @@
       background: white;
       border-radius: 22px;
       padding: 25px;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 35px rgba(0,0,0,0.08);
     }
 
     h1 {
@@ -91,7 +91,6 @@
       object-fit: cover;
       border-radius: 14px;
       margin-top: 10px;
-      display: block;
     }
 
     .preview {
@@ -109,22 +108,6 @@
       padding-bottom: 8px;
       border-bottom: 1px solid #eee;
       font-size: 18px;
-    }
-
-    .image-note {
-      margin-top: 7px;
-      font-size: 12px;
-      color: #777;
-    }
-
-    .compression-info {
-      display: none;
-      margin-top: 8px;
-      padding: 9px 10px;
-      border-radius: 10px;
-      background: #f5f5f5;
-      color: #666;
-      font-size: 12px;
     }
 
     button {
@@ -169,10 +152,17 @@
       color: #a32929;
     }
 
+    .compression-info {
+      display: none;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #777;
+    }
+
     .loading {
       text-align: center;
       color: #777;
-      padding: 20px 0;
+      padding: 30px 10px;
     }
 
     @media (max-width: 600px) {
@@ -199,14 +189,20 @@
   <h1>Modifier le client</h1>
 
   <div class="subtitle">
-    Modifiez les informations du client
+    Modifiez les informations de votre client
   </div>
 
-  <div id="loading" class="loading">
+  <div
+    id="loadingMessage"
+    class="loading"
+  >
     Chargement...
   </div>
 
-  <form id="clientForm" style="display:none;">
+  <form
+    id="clientForm"
+    style="display:none;"
+  >
 
     <!-- INFORMATIONS -->
 
@@ -215,6 +211,7 @@
     </div>
 
     <div class="field">
+
       <label for="name">
         Nom du client
       </label>
@@ -225,9 +222,12 @@
         placeholder="Nom du client"
         required
       >
+
     </div>
 
+
     <div class="field">
+
       <label for="description">
         Description
       </label>
@@ -236,6 +236,7 @@
         id="description"
         placeholder="Description de l'activité"
       ></textarea>
+
     </div>
 
 
@@ -245,13 +246,12 @@
       Images
     </div>
 
+
     <div class="field">
 
       <label for="profileImage">
         Photo de profil
       </label>
-
-      <div id="currentProfileContainer"></div>
 
       <input
         type="file"
@@ -260,14 +260,16 @@
       >
 
       <img
-        id="profilePreview"
-        class="preview"
-        alt="Aperçu"
+        id="currentProfile"
+        class="current-image"
+        alt="Photo actuelle"
       >
 
-      <div class="image-note">
-        Laissez vide pour conserver l'image actuelle.
-      </div>
+      <img
+        id="profilePreview"
+        class="preview"
+        alt="Nouvelle photo"
+      >
 
       <div
         id="profileCompression"
@@ -283,8 +285,6 @@
         Image de couverture
       </label>
 
-      <div id="currentCoverContainer"></div>
-
       <input
         type="file"
         id="coverImage"
@@ -292,14 +292,16 @@
       >
 
       <img
-        id="coverPreview"
-        class="preview"
-        alt="Aperçu"
+        id="currentCover"
+        class="current-image"
+        alt="Couverture actuelle"
       >
 
-      <div class="image-note">
-        Laissez vide pour conserver l'image actuelle.
-      </div>
+      <img
+        id="coverPreview"
+        class="preview"
+        alt="Nouvelle couverture"
+      >
 
       <div
         id="coverCompression"
@@ -309,13 +311,15 @@
     </div>
 
 
-    <!-- RÉSEAUX SOCIAUX -->
+    <!-- RESEAUX SOCIAUX -->
 
     <div class="section-title">
       Réseaux sociaux
     </div>
 
+
     <div class="field">
+
       <label for="instagram">
         Instagram
       </label>
@@ -325,10 +329,12 @@
         id="instagram"
         placeholder="https://instagram.com/..."
       >
+
     </div>
 
 
     <div class="field">
+
       <label for="facebook">
         Facebook
       </label>
@@ -338,10 +344,12 @@
         id="facebook"
         placeholder="https://facebook.com/..."
       >
+
     </div>
 
 
     <div class="field">
+
       <label for="tiktok">
         TikTok
       </label>
@@ -351,10 +359,12 @@
         id="tiktok"
         placeholder="https://tiktok.com/@..."
       >
+
     </div>
 
 
     <div class="field">
+
       <label for="snapchat">
         Snapchat
       </label>
@@ -364,10 +374,12 @@
         id="snapchat"
         placeholder="@username"
       >
+
     </div>
 
 
     <div class="field">
+
       <label for="website">
         Website
       </label>
@@ -377,6 +389,7 @@
         id="website"
         placeholder="https://..."
       >
+
     </div>
 
 
@@ -388,6 +401,7 @@
 
 
     <div class="field">
+
       <label for="phone">
         Téléphone
       </label>
@@ -397,10 +411,12 @@
         id="phone"
         placeholder="0550..."
       >
+
     </div>
 
 
     <div class="field">
+
       <label for="whatsapp">
         WhatsApp
       </label>
@@ -410,10 +426,12 @@
         id="whatsapp"
         placeholder="0550..."
       >
+
     </div>
 
 
     <div class="field">
+
       <label for="googleMaps">
         Google Maps
       </label>
@@ -423,10 +441,9 @@
         id="googleMaps"
         placeholder="https://maps.google.com/..."
       >
+
     </div>
 
-
-    <!-- BUTTONS -->
 
     <button
       type="submit"
@@ -463,688 +480,733 @@
 
 <script>
 
-  /* =====================================================
-     SESSION VENDEUR
-  ===================================================== */
-
-  const vendorSession =
-    JSON.parse(
-      localStorage.getItem("vendor_session")
-    );
-
-
-  if (
-    !vendorSession ||
-    !vendorSession.session_token ||
-    !vendorSession.vendor_id
-  ) {
-
-    window.location.href =
-      "vendor.html";
-
-  }
-
-
-  /* =====================================================
-     CLIENT ID
-  ===================================================== */
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-
-  const clientId =
-    params.get("id");
-
-
-  if (!clientId) {
-
-    window.location.href =
-      "vendor-dashboard.html";
-
-  }
-
-
-  /* =====================================================
-     ELEMENTS
-  ===================================================== */
-
-  const loading =
-    document.getElementById(
-      "loading"
-    );
-
-
-  const form =
-    document.getElementById(
-      "clientForm"
-    );
-
-
-  const submitBtn =
-    document.getElementById(
-      "submitBtn"
-    );
-
-
-  const profileInput =
-    document.getElementById(
-      "profileImage"
-    );
-
-
-  const coverInput =
-    document.getElementById(
-      "coverImage"
-    );
-
-
-  const profilePreview =
-    document.getElementById(
-      "profilePreview"
-    );
-
-
-  const coverPreview =
-    document.getElementById(
-      "coverPreview"
-    );
-
-
-  const profileCompression =
-    document.getElementById(
-      "profileCompression"
-    );
-
-
-  const coverCompression =
-    document.getElementById(
-      "coverCompression"
-    );
-
-
-  const successMessage =
-    document.getElementById(
-      "successMessage"
-    );
-
-
-  const errorMessage =
-    document.getElementById(
-      "errorMessage"
-    );
-
-
-  let currentProfileImage = "";
-  let currentCoverImage = "";
-
-
-  /* =====================================================
-     FORMAT SIZE
-  ===================================================== */
-
-  function formatKB(bytes) {
-
-    return (
-      (bytes / 1024).toFixed(1) +
-      " KB"
-    );
-
-  }
-
-
-  /* =====================================================
-     LOAD CLIENT
-  ===================================================== */
-
-  async function loadClient() {
-
-    try {
-
-      /*
-        Vérifier la session
-      */
-
-      const {
-        data: sessionData,
-        error: sessionError
-      } =
-        await supabaseClient.rpc(
-          "verify_vendor_session",
-          {
-            p_session_token:
-              vendorSession.session_token
-          }
-        );
-
-
-      if (
-        sessionError ||
-        !sessionData ||
-        sessionData.length === 0
-      ) {
-
-        localStorage.removeItem(
-          "vendor_session"
-        );
-
-        window.location.href =
-          "vendor.html";
-
-        return;
-      }
-
-
-      /*
-        Charger les clients du vendeur
-      */
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient.rpc(
-          "get_vendor_clients",
-          {
-            p_session_token:
-              vendorSession.session_token
-          }
-        );
-
-
-      if (error) {
-
-        throw new Error(
-          error.message
-        );
-
-      }
-
-
-      /*
-        Chercher le client
-      */
-
-      const client =
-        data.find(
-          item =>
-            Number(item.id) ===
-            Number(clientId)
-        );
-
-
-      if (!client) {
-
-        throw new Error(
-          "Client introuvable."
-        );
-
-      }
-
-
-      /* =================================================
-         REMPLIR LE FORMULAIRE
-      ================================================= */
-
-      document.getElementById(
-        "name"
-      ).value =
-        client.name || "";
-
-
-      document.getElementById(
-        "description"
-      ).value =
-        client.description || "";
-
-
-      document.getElementById(
-        "instagram"
-      ).value =
-        client.instagram || "";
-
-
-      document.getElementById(
-        "facebook"
-      ).value =
-        client.facebook || "";
-
-
-      document.getElementById(
-        "tiktok"
-      ).value =
-        client.tiktok || "";
-
-
-      document.getElementById(
-        "snapchat"
-      ).value =
-        client.snapchat || "";
-
-
-      document.getElementById(
-        "website"
-      ).value =
-        client.website || "";
-
-
-      document.getElementById(
-        "phone"
-      ).value =
-        client.phone || "";
-
-
-      document.getElementById(
-        "whatsapp"
-      ).value =
-        client.whatsapp || "";
-
-
-      document.getElementById(
-        "googleMaps"
-      ).value =
-        client.google_maps || "";
-
-
-      /* =================================================
-         IMAGES ACTUELLES
-      ================================================= */
-
-      currentProfileImage =
-        client.profile_image || "";
-
-
-      currentCoverImage =
-        client.cover_image || "";
-
-
-      if (currentProfileImage) {
-
-        const img =
-          document.createElement(
-            "img"
-          );
-
-        img.src =
-          currentProfileImage;
-
-        img.className =
-          "current-image";
-
-        img.alt =
-          "Photo actuelle";
-
-        document
-          .getElementById(
-            "currentProfileContainer"
-          )
-          .appendChild(img);
-
-      }
-
-
-      if (currentCoverImage) {
-
-        const img =
-          document.createElement(
-            "img"
-          );
-
-        img.src =
-          currentCoverImage;
-
-        img.className =
-          "current-image";
-
-        img.alt =
-          "Couverture actuelle";
-
-        document
-          .getElementById(
-            "currentCoverContainer"
-          )
-          .appendChild(img);
-
-      }
-
-
-      loading.style.display =
-        "none";
-
-      form.style.display =
-        "block";
-
-
-    } catch (error) {
-
-      console.error(
-        error
-      );
-
-      loading.style.display =
-        "none";
-
-      errorMessage.textContent =
-        error.message ||
-        "Impossible de charger le client.";
-
-      errorMessage.style.display =
-        "block";
-
-    }
-
-  }
-
-
-  /* =====================================================
-     PREVIEW NEW IMAGE
-  ===================================================== */
-
-  function showPreview(
-    input,
-    preview
-  ) {
-
-    const file =
-      input.files[0];
-
-
-    if (!file) {
-
-      preview.style.display =
-        "none";
-
-      return;
-    }
-
-
-    const url =
-      URL.createObjectURL(
-        file
-      );
-
-
-    preview.src =
-      url;
-
-
-    preview.style.display =
-      "block";
-
-  }
-
-
-  profileInput.addEventListener(
-    "change",
-    function () {
-
-      showPreview(
-        profileInput,
-        profilePreview
-      );
-
-
-      if (
-        profileInput.files[0]
-      ) {
-
-        profileCompression.style.display =
-          "block";
-
-        profileCompression.textContent =
-          "Nouvelle image : " +
-          formatKB(
-            profileInput.files[0].size
-          );
-
-      }
-
-    }
+/* =====================================================
+   SESSION
+===================================================== */
+
+const vendorSession =
+  JSON.parse(
+    localStorage.getItem("vendor_session")
   );
 
 
-  coverInput.addEventListener(
-    "change",
-    function () {
+if (
+  !vendorSession ||
+  !vendorSession.session_token ||
+  !vendorSession.vendor_id
+) {
 
-      showPreview(
-        coverInput,
-        coverPreview
-      );
+  window.location.href =
+    "vendor.html";
+
+}
 
 
-      if (
-        coverInput.files[0]
-      ) {
+/* =====================================================
+   CLIENT ID
+===================================================== */
 
-        coverCompression.style.display =
-          "block";
-
-        coverCompression.textContent =
-          "Nouvelle image : " +
-          formatKB(
-            coverInput.files[0].size
-          );
-
-      }
-
-    }
+const params =
+  new URLSearchParams(
+    window.location.search
   );
 
 
-  /* =====================================================
-     COMPRESS IMAGE
-  ===================================================== */
+const clientId =
+  Number(
+    params.get("id")
+  );
 
-  async function compressImage(
-    file,
-    folder
-  ) {
 
-    if (!file) {
-      return null;
-    }
+if (!clientId) {
+
+  window.location.href =
+    "vendor-dashboard.html";
+
+}
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const form =
+  document.getElementById(
+    "clientForm"
+  );
+
+const loadingMessage =
+  document.getElementById(
+    "loadingMessage"
+  );
+
+const submitBtn =
+  document.getElementById(
+    "submitBtn"
+  );
+
+const profileInput =
+  document.getElementById(
+    "profileImage"
+  );
+
+const coverInput =
+  document.getElementById(
+    "coverImage"
+  );
+
+const profilePreview =
+  document.getElementById(
+    "profilePreview"
+  );
+
+const coverPreview =
+  document.getElementById(
+    "coverPreview"
+  );
+
+const currentProfile =
+  document.getElementById(
+    "currentProfile"
+  );
+
+const currentCover =
+  document.getElementById(
+    "currentCover"
+  );
+
+const profileCompression =
+  document.getElementById(
+    "profileCompression"
+  );
+
+const coverCompression =
+  document.getElementById(
+    "coverCompression"
+  );
+
+const successMessage =
+  document.getElementById(
+    "successMessage"
+  );
+
+const errorMessage =
+  document.getElementById(
+    "errorMessage"
+  );
+
+
+/* =====================================================
+   FORMAT SIZE
+===================================================== */
+
+function formatKB(bytes) {
+
+  return (
+    (bytes / 1024).toFixed(1)
+    + " KB"
+  );
+
+}
+
+
+/* =====================================================
+   LOAD CLIENT
+===================================================== */
+
+async function loadClient() {
+
+  try {
+
+    /*
+      Verify seller session
+    */
+
+    const {
+      data: sessionData,
+      error: sessionError
+    } =
+      await supabaseClient.rpc(
+        "verify_vendor_session",
+        {
+          p_session_token:
+            vendorSession.session_token
+        }
+      );
 
 
     if (
-      !file.type.startsWith(
-        "image/"
-      )
+      sessionError ||
+      !sessionData ||
+      sessionData.length === 0
     ) {
 
-      throw new Error(
-        "Le fichier doit être une image."
+      localStorage.removeItem(
+        "vendor_session"
       );
+
+      window.location.href =
+        "vendor.html";
+
+      return;
 
     }
 
 
     /*
-      Taille maximale du fichier
-      original avant compression.
+      Get seller clients
     */
 
-    if (
-      file.size >
-      25 * 1024 * 1024
-    ) {
+    const {
+      data: clients,
+      error
+    } =
+      await supabaseClient.rpc(
+        "get_vendor_clients",
+        {
+          p_session_token:
+            vendorSession.session_token
+        }
+      );
+
+
+    if (error) {
 
       throw new Error(
-        "L'image originale doit faire moins de 25 MB."
+        error.message
+      );
+
+    }
+
+
+    const client =
+      (clients || []).find(
+        item =>
+          Number(item.id) ===
+          clientId
+      );
+
+
+    if (!client) {
+
+      throw new Error(
+        "Client introuvable."
       );
 
     }
 
 
     /* =================================================
-       CHARGER IMAGE
+       FILL FORM
     ================================================= */
 
-    const image =
-      new Image();
+    document
+      .getElementById("name")
+      .value =
+        client.name || "";
 
 
-    const objectUrl =
-      URL.createObjectURL(
-        file
+    document
+      .getElementById("description")
+      .value =
+        client.description || "";
+
+
+    document
+      .getElementById("instagram")
+      .value =
+        client.instagram || "";
+
+
+    document
+      .getElementById("facebook")
+      .value =
+        client.facebook || "";
+
+
+    document
+      .getElementById("tiktok")
+      .value =
+        client.tiktok || "";
+
+
+    document
+      .getElementById("snapchat")
+      .value =
+        client.snapchat || "";
+
+
+    document
+      .getElementById("website")
+      .value =
+        client.website || "";
+
+
+    document
+      .getElementById("phone")
+      .value =
+        client.phone || "";
+
+
+    document
+      .getElementById("whatsapp")
+      .value =
+        client.whatsapp || "";
+
+
+    document
+      .getElementById("googleMaps")
+      .value =
+        client.google_maps || "";
+
+
+    /* =================================================
+       CURRENT PROFILE
+    ================================================= */
+
+    if (client.profile_image) {
+
+      currentProfile.src =
+        client.profile_image;
+
+      currentProfile.style.display =
+        "block";
+
+    } else {
+
+      currentProfile.style.display =
+        "none";
+
+    }
+
+
+    /* =================================================
+       CURRENT COVER
+    ================================================= */
+
+    if (client.cover_image) {
+
+      currentCover.src =
+        client.cover_image;
+
+      currentCover.style.display =
+        "block";
+
+    } else {
+
+      currentCover.style.display =
+        "none";
+
+    }
+
+
+    loadingMessage.style.display =
+      "none";
+
+    form.style.display =
+      "block";
+
+
+    /*
+      Keep current URLs
+    */
+
+    form.currentProfileUrl =
+      client.profile_image || "";
+
+    form.currentCoverUrl =
+      client.cover_image || "";
+
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    loadingMessage.style.display =
+      "none";
+
+
+    errorMessage.textContent =
+      error.message ||
+      "Impossible de charger le client.";
+
+
+    errorMessage.style.display =
+      "block";
+
+  }
+
+}
+
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+
+function showPreview(
+  input,
+  preview
+) {
+
+  const file =
+    input.files[0];
+
+
+  if (!file) {
+
+    preview.style.display =
+      "none";
+
+    return;
+
+  }
+
+
+  const url =
+    URL.createObjectURL(file);
+
+
+  preview.src =
+    url;
+
+
+  preview.style.display =
+    "block";
+
+}
+
+
+/* =====================================================
+   COMPRESS IMAGE
+===================================================== */
+
+async function compressImage(
+  file,
+  folder
+) {
+
+  if (!file) {
+
+    return null;
+
+  }
+
+
+  if (
+    !file.type.startsWith(
+      "image/"
+    )
+  ) {
+
+    throw new Error(
+      "Le fichier doit être une image."
+    );
+
+  }
+
+
+  if (
+    file.size >
+    25 * 1024 * 1024
+  ) {
+
+    throw new Error(
+      "L'image originale doit faire moins de 25 MB."
+    );
+
+  }
+
+
+  /* =================================================
+     LOAD IMAGE
+  ================================================= */
+
+  const image =
+    new Image();
+
+
+  const objectUrl =
+    URL.createObjectURL(
+      file
+    );
+
+
+  await new Promise(
+    (resolve, reject) => {
+
+      image.onload =
+        resolve;
+
+
+      image.onerror =
+        () => {
+
+          reject(
+            new Error(
+              "Impossible de lire l'image."
+            )
+          );
+
+        };
+
+
+      image.src =
+        objectUrl;
+
+    }
+  );
+
+
+  URL.revokeObjectURL(
+    objectUrl
+  );
+
+
+  /* =================================================
+     DIMENSIONS
+  ================================================= */
+
+  let maxWidth =
+    folder === "profile"
+      ? 700
+      : 1200;
+
+
+  let width =
+    image.naturalWidth;
+
+
+  let height =
+    image.naturalHeight;
+
+
+  if (
+    width > maxWidth
+  ) {
+
+    const ratio =
+      maxWidth /
+      width;
+
+
+    width =
+      Math.round(
+        width * ratio
       );
 
 
-    await new Promise(
-      (resolve, reject) => {
+    height =
+      Math.round(
+        height * ratio
+      );
 
-        image.onload =
-          resolve;
-
-
-        image.onerror =
-          () => {
-
-            reject(
-              new Error(
-                "Impossible de lire l'image."
-              )
-            );
-
-          };
+  }
 
 
-        image.src =
-          objectUrl;
+  /* =================================================
+     CANVAS
+  ================================================= */
 
+  const canvas =
+    document.createElement(
+      "canvas"
+    );
+
+
+  const ctx =
+    canvas.getContext(
+      "2d",
+      {
+        alpha: false
       }
     );
 
 
-    URL.revokeObjectURL(
-      objectUrl
-    );
+  canvas.width =
+    width;
 
 
-    /* =================================================
-       DIMENSIONS
-    ================================================= */
-
-    let maxWidth =
-      folder === "profile"
-        ? 700
-        : 1200;
+  canvas.height =
+    height;
 
 
-    let width =
-      image.naturalWidth;
+  ctx.fillStyle =
+    "#ffffff";
 
 
-    let height =
-      image.naturalHeight;
+  ctx.fillRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+
+  ctx.drawImage(
+    image,
+    0,
+    0,
+    width,
+    height
+  );
+
+
+  /* =================================================
+     TARGET
+  ================================================= */
+
+  const MIN_SIZE =
+    50 * 1024;
+
+
+  const MAX_SIZE =
+    100 * 1024;
+
+
+  let quality =
+    0.82;
+
+
+  let blob =
+    null;
+
+
+  /* =================================================
+     QUALITY COMPRESSION
+  ================================================= */
+
+  for (
+    let i = 0;
+    i < 10;
+    i++
+  ) {
+
+    blob =
+      await new Promise(
+        resolve => {
+
+          canvas.toBlob(
+            resolve,
+            "image/jpeg",
+            quality
+          );
+
+        }
+      );
+
+
+    if (!blob) {
+
+      throw new Error(
+        "Impossible de compresser l'image."
+      );
+
+    }
+
+
+    const size =
+      blob.size;
 
 
     if (
-      width > maxWidth
+      size >= MIN_SIZE &&
+      size <= MAX_SIZE
     ) {
 
-      const ratio =
-        maxWidth / width;
+      break;
 
+    }
+
+
+    if (
+      size > MAX_SIZE
+    ) {
+
+      quality -=
+        0.07;
+
+
+      if (
+        quality < 0.25
+      ) {
+
+        quality =
+          0.25;
+
+      }
+
+    }
+
+
+    if (
+      size < MIN_SIZE
+    ) {
+
+      break;
+
+    }
+
+  }
+
+
+  /* =================================================
+     REDUCE DIMENSIONS
+  ================================================= */
+
+  if (
+    blob &&
+    blob.size > MAX_SIZE
+  ) {
+
+    for (
+      let i = 0;
+      i < 5;
+      i++
+    ) {
 
       width =
         Math.round(
-          width * ratio
+          width * 0.85
         );
 
 
       height =
         Math.round(
-          height * ratio
+          height * 0.85
         );
 
-    }
+
+      canvas.width =
+        width;
 
 
-    /* =================================================
-       CANVAS
-    ================================================= */
+      canvas.height =
+        height;
 
-    const canvas =
-      document.createElement(
-        "canvas"
+
+      ctx.fillStyle =
+        "#ffffff";
+
+
+      ctx.fillRect(
+        0,
+        0,
+        width,
+        height
       );
 
 
-    const ctx =
-      canvas.getContext(
-        "2d",
-        {
-          alpha: false
-        }
+      ctx.drawImage(
+        image,
+        0,
+        0,
+        width,
+        height
       );
 
-
-    canvas.width =
-      width;
-
-
-    canvas.height =
-      height;
-
-
-    /*
-      خلفية بيضاء للصور
-      اللي فيها شفافية.
-    */
-
-    ctx.fillStyle =
-      "#ffffff";
-
-
-    ctx.fillRect(
-      0,
-      0,
-      width,
-      height
-    );
-
-
-    ctx.drawImage(
-      image,
-      0,
-      0,
-      width,
-      height
-    );
-
-
-    /* =================================================
-       TARGET
-    ================================================= */
-
-    const MIN_SIZE =
-      50 * 1024;
-
-
-    const MAX_SIZE =
-      100 * 1024;
-
-
-    let quality =
-      0.82;
-
-
-    let blob =
-      null;
-
-
-    /* =================================================
-       COMPRESSION QUALITÉ
-    ================================================= */
-
-    for (
-      let i = 0;
-      i < 10;
-      i++
-    ) {
 
       blob =
         await new Promise(
@@ -1153,7 +1215,7 @@
             canvas.toBlob(
               resolve,
               "image/jpeg",
-              quality
+              0.72
             );
 
           }
@@ -1169,54 +1231,8 @@
       }
 
 
-      const size =
-        blob.size;
-
-
-      /*
-        الحجم المطلوب
-      */
-
       if (
-        size >= MIN_SIZE &&
-        size <= MAX_SIZE
-      ) {
-
-        break;
-
-      }
-
-
-      /*
-        أكبر من 100 KB
-      */
-
-      if (
-        size > MAX_SIZE
-      ) {
-
-        quality -=
-          0.07;
-
-
-        if (
-          quality < 0.25
-        ) {
-
-          quality =
-            0.25;
-
-        }
-
-      }
-
-
-      /*
-        أقل من 50 KB
-      */
-
-      if (
-        size < MIN_SIZE
+        blob.size <= MAX_SIZE
       ) {
 
         break;
@@ -1225,625 +1241,682 @@
 
     }
 
+  }
 
-    /* =================================================
-       إذا مازال أكبر من 100 KB
-       نقص الأبعاد
-    ================================================= */
 
-    if (
-      blob &&
-      blob.size > MAX_SIZE
-    ) {
+  /* =================================================
+     FILE
+  ================================================= */
 
-      for (
-        let i = 0;
-        i < 5;
-        i++
+  const compressedFile =
+    new File(
+      [blob],
+      "image.jpg",
+      {
+        type:
+          "image/jpeg",
+
+        lastModified:
+          Date.now()
+      }
+    );
+
+
+  console.log(
+    "Original :",
+    formatKB(
+      file.size
+    )
+  );
+
+
+  console.log(
+    "Compressed :",
+    formatKB(
+      compressedFile.size
+    )
+  );
+
+
+  return compressedFile;
+
+}
+
+
+/* =====================================================
+   PROFILE CHANGE
+   COMPRESS IMMEDIATELY
+===================================================== */
+
+profileInput.addEventListener(
+  "change",
+  async function () {
+
+    const file =
+      profileInput.files[0];
+
+
+    if (!file) {
+
+      profilePreview.style.display =
+        "none";
+
+      profileCompression.style.display =
+        "none";
+
+      profileInput.compressedFile =
+        null;
+
+      return;
+
+    }
+
+
+    showPreview(
+      profileInput,
+      profilePreview
+    );
+
+
+    profileCompression.style.display =
+      "block";
+
+
+    profileCompression.textContent =
+      "Compression en cours...";
+
+
+    try {
+
+      const compressedFile =
+        await compressImage(
+          file,
+          "profile"
+        );
+
+
+      profileInput.compressedFile =
+        compressedFile;
+
+
+      profileCompression.textContent =
+        "Image compressée : " +
+        formatKB(
+          compressedFile.size
+        );
+
+
+    } catch (error) {
+
+      console.error(
+        error
+      );
+
+
+      profileInput.compressedFile =
+        null;
+
+
+      profileCompression.textContent =
+        "Erreur : " +
+        error.message;
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   COVER CHANGE
+   COMPRESS IMMEDIATELY
+===================================================== */
+
+coverInput.addEventListener(
+  "change",
+  async function () {
+
+    const file =
+      coverInput.files[0];
+
+
+    if (!file) {
+
+      coverPreview.style.display =
+        "none";
+
+      coverCompression.style.display =
+        "none";
+
+      coverInput.compressedFile =
+        null;
+
+      return;
+
+    }
+
+
+    showPreview(
+      coverInput,
+      coverPreview
+    );
+
+
+    coverCompression.style.display =
+      "block";
+
+
+    coverCompression.textContent =
+      "Compression en cours...";
+
+
+    try {
+
+      const compressedFile =
+        await compressImage(
+          file,
+          "cover"
+        );
+
+
+      coverInput.compressedFile =
+        compressedFile;
+
+
+      coverCompression.textContent =
+        "Image compressée : " +
+        formatKB(
+          compressedFile.size
+        );
+
+
+    } catch (error) {
+
+      console.error(
+        error
+      );
+
+
+      coverInput.compressedFile =
+        null;
+
+
+      coverCompression.textContent =
+        "Erreur : " +
+        error.message;
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   UPLOAD NEW IMAGE
+===================================================== */
+
+async function uploadImage(
+  folder
+) {
+
+  let compressedFile =
+    null;
+
+
+  if (
+    folder === "profile"
+  ) {
+
+    compressedFile =
+      profileInput.compressedFile;
+
+  } else {
+
+    compressedFile =
+      coverInput.compressedFile;
+
+  }
+
+
+  if (!compressedFile) {
+
+    throw new Error(
+      "Impossible de compresser l'image."
+    );
+
+  }
+
+
+  /* =================================================
+     UNIQUE PATH
+  ================================================= */
+
+  const randomPart =
+    Math.random()
+      .toString(36)
+      .substring(
+        2,
+        10
+      );
+
+
+  const timestamp =
+    Date.now();
+
+
+  const filePath =
+    vendorSession.vendor_id +
+    "/" +
+    folder +
+    "/" +
+    timestamp +
+    "-" +
+    randomPart +
+    ".jpg";
+
+
+  /* =================================================
+     UPLOAD COMPRESSED FILE
+  ================================================= */
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .storage
+      .from(
+        "client-images"
+      )
+      .upload(
+        filePath,
+        compressedFile,
+        {
+          cacheControl:
+            "3600",
+
+          upsert:
+            false,
+
+          contentType:
+            "image/jpeg"
+        }
+      );
+
+
+  if (error) {
+
+    console.error(
+      "Storage error:",
+      error
+    );
+
+
+    throw new Error(
+      "Impossible d'envoyer l'image : " +
+      error.message
+    );
+
+  }
+
+
+  /* =================================================
+     PUBLIC URL
+  ================================================= */
+
+  const {
+    data: publicData
+  } =
+    supabaseClient
+      .storage
+      .from(
+        "client-images"
+      )
+      .getPublicUrl(
+        data.path
+      );
+
+
+  return (
+    publicData.publicUrl
+  );
+
+}
+
+
+/* =====================================================
+   FORM SUBMIT
+===================================================== */
+
+form.addEventListener(
+  "submit",
+  async function (event) {
+
+    event.preventDefault();
+
+
+    successMessage.style.display =
+      "none";
+
+
+    errorMessage.style.display =
+      "none";
+
+
+    submitBtn.disabled =
+      true;
+
+
+    submitBtn.textContent =
+      "Enregistrement...";
+
+
+    try {
+
+      /* =================================================
+         DATA
+      ================================================= */
+
+      const name =
+        document
+          .getElementById("name")
+          .value
+          .trim();
+
+
+      const description =
+        document
+          .getElementById("description")
+          .value
+          .trim();
+
+
+      const instagram =
+        document
+          .getElementById("instagram")
+          .value
+          .trim();
+
+
+      const facebook =
+        document
+          .getElementById("facebook")
+          .value
+          .trim();
+
+
+      const tiktok =
+        document
+          .getElementById("tiktok")
+          .value
+          .trim();
+
+
+      const snapchat =
+        document
+          .getElementById("snapchat")
+          .value
+          .trim();
+
+
+      const website =
+        document
+          .getElementById("website")
+          .value
+          .trim();
+
+
+      const phone =
+        document
+          .getElementById("phone")
+          .value
+          .trim();
+
+
+      const whatsapp =
+        document
+          .getElementById("whatsapp")
+          .value
+          .trim();
+
+
+      const googleMaps =
+        document
+          .getElementById("googleMaps")
+          .value
+          .trim();
+
+
+      if (!name) {
+
+        throw new Error(
+          "Veuillez entrer le nom du client."
+        );
+
+      }
+
+
+      /* =================================================
+         IMAGE URLS
+      ================================================= */
+
+      let profileImage =
+        form.currentProfileUrl ||
+        "";
+
+
+      let coverImage =
+        form.currentCoverUrl ||
+        "";
+
+
+      /* =================================================
+         NEW PROFILE IMAGE
+      ================================================= */
+
+      if (
+        profileInput.files &&
+        profileInput.files.length > 0
       ) {
 
-        width =
-          Math.round(
-            width * 0.85
+        if (
+          !profileInput.compressedFile
+        ) {
+
+          throw new Error(
+            "La nouvelle photo de profil n'est pas encore compressée. Veuillez patienter."
           );
 
+        }
 
-        height =
-          Math.round(
-            height * 0.85
+
+        submitBtn.textContent =
+          "Envoi de la nouvelle photo...";
+
+
+        profileImage =
+          await uploadImage(
+            "profile"
           );
 
-
-        canvas.width =
-          width;
+      }
 
 
-        canvas.height =
-          height;
+      /* =================================================
+         NEW COVER
+      ================================================= */
+
+      if (
+        coverInput.files &&
+        coverInput.files.length > 0
+      ) {
+
+        if (
+          !coverInput.compressedFile
+        ) {
+
+          throw new Error(
+            "La nouvelle couverture n'est pas encore compressée. Veuillez patienter."
+          );
+
+        }
 
 
-        ctx.fillStyle =
-          "#ffffff";
+        submitBtn.textContent =
+          "Envoi de la nouvelle couverture...";
 
 
-        ctx.fillRect(
-          0,
-          0,
-          width,
-          height
-        );
+        coverImage =
+          await uploadImage(
+            "cover"
+          );
+
+      }
 
 
-        ctx.drawImage(
-          image,
-          0,
-          0,
-          width,
-          height
-        );
+      /* =================================================
+         UPDATE CLIENT
+      ================================================= */
+
+      submitBtn.textContent =
+        "Enregistrement des modifications...";
 
 
-        blob =
-          await new Promise(
-            resolve => {
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .rpc(
+            "update_vendor_client",
+            {
 
-              canvas.toBlob(
-                resolve,
-                "image/jpeg",
-                0.72
-              );
+              p_session_token:
+                vendorSession.session_token,
+
+              p_client_id:
+                clientId,
+
+              p_name:
+                name,
+
+              p_description:
+                description,
+
+              p_profile_image:
+                profileImage,
+
+              p_cover_image:
+                coverImage,
+
+              p_instagram:
+                instagram,
+
+              p_facebook:
+                facebook,
+
+              p_tiktok:
+                tiktok,
+
+              p_snapchat:
+                snapchat,
+
+              p_website:
+                website,
+
+              p_phone:
+                phone,
+
+              p_whatsapp:
+                whatsapp,
+
+              p_google_maps:
+                googleMaps
 
             }
           );
 
 
-        if (!blob) {
+      if (error) {
 
-          throw new Error(
-            "Impossible de compresser l'image."
-          );
+        console.error(
+          "RPC error:",
+          error
+        );
 
-        }
 
-
-        if (
-          blob.size <= MAX_SIZE
-        ) {
-
-          break;
-
-        }
+        throw new Error(
+          error.message
+        );
 
       }
 
-    }
 
+      /* =================================================
+         SUCCESS
+      ================================================= */
 
-    /* =================================================
-       FILE FINAL
-    ================================================= */
-
-    const compressedFile =
-      new File(
-        [blob],
-        "image.jpg",
-        {
-          type:
-            "image/jpeg",
-
-          lastModified:
-            Date.now()
-        }
-      );
-
-
-    console.log(
-      "Original :",
-      formatKB(
-        file.size
-      )
-    );
-
-
-    console.log(
-      "Compressed :",
-      formatKB(
-        compressedFile.size
-      )
-    );
-
-
-    return compressedFile;
-
-  }
-
-
-  /* =====================================================
-     UPLOAD IMAGE
-  ===================================================== */
-
-  async function uploadImage(
-    file,
-    folder
-  ) {
-
-    if (!file) {
-      return "";
-    }
-
-
-    /*
-      ضغط الصورة أولاً
-    */
-
-    const compressedFile =
-      await compressImage(
-        file,
-        folder
-      );
-
-
-    /*
-      إظهار الحجم النهائي
-    */
-
-    const sizeText =
-      formatKB(
-        compressedFile.size
-      );
-
-
-    if (
-      folder === "profile"
-    ) {
-
-      profileCompression.style.display =
-        "block";
-
-
-      profileCompression.textContent =
-        "Image compressée : " +
-        sizeText;
-
-    } else {
-
-      coverCompression.style.display =
-        "block";
-
-
-      coverCompression.textContent =
-        "Image compressée : " +
-        sizeText;
-
-    }
-
-
-    /* =================================================
-       PATH
-    ================================================= */
-
-    const randomPart =
-      Math.random()
-        .toString(36)
-        .substring(
-          2,
-          10
-        );
-
-
-    const timestamp =
-      Date.now();
-
-
-    const filePath =
-      vendorSession.vendor_id +
-      "/" +
-      folder +
-      "/" +
-      timestamp +
-      "-" +
-      randomPart +
-      ".jpg";
-
-
-    /* =================================================
-       UPLOAD
-    ================================================= */
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .storage
-        .from(
-          "client-images"
-        )
-        .upload(
-          filePath,
-          compressedFile,
-          {
-            cacheControl:
-              "3600",
-
-            upsert:
-              false,
-
-            contentType:
-              "image/jpeg"
-          }
-        );
-
-
-    if (error) {
-
-      console.error(
-        "Storage error:",
-        error
-      );
-
-
-      throw new Error(
-        "Impossible d'envoyer l'image : " +
-        error.message
-      );
-
-    }
-
-
-    /* =================================================
-       PUBLIC URL
-    ================================================= */
-
-    const {
-      data: publicData
-    } =
-      supabaseClient
-        .storage
-        .from(
-          "client-images"
-        )
-        .getPublicUrl(
-          data.path
-        );
-
-
-    return (
-      publicData.publicUrl
-    );
-
-  }
-
-
-  /* =====================================================
-     SUBMIT
-  ===================================================== */
-
-  form.addEventListener(
-    "submit",
-    async function (event) {
-
-      event.preventDefault();
+      successMessage.textContent =
+        "Modifications enregistrées avec succès.";
 
 
       successMessage.style.display =
-        "none";
+        "block";
 
 
-      errorMessage.style.display =
-        "none";
+      submitBtn.textContent =
+        "Modifications enregistrées ✓";
 
 
       submitBtn.disabled =
         true;
 
 
+      setTimeout(
+        () => {
+
+          window.location.href =
+            "vendor-dashboard.html";
+
+        },
+        1500
+      );
+
+
+    } catch (error) {
+
+      console.error(
+        error
+      );
+
+
+      errorMessage.textContent =
+        error.message ||
+        "Une erreur est survenue.";
+
+
+      errorMessage.style.display =
+        "block";
+
+
+      submitBtn.disabled =
+        false;
+
+
       submitBtn.textContent =
-        "Préparation...";
-
-
-      try {
-
-        /* ===============================================
-           DONNÉES
-        =============================================== */
-
-        const name =
-          document
-            .getElementById(
-              "name"
-            )
-            .value
-            .trim();
-
-
-        const description =
-          document
-            .getElementById(
-              "description"
-            )
-            .value
-            .trim();
-
-
-        const instagram =
-          document
-            .getElementById(
-              "instagram"
-            )
-            .value
-            .trim();
-
-
-        const facebook =
-          document
-            .getElementById(
-              "facebook"
-            )
-            .value
-            .trim();
-
-
-        const tiktok =
-          document
-            .getElementById(
-              "tiktok"
-            )
-            .value
-            .trim();
-
-
-        const snapchat =
-          document
-            .getElementById(
-              "snapchat"
-            )
-            .value
-            .trim();
-
-
-        const website =
-          document
-            .getElementById(
-              "website"
-            )
-            .value
-            .trim();
-
-
-        const phone =
-          document
-            .getElementById(
-              "phone"
-            )
-            .value
-            .trim();
-
-
-        const whatsapp =
-          document
-            .getElementById(
-              "whatsapp"
-            )
-            .value
-            .trim();
-
-
-        const googleMaps =
-          document
-            .getElementById(
-              "googleMaps"
-            )
-            .value
-            .trim();
-
-
-        if (!name) {
-
-          throw new Error(
-            "Veuillez entrer le nom du client."
-          );
-
-        }
-
-
-        /* ===============================================
-           IMAGES
-        =============================================== */
-
-        let profileImage =
-          currentProfileImage;
-
-
-        let coverImage =
-          currentCoverImage;
-
-
-        /*
-          إذا اختار صورة Profile جديدة
-          نضغطها ونرفعها
-        */
-
-        if (
-          profileInput.files &&
-          profileInput.files.length > 0
-        ) {
-
-          submitBtn.textContent =
-            "Compression de la photo...";
-
-
-          profileImage =
-            await uploadImage(
-              profileInput.files[0],
-              "profile"
-            );
-
-        }
-
-
-        /*
-          إذا اختار Cover جديدة
-        */
-
-        if (
-          coverInput.files &&
-          coverInput.files.length > 0
-        ) {
-
-          submitBtn.textContent =
-            "Compression de la couverture...";
-
-
-          coverImage =
-            await uploadImage(
-              coverInput.files[0],
-              "cover"
-            );
-
-        }
-
-
-        /* ===============================================
-           UPDATE
-        =============================================== */
-
-        submitBtn.textContent =
-          "Enregistrement...";
-
-
-        const {
-          data,
-          error
-        } =
-          await supabaseClient
-            .rpc(
-              "update_vendor_client",
-              {
-                p_session_token:
-                  vendorSession.session_token,
-
-                p_client_id:
-                  Number(clientId),
-
-                p_name:
-                  name,
-
-                p_description:
-                  description,
-
-                p_profile_image:
-                  profileImage,
-
-                p_cover_image:
-                  coverImage,
-
-                p_instagram:
-                  instagram,
-
-                p_facebook:
-                  facebook,
-
-                p_tiktok:
-                  tiktok,
-
-                p_snapchat:
-                  snapchat,
-
-                p_website:
-                  website,
-
-                p_phone:
-                  phone,
-
-                p_whatsapp:
-                  whatsapp,
-
-                p_google_maps:
-                  googleMaps
-              }
-            );
-
-
-        if (error) {
-
-          console.error(
-            "RPC error:",
-            error
-          );
-
-
-          throw new Error(
-            error.message
-          );
-
-        }
-
-
-        /* ===============================================
-           SUCCESS
-        =============================================== */
-
-        successMessage.textContent =
-          "Client modifié avec succès.";
-
-        successMessage.style.display =
-          "block";
-
-
-        submitBtn.textContent =
-          "Modifications enregistrées ✓";
-
-
-        /*
-          Retour dashboard
-        */
-
-        setTimeout(
-          () => {
-
-            window.location.href =
-              "vendor-dashboard.html";
-
-          },
-          1500
-        );
-
-
-      } catch (error) {
-
-        console.error(
-          error
-        );
-
-
-        errorMessage.textContent =
-          error.message ||
-          "Une erreur est survenue.";
-
-
-        errorMessage.style.display =
-          "block";
-
-
-        submitBtn.disabled =
-          false;
-
-
-        submitBtn.textContent =
-          "Enregistrer les modifications";
-
-      }
+        "Enregistrer les modifications";
 
     }
-  );
+
+  }
+);
 
 
-  /* =====================================================
-     START
-  ===================================================== */
+/* =====================================================
+   START
+===================================================== */
 
-  loadClient();
+loadClient();
 
 </script>
 
