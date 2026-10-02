@@ -179,7 +179,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 850px;
+      min-width: 950px;
     }
 
     th {
@@ -237,6 +237,11 @@
       color: #16833b;
     }
 
+    .status-suspended {
+      background: #fff1f1;
+      color: #c62828;
+    }
+
     .status-inactive {
       background: #f1f2f4;
       color: #73777d;
@@ -273,6 +278,26 @@
 
     .manage-btn:hover {
       background: #e1ecff;
+    }
+
+    .suspend-btn {
+      background: #fff1f1;
+      color: #c62828;
+      border-color: #ffd6d6;
+    }
+
+    .suspend-btn:hover {
+      background: #ffe4e4;
+    }
+
+    .activate-btn {
+      background: #eaf8ef;
+      color: #16833b;
+      border-color: #ccefd8;
+    }
+
+    .activate-btn:hover {
+      background: #dcf5e5;
     }
 
     .reset-btn {
@@ -377,6 +402,16 @@
 
     .confirm-btn {
       background: #17191c;
+      color: white;
+    }
+
+    .danger-btn {
+      background: #c62828;
+      color: white;
+    }
+
+    .success-btn {
+      background: #16833b;
       color: white;
     }
 
@@ -755,8 +790,7 @@
       <div
         class="credential-value"
         id="createdVendorName"
-      >
-      </div>
+      ></div>
 
     </div>
 
@@ -770,8 +804,7 @@
       <div
         class="credential-value"
         id="createdVendorLink"
-      >
-      </div>
+      ></div>
 
     </div>
 
@@ -785,8 +818,7 @@
       <div
         class="credential-value"
         id="createdVendorPin"
-      >
-      </div>
+      ></div>
 
     </div>
 
@@ -823,15 +855,13 @@
     <div
       class="modal-subtitle"
       id="historySubtitle"
-    >
-    </div>
+    ></div>
 
 
     <div
       class="history-list"
       id="historyList"
-    >
-    </div>
+    ></div>
 
 
     <div class="modal-actions">
@@ -871,8 +901,7 @@
     <div
       class="credential-box"
       id="resetInfo"
-    >
-    </div>
+    ></div>
 
 
     <div class="modal-actions">
@@ -898,11 +927,62 @@
 </div>
 
 
+<!-- SUSPEND / ACTIVATE MODAL -->
+
+<div
+  class="modal"
+  id="statusModal"
+>
+
+  <div class="modal-card">
+
+    <div
+      class="modal-title"
+      id="statusModalTitle"
+    >
+      Suspendre le vendeur
+    </div>
+
+    <div
+      class="modal-subtitle"
+      id="statusModalSubtitle"
+    ></div>
+
+
+    <div
+      class="credential-box"
+      id="statusInfo"
+    ></div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="modal-btn cancel-btn"
+        onclick="closeModal('statusModal')"
+      >
+        Annuler
+      </button>
+
+      <button
+        class="modal-btn danger-btn"
+        id="statusConfirmBtn"
+        onclick="confirmVendorStatus()"
+      >
+        Suspendre
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
 <div
   class="toast"
   id="toast"
->
-</div>
+></div>
 
 
 <script>
@@ -933,6 +1013,10 @@
   let resetVendorId = null;
 
   let resetVendorCount = 0;
+
+  let statusVendorId = null;
+
+  let statusAction = null;
 
 
   /* =========================
@@ -981,8 +1065,13 @@
     } =
       await supabaseClient
         .from("vendors")
-        .select("id,name,role,status")
-        .eq("user_id", user.id)
+        .select(
+          "id,name,role,status"
+        )
+        .eq(
+          "user_id",
+          user.id
+        )
         .maybeSingle();
 
 
@@ -1018,10 +1107,16 @@
       await supabaseClient
         .from("vendors")
         .select("*")
-        .neq("role", "admin")
-        .order("created_at", {
-          ascending: false
-        });
+        .neq(
+          "role",
+          "admin"
+        )
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
 
 
     if (error) {
@@ -1037,7 +1132,8 @@
     }
 
 
-    vendors = data || [];
+    vendors =
+      data || [];
 
     await calculateCounts();
 
@@ -1055,7 +1151,9 @@
     let totalLinks = 0;
 
 
-    for (const vendor of vendors) {
+    for (
+      const vendor of vendors
+    ) {
 
       const {
         data: clients,
@@ -1142,7 +1240,8 @@
         current;
 
 
-      totalLinks += current;
+      totalLinks +=
+        current;
 
     }
 
@@ -1241,19 +1340,65 @@
 
 
           const currentLinks =
-            vendor.currentLinks || 0;
+            vendor.currentLinks ||
+            0;
 
 
-          const statusClass =
-            vendor.status === "active"
-              ? "status-active"
-              : "status-inactive";
+          let statusClass =
+            "status-inactive";
 
 
-          const statusText =
-            vendor.status === "active"
-              ? "Actif"
-              : "Inactif";
+          let statusText =
+            "Inactif";
+
+
+          if (
+            vendor.status ===
+            "active"
+          ) {
+
+            statusClass =
+              "status-active";
+
+            statusText =
+              "Actif";
+
+          }
+          else if (
+            vendor.status ===
+            "suspended"
+          ) {
+
+            statusClass =
+              "status-suspended";
+
+            statusText =
+              "Suspendu";
+
+          }
+
+
+          const statusButton =
+            vendor.status ===
+            "active"
+
+              ? `
+                <button
+                  class="action-btn suspend-btn"
+                  onclick="openSuspendModal(${vendor.id})"
+                >
+                  Suspendre
+                </button>
+              `
+
+              : `
+                <button
+                  class="action-btn activate-btn"
+                  onclick="openActivateModal(${vendor.id})"
+                >
+                  Réactiver
+                </button>
+              `;
 
 
           return `
@@ -1265,11 +1410,15 @@
                 <div class="vendor-name">
 
                   <div class="vendor-avatar">
-                    ${escapeHtml(avatar)}
+                    ${escapeHtml(
+                      avatar
+                    )}
                   </div>
 
                   <strong>
-                    ${escapeHtml(vendorName)}
+                    ${escapeHtml(
+                      vendorName
+                    )}
                   </strong>
 
                 </div>
@@ -1281,7 +1430,8 @@
 
                 <span class="vendor-email">
                   ${escapeHtml(
-                    vendor.email || "-"
+                    vendor.email ||
+                    "-"
                   )}
                 </span>
 
@@ -1320,6 +1470,9 @@
                   >
                     Gérer
                   </button>
+
+
+                  ${statusButton}
 
 
                   <button
@@ -1366,7 +1519,9 @@
 
     const vendor =
       vendors.find(
-        v => v.id === vendorId
+        v =>
+          v.id ===
+          vendorId
       );
 
 
@@ -1388,6 +1543,253 @@
 
 
   /* =========================
+     SUSPENDRE
+  ========================= */
+
+  function openSuspendModal(
+    vendorId
+  ) {
+
+    const vendor =
+      vendors.find(
+        v =>
+          v.id ===
+          vendorId
+      );
+
+
+    if (!vendor) {
+      return;
+    }
+
+
+    statusVendorId =
+      vendorId;
+
+    statusAction =
+      "suspend";
+
+
+    document.getElementById(
+      "statusModalTitle"
+    ).textContent =
+      "Suspendre le vendeur";
+
+
+    document.getElementById(
+      "statusModalSubtitle"
+    ).textContent =
+      "Le vendeur ne pourra plus se connecter à son espace.";
+
+
+    document.getElementById(
+      "statusInfo"
+    ).innerHTML = `
+      <strong>
+        ${escapeHtml(
+          vendor.name ||
+          "Vendeur"
+        )}
+      </strong>
+
+      <br><br>
+
+      Ses pages clients et leurs QR codes
+      resteront accessibles publiquement.
+    `;
+
+
+    const button =
+      document.getElementById(
+        "statusConfirmBtn"
+      );
+
+
+    button.textContent =
+      "Suspendre";
+
+
+    button.className =
+      "modal-btn danger-btn";
+
+
+    document.getElementById(
+      "statusModal"
+    ).classList.add(
+      "show"
+    );
+
+  }
+
+
+  /* =========================
+     RÉACTIVER
+  ========================= */
+
+  function openActivateModal(
+    vendorId
+  ) {
+
+    const vendor =
+      vendors.find(
+        v =>
+          v.id ===
+          vendorId
+      );
+
+
+    if (!vendor) {
+      return;
+    }
+
+
+    statusVendorId =
+      vendorId;
+
+    statusAction =
+      "activate";
+
+
+    document.getElementById(
+      "statusModalTitle"
+    ).textContent =
+      "Réactiver le vendeur";
+
+
+    document.getElementById(
+      "statusModalSubtitle"
+    ).textContent =
+      "Le vendeur pourra de nouveau accéder à son espace.";
+
+
+    document.getElementById(
+      "statusInfo"
+    ).innerHTML = `
+      <strong>
+        ${escapeHtml(
+          vendor.name ||
+          "Vendeur"
+        )}
+      </strong>
+
+      <br><br>
+
+      Son accès vendeur sera réactivé.
+    `;
+
+
+    const button =
+      document.getElementById(
+        "statusConfirmBtn"
+      );
+
+
+    button.textContent =
+      "Réactiver";
+
+
+    button.className =
+      "modal-btn success-btn";
+
+
+    document.getElementById(
+      "statusModal"
+    ).classList.add(
+      "show"
+    );
+
+  }
+
+
+  /* =========================
+     CONFIRM STATUS
+  ========================= */
+
+  async function confirmVendorStatus() {
+
+    if (
+      !statusVendorId ||
+      !statusAction
+    ) {
+      return;
+    }
+
+
+    const newStatus =
+      statusAction ===
+      "suspend"
+
+        ? "suspended"
+
+        : "active";
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("vendors")
+        .update({
+          status:
+            newStatus
+        })
+        .eq(
+          "id",
+          statusVendorId
+        );
+
+
+    if (error) {
+
+      console.error(error);
+
+      showToast(
+        "Erreur : " +
+        error.message
+      );
+
+      return;
+
+    }
+
+
+    closeModal(
+      "statusModal"
+    );
+
+
+    if (
+      newStatus ===
+      "suspended"
+    ) {
+
+      showToast(
+        "Vendeur suspendu."
+      );
+
+    }
+    else {
+
+      showToast(
+        "Vendeur réactivé."
+      );
+
+    }
+
+
+    statusVendorId =
+      null;
+
+    statusAction =
+      null;
+
+
+    await loadVendors();
+
+  }
+
+
+  /* =========================
      ADD VENDOR
   ========================= */
 
@@ -1404,7 +1806,9 @@
 
     document.getElementById(
       "addVendorModal"
-    ).classList.add("show");
+    ).classList.add(
+      "show"
+    );
 
   }
 
@@ -1434,7 +1838,11 @@
     }
 
 
-    if (!/^\d{6}$/.test(pin)) {
+    if (
+      !/^\d{6}$/.test(
+        pin
+      )
+    ) {
 
       showToast(
         "Le PIN doit contenir exactement 6 chiffres."
@@ -1452,8 +1860,11 @@
       await supabaseClient.rpc(
         "create_vendor",
         {
-          p_name: name,
-          p_pin: pin
+          p_name:
+            name,
+
+          p_pin:
+            pin
         }
       );
 
@@ -1517,7 +1928,9 @@
 
       document.getElementById(
         "credentialsModal"
-      ).classList.add("show");
+      ).classList.add(
+        "show"
+      );
 
     }
 
@@ -1537,7 +1950,9 @@
 
     const vendor =
       vendors.find(
-        v => v.id === vendorId
+        v =>
+          v.id ===
+          vendorId
       );
 
 
@@ -1551,7 +1966,8 @@
 
 
     resetVendorCount =
-      vendor.currentLinks || 0;
+      vendor.currentLinks ||
+      0;
 
 
     document.getElementById(
@@ -1559,18 +1975,24 @@
     ).innerHTML = `
       <strong>
         ${escapeHtml(
-          vendor.name || "Vendeur"
+          vendor.name ||
+          "Vendeur"
         )}
       </strong>
+
       <br><br>
-      ${resetVendorCount} lien(s)
-      seront enregistrés dans l'historique.
+
+      ${resetVendorCount}
+      lien(s) seront enregistrés
+      dans l'historique.
     `;
 
 
     document.getElementById(
       "resetModal"
-    ).classList.add("show");
+    ).classList.add(
+      "show"
+    );
 
   }
 
@@ -1624,7 +2046,6 @@
     resetVendorId =
       null;
 
-
     resetVendorCount =
       0;
 
@@ -1661,7 +2082,9 @@
 
     document.getElementById(
       "historyModal"
-    ).classList.add("show");
+    ).classList.add(
+      "show"
+    );
 
 
     const {
@@ -1775,7 +2198,9 @@
 
     document.getElementById(
       id
-    ).classList.remove("show");
+    ).classList.remove(
+      "show"
+    );
 
   }
 
