@@ -14,7 +14,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
   <style>
 
     * {
@@ -23,710 +22,591 @@
       padding: 0;
     }
 
-
     body {
-
       font-family: Arial, sans-serif;
-
       background: #f5f6fa;
-
       color: #222;
-
       padding: 20px;
-
     }
-
 
     .container {
-
       max-width: 1200px;
-
       margin: auto;
-
     }
-
 
     /* =========================
        HEADER
     ========================= */
 
     header {
-
       background: white;
-
       padding: 20px;
-
       border-radius: 16px;
-
       margin-bottom: 20px;
-
       display: flex;
-
       justify-content: space-between;
-
       align-items: center;
-
       gap: 15px;
-
-      box-shadow:
-        0 3px 15px rgba(0,0,0,0.06);
-
+      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
     }
-
 
     header h1 {
-
       font-size: 24px;
-
     }
-
 
     header p {
-
       margin-top: 5px;
-
       color: #777;
-
     }
 
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .add-vendor-btn,
+    .logout-btn {
+      border: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .add-vendor-btn {
+      background: #111;
+      color: white;
+    }
 
     .logout-btn {
-
-      border: none;
-
       background: #222;
-
       color: white;
-
-      padding: 10px 16px;
-
-      border-radius: 10px;
-
-      cursor: pointer;
-
     }
 
+    .add-vendor-btn:hover,
+    .logout-btn:hover {
+      opacity: 0.85;
+    }
 
     /* =========================
        STATS
     ========================= */
 
     .stats {
-
       display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
+      grid-template-columns: repeat(3, 1fr);
       gap: 15px;
-
       margin-bottom: 20px;
-
     }
-
 
     .stat-card {
-
       background: white;
-
       padding: 20px;
-
       border-radius: 16px;
-
-      box-shadow:
-        0 3px 15px rgba(0,0,0,0.06);
-
+      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
     }
-
 
     .stat-card span {
-
       display: block;
-
       color: #777;
-
       font-size: 14px;
-
       margin-bottom: 8px;
-
     }
-
 
     .stat-card strong {
-
       font-size: 28px;
-
     }
-
 
     /* =========================
        PANEL
     ========================= */
 
     .panel {
-
       background: white;
-
       border-radius: 16px;
-
       padding: 20px;
-
-      box-shadow:
-        0 3px 15px rgba(0,0,0,0.06);
-
+      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
     }
-
 
     .panel-header {
-
       display: flex;
-
       justify-content: space-between;
-
       align-items: center;
-
       gap: 10px;
-
       margin-bottom: 20px;
-
     }
-
 
     .panel-header h2 {
-
       font-size: 20px;
-
     }
-
 
     .search {
-
       width: 260px;
-
       padding: 11px 13px;
-
       border: 1px solid #ddd;
-
       border-radius: 10px;
-
       outline: none;
-
     }
-
 
     /* =========================
        TABLE
     ========================= */
 
     .table-wrapper {
-
       overflow-x: auto;
-
     }
-
 
     table {
-
       width: 100%;
-
       border-collapse: collapse;
-
       min-width: 800px;
-
     }
-
 
     th,
     td {
-
       padding: 14px 12px;
-
       text-align: left;
-
       border-bottom: 1px solid #eee;
-
     }
-
 
     th {
-
       font-size: 13px;
-
       color: #777;
-
       background: #fafafa;
-
     }
-
 
     td {
-
       font-size: 14px;
-
     }
-
 
     /* =========================
        STATUS
     ========================= */
 
     .status {
-
       display: inline-block;
-
       padding: 5px 10px;
-
       border-radius: 20px;
-
       font-size: 12px;
-
     }
-
 
     .status.active {
-
       background: #e8f7ed;
-
       color: #16833b;
-
     }
-
 
     .status.inactive {
-
       background: #fdeaea;
-
       color: #c62828;
-
     }
-
 
     /* =========================
        LINKS
     ========================= */
 
     .links-count {
-
       font-weight: bold;
-
       font-size: 18px;
-
     }
-
 
     /* =========================
        ACTIONS
     ========================= */
 
     .actions {
-
       display: flex;
-
       gap: 7px;
-
       flex-wrap: wrap;
-
     }
-
 
     .action-btn {
-
       border: none;
-
       padding: 8px 12px;
-
       border-radius: 8px;
-
       cursor: pointer;
-
       font-size: 12px;
-
     }
-
 
     .reset-btn {
-
       background: #222;
-
       color: white;
-
     }
-
 
     .history-btn {
-
       background: #eee;
-
       color: #222;
-
     }
-
 
     .action-btn:hover {
-
       opacity: 0.85;
-
     }
-
 
     /* =========================
        MESSAGE
     ========================= */
 
     .message {
-
       padding: 20px;
-
       text-align: center;
-
       color: #777;
-
     }
-
 
     .error {
-
       background: #ffe9e9;
-
       color: #c62828;
-
       padding: 15px;
-
       border-radius: 10px;
-
       margin-bottom: 15px;
-
       display: none;
-
     }
-
 
     /* =========================
        MODAL
     ========================= */
 
     .modal {
-
       position: fixed;
-
       inset: 0;
-
-      background:
-        rgba(0,0,0,0.55);
-
+      background: rgba(0,0,0,0.55);
       display: none;
-
       justify-content: center;
-
       align-items: center;
-
       padding: 20px;
-
       z-index: 9999;
-
       backdrop-filter: blur(4px);
-
     }
-
 
     .modal.show {
-
       display: flex;
-
     }
-
 
     .modal-box {
-
       background: white;
-
       width: 100%;
-
       max-width: 500px;
-
       border-radius: 18px;
-
       padding: 22px;
-
-      max-height: 80vh;
-
+      max-height: 85vh;
       overflow-y: auto;
-
-      animation:
-        modalAppear
-        0.2s ease;
-
+      animation: modalAppear 0.2s ease;
     }
-
 
     @keyframes modalAppear {
 
       from {
-
         opacity: 0;
-
-        transform:
-          translateY(10px)
-          scale(0.97);
-
+        transform: translateY(10px) scale(0.97);
       }
 
       to {
-
         opacity: 1;
-
-        transform:
-          translateY(0)
-          scale(1);
-
+        transform: translateY(0) scale(1);
       }
 
     }
 
-
-    /* =========================
-       HISTORY MODAL
-    ========================= */
-
     .modal-header {
-
       display: flex;
-
       justify-content: space-between;
-
       align-items: center;
-
       margin-bottom: 20px;
-
     }
-
 
     .modal-header h3 {
-
       font-size: 20px;
-
     }
-
 
     .close-btn {
-
       border: none;
-
       background: #eee;
-
       width: 35px;
-
       height: 35px;
-
       border-radius: 50%;
-
       cursor: pointer;
-
       font-size: 18px;
-
     }
 
+    /* =========================
+       ADD VENDOR FORM
+    ========================= */
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .form-input:focus {
+      border-color: #222;
+    }
+
+    .pin-input {
+      letter-spacing: 5px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .form-help {
+      color: #888;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .form-error {
+      display: none;
+      background: #ffe9e9;
+      color: #c62828;
+      padding: 11px;
+      border-radius: 9px;
+      font-size: 13px;
+      margin-bottom: 15px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .form-actions button {
+      flex: 1;
+      border: none;
+      padding: 13px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .cancel-btn {
+      background: #eee;
+      color: #222;
+    }
+
+    .create-btn {
+      background: #111;
+      color: white;
+    }
+
+    .create-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* =========================
+       CREATED VENDOR
+    ========================= */
+
+    .created-box {
+      display: none;
+    }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e8f7ed;
+      color: #16833b;
+      border-radius: 50%;
+      font-size: 30px;
+    }
+
+    .created-title {
+      text-align: center;
+      font-size: 21px;
+      margin-bottom: 8px;
+    }
+
+    .created-description {
+      text-align: center;
+      color: #777;
+      font-size: 14px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .credential-box {
+      background: #f7f7f7;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .credential-label {
+      color: #777;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .credential-value {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .credential-value span {
+      flex: 1;
+      word-break: break-all;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .copy-btn {
+      border: none;
+      background: #222;
+      color: white;
+      padding: 8px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .pin-display {
+      letter-spacing: 4px;
+      font-size: 20px !important;
+    }
+
+    .done-btn {
+      width: 100%;
+      border: none;
+      background: #111;
+      color: white;
+      padding: 13px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    /* =========================
+       HISTORY
+    ========================= */
 
     .history-item {
-
       padding: 14px;
-
       border: 1px solid #eee;
-
       border-radius: 12px;
-
       margin-bottom: 10px;
-
       display: flex;
-
       justify-content: space-between;
-
       align-items: center;
-
       gap: 10px;
-
     }
-
 
     .history-count {
-
       font-weight: bold;
-
     }
-
 
     .history-date {
-
       color: #777;
-
       font-size: 13px;
-
       text-align: right;
-
     }
-
 
     /* =========================
        RESET CONFIRMATION
     ========================= */
 
     .reset-confirm-box {
-
       max-width: 400px;
-
       text-align: center;
-
       padding: 30px 24px;
-
     }
-
 
     .reset-icon {
-
       width: 62px;
-
       height: 62px;
-
       margin: 0 auto 18px;
-
       display: flex;
-
       align-items: center;
-
       justify-content: center;
-
       border-radius: 50%;
-
       background: #f1f1f1;
-
       font-size: 30px;
-
       color: #222;
-
     }
-
 
     .reset-confirm-box h3 {
-
       font-size: 21px;
-
       margin-bottom: 10px;
-
     }
-
 
     .reset-confirm-box p {
-
       color: #777;
-
       font-size: 14px;
-
       line-height: 1.5;
-
       margin-bottom: 25px;
-
     }
-
 
     .reset-actions {
-
       display: flex;
-
       gap: 10px;
-
     }
-
 
     .reset-actions button {
-
       flex: 1;
-
       border: none;
-
       padding: 12px;
-
       border-radius: 10px;
-
       cursor: pointer;
-
       font-size: 14px;
-
     }
-
 
     .cancel-reset-btn {
-
       background: #eeeeee;
-
       color: #222;
-
     }
-
 
     .confirm-reset-btn {
-
       background: #222;
-
       color: white;
-
     }
-
 
     .reset-actions button:hover {
-
       opacity: 0.85;
-
     }
 
-
     /* =========================
-       SUCCESS MESSAGE
+       SUCCESS TOAST
     ========================= */
 
     .success-toast {
-
       position: fixed;
-
       left: 50%;
-
       bottom: 25px;
-
-      transform:
-        translateX(-50%)
-        translateY(20px);
-
+      transform: translateX(-50%) translateY(20px);
       background: #222;
-
       color: white;
-
       padding: 13px 20px;
-
       border-radius: 12px;
-
       font-size: 14px;
-
       opacity: 0;
-
       pointer-events: none;
-
-      transition:
-        0.25s ease;
-
+      transition: 0.25s ease;
       z-index: 10000;
-
     }
-
 
     .success-toast.show {
-
       opacity: 1;
-
-      transform:
-        translateX(-50%)
-        translateY(0);
-
+      transform: translateX(-50%) translateY(0);
     }
-
 
     /* =========================
        MOBILE
@@ -735,41 +615,43 @@
     @media (max-width: 700px) {
 
       body {
-
         padding: 12px;
-
       }
-
 
       header {
-
         flex-direction: column;
-
-        align-items: flex-start;
-
+        align-items: stretch;
       }
 
+      .header-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .header-actions button {
+        width: 100%;
+      }
 
       .stats {
-
         grid-template-columns: 1fr;
-
       }
-
 
       .panel-header {
-
         flex-direction: column;
-
         align-items: stretch;
-
       }
 
-
       .search {
-
         width: 100%;
+      }
 
+      .modal {
+        padding: 12px;
+      }
+
+      .modal-box {
+        border-radius: 16px;
       }
 
     }
@@ -780,7 +662,6 @@
 
 
 <body>
-
 
 <div class="container">
 
@@ -802,12 +683,24 @@
     </div>
 
 
-    <button
-      class="logout-btn"
-      onclick="logout()"
-    >
-      Déconnexion
-    </button>
+    <div class="header-actions">
+
+      <button
+        class="add-vendor-btn"
+        onclick="openAddVendor()"
+      >
+        + Ajouter un vendeur
+      </button>
+
+
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
+        Déconnexion
+      </button>
+
+    </div>
 
   </header>
 
@@ -831,9 +724,7 @@
         Total vendeurs
       </span>
 
-      <strong
-        id="totalVendors"
-      >
+      <strong id="totalVendors">
         0
       </strong>
 
@@ -846,9 +737,7 @@
         Vendeurs actifs
       </span>
 
-      <strong
-        id="activeVendors"
-      >
+      <strong id="activeVendors">
         0
       </strong>
 
@@ -861,9 +750,7 @@
         Liens actifs à compter
       </span>
 
-      <strong
-        id="totalLinks"
-      >
+      <strong id="totalLinks">
         0
       </strong>
 
@@ -904,34 +791,22 @@
 
           <tr>
 
-            <th>
-              Nom
-            </th>
+            <th>Nom</th>
 
-            <th>
-              Email
-            </th>
+            <th>Email</th>
 
-            <th>
-              Statut
-            </th>
+            <th>Statut</th>
 
-            <th>
-              Liens actuels
-            </th>
+            <th>Liens actuels</th>
 
-            <th>
-              Actions
-            </th>
+            <th>Actions</th>
 
           </tr>
 
         </thead>
 
 
-        <tbody
-          id="vendorsTable"
-        >
+        <tbody id="vendorsTable">
 
           <tr>
 
@@ -958,6 +833,217 @@
 
 
 <!-- =========================
+     ADD VENDOR MODAL
+========================= -->
+
+<div
+  id="addVendorModal"
+  class="modal"
+>
+
+  <div class="modal-box">
+
+
+    <!-- FORM -->
+
+    <div id="addVendorForm">
+
+
+      <div class="modal-header">
+
+        <h3>
+          Ajouter un vendeur
+        </h3>
+
+        <button
+          class="close-btn"
+          onclick="closeAddVendor()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div
+        id="vendorFormError"
+        class="form-error"
+      ></div>
+
+
+      <div class="form-group">
+
+        <label for="vendorName">
+          Nom du vendeur
+        </label>
+
+        <input
+          id="vendorName"
+          class="form-input"
+          type="text"
+          placeholder="Ex : Mohamed"
+          maxlength="100"
+          autocomplete="off"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="vendorPin">
+          PIN de connexion
+        </label>
+
+        <input
+          id="vendorPin"
+          class="form-input pin-input"
+          type="password"
+          inputmode="numeric"
+          maxlength="6"
+          placeholder="••••••"
+          autocomplete="new-password"
+        >
+
+        <div class="form-help">
+          Le PIN doit contenir exactement 6 chiffres.
+        </div>
+
+      </div>
+
+
+      <div class="form-actions">
+
+        <button
+          class="cancel-btn"
+          onclick="closeAddVendor()"
+        >
+          Annuler
+        </button>
+
+        <button
+          id="createVendorBtn"
+          class="create-btn"
+          onclick="createVendor()"
+        >
+          Créer le vendeur
+        </button>
+
+      </div>
+
+
+    </div>
+
+
+    <!-- CREATED -->
+
+    <div
+      id="createdVendorBox"
+      class="created-box"
+    >
+
+
+      <div class="success-icon">
+        ✓
+      </div>
+
+
+      <h3 class="created-title">
+        Vendeur créé
+      </h3>
+
+
+      <p class="created-description">
+        Conservez ces informations et transmettez-les
+        au vendeur.
+      </p>
+
+
+      <div class="credential-box">
+
+        <div class="credential-label">
+          Nom
+        </div>
+
+        <div class="credential-value">
+
+          <span id="createdVendorName">
+            -
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="credential-box">
+
+        <div class="credential-label">
+          Lien de connexion
+        </div>
+
+        <div class="credential-value">
+
+          <span id="createdVendorUrl">
+            -
+          </span>
+
+          <button
+            class="copy-btn"
+            onclick="copyCreatedUrl()"
+          >
+            Copier
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="credential-box">
+
+        <div class="credential-label">
+          PIN
+        </div>
+
+        <div class="credential-value">
+
+          <span
+            id="createdVendorPin"
+            class="pin-display"
+          >
+            -
+          </span>
+
+          <button
+            class="copy-btn"
+            onclick="copyCreatedPin()"
+          >
+            Copier
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="done-btn"
+        onclick="finishCreatedVendor()"
+      >
+        Terminé
+      </button>
+
+
+    </div>
+
+
+  </div>
+
+</div>
+
+
+<!-- =========================
      HISTORY MODAL
 ========================= -->
 
@@ -966,19 +1052,13 @@
   class="modal"
 >
 
-
   <div class="modal-box">
-
 
     <div class="modal-header">
 
-
-      <h3
-        id="historyTitle"
-      >
+      <h3 id="historyTitle">
         Historique
       </h3>
-
 
       <button
         class="close-btn"
@@ -987,25 +1067,20 @@
         ×
       </button>
 
-
     </div>
 
 
-    <div
-      id="historyContent"
-    >
+    <div id="historyContent">
       Chargement...
     </div>
 
-
   </div>
-
 
 </div>
 
 
 <!-- =========================
-     RESET CONFIRMATION MODAL
+     RESET MODAL
 ========================= -->
 
 <div
@@ -1013,30 +1088,24 @@
   class="modal"
 >
 
-
   <div
     class="modal-box reset-confirm-box"
   >
-
 
     <div class="reset-icon">
       ↻
     </div>
 
-
     <h3>
       Réinitialiser le compteur ?
     </h3>
 
-
     <p id="resetMessage">
-      Les liens actuels seront
-      archivés dans l'historique.
+      Les liens actuels seront archivés
+      dans l'historique.
     </p>
 
-
     <div class="reset-actions">
-
 
       <button
         class="cancel-reset-btn"
@@ -1045,7 +1114,6 @@
         Annuler
       </button>
 
-
       <button
         class="confirm-reset-btn"
         onclick="confirmReset()"
@@ -1053,12 +1121,9 @@
         Réinitialiser
       </button>
 
-
     </div>
 
-
   </div>
-
 
 </div>
 
@@ -1069,9 +1134,8 @@
   id="successToast"
   class="success-toast"
 >
-  Compteur réinitialisé avec succès.
+  Opération réussie.
 </div>
-
 
 
 <script>
@@ -1081,14 +1145,11 @@
      SUPABASE
   ========================= */
 
-
   const SUPABASE_URL =
     "https://ogenizijjumwkiiikhrx.supabase.co";
 
-
   const SUPABASE_ANON_KEY =
     "sb_publishable_-83cFPPEgtOhG7G_MVsjaQ_UFoAnoIc";
-
 
   const supabaseClient =
     supabase.createClient(
@@ -1097,11 +1158,9 @@
     );
 
 
-
   /* =========================
      VARIABLES
   ========================= */
-
 
   let currentUser = null;
 
@@ -1113,17 +1172,18 @@
 
   let resets = [];
 
-
   let resetVendorId = null;
 
   let resetVendorLinks = 0;
 
+  let createdVendorUrlValue = "";
+
+  let createdVendorPinValue = "";
 
 
   /* =========================
      START
   ========================= */
-
 
   document.addEventListener(
     "DOMContentLoaded",
@@ -1131,12 +1191,9 @@
   );
 
 
-
   async function init() {
 
-
     try {
-
 
       const {
         data: {
@@ -1166,11 +1223,9 @@
         user;
 
 
-
       /* =========================
          ADMIN CHECK
       ========================= */
-
 
       const {
         data: vendor,
@@ -1265,26 +1320,21 @@
 
     } catch (error) {
 
-
       showError(
         "Erreur : " +
         error.message
       );
-
 
     }
 
   }
 
 
-
   /* =========================
      LOAD DATA
   ========================= */
 
-
   async function loadData() {
-
 
     await loadVendors();
 
@@ -1296,18 +1346,14 @@
 
     renderVendors();
 
-
   }
-
 
 
   /* =========================
      LOAD VENDORS
   ========================= */
 
-
   async function loadVendors() {
-
 
     const {
       data,
@@ -1347,18 +1393,14 @@
     vendors =
       data || [];
 
-
   }
-
 
 
   /* =========================
      LOAD CLIENTS
   ========================= */
 
-
   async function loadClients() {
-
 
     const {
       data,
@@ -1388,18 +1430,14 @@
     clients =
       data || [];
 
-
   }
-
 
 
   /* =========================
      LOAD RESETS
   ========================= */
 
-
   async function loadResets() {
-
 
     const {
       data,
@@ -1436,20 +1474,16 @@
     resets =
       data || [];
 
-
   }
-
 
 
   /* =========================
      LAST RESET
   ========================= */
 
-
   function getLastReset(
     vendorId
   ) {
-
 
     const vendorResets =
       resets
@@ -1477,20 +1511,16 @@
       ? vendorResets[0]
       : null;
 
-
   }
-
 
 
   /* =========================
      CURRENT LINKS
   ========================= */
 
-
   function getCurrentLinks(
     vendorId
   ) {
-
 
     const lastReset =
       getLastReset(
@@ -1508,7 +1538,6 @@
 
     return clients.filter(
       client => {
-
 
         if (
           Number(
@@ -1535,22 +1564,17 @@
           client.created_at
         ) > resetDate;
 
-
       }
     ).length;
 
-
   }
-
 
 
   /* =========================
      UPDATE STATS
   ========================= */
 
-
   function updateStats() {
-
 
     document.getElementById(
       "totalVendors"
@@ -1591,18 +1615,14 @@
     ).textContent =
       total;
 
-
   }
-
 
 
   /* =========================
      RENDER VENDORS
   ========================= */
 
-
   function renderVendors() {
-
 
     const tbody =
       document.getElementById(
@@ -1625,7 +1645,6 @@
       vendors.filter(
         vendor => {
 
-
           const name =
             String(
               vendor.name ||
@@ -1643,23 +1662,15 @@
 
 
           return (
-            name.includes(
-              search
-            ) ||
-            email.includes(
-              search
-            )
+            name.includes(search) ||
+            email.includes(search)
           );
-
 
         }
       );
 
 
-    if (
-      !filtered.length
-    ) {
-
+    if (!filtered.length) {
 
       tbody.innerHTML = `
 
@@ -1676,18 +1687,15 @@
 
       `;
 
-
       return;
 
     }
-
 
 
     tbody.innerHTML =
       filtered
         .map(
           vendor => {
-
 
             const currentLinks =
               getCurrentLinks(
@@ -1746,9 +1754,7 @@
                   <span
                     class="status ${statusClass}"
                   >
-
                     ${statusText}
-
                   </span>
 
                 </td>
@@ -1759,9 +1765,7 @@
                   <span
                     class="links-count"
                   >
-
                     ${currentLinks}
-
                   </span>
 
                 </td>
@@ -1773,14 +1777,11 @@
                     class="actions"
                   >
 
-
                     <button
                       class="action-btn reset-btn"
                       onclick="resetVendor(${vendor.id})"
                     >
-
                       Réinitialiser
-
                     </button>
 
 
@@ -1794,11 +1795,8 @@
                         )}'
                       )"
                     >
-
                       Historique
-
                     </button>
-
 
                   </div>
 
@@ -1808,35 +1806,382 @@
 
             `;
 
-
           }
         )
         .join("");
 
+  }
+
+
+  /* =========================
+     ADD VENDOR
+  ========================= */
+
+  function openAddVendor() {
+
+    document.getElementById(
+      "addVendorModal"
+    ).classList.add("show");
+
+
+    document.getElementById(
+      "addVendorForm"
+    ).style.display =
+      "block";
+
+
+    document.getElementById(
+      "createdVendorBox"
+    ).style.display =
+      "none";
+
+
+    document.getElementById(
+      "vendorName"
+    ).value =
+      "";
+
+
+    document.getElementById(
+      "vendorPin"
+    ).value =
+      "";
+
+
+    hideVendorFormError();
 
   }
 
+
+  function closeAddVendor() {
+
+    document.getElementById(
+      "addVendorModal"
+    ).classList.remove("show");
+
+  }
+
+
+  async function createVendor() {
+
+    const name =
+      String(
+        document.getElementById(
+          "vendorName"
+        ).value ||
+        ""
+      ).trim();
+
+
+    const pin =
+      String(
+        document.getElementById(
+          "vendorPin"
+        ).value ||
+        ""
+      ).trim();
+
+
+    hideVendorFormError();
+
+
+    if (!name) {
+
+      showVendorFormError(
+        "Veuillez entrer le nom du vendeur."
+      );
+
+      return;
+
+    }
+
+
+    if (
+      !/^[0-9]{6}$/.test(pin)
+    ) {
+
+      showVendorFormError(
+        "Le PIN doit contenir exactement 6 chiffres."
+      );
+
+      return;
+
+    }
+
+
+    const button =
+      document.getElementById(
+        "createVendorBtn"
+      );
+
+
+    button.disabled = true;
+
+    button.textContent =
+      "Création...";
+
+
+    try {
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.rpc(
+          "create_vendor",
+          {
+            p_name: name,
+            p_pin: pin
+          }
+        );
+
+
+      if (error) {
+
+        throw error;
+
+      }
+
+
+      if (
+        !data ||
+        !data.length
+      ) {
+
+        throw new Error(
+          "Aucune donnée retournée."
+        );
+
+      }
+
+
+      const created =
+        data[0];
+
+
+      const vendorUrl =
+        new URL(
+          "vendor.html?token=" +
+          encodeURIComponent(
+            created.login_token
+          ),
+          window.location.href
+        ).href;
+
+
+      createdVendorUrlValue =
+        vendorUrl;
+
+
+      createdVendorPinValue =
+        pin;
+
+
+      document.getElementById(
+        "createdVendorName"
+      ).textContent =
+        created.vendor_name;
+
+
+      document.getElementById(
+        "createdVendorUrl"
+      ).textContent =
+        vendorUrl;
+
+
+      document.getElementById(
+        "createdVendorPin"
+      ).textContent =
+        pin;
+
+
+      document.getElementById(
+        "addVendorForm"
+      ).style.display =
+        "none";
+
+
+      document.getElementById(
+        "createdVendorBox"
+      ).style.display =
+        "block";
+
+
+      await loadData();
+
+
+    } catch (error) {
+
+      showVendorFormError(
+        error.message ||
+        "Une erreur est survenue."
+      );
+
+    } finally {
+
+      button.disabled = false;
+
+      button.textContent =
+        "Créer le vendeur";
+
+    }
+
+  }
+
+
+  /* =========================
+     COPY CREATED URL
+  ========================= */
+
+  async function copyCreatedUrl() {
+
+    if (!createdVendorUrlValue) {
+      return;
+    }
+
+
+    await copyText(
+      createdVendorUrlValue
+    );
+
+
+    showSuccess(
+      "Lien copié."
+    );
+
+  }
+
+
+  /* =========================
+     COPY CREATED PIN
+  ========================= */
+
+  async function copyCreatedPin() {
+
+    if (!createdVendorPinValue) {
+      return;
+    }
+
+
+    await copyText(
+      createdVendorPinValue
+    );
+
+
+    showSuccess(
+      "PIN copié."
+    );
+
+  }
+
+
+  async function copyText(
+    text
+  ) {
+
+    try {
+
+      await navigator.clipboard.writeText(
+        text
+      );
+
+    } catch (error) {
+
+      const textarea =
+        document.createElement(
+          "textarea"
+        );
+
+      textarea.value =
+        text;
+
+      textarea.style.position =
+        "fixed";
+
+      textarea.style.opacity =
+        "0";
+
+      document.body.appendChild(
+        textarea
+      );
+
+      textarea.select();
+
+      document.execCommand(
+        "copy"
+      );
+
+      document.body.removeChild(
+        textarea
+      );
+
+    }
+
+  }
+
+
+  function finishCreatedVendor() {
+
+    closeAddVendor();
+
+  }
+
+
+  /* =========================
+     FORM ERROR
+  ========================= */
+
+  function showVendorFormError(
+    message
+  ) {
+
+    const box =
+      document.getElementById(
+        "vendorFormError"
+      );
+
+
+    box.textContent =
+      message;
+
+
+    box.style.display =
+      "block";
+
+  }
+
+
+  function hideVendorFormError() {
+
+    const box =
+      document.getElementById(
+        "vendorFormError"
+      );
+
+
+    box.textContent =
+      "";
+
+
+    box.style.display =
+      "none";
+
+  }
 
 
   /* =========================
      OPEN RESET MODAL
   ========================= */
 
-
   function resetVendor(
     vendorId
   ) {
 
-
     const vendor =
       vendors.find(
         v =>
-          Number(
-            v.id
-          ) ===
-          Number(
-            vendorId
-          )
+          Number(v.id) ===
+          Number(vendorId)
       );
 
 
@@ -1868,7 +2213,6 @@
     document.getElementById(
       "resetMessage"
     ).textContent =
-
       `${currentLinks} lien${
         currentLinks > 1
           ? "s"
@@ -1882,18 +2226,14 @@
       "show"
     );
 
-
   }
 
 
-
   /* =========================
-     CLOSE RESET MODAL
+     CLOSE RESET
   ========================= */
 
-
   function closeResetModal() {
-
 
     document.getElementById(
       "resetModal"
@@ -1909,25 +2249,17 @@
     resetVendorLinks =
       0;
 
-
   }
-
 
 
   /* =========================
      CONFIRM RESET
   ========================= */
 
-
   async function confirmReset() {
 
-
-    if (
-      !resetVendorId
-    ) {
-
+    if (!resetVendorId) {
       return;
-
     }
 
 
@@ -1945,19 +2277,16 @@
       await supabaseClient.rpc(
         "reset_vendor_counter",
         {
-
           p_vendor_id:
             vendorId,
 
           p_units_count:
             currentLinks
-
         }
       );
 
 
     if (error) {
-
 
       closeResetModal();
 
@@ -1976,28 +2305,32 @@
     closeResetModal();
 
 
-    showSuccess();
+    showSuccess(
+      "Compteur réinitialisé avec succès."
+    );
 
 
     await loadData();
 
-
   }
 
 
-
   /* =========================
-     SUCCESS
+     SUCCESS TOAST
   ========================= */
 
-
-  function showSuccess() {
-
+  function showSuccess(
+    message
+  ) {
 
     const toast =
       document.getElementById(
         "successToast"
       );
+
+
+    toast.textContent =
+      message;
 
 
     toast.classList.add(
@@ -2016,21 +2349,17 @@
       2500
     );
 
-
   }
-
 
 
   /* =========================
      HISTORY
   ========================= */
 
-
   async function showHistory(
     vendorId,
     vendorName
   ) {
-
 
     const modal =
       document.getElementById(
@@ -2089,20 +2418,16 @@
 
     if (error) {
 
-
       content.innerHTML = `
 
         <div class="message">
-
           Erreur :
           ${escapeHtml(
             error.message
           )}
-
         </div>
 
       `;
-
 
       return;
 
@@ -2114,17 +2439,13 @@
       !data.length
     ) {
 
-
       content.innerHTML = `
 
         <div class="message">
-
           Aucun historique.
-
         </div>
 
       `;
-
 
       return;
 
@@ -2136,7 +2457,6 @@
         .map(
           item => {
 
-
             const date =
               formatDate(
                 item.reset_at
@@ -2145,15 +2465,11 @@
 
             return `
 
-              <div
-                class="history-item"
-              >
+              <div class="history-item">
 
                 <div>
 
-                  <div
-                    class="history-count"
-                  >
+                  <div class="history-count">
 
                     ${item.units_count}
 
@@ -2170,9 +2486,7 @@
                 </div>
 
 
-                <div
-                  class="history-date"
-                >
+                <div class="history-date">
 
                   ${date}
 
@@ -2182,23 +2496,18 @@
 
             `;
 
-
           }
         )
         .join("");
 
-
   }
-
 
 
   /* =========================
      CLOSE HISTORY
   ========================= */
 
-
   function closeHistory() {
-
 
     document
       .getElementById(
@@ -2208,27 +2517,19 @@
         "show"
       );
 
-
   }
-
 
 
   /* =========================
      FORMAT DATE
   ========================= */
 
-
   function formatDate(
     dateString
   ) {
 
-
-    if (
-      !dateString
-    ) {
-
+    if (!dateString) {
       return "-";
-
     }
 
 
@@ -2241,32 +2542,22 @@
     return date.toLocaleString(
       "fr-FR",
       {
-
         day: "2-digit",
-
         month: "2-digit",
-
         year: "numeric",
-
         hour: "2-digit",
-
         minute: "2-digit"
-
       }
     );
 
-
   }
-
 
 
   /* =========================
      LOGOUT
   ========================= */
 
-
   async function logout() {
-
 
     await supabaseClient
       .auth
@@ -2276,20 +2567,16 @@
     window.location.href =
       "index.html";
 
-
   }
-
 
 
   /* =========================
      ERROR
   ========================= */
 
-
   function showError(
     message
   ) {
-
 
     const box =
       document.getElementById(
@@ -2304,88 +2591,42 @@
     box.style.display =
       "block";
 
-
   }
-
 
 
   /* =========================
      ESCAPE HTML
   ========================= */
 
-
   function escapeHtml(
     value
   ) {
 
-
-    return String(
-      value
-    )
-
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-
-      .replace(
-        /</g,
-        "&lt;"
-      )
-
-      .replace(
-        />/g,
-        "&gt;"
-      )
-
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-
-      .replace(
-        /'/g,
-        "&#039;"
-      );
-
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
 
   }
-
 
 
   function escapeAttribute(
     value
   ) {
 
-
-    return String(
-      value
-    )
-
-      .replace(
-        /\\/g,
-        "\\\\"
-      )
-
-      .replace(
-        /'/g,
-        "\\'"
-      )
-
-      .replace(
-        /"/g,
-        "&quot;"
-      );
-
+    return String(value)
+      .replace(/\\/g, "\\\\")
+      .replace(/'/g, "\\'")
+      .replace(/"/g, "&quot;");
 
   }
-
 
 
   /* =========================
      CLICK OUTSIDE MODALS
   ========================= */
-
 
   document
     .getElementById(
@@ -2429,8 +2670,55 @@
     );
 
 
-</script>
+  document
+    .getElementById(
+      "addVendorModal"
+    )
+    .addEventListener(
+      "click",
+      function(event) {
 
+        if (
+          event.target ===
+          this
+        ) {
+
+          closeAddVendor();
+
+        }
+
+      }
+    );
+
+
+  /* =========================
+     PIN INPUT
+  ========================= */
+
+  document
+    .getElementById(
+      "vendorPin"
+    )
+    .addEventListener(
+      "input",
+      function() {
+
+        this.value =
+          this.value
+            .replace(
+              /[^0-9]/g,
+              ""
+            )
+            .slice(
+              0,
+              6
+            );
+
+      }
+    );
+
+
+</script>
 
 </body>
 
