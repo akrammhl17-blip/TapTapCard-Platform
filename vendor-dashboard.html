@@ -13,6 +13,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+  <!-- QR CODE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
   <style>
 
     * {
@@ -158,11 +161,64 @@
       flex: 1;
     }
 
+    .client-name-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
     .client-name {
       font-size: 17px;
       font-weight: bold;
       margin-bottom: 5px;
       word-break: break-word;
+      min-width: 0;
+      flex: 1;
+    }
+
+    /* QUICK ICONS */
+
+    .quick-actions {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .quick-button {
+      width: 34px;
+      height: 34px;
+
+      border: none;
+      border-radius: 9px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+
+      font-size: 17px;
+
+      transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+    }
+
+    .quick-button:hover {
+      transform: translateY(-1px);
+      opacity: 0.85;
+    }
+
+    .copy-link-button {
+      background: #eef2ff;
+      color: #3448c5;
+    }
+
+    .qr-button {
+      background: #f0f0f0;
+      color: #222;
     }
 
     .client-description {
@@ -239,6 +295,140 @@
       word-break: break-word;
     }
 
+    /* =========================================
+       CONFIRMATION MODAL
+    ========================================= */
+
+    .confirm-modal {
+      position: fixed;
+      inset: 0;
+
+      background: rgba(0,0,0,0.45);
+
+      display: none;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      z-index: 10000;
+
+      backdrop-filter: blur(4px);
+    }
+
+    .confirm-modal.show {
+      display: flex;
+    }
+
+    .confirm-box {
+      width: 100%;
+      max-width: 390px;
+
+      background: white;
+
+      border-radius: 20px;
+
+      padding: 24px;
+
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.20);
+
+      text-align: center;
+
+      animation: modalIn 0.18s ease;
+    }
+
+    @keyframes modalIn {
+
+      from {
+        opacity: 0;
+        transform: scale(0.94);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+    }
+
+    .confirm-icon {
+      width: 55px;
+      height: 55px;
+
+      margin: 0 auto 15px;
+
+      border-radius: 50%;
+
+      background: #f1f3f5;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      font-size: 25px;
+    }
+
+    .confirm-title {
+      font-size: 19px;
+      font-weight: bold;
+
+      margin-bottom: 10px;
+    }
+
+    .confirm-text {
+      color: #777;
+
+      font-size: 14px;
+
+      line-height: 1.5;
+
+      margin-bottom: 20px;
+    }
+
+    .confirm-client-name {
+      color: #222;
+      font-weight: bold;
+    }
+
+    .confirm-actions {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 10px;
+    }
+
+    .modal-button {
+      border: none;
+
+      padding: 13px;
+
+      border-radius: 11px;
+
+      font-size: 14px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    .cancel-confirm {
+      background: #eee;
+      color: #222;
+    }
+
+    .confirm-action {
+      background: #111;
+      color: white;
+    }
+
+    .modal-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
 
     /* =========================================
        DELETE MODAL
@@ -282,20 +472,6 @@
       text-align: center;
 
       animation: modalIn 0.18s ease;
-    }
-
-    @keyframes modalIn {
-
-      from {
-        opacity: 0;
-        transform: scale(0.94);
-      }
-
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-
     }
 
     .delete-icon {
@@ -346,20 +522,6 @@
       gap: 10px;
     }
 
-    .modal-button {
-      border: none;
-
-      padding: 13px;
-
-      border-radius: 11px;
-
-      font-size: 14px;
-
-      font-weight: bold;
-
-      cursor: pointer;
-    }
-
     .cancel-delete {
       background: #eee;
       color: #222;
@@ -370,11 +532,9 @@
       color: white;
     }
 
-    .modal-button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
+    /* =========================================
+       MOBILE
+    ========================================= */
 
     @media (max-width: 420px) {
 
@@ -388,6 +548,20 @@
 
       .logout {
         padding: 9px 10px;
+      }
+
+      .client-name-row {
+        gap: 7px;
+      }
+
+      .quick-actions {
+        gap: 5px;
+      }
+
+      .quick-button {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
       }
 
     }
@@ -505,6 +679,69 @@
 
 
   <!-- =========================================
+       CONFIRMATION MODAL
+  ========================================= -->
+
+  <div
+    id="confirmModal"
+    class="confirm-modal"
+  >
+
+    <div class="confirm-box">
+
+      <div
+        id="confirmIcon"
+        class="confirm-icon"
+      >
+        🔗
+      </div>
+
+      <div
+        id="confirmTitle"
+        class="confirm-title"
+      >
+        Copier le lien ?
+      </div>
+
+      <div class="confirm-text">
+
+        Voulez-vous copier le lien de
+
+        <span
+          id="confirmClientName"
+          class="confirm-client-name"
+        ></span>
+
+        ?
+
+      </div>
+
+      <div class="confirm-actions">
+
+        <button
+          id="cancelConfirmButton"
+          class="modal-button cancel-confirm"
+          onclick="closeConfirmModal()"
+        >
+          Annuler
+        </button>
+
+        <button
+          id="confirmActionButton"
+          class="modal-button confirm-action"
+          onclick="confirmAction()"
+        >
+          Confirmer
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
        DELETE MODAL
   ========================================= -->
 
@@ -515,16 +752,13 @@
 
     <div class="delete-box">
 
-
       <div class="delete-icon">
         🗑️
       </div>
 
-
       <div class="delete-title">
         Supprimer le client ?
       </div>
-
 
       <div class="delete-text">
 
@@ -543,7 +777,6 @@
 
       </div>
 
-
       <div class="delete-actions">
 
         <button
@@ -553,7 +786,6 @@
         >
           Annuler
         </button>
-
 
         <button
           id="confirmDeleteButton"
@@ -565,10 +797,24 @@
 
       </div>
 
-
     </div>
 
   </div>
+
+
+  <!-- QR GENERATOR AREA -->
+
+  <div
+    id="qrGenerator"
+    style="
+      position:absolute;
+      left:-99999px;
+      top:-99999px;
+      width:320px;
+      height:320px;
+      background:white;
+    "
+  ></div>
 
 
   <!-- SUPABASE -->
@@ -653,6 +899,41 @@
 
 
     /* =========================================
+       CONFIRM MODAL ELEMENTS
+    ========================================= */
+
+    const confirmModal =
+      document.getElementById(
+        "confirmModal"
+      );
+
+    const confirmIcon =
+      document.getElementById(
+        "confirmIcon"
+      );
+
+    const confirmTitle =
+      document.getElementById(
+        "confirmTitle"
+      );
+
+    const confirmClientName =
+      document.getElementById(
+        "confirmClientName"
+      );
+
+    const confirmActionButton =
+      document.getElementById(
+        "confirmActionButton"
+      );
+
+    const cancelConfirmButton =
+      document.getElementById(
+        "cancelConfirmButton"
+      );
+
+
+    /* =========================================
        DELETE MODAL ELEMENTS
     ========================================= */
 
@@ -683,8 +964,11 @@
 
     let allClients = [];
 
-
     let clientToDelete = null;
+
+    let confirmActionType = null;
+
+    let clientForAction = null;
 
 
     /* =========================================
@@ -799,16 +1083,441 @@
 
 
     /* =========================================
+       BUILD CLIENT URL
+    ========================================= */
+
+    function getClientUrl(clientId) {
+
+      return new URL(
+        "client.html?id=" +
+        encodeURIComponent(clientId),
+        window.location.href
+      ).href;
+
+    }
+
+
+    /* =========================================
        OPEN CLIENT
     ========================================= */
 
     function openClient(clientId) {
 
       window.open(
-        "client.html?id=" +
-        encodeURIComponent(clientId),
+        getClientUrl(clientId),
         "_blank"
       );
+
+    }
+
+
+    /* =========================================
+       COPY LINK - OPEN CONFIRMATION
+    ========================================= */
+
+    function askCopyLink(clientId, clientName) {
+
+      clientForAction = {
+
+        id: clientId,
+
+        name:
+          clientName ||
+          "ce client"
+
+      };
+
+      confirmActionType = "copy";
+
+      confirmIcon.textContent = "🔗";
+
+      confirmTitle.textContent =
+        "Copier le lien ?";
+
+      confirmClientName.textContent =
+        clientForAction.name;
+
+      confirmActionButton.textContent =
+        "Copier";
+
+      confirmActionButton.disabled =
+        false;
+
+      cancelConfirmButton.disabled =
+        false;
+
+      confirmModal.classList.add(
+        "show"
+      );
+
+    }
+
+
+    /* =========================================
+       QR - OPEN CONFIRMATION
+    ========================================= */
+
+    function askDownloadQr(clientId, clientName) {
+
+      clientForAction = {
+
+        id: clientId,
+
+        name:
+          clientName ||
+          "ce client"
+
+      };
+
+      confirmActionType = "qr";
+
+      confirmIcon.textContent = "▣";
+
+      confirmTitle.textContent =
+        "Télécharger le QR Code ?";
+
+      confirmClientName.textContent =
+        clientForAction.name;
+
+      confirmActionButton.textContent =
+        "Télécharger";
+
+      confirmActionButton.disabled =
+        false;
+
+      cancelConfirmButton.disabled =
+        false;
+
+      confirmModal.classList.add(
+        "show"
+      );
+
+    }
+
+
+    /* =========================================
+       CLOSE CONFIRM MODAL
+    ========================================= */
+
+    function closeConfirmModal() {
+
+      confirmModal.classList.remove(
+        "show"
+      );
+
+      clientForAction =
+        null;
+
+      confirmActionType =
+        null;
+
+    }
+
+
+    /* =========================================
+       CONFIRM COPY / QR
+    ========================================= */
+
+    async function confirmAction() {
+
+      if (
+        !clientForAction ||
+        !confirmActionType
+      ) {
+
+        return;
+
+      }
+
+      confirmActionButton.disabled =
+        true;
+
+      cancelConfirmButton.disabled =
+        true;
+
+
+      try {
+
+        if (
+          confirmActionType ===
+          "copy"
+        ) {
+
+          confirmActionButton.textContent =
+            "Copie...";
+
+          await copyClientLink(
+            clientForAction.id
+          );
+
+          confirmActionButton.textContent =
+            "Copié ✓";
+
+          setTimeout(
+            function() {
+
+              closeConfirmModal();
+
+            },
+            700
+          );
+
+        }
+
+
+        if (
+          confirmActionType ===
+          "qr"
+        ) {
+
+          confirmActionButton.textContent =
+            "Création...";
+
+          await downloadClientQr(
+            clientForAction.id,
+            clientForAction.name
+          );
+
+          confirmActionButton.textContent =
+            "Téléchargé ✓";
+
+          setTimeout(
+            function() {
+
+              closeConfirmModal();
+
+            },
+            700
+          );
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+        confirmActionButton.disabled =
+          false;
+
+        cancelConfirmButton.disabled =
+          false;
+
+        confirmActionButton.textContent =
+          "Réessayer";
+
+        showError(
+          error.message ||
+          "Une erreur est survenue."
+        );
+
+      }
+
+    }
+
+
+    /* =========================================
+       COPY CLIENT LINK
+    ========================================= */
+
+    async function copyClientLink(clientId) {
+
+      const url =
+        getClientUrl(clientId);
+
+
+      if (
+        navigator.clipboard &&
+        navigator.clipboard.writeText
+      ) {
+
+        await navigator.clipboard.writeText(
+          url
+        );
+
+        return;
+
+      }
+
+
+      /* FALLBACK */
+
+      const textarea =
+        document.createElement(
+          "textarea"
+        );
+
+      textarea.value =
+        url;
+
+      textarea.style.position =
+        "fixed";
+
+      textarea.style.opacity =
+        "0";
+
+      document.body.appendChild(
+        textarea
+      );
+
+      textarea.focus();
+
+      textarea.select();
+
+      const success =
+        document.execCommand(
+          "copy"
+        );
+
+      document.body.removeChild(
+        textarea
+      );
+
+
+      if (!success) {
+
+        throw new Error(
+          "Impossible de copier le lien."
+        );
+
+      }
+
+    }
+
+
+    /* =========================================
+       DOWNLOAD CLIENT QR
+    ========================================= */
+
+    async function downloadClientQr(
+      clientId,
+      clientName
+    ) {
+
+      const qrContainer =
+        document.getElementById(
+          "qrGenerator"
+        );
+
+
+      qrContainer.innerHTML =
+        "";
+
+
+      const url =
+        getClientUrl(clientId);
+
+
+      new QRCode(
+        qrContainer,
+        {
+          text: url,
+          width: 320,
+          height: 320,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel:
+            QRCode.CorrectLevel.H
+        }
+      );
+
+
+      await new Promise(
+        function(resolve) {
+
+          setTimeout(
+            resolve,
+            250
+          );
+
+        }
+      );
+
+
+      const canvas =
+        qrContainer.querySelector(
+          "canvas"
+        );
+
+      const image =
+        qrContainer.querySelector(
+          "img"
+        );
+
+
+      let downloadUrl = "";
+
+
+      if (canvas) {
+
+        downloadUrl =
+          canvas.toDataURL(
+            "image/png"
+          );
+
+      } else if (image) {
+
+        downloadUrl =
+          image.src;
+
+      }
+
+
+      if (!downloadUrl) {
+
+        throw new Error(
+          "Impossible de créer le QR Code."
+        );
+
+      }
+
+
+      const safeName =
+        String(
+          clientName ||
+          "client"
+        )
+          .trim()
+          .replace(
+            /[^a-zA-Z0-9À-ÿ_-]+/g,
+            "_"
+          )
+          .replace(
+            /^_+|_+$/g,
+            ""
+          ) ||
+        "client";
+
+
+      const downloadLink =
+        document.createElement(
+          "a"
+        );
+
+
+      downloadLink.href =
+        downloadUrl;
+
+      downloadLink.download =
+        "TAPTAPCARD_" +
+        safeName +
+        "_QR.png";
+
+
+      document.body.appendChild(
+        downloadLink
+      );
+
+      downloadLink.click();
+
+      document.body.removeChild(
+        downloadLink
+      );
+
+
+      qrContainer.innerHTML =
+        "";
 
     }
 
@@ -954,10 +1663,6 @@
         }
 
 
-        /*
-          Supprimer de la liste locale
-        */
-
         allClients =
           allClients.filter(
             function(client) {
@@ -1002,7 +1707,7 @@
 
 
     /* =========================================
-       CLICK OUTSIDE MODAL
+       CLICK OUTSIDE DELETE MODAL
     ========================================= */
 
     deleteModal.addEventListener(
@@ -1023,6 +1728,27 @@
 
 
     /* =========================================
+       CLICK OUTSIDE CONFIRM MODAL
+    ========================================= */
+
+    confirmModal.addEventListener(
+      "click",
+      function(event) {
+
+        if (
+          event.target ===
+          confirmModal
+        ) {
+
+          closeConfirmModal();
+
+        }
+
+      }
+    );
+
+
+    /* =========================================
        ESC KEY
     ========================================= */
 
@@ -1035,6 +1761,8 @@
         ) {
 
           closeDeleteModal();
+
+          closeConfirmModal();
 
         }
 
@@ -1281,12 +2009,40 @@
 
               <div class="client-info">
 
-                <div class="client-name">
+                <div class="client-name-row">
 
-                  ${escapeHtml(
-                    client.name ||
-                    "Sans nom"
-                  )}
+                  <div class="client-name">
+
+                    ${escapeHtml(
+                      client.name ||
+                      "Sans nom"
+                    )}
+
+                  </div>
+
+
+                  <div class="quick-actions">
+
+                    <button
+                      class="quick-button copy-link-button"
+                      data-action="copy-link"
+                      title="Copier le lien"
+                      aria-label="Copier le lien"
+                    >
+                      🔗
+                    </button>
+
+
+                    <button
+                      class="quick-button qr-button"
+                      data-action="download-qr"
+                      title="Télécharger le QR Code"
+                      aria-label="Télécharger le QR Code"
+                    >
+                      ▣
+                    </button>
+
+                  </div>
 
                 </div>
 
@@ -1331,6 +2087,44 @@
 
             </div>
             `;
+
+
+          /* COPY LINK */
+
+          card
+            .querySelector(
+              '[data-action="copy-link"]'
+            )
+            .addEventListener(
+              "click",
+              function() {
+
+                askCopyLink(
+                  client.id,
+                  client.name
+                );
+
+              }
+            );
+
+
+          /* QR */
+
+          card
+            .querySelector(
+              '[data-action="download-qr"]'
+            )
+            .addEventListener(
+              "click",
+              function() {
+
+                askDownloadQr(
+                  client.id,
+                  client.name
+                );
+
+              }
+            );
 
 
           /* OPEN */
