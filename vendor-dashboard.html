@@ -12,10 +12,8 @@
 
   <title>Dashboard - TapTapCard</title>
 
-  <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- QR CODE -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 
@@ -25,212 +23,253 @@
       box-sizing: border-box;
     }
 
-
     body {
       margin: 0;
       padding: 20px;
+
       background: #f6f6f7;
+
       font-family: Arial, sans-serif;
+
       color: #222;
     }
 
-
     .container {
       max-width: 700px;
+
       margin: auto;
     }
 
-
-    /* =========================================
-       HEADER
-    ========================================= */
-
     .header {
       background: white;
+
       padding: 20px;
+
       border-radius: 18px;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.07);
+
+      box-shadow:
+        0 5px 25px
+        rgba(0,0,0,0.07);
+
       margin-bottom: 20px;
     }
 
-
     .top {
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
+
       gap: 10px;
     }
 
-
     h1 {
       margin: 0;
+
       font-size: 24px;
     }
 
-
     .seller {
       margin-top: 8px;
+
       color: #777;
+
       font-size: 14px;
     }
-
 
     .logout {
       border: none;
+
       background: #eee;
+
       padding: 10px 14px;
+
       border-radius: 10px;
+
       cursor: pointer;
+
       font-size: 13px;
     }
 
-
     .count-box {
       margin-top: 20px;
+
       background: #f4f4f5;
+
       border-radius: 14px;
+
       padding: 18px;
+
       text-align: center;
     }
 
-
     .count-label {
       color: #777;
+
       font-size: 14px;
     }
 
-
     .count {
       font-size: 35px;
+
       font-weight: bold;
+
       margin-top: 5px;
     }
 
-
     .add-button {
       width: 100%;
+
       margin-top: 15px;
+
       padding: 14px;
+
       border: none;
+
       border-radius: 12px;
+
       background: #111;
+
       color: white;
+
       font-size: 16px;
+
       font-weight: bold;
+
       cursor: pointer;
     }
 
-
-    /* =========================================
-       SEARCH
-    ========================================= */
-
     .search-box {
       background: white;
-      padding: 15px;
-      border-radius: 16px;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.05);
-    }
 
+      padding: 15px;
+
+      border-radius: 16px;
+
+      margin-bottom: 15px;
+
+      box-shadow:
+        0 4px 18px
+        rgba(0,0,0,0.05);
+    }
 
     .search-input {
       width: 100%;
+
       padding: 13px 15px;
-      border: 1px solid #ddd;
+
+      border:
+        1px solid #ddd;
+
       border-radius: 11px;
+
       font-size: 15px;
+
       outline: none;
     }
-
 
     .search-input:focus {
       border-color: #222;
     }
 
-
     .search-result-count {
       margin-top: 9px;
+
       font-size: 13px;
+
       color: #777;
     }
 
-
-    /* =========================================
-       CLIENT CARD
-    ========================================= */
-
     .client-card {
       background: white;
-      border-radius: 16px;
-      padding: 15px;
-      margin-bottom: 14px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
-    }
 
+      border-radius: 16px;
+
+      padding: 15px;
+
+      margin-bottom: 14px;
+
+      box-shadow:
+        0 4px 18px
+        rgba(0,0,0,0.06);
+    }
 
     .client-top {
       display: flex;
+
       align-items: center;
+
       gap: 14px;
     }
 
-
     .client-image {
       width: 65px;
+
       height: 65px;
+
       border-radius: 50%;
+
       object-fit: cover;
+
       background: #eee;
+
       flex-shrink: 0;
     }
-
 
     .client-info {
       min-width: 0;
+
       flex: 1;
     }
-
 
     .client-name-row {
       display: flex;
+
       align-items: center;
+
       gap: 10px;
+
       min-width: 0;
     }
-
 
     .client-name {
       font-size: 17px;
+
       font-weight: bold;
+
       margin-bottom: 5px;
+
       word-break: break-word;
+
       min-width: 0;
+
       flex: 1;
     }
 
-
-    /* =========================================
-       QUICK ACTIONS
-    ========================================= */
-
     .quick-actions {
       display: flex;
+
       align-items: center;
+
       gap: 7px;
+
       flex-shrink: 0;
     }
 
-
     .quick-button {
       width: 34px;
+
       height: 34px;
 
       border: none;
+
       border-radius: 9px;
 
       display: flex;
+
       align-items: center;
+
       justify-content: center;
 
       cursor: pointer;
@@ -242,126 +281,139 @@
         opacity 0.15s ease;
     }
 
-
     .quick-button:hover {
-      transform: translateY(-1px);
+      transform:
+        translateY(-1px);
+
       opacity: 0.85;
     }
 
-
     .copy-link-button {
       background: #eef2ff;
+
       color: #3448c5;
     }
 
-
     .qr-button {
       background: #f0f0f0;
+
       color: #222;
     }
-
 
     .client-description {
       color: #777;
+
       font-size: 13px;
+
       overflow: hidden;
+
       text-overflow: ellipsis;
+
       white-space: nowrap;
     }
 
-
-    /* =========================================
-       MAIN BUTTONS
-    ========================================= */
-
     .actions {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
       gap: 8px;
+
       margin-top: 14px;
     }
 
-
     .action-button {
       border: none;
+
       padding: 11px 5px;
+
       border-radius: 10px;
+
       font-size: 13px;
+
       font-weight: bold;
+
       cursor: pointer;
+
       text-decoration: none;
+
       text-align: center;
     }
-
 
     .open-button {
       background: #111;
+
       color: white;
     }
 
-
     .edit-button {
       background: #e9e9eb;
+
       color: #222;
     }
 
-
     .delete-button {
       background: #ffe8e8;
+
       color: #c62828;
     }
 
-
     .action-button:disabled {
       opacity: 0.5;
+
       cursor: not-allowed;
     }
 
-
-    /* =========================================
-       STATES
-    ========================================= */
-
     .empty {
       background: white;
+
       padding: 30px;
+
       text-align: center;
+
       border-radius: 16px;
+
       color: #777;
     }
-
 
     .loading {
       text-align: center;
+
       color: #777;
+
       padding: 30px;
     }
 
-
     .error {
       background: #fdeaea;
+
       color: #b42318;
+
       padding: 14px;
+
       border-radius: 12px;
+
       margin-bottom: 15px;
+
       display: none;
+
       word-break: break-word;
     }
 
-
-    /* =========================================
-       CONFIRMATION MODAL
-    ========================================= */
-
-    .confirm-modal {
+    .confirm-modal,
+    .delete-modal {
       position: fixed;
+
       inset: 0;
 
-      background: rgba(0,0,0,0.45);
+      background:
+        rgba(0,0,0,0.45);
 
       display: none;
 
       align-items: center;
+
       justify-content: center;
 
       padding: 20px;
@@ -371,14 +423,15 @@
       backdrop-filter: blur(4px);
     }
 
-
-    .confirm-modal.show {
+    .confirm-modal.show,
+    .delete-modal.show {
       display: flex;
     }
 
-
-    .confirm-box {
+    .confirm-box,
+    .delete-box {
       width: 100%;
+
       max-width: 390px;
 
       background: white;
@@ -388,57 +441,72 @@
       padding: 24px;
 
       box-shadow:
-        0 20px 60px rgba(0,0,0,0.20);
+        0 20px 60px
+        rgba(0,0,0,0.20);
 
       text-align: center;
 
-      animation: modalIn 0.18s ease;
+      animation:
+        modalIn 0.18s ease;
     }
-
 
     @keyframes modalIn {
 
       from {
         opacity: 0;
-        transform: scale(0.94);
+
+        transform:
+          scale(0.94);
       }
 
       to {
         opacity: 1;
-        transform: scale(1);
+
+        transform:
+          scale(1);
       }
 
     }
 
-
-    .confirm-icon {
+    .confirm-icon,
+    .delete-icon {
       width: 55px;
+
       height: 55px;
 
-      margin: 0 auto 15px;
+      margin:
+        0 auto 15px;
 
       border-radius: 50%;
-
-      background: #f1f3f5;
 
       display: flex;
 
       align-items: center;
+
       justify-content: center;
 
       font-size: 25px;
     }
 
+    .confirm-icon {
+      background: #f1f3f5;
+    }
 
-    .confirm-title {
+    .delete-icon {
+      background: #ffe8e8;
+    }
+
+    .confirm-title,
+    .delete-title {
       font-size: 19px;
+
       font-weight: bold;
 
       margin-bottom: 10px;
     }
 
-
-    .confirm-text {
+    .confirm-text,
+    .delete-text {
       color: #777;
 
       font-size: 14px;
@@ -448,21 +516,22 @@
       margin-bottom: 20px;
     }
 
-
-    .confirm-client-name {
+    .confirm-client-name,
+    .delete-client-name {
       color: #222;
+
       font-weight: bold;
     }
 
-
-    .confirm-actions {
+    .confirm-actions,
+    .delete-actions {
       display: grid;
 
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns:
+        1fr 1fr;
 
       gap: 10px;
     }
-
 
     .modal-button {
       border: none;
@@ -478,156 +547,44 @@
       cursor: pointer;
     }
 
-
-    .cancel-confirm {
+    .cancel-confirm,
+    .cancel-delete {
       background: #eee;
+
       color: #222;
     }
-
 
     .confirm-action {
       background: #111;
+
       color: white;
     }
-
-
-    .modal-button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-
-    /* =========================================
-       DELETE MODAL
-    ========================================= */
-
-    .delete-modal {
-      position: fixed;
-      inset: 0;
-
-      background: rgba(0,0,0,0.45);
-
-      display: none;
-
-      align-items: center;
-      justify-content: center;
-
-      padding: 20px;
-
-      z-index: 9999;
-
-      backdrop-filter: blur(4px);
-    }
-
-
-    .delete-modal.show {
-      display: flex;
-    }
-
-
-    .delete-box {
-      width: 100%;
-      max-width: 390px;
-
-      background: white;
-
-      border-radius: 20px;
-
-      padding: 24px;
-
-      box-shadow:
-        0 20px 60px rgba(0,0,0,0.20);
-
-      text-align: center;
-
-      animation: modalIn 0.18s ease;
-    }
-
-
-    .delete-icon {
-      width: 55px;
-      height: 55px;
-
-      margin: 0 auto 15px;
-
-      border-radius: 50%;
-
-      background: #ffe8e8;
-
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      font-size: 25px;
-    }
-
-
-    .delete-title {
-      font-size: 19px;
-      font-weight: bold;
-
-      margin-bottom: 10px;
-    }
-
-
-    .delete-text {
-      color: #777;
-
-      font-size: 14px;
-
-      line-height: 1.5;
-
-      margin-bottom: 20px;
-    }
-
-
-    .delete-client-name {
-      color: #222;
-      font-weight: bold;
-    }
-
-
-    .delete-actions {
-      display: grid;
-
-      grid-template-columns: 1fr 1fr;
-
-      gap: 10px;
-    }
-
-
-    .cancel-delete {
-      background: #eee;
-      color: #222;
-    }
-
 
     .confirm-delete {
       background: #d32f2f;
+
       color: white;
     }
 
+    .modal-button:disabled {
+      opacity: 0.6;
 
-    /* =========================================
-       QR GENERATOR
-    ========================================= */
+      cursor: not-allowed;
+    }
 
     #qrGenerator {
       position: absolute;
+
       left: -99999px;
+
       top: -99999px;
 
       width: 900px;
+
       height: 900px;
 
       background: white;
     }
-
-
-    /* =========================================
-       MOBILE
-    ========================================= */
 
     @media (max-width: 420px) {
 
@@ -635,30 +592,28 @@
         grid-template-columns: 1fr;
       }
 
-
       .top {
         align-items: flex-start;
       }
 
-
       .logout {
-        padding: 9px 10px;
+        padding:
+          9px 10px;
       }
-
 
       .client-name-row {
         gap: 7px;
       }
 
-
       .quick-actions {
         gap: 5px;
       }
 
-
       .quick-button {
         width: 32px;
+
         height: 32px;
+
         font-size: 16px;
       }
 
@@ -673,16 +628,11 @@
 
   <div class="container">
 
-
-    <!-- ERROR -->
-
     <div
       id="errorMessage"
       class="error"
     ></div>
 
-
-    <!-- HEADER -->
 
     <div class="header">
 
@@ -740,8 +690,6 @@
     </div>
 
 
-    <!-- SEARCH -->
-
     <div class="search-box">
 
       <input
@@ -762,8 +710,6 @@
     </div>
 
 
-    <!-- CLIENTS -->
-
     <div id="clientsContainer">
 
       <div class="loading">
@@ -775,9 +721,7 @@
   </div>
 
 
-  <!-- =========================================
-       CONFIRMATION MODAL
-  ========================================= -->
+  <!-- CONFIRM -->
 
   <div
     id="confirmModal"
@@ -793,14 +737,12 @@
         🔗
       </div>
 
-
       <div
         id="confirmTitle"
         class="confirm-title"
       >
         Copier le lien ?
       </div>
-
 
       <div class="confirm-text">
 
@@ -815,7 +757,6 @@
 
       </div>
 
-
       <div class="confirm-actions">
 
         <button
@@ -825,7 +766,6 @@
         >
           Annuler
         </button>
-
 
         <button
           id="confirmActionButton"
@@ -842,9 +782,7 @@
   </div>
 
 
-  <!-- =========================================
-       DELETE MODAL
-  ========================================= -->
+  <!-- DELETE -->
 
   <div
     id="deleteModal"
@@ -857,11 +795,9 @@
         🗑️
       </div>
 
-
       <div class="delete-title">
         Supprimer le client ?
       </div>
-
 
       <div class="delete-text">
 
@@ -880,7 +816,6 @@
 
       </div>
 
-
       <div class="delete-actions">
 
         <button
@@ -890,7 +825,6 @@
         >
           Annuler
         </button>
-
 
         <button
           id="confirmDeleteButton"
@@ -907,19 +841,44 @@
   </div>
 
 
-  <!-- =========================================
-       HIDDEN QR GENERATOR
-  ========================================= -->
-
   <div id="qrGenerator"></div>
 
-
-  <!-- SUPABASE -->
 
   <script src="supabase.js"></script>
 
 
   <script>
+
+    /* =========================================
+       TOKEN FROM URL
+    ========================================= */
+
+    const dashboardParams =
+      new URLSearchParams(
+        window.location.search
+      );
+
+
+    const urlLoginToken =
+      dashboardParams.get(
+        "token"
+      );
+
+
+    /*
+      إذا جاء token من vendor.html
+      نحفظه في sessionStorage.
+    */
+
+    if (urlLoginToken) {
+
+      sessionStorage.setItem(
+        "vendor_login_token",
+        urlLoginToken
+      );
+
+    }
+
 
     /* =========================================
        SESSION
@@ -934,7 +893,12 @@
     if (!sessionData) {
 
       window.location.href =
-        "vendor.html";
+        urlLoginToken
+          ? "vendor.html?token=" +
+            encodeURIComponent(
+              urlLoginToken
+            )
+          : "vendor.html";
 
     }
 
@@ -945,7 +909,9 @@
     try {
 
       vendorSession =
-        JSON.parse(sessionData);
+        JSON.parse(
+          sessionData
+        );
 
     } catch (error) {
 
@@ -953,8 +919,14 @@
         "vendor_session"
       );
 
+
       window.location.href =
-        "vendor.html";
+        urlLoginToken
+          ? "vendor.html?token=" +
+            encodeURIComponent(
+              urlLoginToken
+            )
+          : "vendor.html";
 
     }
 
@@ -999,10 +971,6 @@
       );
 
 
-    /* =========================================
-       CONFIRM MODAL ELEMENTS
-    ========================================= */
-
     const confirmModal =
       document.getElementById(
         "confirmModal"
@@ -1038,10 +1006,6 @@
         "cancelConfirmButton"
       );
 
-
-    /* =========================================
-       DELETE MODAL ELEMENTS
-    ========================================= */
 
     const deleteModal =
       document.getElementById(
@@ -1110,11 +1074,26 @@
     function escapeHtml(value) {
 
       return String(value || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
 
     }
 
@@ -1161,8 +1140,21 @@
           "vendor_session"
         );
 
+
+        const loginToken =
+          sessionStorage.getItem(
+            "vendor_login_token"
+          );
+
+
         window.location.href =
-          "vendor.html";
+          loginToken
+            ? "vendor.html?token=" +
+              encodeURIComponent(
+                loginToken
+              )
+            : "vendor.html";
+
 
         return false;
 
@@ -1195,11 +1187,15 @@
        CLIENT URL
     ========================================= */
 
-    function getClientUrl(clientId) {
+    function getClientUrl(
+      clientId
+    ) {
 
       return new URL(
         "client.html?id=" +
-        encodeURIComponent(clientId),
+        encodeURIComponent(
+          clientId
+        ),
         window.location.href
       ).href;
 
@@ -1210,10 +1206,14 @@
        OPEN CLIENT
     ========================================= */
 
-    function openClient(clientId) {
+    function openClient(
+      clientId
+    ) {
 
       window.open(
-        getClientUrl(clientId),
+        getClientUrl(
+          clientId
+        ),
         "_blank"
       );
 
@@ -1221,7 +1221,7 @@
 
 
     /* =========================================
-       COPY LINK CONFIRMATION
+       COPY
     ========================================= */
 
     function askCopyLink(
@@ -1276,7 +1276,7 @@
 
 
     /* =========================================
-       QR CONFIRMATION
+       QR
     ========================================= */
 
     function askDownloadQr(
@@ -1329,10 +1329,6 @@
 
     }
 
-
-    /* =========================================
-       CLOSE CONFIRM MODAL
-    ========================================= */
 
     function closeConfirmModal() {
 
@@ -1519,6 +1515,7 @@
 
       textarea.focus();
 
+
       textarea.select();
 
 
@@ -1545,9 +1542,7 @@
 
 
     /* =========================================
-       DOWNLOAD QR
-       QR ONLY
-       NO CLIENT NAME INSIDE IMAGE
+       QR DOWNLOAD
     ========================================= */
 
     async function downloadClientQr(
@@ -1571,10 +1566,6 @@
         );
 
 
-      /*
-        QR كبير وعالي الجودة
-      */
-
       const qrSize =
         900;
 
@@ -1582,25 +1573,25 @@
       new QRCode(
         qrContainer,
         {
+
           text: url,
 
           width: qrSize,
 
           height: qrSize,
 
-          colorDark: "#000000",
+          colorDark:
+            "#000000",
 
-          colorLight: "#ffffff",
+          colorLight:
+            "#ffffff",
 
           correctLevel:
             QRCode.CorrectLevel.H
+
         }
       );
 
-
-      /*
-        انتظار إنشاء QR
-      */
 
       await new Promise(
         function(resolve) {
@@ -1629,11 +1620,6 @@
       }
 
 
-      /*
-        الصورة النهائية
-        1000 × 1000
-      */
-
       const finalCanvas =
         document.createElement(
           "canvas"
@@ -1654,10 +1640,6 @@
         );
 
 
-      /*
-        خلفية بيضاء
-      */
-
       ctx.fillStyle =
         "#ffffff";
 
@@ -1669,11 +1651,6 @@
         1000
       );
 
-
-      /*
-        QR فقط
-        بدون اسم العميل
-      */
 
       const qrPosition =
         50;
@@ -1694,21 +1671,12 @@
       );
 
 
-      /*
-        اسم العميل يستعمل فقط
-        في اسم الملف
-      */
-
       const displayName =
         String(
           clientName ||
           "client"
         ).trim();
 
-
-      /*
-        تنظيف اسم الملف
-      */
 
       const safeName =
         displayName
@@ -1723,19 +1691,11 @@
         "client";
 
 
-      /*
-        تحويل الصورة إلى PNG
-      */
-
       const downloadUrl =
         finalCanvas.toDataURL(
           "image/png"
         );
 
-
-      /*
-        تحميل الصورة
-      */
 
       const downloadLink =
         document.createElement(
@@ -1766,10 +1726,6 @@
       );
 
 
-      /*
-        تنظيف
-      */
-
       qrContainer.innerHTML =
         "";
 
@@ -1777,7 +1733,7 @@
 
 
     /* =========================================
-       EDIT CLIENT
+       EDIT
     ========================================= */
 
     function editClient(
@@ -1794,7 +1750,7 @@
 
 
     /* =========================================
-       DELETE CLIENT
+       DELETE
     ========================================= */
 
     function deleteClient(
@@ -1835,10 +1791,6 @@
 
     }
 
-
-    /* =========================================
-       CLOSE DELETE MODAL
-    ========================================= */
 
     function closeDeleteModal() {
 
@@ -1927,7 +1879,8 @@
 
               return Number(
                 client.id
-              ) !== Number(
+              ) !==
+              Number(
                 id
               );
 
@@ -1967,7 +1920,7 @@
 
 
     /* =========================================
-       DELETE MODAL OUTSIDE CLICK
+       MODALS
     ========================================= */
 
     deleteModal.addEventListener(
@@ -1987,10 +1940,6 @@
     );
 
 
-    /* =========================================
-       CONFIRM MODAL OUTSIDE CLICK
-    ========================================= */
-
     confirmModal.addEventListener(
       "click",
       function(event) {
@@ -2007,10 +1956,6 @@
       }
     );
 
-
-    /* =========================================
-       ESC
-    ========================================= */
 
     document.addEventListener(
       "keydown",
@@ -2134,9 +2079,14 @@
             function(client) {
 
               return (
-                (client.name || "")
+                (
+                  client.name ||
+                  ""
+                )
                   .toLowerCase()
-                  .includes(term)
+                  .includes(
+                    term
+                  )
               );
 
             }
@@ -2144,8 +2094,6 @@
 
       }
 
-
-      /* SEARCH COUNTER */
 
       if (!term) {
 
@@ -2171,8 +2119,6 @@
 
       }
 
-
-      /* EMPTY */
 
       if (
         filteredClients.length === 0
@@ -2219,8 +2165,6 @@
       }
 
 
-      /* DISPLAY */
-
       clientsContainer.innerHTML =
         "";
 
@@ -2238,8 +2182,6 @@
             "client-card";
 
 
-          /* IMAGE */
-
           const image =
             client.profile_image &&
             client.profile_image.trim() !== ""
@@ -2249,14 +2191,10 @@
               : "https://placehold.co/150x150?text=Client";
 
 
-          /* DESCRIPTION */
-
           const description =
             client.description ||
             "Aucune description";
 
-
-          /* CARD */
 
           card.innerHTML =
             `
@@ -2271,7 +2209,6 @@
                 onerror="this.src='https://placehold.co/150x150?text=Client'"
               >
 
-
               <div class="client-info">
 
                 <div class="client-name-row">
@@ -2285,7 +2222,6 @@
 
                   </div>
 
-
                   <div class="quick-actions">
 
                     <button
@@ -2296,7 +2232,6 @@
                     >
                       🔗
                     </button>
-
 
                     <button
                       class="quick-button qr-button"
@@ -2311,7 +2246,6 @@
 
                 </div>
 
-
                 <div class="client-description">
 
                   ${escapeHtml(
@@ -2324,7 +2258,6 @@
 
             </div>
 
-
             <div class="actions">
 
               <button
@@ -2334,14 +2267,12 @@
                 Ouvrir
               </button>
 
-
               <button
                 class="action-button edit-button"
                 data-action="edit"
               >
                 Modifier
               </button>
-
 
               <button
                 class="action-button delete-button"
@@ -2353,8 +2284,6 @@
             </div>
             `;
 
-
-          /* COPY */
 
           card
             .querySelector(
@@ -2373,8 +2302,6 @@
             );
 
 
-          /* QR */
-
           card
             .querySelector(
               '[data-action="download-qr"]'
@@ -2392,8 +2319,6 @@
             );
 
 
-          /* OPEN */
-
           card
             .querySelector(
               '[data-action="open"]'
@@ -2410,8 +2335,6 @@
             );
 
 
-          /* EDIT */
-
           card
             .querySelector(
               '[data-action="edit"]'
@@ -2427,8 +2350,6 @@
               }
             );
 
-
-          /* DELETE */
 
           card
             .querySelector(
@@ -2480,30 +2401,16 @@
 
     function logout() {
 
-      /*
-        نحتفظ بـ login_token مؤقتاً
-        في sessionStorage حتى نرجع
-        لنفس رابط البائع.
-      */
-
       const loginToken =
         sessionStorage.getItem(
           "vendor_login_token"
         );
 
 
-      /*
-        حذف جلسة الـDashboard
-      */
-
       localStorage.removeItem(
         "vendor_session"
       );
 
-
-      /*
-        الرجوع إلى رابط البائع
-      */
 
       if (loginToken) {
 
