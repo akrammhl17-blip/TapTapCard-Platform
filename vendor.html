@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Connexion vendeur - TapTapCard</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f8e7e3, #fffaf8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #332522;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 390px;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 35px 25px;
+      border-radius: 24px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+      text-align: center;
+    }
+
+    .logo {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 20px;
+      border-radius: 20px;
+      background: #332522;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 25px;
+    }
+
+    .subtitle {
+      margin: 0 0 28px;
+      color: #777;
+      font-size: 14px;
+    }
+
+    .pin-input {
+      width: 100%;
+      padding: 16px;
+      border: 1px solid #ddd;
+      border-radius: 14px;
+      font-size: 22px;
+      text-align: center;
+      letter-spacing: 8px;
+      outline: none;
+    }
+
+    .pin-input:focus {
+      border-color: #a64635;
+    }
+
+    .login-btn {
+      width: 100%;
+      margin-top: 18px;
+      padding: 15px;
+      border: none;
+      border-radius: 14px;
+      background: #332522;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .login-btn:disabled {
+      opacity: 0.6;
+    }
+
+    .error {
+      display: none;
+      margin-top: 15px;
+      color: #b42318;
+      font-size: 14px;
+    }
+
+    .success {
+      display: none;
+      margin-top: 15px;
+      color: #18794e;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-box">
+
+    <div class="logo">
+      <i class="fa-solid fa-user"></i>
+    </div>
+
+    <h1>Connexion vendeur</h1>
+
+    <p class="subtitle">
+      Entrez votre code secret pour continuer
+    </p>
+
+    <input
+      type="password"
+      id="pin"
+      class="pin-input"
+      inputmode="numeric"
+      maxlength="6"
+      placeholder="••••••"
+    >
+
+    <button id="loginBtn" class="login-btn">
+      Se connecter
+    </button>
+
+    <div id="error" class="error">
+      Code incorrect.
+    </div>
+
+    <div id="success" class="success">
+      Connexion réussie...
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+
+  <script>
+
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+
+    const pinInput = document.getElementById("pin");
+    const loginBtn = document.getElementById("loginBtn");
+    const errorBox = document.getElementById("error");
+    const successBox = document.getElementById("success");
+
+    loginBtn.addEventListener("click", login);
+
+    pinInput.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        login();
+      }
+    });
+
+    async function login() {
+
+      errorBox.style.display = "none";
+      successBox.style.display = "none";
+
+      const pin = pinInput.value.trim();
+
+      if (!token) {
+        errorBox.textContent = "Lien vendeur invalide.";
+        errorBox.style.display = "block";
+        return;
+      }
+
+      if (pin.length !== 6) {
+        errorBox.textContent = "Entrez un code de 6 chiffres.";
+        errorBox.style.display = "block";
+        return;
+      }
+
+      loginBtn.disabled = true;
+      loginBtn.textContent = "Connexion...";
+
+      const { data, error } = await supabaseClient
+        .rpc("verify_vendor_login", {
+          p_login_token: token,
+          p_pin: pin
+        });
+
+      if (error) {
+
+        console.error(error);
+
+        errorBox.textContent = "Une erreur est survenue.";
+        errorBox.style.display = "block";
+
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Se connecter";
+
+        return;
+      }
+
+      if (!data || data.length === 0) {
+
+        errorBox.textContent = "Code incorrect.";
+        errorBox.style.display = "block";
+
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Se connecter";
+
+        return;
+      }
+
+      const vendor = data[0];
+
+      localStorage.setItem(
+        "vendor_session",
+        JSON.stringify({
+          vendor_id: vendor.vendor_id,
+          vendor_name: vendor.vendor_name,
+          login_token: token
+        })
+      );
+
+      successBox.textContent =
+        "Bienvenue " + vendor.vendor_name + " !";
+
+      successBox.style.display = "block";
+
+      setTimeout(() => {
+        window.location.href =
+          "vendor-dashboard.html";
+      }, 800);
+    }
+
+  </script>
+
+</body>
+</html>
