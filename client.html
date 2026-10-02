@@ -102,8 +102,6 @@
     }
 
 
-    /* تدرج أسفل الكوفر */
-
     .cover::after {
 
       content: "";
@@ -171,8 +169,6 @@
       display: block;
     }
 
-
-    /* إذا ماكانتش صورة */
 
     .profile-placeholder {
 
@@ -708,7 +704,6 @@
 
     @media (max-width: 500px) {
 
-
       .cover {
 
         height: 360px;
@@ -1220,7 +1215,6 @@
 
       try {
 
-
         /* ID موجود؟ */
 
         if (!clientId) {
@@ -1234,38 +1228,18 @@
 
 
         /* =========================
-           SUPABASE
+           SUPABASE RPC
         ========================= */
 
         const {
-          data,
+          data: result,
           error
-        } = await supabaseClient
-
-          .from("clients")
-
-          .select(`
-            id,
-            name,
-            description,
-            profile_image,
-            cover_image,
-            instagram,
-            facebook,
-            tiktok,
-            snapchat,
-            website,
-            phone,
-            whatsapp,
-            google_maps
-          `)
-
-          .eq(
-            "id",
-            clientId
-          )
-
-          .single();
+        } = await supabaseClient.rpc(
+          "get_public_client",
+          {
+            p_client_id: Number(clientId)
+          }
+        );
 
 
         /* =========================
@@ -1287,7 +1261,14 @@
         }
 
 
-        if (!data) {
+        /* =========================
+           CLIENT NOT FOUND
+        ========================= */
+
+        if (
+          !result ||
+          result.length === 0
+        ) {
 
           showError(
             "Client introuvable."
@@ -1295,6 +1276,10 @@
 
           return;
         }
+
+
+        const data =
+          result[0];
 
 
         /* =========================
@@ -1425,7 +1410,9 @@
         );
 
 
-        /* Snapchat */
+        /* =========================
+           SNAPCHAT
+        ========================= */
 
         if (data.snapchat) {
 
@@ -1440,7 +1427,7 @@
 
             snapchatUrl =
               "https://www.snapchat.com/add/" +
-              snapchatUrl;
+              snapchatUrl.replace(/^@/, "");
           }
 
 
@@ -1458,7 +1445,9 @@
         }
 
 
-        /* Website */
+        /* =========================
+           WEBSITE
+        ========================= */
 
         if (data.website) {
 
