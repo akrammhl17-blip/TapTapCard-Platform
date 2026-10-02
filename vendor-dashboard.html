@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 
   <meta charset="UTF-8">
@@ -17,11 +18,13 @@
   <!-- QR CODE -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
+
   <style>
 
     * {
       box-sizing: border-box;
     }
+
 
     body {
       margin: 0;
@@ -31,10 +34,12 @@
       color: #222;
     }
 
+
     .container {
       max-width: 700px;
       margin: auto;
     }
+
 
     /* =========================================
        HEADER
@@ -48,6 +53,7 @@
       margin-bottom: 20px;
     }
 
+
     .top {
       display: flex;
       justify-content: space-between;
@@ -55,16 +61,19 @@
       gap: 10px;
     }
 
+
     h1 {
       margin: 0;
       font-size: 24px;
     }
+
 
     .seller {
       margin-top: 8px;
       color: #777;
       font-size: 14px;
     }
+
 
     .logout {
       border: none;
@@ -75,6 +84,7 @@
       font-size: 13px;
     }
 
+
     .count-box {
       margin-top: 20px;
       background: #f4f4f5;
@@ -83,16 +93,19 @@
       text-align: center;
     }
 
+
     .count-label {
       color: #777;
       font-size: 14px;
     }
+
 
     .count {
       font-size: 35px;
       font-weight: bold;
       margin-top: 5px;
     }
+
 
     .add-button {
       width: 100%;
@@ -107,6 +120,7 @@
       cursor: pointer;
     }
 
+
     /* =========================================
        SEARCH
     ========================================= */
@@ -119,6 +133,7 @@
       box-shadow: 0 4px 18px rgba(0,0,0,0.05);
     }
 
+
     .search-input {
       width: 100%;
       padding: 13px 15px;
@@ -128,15 +143,18 @@
       outline: none;
     }
 
+
     .search-input:focus {
       border-color: #222;
     }
+
 
     .search-result-count {
       margin-top: 9px;
       font-size: 13px;
       color: #777;
     }
+
 
     /* =========================================
        CLIENT CARD
@@ -150,11 +168,13 @@
       box-shadow: 0 4px 18px rgba(0,0,0,0.06);
     }
 
+
     .client-top {
       display: flex;
       align-items: center;
       gap: 14px;
     }
+
 
     .client-image {
       width: 65px;
@@ -165,10 +185,12 @@
       flex-shrink: 0;
     }
 
+
     .client-info {
       min-width: 0;
       flex: 1;
     }
+
 
     .client-name-row {
       display: flex;
@@ -176,6 +198,7 @@
       gap: 10px;
       min-width: 0;
     }
+
 
     .client-name {
       font-size: 17px;
@@ -185,6 +208,7 @@
       min-width: 0;
       flex: 1;
     }
+
 
     /* =========================================
        QUICK ACTIONS
@@ -196,6 +220,7 @@
       gap: 7px;
       flex-shrink: 0;
     }
+
 
     .quick-button {
       width: 34px;
@@ -217,20 +242,24 @@
         opacity 0.15s ease;
     }
 
+
     .quick-button:hover {
       transform: translateY(-1px);
       opacity: 0.85;
     }
+
 
     .copy-link-button {
       background: #eef2ff;
       color: #3448c5;
     }
 
+
     .qr-button {
       background: #f0f0f0;
       color: #222;
     }
+
 
     .client-description {
       color: #777;
@@ -239,6 +268,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+
 
     /* =========================================
        MAIN BUTTONS
@@ -251,6 +281,7 @@
       margin-top: 14px;
     }
 
+
     .action-button {
       border: none;
       padding: 11px 5px;
@@ -262,25 +293,30 @@
       text-align: center;
     }
 
+
     .open-button {
       background: #111;
       color: white;
     }
+
 
     .edit-button {
       background: #e9e9eb;
       color: #222;
     }
 
+
     .delete-button {
       background: #ffe8e8;
       color: #c62828;
     }
 
+
     .action-button:disabled {
       opacity: 0.5;
       cursor: not-allowed;
     }
+
 
     /* =========================================
        STATES
@@ -294,11 +330,13 @@
       color: #777;
     }
 
+
     .loading {
       text-align: center;
       color: #777;
       padding: 30px;
     }
+
 
     .error {
       background: #fdeaea;
@@ -309,6 +347,7 @@
       display: none;
       word-break: break-word;
     }
+
 
     /* =========================================
        CONFIRMATION MODAL
@@ -332,9 +371,11 @@
       backdrop-filter: blur(4px);
     }
 
+
     .confirm-modal.show {
       display: flex;
     }
+
 
     .confirm-box {
       width: 100%;
@@ -354,6 +395,7 @@
       animation: modalIn 0.18s ease;
     }
 
+
     @keyframes modalIn {
 
       from {
@@ -367,6 +409,7 @@
       }
 
     }
+
 
     .confirm-icon {
       width: 55px;
@@ -386,12 +429,14 @@
       font-size: 25px;
     }
 
+
     .confirm-title {
       font-size: 19px;
       font-weight: bold;
 
       margin-bottom: 10px;
     }
+
 
     .confirm-text {
       color: #777;
@@ -403,10 +448,12 @@
       margin-bottom: 20px;
     }
 
+
     .confirm-client-name {
       color: #222;
       font-weight: bold;
     }
+
 
     .confirm-actions {
       display: grid;
@@ -415,6 +462,7 @@
 
       gap: 10px;
     }
+
 
     .modal-button {
       border: none;
@@ -430,20 +478,24 @@
       cursor: pointer;
     }
 
+
     .cancel-confirm {
       background: #eee;
       color: #222;
     }
+
 
     .confirm-action {
       background: #111;
       color: white;
     }
 
+
     .modal-button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
     }
+
 
     /* =========================================
        DELETE MODAL
@@ -467,9 +519,11 @@
       backdrop-filter: blur(4px);
     }
 
+
     .delete-modal.show {
       display: flex;
     }
+
 
     .delete-box {
       width: 100%;
@@ -489,6 +543,7 @@
       animation: modalIn 0.18s ease;
     }
 
+
     .delete-icon {
       width: 55px;
       height: 55px;
@@ -507,12 +562,14 @@
       font-size: 25px;
     }
 
+
     .delete-title {
       font-size: 19px;
       font-weight: bold;
 
       margin-bottom: 10px;
     }
+
 
     .delete-text {
       color: #777;
@@ -524,10 +581,12 @@
       margin-bottom: 20px;
     }
 
+
     .delete-client-name {
       color: #222;
       font-weight: bold;
     }
+
 
     .delete-actions {
       display: grid;
@@ -537,15 +596,18 @@
       gap: 10px;
     }
 
+
     .cancel-delete {
       background: #eee;
       color: #222;
     }
 
+
     .confirm-delete {
       background: #d32f2f;
       color: white;
     }
+
 
     /* =========================================
        QR GENERATOR
@@ -562,6 +624,7 @@
       background: white;
     }
 
+
     /* =========================================
        MOBILE
     ========================================= */
@@ -572,21 +635,26 @@
         grid-template-columns: 1fr;
       }
 
+
       .top {
         align-items: flex-start;
       }
+
 
       .logout {
         padding: 9px 10px;
       }
 
+
       .client-name-row {
         gap: 7px;
       }
 
+
       .quick-actions {
         gap: 5px;
       }
+
 
       .quick-button {
         width: 32px;
@@ -604,6 +672,7 @@
 <body>
 
   <div class="container">
+
 
     <!-- ERROR -->
 
@@ -724,12 +793,14 @@
         🔗
       </div>
 
+
       <div
         id="confirmTitle"
         class="confirm-title"
       >
         Copier le lien ?
       </div>
+
 
       <div class="confirm-text">
 
@@ -744,6 +815,7 @@
 
       </div>
 
+
       <div class="confirm-actions">
 
         <button
@@ -753,6 +825,7 @@
         >
           Annuler
         </button>
+
 
         <button
           id="confirmActionButton"
@@ -784,9 +857,11 @@
         🗑️
       </div>
 
+
       <div class="delete-title">
         Supprimer le client ?
       </div>
+
 
       <div class="delete-text">
 
@@ -805,6 +880,7 @@
 
       </div>
 
+
       <div class="delete-actions">
 
         <button
@@ -814,6 +890,7 @@
         >
           Annuler
         </button>
+
 
         <button
           id="confirmDeleteButton"
@@ -891,25 +968,30 @@
         "sellerName"
       );
 
+
     const clientCount =
       document.getElementById(
         "clientCount"
       );
+
 
     const clientsContainer =
       document.getElementById(
         "clientsContainer"
       );
 
+
     const errorMessage =
       document.getElementById(
         "errorMessage"
       );
 
+
     const searchInput =
       document.getElementById(
         "searchInput"
       );
+
 
     const searchResultCount =
       document.getElementById(
@@ -926,25 +1008,30 @@
         "confirmModal"
       );
 
+
     const confirmIcon =
       document.getElementById(
         "confirmIcon"
       );
+
 
     const confirmTitle =
       document.getElementById(
         "confirmTitle"
       );
 
+
     const confirmClientName =
       document.getElementById(
         "confirmClientName"
       );
 
+
     const confirmActionButton =
       document.getElementById(
         "confirmActionButton"
       );
+
 
     const cancelConfirmButton =
       document.getElementById(
@@ -961,15 +1048,18 @@
         "deleteModal"
       );
 
+
     const deleteClientName =
       document.getElementById(
         "deleteClientName"
       );
 
+
     const confirmDeleteButton =
       document.getElementById(
         "confirmDeleteButton"
       );
+
 
     const cancelDeleteButton =
       document.getElementById(
@@ -1102,7 +1192,7 @@
 
 
     /* =========================================
-       BUILD CLIENT URL
+       CLIENT URL
     ========================================= */
 
     function getClientUrl(clientId) {
@@ -1455,7 +1545,9 @@
 
 
     /* =========================================
-       DOWNLOAD PROFESSIONAL QR
+       DOWNLOAD QR
+       QR ONLY
+       NO CLIENT NAME INSIDE IMAGE
     ========================================= */
 
     async function downloadClientQr(
@@ -1480,7 +1572,7 @@
 
 
       /*
-        Generate large QR
+        QR كبير وعالي الجودة
       */
 
       const qrSize =
@@ -1507,7 +1599,7 @@
 
 
       /*
-        Wait for QR
+        انتظار إنشاء QR
       */
 
       await new Promise(
@@ -1538,7 +1630,7 @@
 
 
       /*
-        Final image
+        الصورة النهائية
         1000 × 1000
       */
 
@@ -1563,7 +1655,7 @@
 
 
       /*
-        White background
+        خلفية بيضاء
       */
 
       ctx.fillStyle =
@@ -1579,7 +1671,8 @@
 
 
       /*
-        QR
+        QR فقط
+        بدون اسم العميل
       */
 
       const qrPosition =
@@ -1602,99 +1695,19 @@
 
 
       /*
-        Client name
+        اسم العميل يستعمل فقط
+        في اسم الملف
       */
 
       const displayName =
         String(
           clientName ||
-          "TAPTAPCARD"
+          "client"
         ).trim();
 
 
-      ctx.fillStyle =
-        "#111111";
-
-
-      ctx.font =
-        "bold 32px Arial";
-
-
-      ctx.textAlign =
-        "center";
-
-
-      ctx.textBaseline =
-        "middle";
-
-
       /*
-        Prevent very long names
-      */
-
-      let finalName =
-        displayName;
-
-
-      const maxTextWidth =
-        880;
-
-
-      if (
-        ctx.measureText(
-          finalName
-        ).width >
-        maxTextWidth
-      ) {
-
-        while (
-          finalName.length > 3 &&
-          ctx.measureText(
-            finalName + "..."
-          ).width >
-          maxTextWidth
-        ) {
-
-          finalName =
-            finalName.slice(
-              0,
-              -1
-            );
-
-        }
-
-
-        finalName +=
-          "...";
-
-      }
-
-
-      /*
-        Name under QR
-      */
-
-      ctx.fillText(
-        finalName,
-
-        500,
-
-        975
-      );
-
-
-      /*
-        Convert to PNG
-      */
-
-      const downloadUrl =
-        finalCanvas.toDataURL(
-          "image/png"
-        );
-
-
-      /*
-        Safe filename
+        تنظيف اسم الملف
       */
 
       const safeName =
@@ -1711,7 +1724,17 @@
 
 
       /*
-        Download
+        تحويل الصورة إلى PNG
+      */
+
+      const downloadUrl =
+        finalCanvas.toDataURL(
+          "image/png"
+        );
+
+
+      /*
+        تحميل الصورة
       */
 
       const downloadLink =
@@ -1744,7 +1767,7 @@
 
 
       /*
-        Cleanup
+        تنظيف
       */
 
       qrContainer.innerHTML =
@@ -2495,4 +2518,5 @@
   </script>
 
 </body>
+
 </html>
