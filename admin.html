@@ -463,6 +463,22 @@
       font-weight: 700;
     }
 
+    .change-pin-btn {
+      width: 100%;
+      margin-top: 2px;
+      padding: 12px;
+      border: 1px solid #d8e5ff;
+      background: #eef4ff;
+      color: #2457a6;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .change-pin-btn:hover {
+      background: #e1ecff;
+    }
+
     .delete-vendor-btn {
       width: 100%;
       margin-top: 15px;
@@ -1026,6 +1042,14 @@
 
 
     <button
+      class="change-pin-btn"
+      onclick="openChangePinModal()"
+    >
+      🔐 Changer le PIN
+    </button>
+
+
+    <button
       class="delete-vendor-btn"
       onclick="openDeleteVendorModal()"
     >
@@ -1040,6 +1064,82 @@
         onclick="closeModal('manageModal')"
       >
         Fermer
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- CHANGE PIN MODAL -->
+
+<div
+  class="modal"
+  id="changePinModal"
+>
+
+  <div class="modal-card">
+
+    <div class="modal-title">
+      Changer le PIN
+    </div>
+
+    <div
+      class="modal-subtitle"
+      id="changePinSubtitle"
+    ></div>
+
+
+    <div class="field">
+
+      <label>
+        Nouveau PIN
+      </label>
+
+      <input
+        id="newVendorPinInput"
+        type="text"
+        inputmode="numeric"
+        maxlength="6"
+        placeholder="6 chiffres"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Confirmer le PIN
+      </label>
+
+      <input
+        id="confirmVendorPinInput"
+        type="text"
+        inputmode="numeric"
+        maxlength="6"
+        placeholder="6 chiffres"
+      >
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="modal-btn cancel-btn"
+        onclick="closeModal('changePinModal')"
+      >
+        Annuler
+      </button>
+
+      <button
+        class="modal-btn confirm-btn"
+        onclick="confirmChangePin()"
+      >
+        Changer le PIN
       </button>
 
     </div>
@@ -1947,6 +2047,181 @@
       "manageTotalLinks"
     ).textContent =
       count || 0;
+
+  }
+
+
+  /* =========================
+     CHANGE PIN
+  ========================= */
+
+  function openChangePinModal() {
+
+    const vendor =
+      vendors.find(
+        v =>
+          v.id ===
+          manageVendorId
+      );
+
+
+    if (!vendor) {
+      return;
+    }
+
+
+    document.getElementById(
+      "changePinSubtitle"
+    ).textContent =
+      "Vendeur : " +
+      (
+        vendor.name ||
+        "Vendeur"
+      );
+
+
+    document.getElementById(
+      "newVendorPinInput"
+    ).value = "";
+
+
+    document.getElementById(
+      "confirmVendorPinInput"
+    ).value = "";
+
+
+    closeModal(
+      "manageModal"
+    );
+
+
+    document.getElementById(
+      "changePinModal"
+    ).classList.add(
+      "show"
+    );
+
+  }
+
+
+  async function confirmChangePin() {
+
+    if (!manageVendorId) {
+      return;
+    }
+
+
+    const newPin =
+      document.getElementById(
+        "newVendorPinInput"
+      ).value.trim();
+
+
+    const confirmPin =
+      document.getElementById(
+        "confirmVendorPinInput"
+      ).value.trim();
+
+
+    if (!/^\d{6}$/.test(newPin)) {
+
+      showToast(
+        "Le PIN doit contenir exactement 6 chiffres."
+      );
+
+      return;
+
+    }
+
+
+    if (newPin !== confirmPin) {
+
+      showToast(
+        "Les deux PIN ne correspondent pas."
+      );
+
+      return;
+
+    }
+
+
+    const {
+      error
+    } =
+      await supabaseClient.rpc(
+        "update_vendor_pin",
+        {
+          p_vendor_id:
+            manageVendorId,
+
+          p_new_pin:
+            newPin
+        }
+      );
+
+
+    if (error) {
+
+      console.error(error);
+
+      showToast(
+        error.message ||
+        "Erreur lors du changement du PIN."
+      );
+
+      return;
+
+    }
+
+
+    const vendor =
+      vendors.find(
+        v =>
+          v.id ===
+          manageVendorId
+      );
+
+
+    closeModal(
+      "changePinModal"
+    );
+
+
+    showToast(
+      "PIN modifié avec succès."
+    );
+
+
+    if (vendor) {
+
+      document.getElementById(
+        "createdVendorName"
+      ).textContent =
+        vendor.name ||
+        "Vendeur";
+
+
+      document.getElementById(
+        "createdVendorLink"
+      ).textContent =
+        buildVendorLink(
+          vendor.login_token
+        );
+
+
+      document.getElementById(
+        "createdVendorPin"
+      ).textContent =
+        newPin;
+
+
+      document.getElementById(
+        "credentialsModal"
+      ).classList.add(
+        "show"
+      );
+
+    }
 
   }
 
