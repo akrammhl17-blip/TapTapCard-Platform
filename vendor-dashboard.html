@@ -1,1 +1,785 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Dashboard vendeur - TapTapCard</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f8e7e3, #fffaf8);
+      color: #332522;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    /* HEADER */
+
+    .header {
+      background: white;
+      border-radius: 22px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .welcome {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: #332522;
+      color: white;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 21px;
+    }
+
+    .welcome h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .welcome p {
+      margin: 4px 0 0;
+      color: #777;
+      font-size: 13px;
+    }
+
+    .logout-btn {
+      border: none;
+      background: #f4eeee;
+      color: #332522;
+      padding: 11px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .logout-btn:hover {
+      background: #eadfdd;
+    }
+
+    /* STAT */
+
+    .stat-card {
+      background: #332522;
+      color: white;
+      border-radius: 22px;
+      padding: 24px;
+      margin-bottom: 20px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stat-card p {
+      margin: 0 0 7px;
+      opacity: 0.7;
+      font-size: 14px;
+    }
+
+    .stat-card h2 {
+      margin: 0;
+      font-size: 34px;
+    }
+
+    .stat-icon {
+      width: 55px;
+      height: 55px;
+      border-radius: 17px;
+      background: rgba(255,255,255,0.12);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 23px;
+    }
+
+    /* SECTION */
+
+    .section {
+      background: white;
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 19px;
+    }
+
+    .add-btn {
+      border: none;
+      background: #a64635;
+      color: white;
+      padding: 11px 15px;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* CLIENT */
+
+    .client-card {
+      border: 1px solid #eee;
+      border-radius: 17px;
+      padding: 15px;
+      margin-bottom: 12px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .client-info {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      min-width: 0;
+    }
+
+    .client-image {
+      width: 55px;
+      height: 55px;
+      border-radius: 15px;
+      object-fit: cover;
+      background: #f3eeee;
+      flex-shrink: 0;
+    }
+
+    .client-placeholder {
+      width: 55px;
+      height: 55px;
+      border-radius: 15px;
+      background: #f3eeee;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: #999;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .client-text {
+      min-width: 0;
+    }
+
+    .client-text h3 {
+      margin: 0 0 5px;
+      font-size: 16px;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .client-text p {
+      margin: 0;
+      color: #888;
+      font-size: 12px;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .open-btn {
+      text-decoration: none;
+      background: #f8e7e3;
+      color: #a64635;
+
+      padding: 10px 13px;
+      border-radius: 11px;
+
+      font-size: 13px;
+      font-weight: bold;
+
+      white-space: nowrap;
+    }
+
+    /* EMPTY */
+
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: #888;
+    }
+
+    .empty i {
+      font-size: 38px;
+      margin-bottom: 14px;
+      color: #cdbfbc;
+    }
+
+    .empty p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    /* LOADING */
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #777;
+    }
+
+    .loading i {
+      font-size: 25px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ERROR */
+
+    .error {
+      background: #fff0f0;
+      color: #b42318;
+      padding: 15px;
+      border-radius: 14px;
+      text-align: center;
+      font-size: 14px;
+      display: none;
+      margin-bottom: 15px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 600px) {
+
+      .container {
+        padding: 14px;
+      }
+
+      .header {
+        padding: 16px;
+      }
+
+      .welcome h1 {
+        font-size: 17px;
+      }
+
+      .logout-btn {
+        padding: 9px 11px;
+        font-size: 12px;
+      }
+
+      .stat-card {
+        padding: 20px;
+      }
+
+      .stat-card h2 {
+        font-size: 30px;
+      }
+
+      .client-card {
+        padding: 12px;
+      }
+
+      .open-btn {
+        padding: 9px 10px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+      <div class="welcome">
+
+        <div class="avatar">
+          <i class="fa-solid fa-user"></i>
+        </div>
+
+        <div>
+          <h1 id="vendorName">Chargement...</h1>
+          <p>Votre espace vendeur TapTapCard</p>
+        </div>
+
+      </div>
+
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Déconnexion
+      </button>
+
+    </div>
+
+
+    <!-- ERROR -->
+
+    <div id="errorBox" class="error"></div>
+
+
+    <!-- STAT -->
+
+    <div class="stat-card">
+
+      <div>
+        <p>Mes pages</p>
+        <h2 id="clientCount">0</h2>
+      </div>
+
+      <div class="stat-icon">
+        <i class="fa-solid fa-address-card"></i>
+      </div>
+
+    </div>
+
+
+    <!-- CLIENTS -->
+
+    <div class="section">
+
+      <div class="section-title">
+
+        <h2>Mes clients</h2>
+
+        <button
+          class="add-btn"
+          onclick="addClient()"
+        >
+          <i class="fa-solid fa-plus"></i>
+          Ajouter
+        </button>
+
+      </div>
+
+      <div id="clientsList">
+
+        <div class="loading">
+          <i class="fa-solid fa-spinner"></i>
+          <p>Chargement...</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- SUPABASE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="supabase.js"></script>
+
+
+  <script>
+
+    let session = null;
+    let clients = [];
+
+
+    /* =========================
+       START
+    ========================= */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      startDashboard
+    );
+
+
+    async function startDashboard() {
+
+      const savedSession =
+        localStorage.getItem("vendor_session");
+
+      if (!savedSession) {
+
+        showError(
+          "Session expirée. Veuillez utiliser votre lien vendeur."
+        );
+
+        return;
+      }
+
+
+      try {
+
+        session = JSON.parse(savedSession);
+
+      } catch (error) {
+
+        localStorage.removeItem("vendor_session");
+
+        showError(
+          "Session invalide."
+        );
+
+        return;
+      }
+
+
+      if (
+        !session.session_token ||
+        !session.vendor_id
+      ) {
+
+        localStorage.removeItem("vendor_session");
+
+        showError(
+          "Session invalide."
+        );
+
+        return;
+      }
+
+
+      /*
+        Vérification réelle de la session
+      */
+
+      const {
+        data,
+        error
+      } = await supabaseClient.rpc(
+        "verify_vendor_session",
+        {
+          p_session_token:
+            session.session_token
+        }
+      );
+
+
+      if (error) {
+
+        console.error(error);
+
+        showError(
+          "Impossible de vérifier la session."
+        );
+
+        return;
+      }
+
+
+      if (!data || data.length === 0) {
+
+        localStorage.removeItem(
+          "vendor_session"
+        );
+
+        showError(
+          "Votre session a expiré. Veuillez utiliser votre lien vendeur."
+        );
+
+        return;
+      }
+
+
+      const vendor = data[0];
+
+
+      /*
+        الاسم الحقيقي من قاعدة البيانات
+      */
+
+      session.vendor_id =
+        vendor.vendor_id;
+
+      session.vendor_name =
+        vendor.vendor_name;
+
+
+      localStorage.setItem(
+        "vendor_session",
+        JSON.stringify(session)
+      );
+
+
+      document.getElementById(
+        "vendorName"
+      ).textContent =
+        "Bonjour " + vendor.vendor_name;
+
+
+      /*
+        تحميل العملاء
+      */
+
+      await loadClients();
+
+    }
+
+
+    /* =========================
+       LOAD CLIENTS
+    ========================= */
+
+    async function loadClients() {
+
+      const {
+        data,
+        error
+      } = await supabaseClient.rpc(
+        "get_vendor_clients",
+        {
+          p_session_token:
+            session.session_token
+        }
+      );
+
+
+      if (error) {
+
+        console.error(error);
+
+        showError(
+          "Impossible de charger vos clients."
+        );
+
+        return;
+      }
+
+
+      clients = data || [];
+
+
+      document.getElementById(
+        "clientCount"
+      ).textContent =
+        clients.length;
+
+
+      renderClients();
+
+    }
+
+
+    /* =========================
+       RENDER CLIENTS
+    ========================= */
+
+    function renderClients() {
+
+      const list =
+        document.getElementById(
+          "clientsList"
+        );
+
+
+      if (clients.length === 0) {
+
+        list.innerHTML = `
+          <div class="empty">
+
+            <i class="fa-regular fa-folder-open"></i>
+
+            <p>
+              Aucun client pour le moment.
+            </p>
+
+          </div>
+        `;
+
+        return;
+      }
+
+
+      list.innerHTML =
+        clients.map(client => {
+
+          const image =
+            client.profile_image;
+
+
+          return `
+
+            <div class="client-card">
+
+              <div class="client-info">
+
+                ${
+                  image
+                  ?
+                  `
+                  <img
+                    src="${escapeHtml(image)}"
+                    class="client-image"
+                    alt=""
+                  >
+                  `
+                  :
+                  `
+                  <div class="client-placeholder">
+                    <i class="fa-solid fa-store"></i>
+                  </div>
+                  `
+                }
+
+                <div class="client-text">
+
+                  <h3>
+                    ${escapeHtml(
+                      client.name ||
+                      "Sans nom"
+                    )}
+                  </h3>
+
+                  <p>
+                    ${escapeHtml(
+                      client.description ||
+                      "Aucune description"
+                    )}
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              <a
+                class="open-btn"
+                href="client.html?id=${client.id}"
+                target="_blank"
+              >
+
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                Ouvrir
+
+              </a>
+
+            </div>
+
+          `;
+
+        }).join("");
+
+    }
+
+
+    /* =========================
+       ADD CLIENT
+    ========================= */
+
+    function addClient() {
+
+      alert(
+        "La création de client sera activée dans la prochaine étape."
+      );
+
+    }
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    function logout() {
+
+      localStorage.removeItem(
+        "vendor_session"
+      );
+
+      window.location.href =
+        "vendor.html";
+
+    }
+
+
+    /* =========================
+       ERROR
+    ========================= */
+
+    function showError(message) {
+
+      const box =
+        document.getElementById(
+          "errorBox"
+        );
+
+      box.textContent = message;
+
+      box.style.display = "block";
+
+
+      document.getElementById(
+        "clientsList"
+      ).innerHTML = "";
+
+    }
+
+
+    /* =========================
+       ESCAPE HTML
+    ========================= */
+
+    function escapeHtml(value) {
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+  </script>
+
+</body>
+</html>
