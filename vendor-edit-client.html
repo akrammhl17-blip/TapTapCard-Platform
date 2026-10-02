@@ -1,1000 +1,615 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>Modifier le client - TapTapCard</title>
+  <title>Modifier le client - TAPTAPCARD</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+  <script src="supabase.js"></script>
 
   <style>
-
     * {
       box-sizing: border-box;
     }
 
-
     body {
-
       margin: 0;
-
       padding: 20px;
-
-      background: #f6f6f7;
-
       font-family: Arial, sans-serif;
-
+      background: linear-gradient(
+        135deg,
+        #faf9f7,
+        #eef1f4,
+        #e4e8ed
+      );
       color: #222;
-
     }
-
 
     .container {
-
-      max-width: 700px;
-
-      margin: auto;
-
-    }
-
-
-    .header {
-
+      width: 100%;
+      max-width: 650px;
+      margin: 0 auto;
       background: white;
-
-      padding: 20px;
-
-      border-radius: 18px;
-
-      box-shadow: 0 5px 25px rgba(0,0,0,0.07);
-
-      margin-bottom: 20px;
-
+      border-radius: 22px;
+      padding: 25px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
     }
-
-
-    .top {
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 12px;
-
-    }
-
-
-    .back-button {
-
-      border: none;
-
-      background: #eee;
-
-      width: 42px;
-
-      height: 42px;
-
-      border-radius: 12px;
-
-      font-size: 20px;
-
-      cursor: pointer;
-
-      flex-shrink: 0;
-
-    }
-
 
     h1 {
-
-      margin: 0;
-
-      font-size: 23px;
-
+      margin-top: 0;
+      text-align: center;
+      font-size: 28px;
     }
-
 
     .subtitle {
-
-      margin-top: 5px;
-
+      text-align: center;
       color: #777;
-
-      font-size: 13px;
-
+      margin-bottom: 25px;
     }
-
-
-    .form-card {
-
-      background: white;
-
-      padding: 20px;
-
-      border-radius: 18px;
-
-      box-shadow: 0 5px 25px rgba(0,0,0,0.06);
-
-    }
-
 
     .field {
-
       margin-bottom: 18px;
-
     }
-
 
     label {
-
       display: block;
-
       margin-bottom: 7px;
-
-      font-size: 14px;
-
       font-weight: bold;
-
+      font-size: 14px;
     }
-
 
     input,
     textarea {
-
       width: 100%;
-
-      padding: 13px 14px;
-
       border: 1px solid #ddd;
-
-      border-radius: 11px;
-
+      border-radius: 12px;
+      padding: 13px;
       font-size: 15px;
-
       outline: none;
-
-      font-family: inherit;
-
-      background: white;
-
+      background: #fff;
     }
-
 
     input:focus,
     textarea:focus {
-
-      border-color: #222;
-
+      border-color: #999;
     }
-
 
     textarea {
-
       min-height: 100px;
-
       resize: vertical;
-
     }
-
-
-    .section-title {
-
-      margin-top: 25px;
-
-      margin-bottom: 15px;
-
-      padding-bottom: 8px;
-
-      border-bottom: 1px solid #eee;
-
-      font-size: 17px;
-
-      font-weight: bold;
-
-    }
-
-
-    /* IMAGES */
-
-
-    .image-section {
-
-      margin-bottom: 22px;
-
-    }
-
-
-    .image-label {
-
-      font-size: 14px;
-
-      font-weight: bold;
-
-      margin-bottom: 8px;
-
-    }
-
-
-    .image-preview {
-
-      width: 100%;
-
-      height: 180px;
-
-      border-radius: 14px;
-
-      object-fit: cover;
-
-      background: #eee;
-
-      display: block;
-
-      margin-bottom: 10px;
-
-    }
-
-
-    .profile-preview {
-
-      width: 120px;
-
-      height: 120px;
-
-      border-radius: 50%;
-
-      object-fit: cover;
-
-      background: #eee;
-
-      display: block;
-
-      margin-bottom: 10px;
-
-    }
-
 
     input[type="file"] {
-
       padding: 10px;
-
-      background: #f7f7f7;
-
-      cursor: pointer;
-
     }
 
+    .current-image {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 14px;
+      margin-top: 10px;
+      display: block;
+    }
+
+    .preview {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 14px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .section-title {
+      margin-top: 28px;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #eee;
+      font-size: 18px;
+    }
 
     .image-note {
-
-      color: #888;
-
+      margin-top: 7px;
       font-size: 12px;
-
-      margin-top: 6px;
-
+      color: #777;
     }
 
-
-    /* SAVE */
-
-
-    .save-button {
-
-      width: 100%;
-
-      border: none;
-
-      background: #111;
-
-      color: white;
-
-      padding: 15px;
-
-      border-radius: 12px;
-
-      font-size: 16px;
-
-      font-weight: bold;
-
-      cursor: pointer;
-
-      margin-top: 10px;
-
-    }
-
-
-    .save-button:disabled {
-
-      opacity: 0.6;
-
-      cursor: not-allowed;
-
-    }
-
-
-    .cancel-button {
-
-      width: 100%;
-
-      border: none;
-
-      background: #eee;
-
-      color: #222;
-
-      padding: 14px;
-
-      border-radius: 12px;
-
-      font-size: 15px;
-
-      font-weight: bold;
-
-      cursor: pointer;
-
-      margin-top: 10px;
-
-    }
-
-
-    /* MESSAGES */
-
-
-    .error {
-
-      background: #fdeaea;
-
-      color: #b42318;
-
-      padding: 14px;
-
-      border-radius: 12px;
-
-      margin-bottom: 15px;
-
+    .compression-info {
       display: none;
-
-      word-break: break-word;
-
+      margin-top: 8px;
+      padding: 9px 10px;
+      border-radius: 10px;
+      background: #f5f5f5;
+      color: #666;
+      font-size: 12px;
     }
 
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #222;
+      color: white;
+      margin-top: 10px;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .back-btn {
+      background: #eee;
+      color: #222;
+    }
+
+    .message {
+      display: none;
+      padding: 13px;
+      border-radius: 12px;
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+    }
 
     .success {
-
-      background: #e9f8ed;
-
-      color: #16753a;
-
-      padding: 14px;
-
-      border-radius: 12px;
-
-      margin-bottom: 15px;
-
-      display: none;
-
-      word-break: break-word;
-
+      background: #e8f7ed;
+      color: #217a3c;
     }
 
+    .error {
+      background: #fdeaea;
+      color: #a32929;
+    }
 
     .loading {
-
-      background: white;
-
-      padding: 30px;
-
-      border-radius: 16px;
-
       text-align: center;
-
       color: #777;
-
+      padding: 20px 0;
     }
 
-
-    @media (max-width: 500px) {
-
+    @media (max-width: 600px) {
       body {
-
-        padding: 12px;
-
+        padding: 10px;
       }
 
-
-      .form-card {
-
-        padding: 16px;
-
+      .container {
+        padding: 18px;
+        border-radius: 18px;
       }
 
-
-      .header {
-
-        padding: 16px;
-
+      h1 {
+        font-size: 24px;
       }
-
     }
-
   </style>
-
 </head>
-
 
 <body>
 
+<div class="container">
 
-  <div class="container">
+  <h1>Modifier le client</h1>
 
-
-    <!-- HEADER -->
-
-    <div class="header">
-
-      <div class="top">
-
-        <button
-          class="back-button"
-          onclick="goBack()"
-        >
-          ←
-        </button>
-
-
-        <div>
-
-          <h1>
-            Modifier le client
-          </h1>
-
-          <div class="subtitle">
-            Modifiez les informations de votre client
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- ERROR -->
-
-    <div
-      id="errorMessage"
-      class="error"
-    ></div>
-
-
-    <!-- SUCCESS -->
-
-    <div
-      id="successMessage"
-      class="success"
-    ></div>
-
-
-    <!-- LOADING -->
-
-    <div
-      id="loading"
-      class="loading"
-    >
-      Chargement du client...
-    </div>
-
-
-    <!-- FORM -->
-
-    <div
-      id="formCard"
-      class="form-card"
-      style="display:none;"
-    >
-
-
-      <form id="editForm">
-
-
-        <!-- INFORMATIONS -->
-
-        <div class="section-title">
-          Informations
-        </div>
-
-
-        <div class="field">
-
-          <label for="name">
-            Nom du client
-          </label>
-
-          <input
-            type="text"
-            id="name"
-            placeholder="Nom du client"
-            required
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label for="description">
-            Description
-          </label>
-
-          <textarea
-            id="description"
-            placeholder="Description de l'activité"
-          ></textarea>
-
-        </div>
-
-
-        <!-- IMAGES -->
-
-        <div class="section-title">
-          Images
-        </div>
-
-
-        <div class="image-section">
-
-          <div class="image-label">
-            Photo de profil
-          </div>
-
-
-          <img
-            id="profilePreview"
-            class="profile-preview"
-            src="https://placehold.co/150x150?text=Client"
-            alt="Photo de profil"
-          >
-
-
-          <input
-            type="file"
-            id="profileImage"
-            accept="image/*"
-          >
-
-
-          <div class="image-note">
-            Laissez vide pour conserver l'image actuelle.
-          </div>
-
-        </div>
-
-
-        <div class="image-section">
-
-          <div class="image-label">
-            Image de couverture
-          </div>
-
-
-          <img
-            id="coverPreview"
-            class="image-preview"
-            src="https://placehold.co/800x300?text=Cover"
-            alt="Image de couverture"
-          >
-
-
-          <input
-            type="file"
-            id="coverImage"
-            accept="image/*"
-          >
-
-
-          <div class="image-note">
-            Laissez vide pour conserver l'image actuelle.
-          </div>
-
-        </div>
-
-
-        <!-- RESEAUX -->
-
-        <div class="section-title">
-          Réseaux sociaux
-        </div>
-
-
-        <div class="field">
-
-          <label for="instagram">
-            Instagram
-          </label>
-
-          <input
-            type="url"
-            id="instagram"
-            placeholder="https://instagram.com/..."
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label for="facebook">
-            Facebook
-          </label>
-
-          <input
-            type="url"
-            id="facebook"
-            placeholder="https://facebook.com/..."
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label for="tiktok">
-            TikTok
-          </label>
-
-          <input
-            type="url"
-            id="tiktok"
-            placeholder="https://tiktok.com/@..."
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label for="snapchat">
-            Snapchat
-          </label>
-
-          <input
-            type="text"
-            id="snapchat"
-            placeholder="@username"
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label for="website">
-            Website
-          </label>
-
-          <input
-            type="url"
-            id="website"
-            placeholder="https://..."
-          >
-
-        </div>
-
-
-        <!-- CONTACT -->
-
-        <div class="section-title">
-          Contact
-        </div>
-
-
-        <div class="field">
-
-          <label for="phone">
-            Téléphone
-          </label>
-
-          <input
-            type="tel"
-            id="phone"
-            placeholder="0550..."
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label for="whatsapp">
-            WhatsApp
-          </label>
-
-          <input
-            type="tel"
-            id="whatsapp"
-            placeholder="0550..."
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label for="googleMaps">
-            Google Maps
-          </label>
-
-          <input
-            type="url"
-            id="googleMaps"
-            placeholder="https://maps.google.com/..."
-          >
-
-        </div>
-
-
-        <!-- BUTTONS -->
-
-        <button
-          type="submit"
-          id="saveButton"
-          class="save-button"
-        >
-          Enregistrer les modifications
-        </button>
-
-
-        <button
-          type="button"
-          class="cancel-button"
-          onclick="goBack()"
-        >
-          Annuler
-        </button>
-
-
-      </form>
-
-    </div>
-
+  <div class="subtitle">
+    Modifiez les informations du client
   </div>
 
+  <div id="loading" class="loading">
+    Chargement...
+  </div>
 
-  <!-- SUPABASE -->
+  <form id="clientForm" style="display:none;">
 
-  <script src="supabase.js"></script>
+    <!-- INFORMATIONS -->
+
+    <div class="section-title">
+      Informations
+    </div>
+
+    <div class="field">
+      <label for="name">
+        Nom du client
+      </label>
+
+      <input
+        type="text"
+        id="name"
+        placeholder="Nom du client"
+        required
+      >
+    </div>
+
+    <div class="field">
+      <label for="description">
+        Description
+      </label>
+
+      <textarea
+        id="description"
+        placeholder="Description de l'activité"
+      ></textarea>
+    </div>
 
 
-  <script>
+    <!-- IMAGES -->
 
-    /* =========================================
-       SESSION
-    ========================================= */
+    <div class="section-title">
+      Images
+    </div>
 
-    const sessionData =
-      localStorage.getItem(
-        "vendor_session"
-      );
+    <div class="field">
+
+      <label for="profileImage">
+        Photo de profil
+      </label>
+
+      <div id="currentProfileContainer"></div>
+
+      <input
+        type="file"
+        id="profileImage"
+        accept="image/*"
+      >
+
+      <img
+        id="profilePreview"
+        class="preview"
+        alt="Aperçu"
+      >
+
+      <div class="image-note">
+        Laissez vide pour conserver l'image actuelle.
+      </div>
+
+      <div
+        id="profileCompression"
+        class="compression-info"
+      ></div>
+
+    </div>
 
 
-    if (!sessionData) {
+    <div class="field">
 
-      window.location.href =
-        "vendor.html";
+      <label for="coverImage">
+        Image de couverture
+      </label>
 
-    }
+      <div id="currentCoverContainer"></div>
+
+      <input
+        type="file"
+        id="coverImage"
+        accept="image/*"
+      >
+
+      <img
+        id="coverPreview"
+        class="preview"
+        alt="Aperçu"
+      >
+
+      <div class="image-note">
+        Laissez vide pour conserver l'image actuelle.
+      </div>
+
+      <div
+        id="coverCompression"
+        class="compression-info"
+      ></div>
+
+    </div>
 
 
-    let vendorSession;
+    <!-- RÉSEAUX SOCIAUX -->
 
+    <div class="section-title">
+      Réseaux sociaux
+    </div>
+
+    <div class="field">
+      <label for="instagram">
+        Instagram
+      </label>
+
+      <input
+        type="url"
+        id="instagram"
+        placeholder="https://instagram.com/..."
+      >
+    </div>
+
+
+    <div class="field">
+      <label for="facebook">
+        Facebook
+      </label>
+
+      <input
+        type="url"
+        id="facebook"
+        placeholder="https://facebook.com/..."
+      >
+    </div>
+
+
+    <div class="field">
+      <label for="tiktok">
+        TikTok
+      </label>
+
+      <input
+        type="url"
+        id="tiktok"
+        placeholder="https://tiktok.com/@..."
+      >
+    </div>
+
+
+    <div class="field">
+      <label for="snapchat">
+        Snapchat
+      </label>
+
+      <input
+        type="text"
+        id="snapchat"
+        placeholder="@username"
+      >
+    </div>
+
+
+    <div class="field">
+      <label for="website">
+        Website
+      </label>
+
+      <input
+        type="url"
+        id="website"
+        placeholder="https://..."
+      >
+    </div>
+
+
+    <!-- CONTACT -->
+
+    <div class="section-title">
+      Contact
+    </div>
+
+
+    <div class="field">
+      <label for="phone">
+        Téléphone
+      </label>
+
+      <input
+        type="tel"
+        id="phone"
+        placeholder="0550..."
+      >
+    </div>
+
+
+    <div class="field">
+      <label for="whatsapp">
+        WhatsApp
+      </label>
+
+      <input
+        type="tel"
+        id="whatsapp"
+        placeholder="0550..."
+      >
+    </div>
+
+
+    <div class="field">
+      <label for="googleMaps">
+        Google Maps
+      </label>
+
+      <input
+        type="url"
+        id="googleMaps"
+        placeholder="https://maps.google.com/..."
+      >
+    </div>
+
+
+    <!-- BUTTONS -->
+
+    <button
+      type="submit"
+      id="submitBtn"
+    >
+      Enregistrer les modifications
+    </button>
+
+
+    <button
+      type="button"
+      class="back-btn"
+      onclick="window.location.href='vendor-dashboard.html'"
+    >
+      Retour
+    </button>
+
+  </form>
+
+
+  <div
+    id="successMessage"
+    class="message success"
+  ></div>
+
+
+  <div
+    id="errorMessage"
+    class="message error"
+  ></div>
+
+</div>
+
+
+<script>
+
+  /* =====================================================
+     SESSION VENDEUR
+  ===================================================== */
+
+  const vendorSession =
+    JSON.parse(
+      localStorage.getItem("vendor_session")
+    );
+
+
+  if (
+    !vendorSession ||
+    !vendorSession.session_token ||
+    !vendorSession.vendor_id
+  ) {
+
+    window.location.href =
+      "vendor.html";
+
+  }
+
+
+  /* =====================================================
+     CLIENT ID
+  ===================================================== */
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const clientId =
+    params.get("id");
+
+
+  if (!clientId) {
+
+    window.location.href =
+      "vendor-dashboard.html";
+
+  }
+
+
+  /* =====================================================
+     ELEMENTS
+  ===================================================== */
+
+  const loading =
+    document.getElementById(
+      "loading"
+    );
+
+
+  const form =
+    document.getElementById(
+      "clientForm"
+    );
+
+
+  const submitBtn =
+    document.getElementById(
+      "submitBtn"
+    );
+
+
+  const profileInput =
+    document.getElementById(
+      "profileImage"
+    );
+
+
+  const coverInput =
+    document.getElementById(
+      "coverImage"
+    );
+
+
+  const profilePreview =
+    document.getElementById(
+      "profilePreview"
+    );
+
+
+  const coverPreview =
+    document.getElementById(
+      "coverPreview"
+    );
+
+
+  const profileCompression =
+    document.getElementById(
+      "profileCompression"
+    );
+
+
+  const coverCompression =
+    document.getElementById(
+      "coverCompression"
+    );
+
+
+  const successMessage =
+    document.getElementById(
+      "successMessage"
+    );
+
+
+  const errorMessage =
+    document.getElementById(
+      "errorMessage"
+    );
+
+
+  let currentProfileImage = "";
+  let currentCoverImage = "";
+
+
+  /* =====================================================
+     FORMAT SIZE
+  ===================================================== */
+
+  function formatKB(bytes) {
+
+    return (
+      (bytes / 1024).toFixed(1) +
+      " KB"
+    );
+
+  }
+
+
+  /* =====================================================
+     LOAD CLIENT
+  ===================================================== */
+
+  async function loadClient() {
 
     try {
 
-      vendorSession =
-        JSON.parse(sessionData);
-
-    } catch (error) {
-
-      localStorage.removeItem(
-        "vendor_session"
-      );
-
-      window.location.href =
-        "vendor.html";
-
-    }
-
-
-    /* =========================================
-       CLIENT ID
-    ========================================= */
-
-    const params =
-      new URLSearchParams(
-        window.location.search
-      );
-
-
-    const clientId =
-      params.get("id");
-
-
-    if (!clientId) {
-
-      window.location.href =
-        "vendor-dashboard.html";
-
-    }
-
-
-    /* =========================================
-       ELEMENTS
-    ========================================= */
-
-    const loading =
-      document.getElementById(
-        "loading"
-      );
-
-
-    const formCard =
-      document.getElementById(
-        "formCard"
-      );
-
-
-    const errorMessage =
-      document.getElementById(
-        "errorMessage"
-      );
-
-
-    const successMessage =
-      document.getElementById(
-        "successMessage"
-      );
-
-
-    const editForm =
-      document.getElementById(
-        "editForm"
-      );
-
-
-    const saveButton =
-      document.getElementById(
-        "saveButton"
-      );
-
-
-    const profilePreview =
-      document.getElementById(
-        "profilePreview"
-      );
-
-
-    const coverPreview =
-      document.getElementById(
-        "coverPreview"
-      );
-
-
-    const profileImageInput =
-      document.getElementById(
-        "profileImage"
-      );
-
-
-    const coverImageInput =
-      document.getElementById(
-        "coverImage"
-      );
-
-
-    /* =========================================
-       CURRENT IMAGES
-    ========================================= */
-
-    let currentProfileImage = "";
-
-    let currentCoverImage = "";
-
-
-    /* =========================================
-       ERROR
-    ========================================= */
-
-    function showError(message) {
-
-      errorMessage.textContent =
-        message;
-
-      errorMessage.style.display =
-        "block";
-
-      successMessage.style.display =
-        "none";
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
-    }
-
-
-    function hideError() {
-
-      errorMessage.style.display =
-        "none";
-
-    }
-
-
-    /* =========================================
-       SUCCESS
-    ========================================= */
-
-    function showSuccess(message) {
-
-      successMessage.textContent =
-        message;
-
-      successMessage.style.display =
-        "block";
-
-      errorMessage.style.display =
-        "none";
-
-    }
-
-
-    /* =========================================
-       ESCAPE HTML
-    ========================================= */
-
-    function escapeHtml(value) {
-
-      return String(value || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-    }
-
-
-    /* =========================================
-       VERIFY SESSION
-    ========================================= */
-
-    async function verifySession() {
-
-      if (
-        !vendorSession ||
-        !vendorSession.session_token
-      ) {
-
-        window.location.href =
-          "vendor.html";
-
-        return false;
-
-      }
-
+      /*
+        Vérifier la session
+      */
 
       const {
-        data,
-        error
+        data: sessionData,
+        error: sessionError
       } =
         await supabaseClient.rpc(
           "verify_vendor_session",
@@ -1006,9 +621,9 @@
 
 
       if (
-        error ||
-        !data ||
-        data.length === 0
+        sessionError ||
+        !sessionData ||
+        sessionData.length === 0
       ) {
 
         localStorage.removeItem(
@@ -1018,32 +633,13 @@
         window.location.href =
           "vendor.html";
 
-        return false;
-
+        return;
       }
 
 
-      return true;
-
-    }
-
-
-    /* =========================================
-       LOAD CLIENT
-    ========================================= */
-
-    async function loadClient() {
-
-      hideError();
-
-
-      loading.style.display =
-        "block";
-
-
-      formCard.style.display =
-        "none";
-
+      /*
+        Charger les clients du vendeur
+      */
 
       const {
         data,
@@ -1060,57 +656,37 @@
 
       if (error) {
 
-        console.error(
-          "Load client error:",
-          error
+        throw new Error(
+          error.message
         );
-
-
-        showError(
-          error.message ||
-          "Impossible de charger le client."
-        );
-
-
-        return;
 
       }
 
 
-      const clients =
-        data || [];
-
+      /*
+        Chercher le client
+      */
 
       const client =
-        clients.find(
-          function(item) {
-
-            return Number(item.id) ===
-              Number(clientId);
-
-          }
+        data.find(
+          item =>
+            Number(item.id) ===
+            Number(clientId)
         );
 
 
       if (!client) {
 
-        showError(
-          "Client introuvable ou accès refusé."
+        throw new Error(
+          "Client introuvable."
         );
-
-
-        loading.innerHTML =
-          "Client introuvable.";
-
-
-        return;
 
       }
 
 
-      /* ==========================
-         INFORMATIONS
-      ========================== */
+      /* =================================================
+         REMPLIR LE FORMULAIRE
+      ================================================= */
 
       document.getElementById(
         "name"
@@ -1123,10 +699,6 @@
       ).value =
         client.description || "";
 
-
-      /* ==========================
-         SOCIAL
-      ========================== */
 
       document.getElementById(
         "instagram"
@@ -1158,10 +730,6 @@
         client.website || "";
 
 
-      /* ==========================
-         CONTACT
-      ========================== */
-
       document.getElementById(
         "phone"
       ).value =
@@ -1180,9 +748,9 @@
         client.google_maps || "";
 
 
-      /* ==========================
-         IMAGES
-      ========================== */
+      /* =================================================
+         IMAGES ACTUELLES
+      ================================================= */
 
       currentProfileImage =
         client.profile_image || "";
@@ -1194,16 +762,50 @@
 
       if (currentProfileImage) {
 
-        profilePreview.src =
+        const img =
+          document.createElement(
+            "img"
+          );
+
+        img.src =
           currentProfileImage;
+
+        img.className =
+          "current-image";
+
+        img.alt =
+          "Photo actuelle";
+
+        document
+          .getElementById(
+            "currentProfileContainer"
+          )
+          .appendChild(img);
 
       }
 
 
       if (currentCoverImage) {
 
-        coverPreview.src =
+        const img =
+          document.createElement(
+            "img"
+          );
+
+        img.src =
           currentCoverImage;
+
+        img.className =
+          "current-image";
+
+        img.alt =
+          "Couverture actuelle";
+
+        document
+          .getElementById(
+            "currentCoverContainer"
+          )
+          .appendChild(img);
 
       }
 
@@ -1211,399 +813,913 @@
       loading.style.display =
         "none";
 
+      form.style.display =
+        "block";
 
-      formCard.style.display =
+
+    } catch (error) {
+
+      console.error(
+        error
+      );
+
+      loading.style.display =
+        "none";
+
+      errorMessage.textContent =
+        error.message ||
+        "Impossible de charger le client.";
+
+      errorMessage.style.display =
         "block";
 
     }
 
-
-    /* =========================================
-       IMAGE PREVIEW
-    ========================================= */
-
-    profileImageInput.addEventListener(
-      "change",
-      function() {
-
-        const file =
-          this.files[0];
+  }
 
 
-        if (!file) {
+  /* =====================================================
+     PREVIEW NEW IMAGE
+  ===================================================== */
 
-          return;
+  function showPreview(
+    input,
+    preview
+  ) {
 
-        }
+    const file =
+      input.files[0];
 
 
-        if (!file.type.startsWith("image/")) {
+    if (!file) {
 
-          showError(
-            "Le fichier doit être une image."
+      preview.style.display =
+        "none";
+
+      return;
+    }
+
+
+    const url =
+      URL.createObjectURL(
+        file
+      );
+
+
+    preview.src =
+      url;
+
+
+    preview.style.display =
+      "block";
+
+  }
+
+
+  profileInput.addEventListener(
+    "change",
+    function () {
+
+      showPreview(
+        profileInput,
+        profilePreview
+      );
+
+
+      if (
+        profileInput.files[0]
+      ) {
+
+        profileCompression.style.display =
+          "block";
+
+        profileCompression.textContent =
+          "Nouvelle image : " +
+          formatKB(
+            profileInput.files[0].size
           );
 
-          this.value = "";
-
-          return;
-
-        }
-
-
-        const url =
-          URL.createObjectURL(file);
-
-
-        profilePreview.src =
-          url;
-
       }
-    );
+
+    }
+  );
 
 
-    coverImageInput.addEventListener(
-      "change",
-      function() {
+  coverInput.addEventListener(
+    "change",
+    function () {
 
-        const file =
-          this.files[0];
-
-
-        if (!file) {
-
-          return;
-
-        }
+      showPreview(
+        coverInput,
+        coverPreview
+      );
 
 
-        if (!file.type.startsWith("image/")) {
+      if (
+        coverInput.files[0]
+      ) {
 
-          showError(
-            "Le fichier doit être une image."
+        coverCompression.style.display =
+          "block";
+
+        coverCompression.textContent =
+          "Nouvelle image : " +
+          formatKB(
+            coverInput.files[0].size
           );
 
-          this.value = "";
-
-          return;
-
-        }
-
-
-        const url =
-          URL.createObjectURL(file);
-
-
-        coverPreview.src =
-          url;
-
       }
-    );
+
+    }
+  );
 
 
-    /* =========================================
-       UPLOAD IMAGE
-    ========================================= */
+  /* =====================================================
+     COMPRESS IMAGE
+  ===================================================== */
 
-    async function uploadImage(
-      file,
-      folder
+  async function compressImage(
+    file,
+    folder
+  ) {
+
+    if (!file) {
+      return null;
+    }
+
+
+    if (
+      !file.type.startsWith(
+        "image/"
+      )
     ) {
 
-      if (!file) {
+      throw new Error(
+        "Le fichier doit être une image."
+      );
 
-        return "";
+    }
+
+
+    /*
+      Taille maximale du fichier
+      original avant compression.
+    */
+
+    if (
+      file.size >
+      25 * 1024 * 1024
+    ) {
+
+      throw new Error(
+        "L'image originale doit faire moins de 25 MB."
+      );
+
+    }
+
+
+    /* =================================================
+       CHARGER IMAGE
+    ================================================= */
+
+    const image =
+      new Image();
+
+
+    const objectUrl =
+      URL.createObjectURL(
+        file
+      );
+
+
+    await new Promise(
+      (resolve, reject) => {
+
+        image.onload =
+          resolve;
+
+
+        image.onerror =
+          () => {
+
+            reject(
+              new Error(
+                "Impossible de lire l'image."
+              )
+            );
+
+          };
+
+
+        image.src =
+          objectUrl;
+
+      }
+    );
+
+
+    URL.revokeObjectURL(
+      objectUrl
+    );
+
+
+    /* =================================================
+       DIMENSIONS
+    ================================================= */
+
+    let maxWidth =
+      folder === "profile"
+        ? 700
+        : 1200;
+
+
+    let width =
+      image.naturalWidth;
+
+
+    let height =
+      image.naturalHeight;
+
+
+    if (
+      width > maxWidth
+    ) {
+
+      const ratio =
+        maxWidth / width;
+
+
+      width =
+        Math.round(
+          width * ratio
+        );
+
+
+      height =
+        Math.round(
+          height * ratio
+        );
+
+    }
+
+
+    /* =================================================
+       CANVAS
+    ================================================= */
+
+    const canvas =
+      document.createElement(
+        "canvas"
+      );
+
+
+    const ctx =
+      canvas.getContext(
+        "2d",
+        {
+          alpha: false
+        }
+      );
+
+
+    canvas.width =
+      width;
+
+
+    canvas.height =
+      height;
+
+
+    /*
+      خلفية بيضاء للصور
+      اللي فيها شفافية.
+    */
+
+    ctx.fillStyle =
+      "#ffffff";
+
+
+    ctx.fillRect(
+      0,
+      0,
+      width,
+      height
+    );
+
+
+    ctx.drawImage(
+      image,
+      0,
+      0,
+      width,
+      height
+    );
+
+
+    /* =================================================
+       TARGET
+    ================================================= */
+
+    const MIN_SIZE =
+      50 * 1024;
+
+
+    const MAX_SIZE =
+      100 * 1024;
+
+
+    let quality =
+      0.82;
+
+
+    let blob =
+      null;
+
+
+    /* =================================================
+       COMPRESSION QUALITÉ
+    ================================================= */
+
+    for (
+      let i = 0;
+      i < 10;
+      i++
+    ) {
+
+      blob =
+        await new Promise(
+          resolve => {
+
+            canvas.toBlob(
+              resolve,
+              "image/jpeg",
+              quality
+            );
+
+          }
+        );
+
+
+      if (!blob) {
+
+        throw new Error(
+          "Impossible de compresser l'image."
+        );
 
       }
 
 
-      if (!file.type.startsWith("image/")) {
+      const size =
+        blob.size;
 
-        throw new Error(
-          "Le fichier doit être une image."
-        );
+
+      /*
+        الحجم المطلوب
+      */
+
+      if (
+        size >= MIN_SIZE &&
+        size <= MAX_SIZE
+      ) {
+
+        break;
 
       }
 
 
       /*
-        Limite 10 MB
+        أكبر من 100 KB
       */
 
       if (
-        file.size >
-        10 * 1024 * 1024
+        size > MAX_SIZE
       ) {
 
-        throw new Error(
-          "L'image doit faire moins de 10 MB."
-        );
+        quality -=
+          0.07;
+
+
+        if (
+          quality < 0.25
+        ) {
+
+          quality =
+            0.25;
+
+        }
 
       }
 
 
-      const extension =
-        file.name
-          .split(".")
-          .pop()
-          .toLowerCase();
+      /*
+        أقل من 50 KB
+      */
 
+      if (
+        size < MIN_SIZE
+      ) {
 
-      const randomPart =
-        Math.random()
-          .toString(36)
-          .substring(2, 10);
-
-
-      const timestamp =
-        Date.now();
-
-
-      const filePath =
-        vendorSession.vendor_id +
-        "/" +
-        folder +
-        "/" +
-        timestamp +
-        "-" +
-        randomPart +
-        "." +
-        extension;
-
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient
-          .storage
-          .from("client-images")
-          .upload(
-            filePath,
-            file,
-            {
-              cacheControl: "3600",
-              upsert: false,
-              contentType: file.type
-            }
-          );
-
-
-      if (error) {
-
-        console.error(
-          "Upload error:",
-          error
-        );
-
-
-        throw new Error(
-          "Impossible d'envoyer l'image : " +
-          error.message
-        );
+        break;
 
       }
-
-
-      const {
-        data: publicData
-      } =
-        supabaseClient
-          .storage
-          .from("client-images")
-          .getPublicUrl(
-            data.path
-          );
-
-
-      return publicData.publicUrl;
 
     }
 
 
-    /* =========================================
-       SUBMIT
-    ========================================= */
+    /* =================================================
+       إذا مازال أكبر من 100 KB
+       نقص الأبعاد
+    ================================================= */
 
-    editForm.addEventListener(
-      "submit",
-      async function(event) {
+    if (
+      blob &&
+      blob.size > MAX_SIZE
+    ) {
 
-        event.preventDefault();
+      for (
+        let i = 0;
+        i < 5;
+        i++
+      ) {
+
+        width =
+          Math.round(
+            width * 0.85
+          );
 
 
-        hideError();
+        height =
+          Math.round(
+            height * 0.85
+          );
 
 
-        saveButton.disabled =
-          true;
+        canvas.width =
+          width;
 
 
-        saveButton.textContent =
+        canvas.height =
+          height;
+
+
+        ctx.fillStyle =
+          "#ffffff";
+
+
+        ctx.fillRect(
+          0,
+          0,
+          width,
+          height
+        );
+
+
+        ctx.drawImage(
+          image,
+          0,
+          0,
+          width,
+          height
+        );
+
+
+        blob =
+          await new Promise(
+            resolve => {
+
+              canvas.toBlob(
+                resolve,
+                "image/jpeg",
+                0.72
+              );
+
+            }
+          );
+
+
+        if (!blob) {
+
+          throw new Error(
+            "Impossible de compresser l'image."
+          );
+
+        }
+
+
+        if (
+          blob.size <= MAX_SIZE
+        ) {
+
+          break;
+
+        }
+
+      }
+
+    }
+
+
+    /* =================================================
+       FILE FINAL
+    ================================================= */
+
+    const compressedFile =
+      new File(
+        [blob],
+        "image.jpg",
+        {
+          type:
+            "image/jpeg",
+
+          lastModified:
+            Date.now()
+        }
+      );
+
+
+    console.log(
+      "Original :",
+      formatKB(
+        file.size
+      )
+    );
+
+
+    console.log(
+      "Compressed :",
+      formatKB(
+        compressedFile.size
+      )
+    );
+
+
+    return compressedFile;
+
+  }
+
+
+  /* =====================================================
+     UPLOAD IMAGE
+  ===================================================== */
+
+  async function uploadImage(
+    file,
+    folder
+  ) {
+
+    if (!file) {
+      return "";
+    }
+
+
+    /*
+      ضغط الصورة أولاً
+    */
+
+    const compressedFile =
+      await compressImage(
+        file,
+        folder
+      );
+
+
+    /*
+      إظهار الحجم النهائي
+    */
+
+    const sizeText =
+      formatKB(
+        compressedFile.size
+      );
+
+
+    if (
+      folder === "profile"
+    ) {
+
+      profileCompression.style.display =
+        "block";
+
+
+      profileCompression.textContent =
+        "Image compressée : " +
+        sizeText;
+
+    } else {
+
+      coverCompression.style.display =
+        "block";
+
+
+      coverCompression.textContent =
+        "Image compressée : " +
+        sizeText;
+
+    }
+
+
+    /* =================================================
+       PATH
+    ================================================= */
+
+    const randomPart =
+      Math.random()
+        .toString(36)
+        .substring(
+          2,
+          10
+        );
+
+
+    const timestamp =
+      Date.now();
+
+
+    const filePath =
+      vendorSession.vendor_id +
+      "/" +
+      folder +
+      "/" +
+      timestamp +
+      "-" +
+      randomPart +
+      ".jpg";
+
+
+    /* =================================================
+       UPLOAD
+    ================================================= */
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .storage
+        .from(
+          "client-images"
+        )
+        .upload(
+          filePath,
+          compressedFile,
+          {
+            cacheControl:
+              "3600",
+
+            upsert:
+              false,
+
+            contentType:
+              "image/jpeg"
+          }
+        );
+
+
+    if (error) {
+
+      console.error(
+        "Storage error:",
+        error
+      );
+
+
+      throw new Error(
+        "Impossible d'envoyer l'image : " +
+        error.message
+      );
+
+    }
+
+
+    /* =================================================
+       PUBLIC URL
+    ================================================= */
+
+    const {
+      data: publicData
+    } =
+      supabaseClient
+        .storage
+        .from(
+          "client-images"
+        )
+        .getPublicUrl(
+          data.path
+        );
+
+
+    return (
+      publicData.publicUrl
+    );
+
+  }
+
+
+  /* =====================================================
+     SUBMIT
+  ===================================================== */
+
+  form.addEventListener(
+    "submit",
+    async function (event) {
+
+      event.preventDefault();
+
+
+      successMessage.style.display =
+        "none";
+
+
+      errorMessage.style.display =
+        "none";
+
+
+      submitBtn.disabled =
+        true;
+
+
+      submitBtn.textContent =
+        "Préparation...";
+
+
+      try {
+
+        /* ===============================================
+           DONNÉES
+        =============================================== */
+
+        const name =
+          document
+            .getElementById(
+              "name"
+            )
+            .value
+            .trim();
+
+
+        const description =
+          document
+            .getElementById(
+              "description"
+            )
+            .value
+            .trim();
+
+
+        const instagram =
+          document
+            .getElementById(
+              "instagram"
+            )
+            .value
+            .trim();
+
+
+        const facebook =
+          document
+            .getElementById(
+              "facebook"
+            )
+            .value
+            .trim();
+
+
+        const tiktok =
+          document
+            .getElementById(
+              "tiktok"
+            )
+            .value
+            .trim();
+
+
+        const snapchat =
+          document
+            .getElementById(
+              "snapchat"
+            )
+            .value
+            .trim();
+
+
+        const website =
+          document
+            .getElementById(
+              "website"
+            )
+            .value
+            .trim();
+
+
+        const phone =
+          document
+            .getElementById(
+              "phone"
+            )
+            .value
+            .trim();
+
+
+        const whatsapp =
+          document
+            .getElementById(
+              "whatsapp"
+            )
+            .value
+            .trim();
+
+
+        const googleMaps =
+          document
+            .getElementById(
+              "googleMaps"
+            )
+            .value
+            .trim();
+
+
+        if (!name) {
+
+          throw new Error(
+            "Veuillez entrer le nom du client."
+          );
+
+        }
+
+
+        /* ===============================================
+           IMAGES
+        =============================================== */
+
+        let profileImage =
+          currentProfileImage;
+
+
+        let coverImage =
+          currentCoverImage;
+
+
+        /*
+          إذا اختار صورة Profile جديدة
+          نضغطها ونرفعها
+        */
+
+        if (
+          profileInput.files &&
+          profileInput.files.length > 0
+        ) {
+
+          submitBtn.textContent =
+            "Compression de la photo...";
+
+
+          profileImage =
+            await uploadImage(
+              profileInput.files[0],
+              "profile"
+            );
+
+        }
+
+
+        /*
+          إذا اختار Cover جديدة
+        */
+
+        if (
+          coverInput.files &&
+          coverInput.files.length > 0
+        ) {
+
+          submitBtn.textContent =
+            "Compression de la couverture...";
+
+
+          coverImage =
+            await uploadImage(
+              coverInput.files[0],
+              "cover"
+            );
+
+        }
+
+
+        /* ===============================================
+           UPDATE
+        =============================================== */
+
+        submitBtn.textContent =
           "Enregistrement...";
 
 
-        try {
-
-          /*
-            Vérifier session
-          */
-
-          const valid =
-            await verifySession();
-
-
-          if (!valid) {
-
-            return;
-
-          }
-
-
-          /*
-            DONNÉES
-          */
-
-          const name =
-            document.getElementById(
-              "name"
-            ).value.trim();
-
-
-          const description =
-            document.getElementById(
-              "description"
-            ).value.trim();
-
-
-          const instagram =
-            document.getElementById(
-              "instagram"
-            ).value.trim();
-
-
-          const facebook =
-            document.getElementById(
-              "facebook"
-            ).value.trim();
-
-
-          const tiktok =
-            document.getElementById(
-              "tiktok"
-            ).value.trim();
-
-
-          const snapchat =
-            document.getElementById(
-              "snapchat"
-            ).value.trim();
-
-
-          const website =
-            document.getElementById(
-              "website"
-            ).value.trim();
-
-
-          const phone =
-            document.getElementById(
-              "phone"
-            ).value.trim();
-
-
-          const whatsapp =
-            document.getElementById(
-              "whatsapp"
-            ).value.trim();
-
-
-          const googleMaps =
-            document.getElementById(
-              "googleMaps"
-            ).value.trim();
-
-
-          if (!name) {
-
-            throw new Error(
-              "Veuillez entrer le nom du client."
-            );
-
-          }
-
-
-          /*
-            IMAGES
-          */
-
-          let profileImage =
-            currentProfileImage;
-
-
-          let coverImage =
-            currentCoverImage;
-
-
-          /*
-            Nouvelle photo profil
-          */
-
-          if (
-            profileImageInput.files &&
-            profileImageInput.files.length > 0
-          ) {
-
-            saveButton.textContent =
-              "Envoi de la photo de profil...";
-
-
-            profileImage =
-              await uploadImage(
-                profileImageInput.files[0],
-                "profile"
-              );
-
-          }
-
-
-          /*
-            Nouvelle cover
-          */
-
-          if (
-            coverImageInput.files &&
-            coverImageInput.files.length > 0
-          ) {
-
-            saveButton.textContent =
-              "Envoi de la couverture...";
-
-
-            coverImage =
-              await uploadImage(
-                coverImageInput.files[0],
-                "cover"
-              );
-
-          }
-
-
-          /*
-            UPDATE
-          */
-
-          saveButton.textContent =
-            "Enregistrement...";
-
-
-          const {
-            data,
-            error
-          } =
-            await supabaseClient.rpc(
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+            .rpc(
               "update_vendor_client",
               {
-
                 p_session_token:
                   vendorSession.session_token,
 
@@ -1645,114 +1761,91 @@
 
                 p_google_maps:
                   googleMaps
-
               }
             );
 
 
-          if (error) {
+        if (error) {
 
-            console.error(
-              "Update error:",
-              error
-            );
-
-
-            throw new Error(
-              error.message ||
-              "Impossible d'enregistrer les modifications."
-            );
-
-          }
-
-
-          showSuccess(
-            "Les modifications ont été enregistrées avec succès."
+          console.error(
+            "RPC error:",
+            error
           );
 
 
-          saveButton.textContent =
-            "Modifications enregistrées ✓";
-
-
-          /*
-            Retour Dashboard
-            après 1 seconde
-          */
-
-          setTimeout(
-            function() {
-
-              window.location.href =
-                "vendor-dashboard.html";
-
-            },
-            1000
+          throw new Error(
+            error.message
           );
-
-
-        } catch (error) {
-
-          console.error(error);
-
-
-          showError(
-            error.message ||
-            "Une erreur est survenue."
-          );
-
-
-          saveButton.disabled =
-            false;
-
-
-          saveButton.textContent =
-            "Enregistrer les modifications";
 
         }
 
+
+        /* ===============================================
+           SUCCESS
+        =============================================== */
+
+        successMessage.textContent =
+          "Client modifié avec succès.";
+
+        successMessage.style.display =
+          "block";
+
+
+        submitBtn.textContent =
+          "Modifications enregistrées ✓";
+
+
+        /*
+          Retour dashboard
+        */
+
+        setTimeout(
+          () => {
+
+            window.location.href =
+              "vendor-dashboard.html";
+
+          },
+          1500
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+
+        errorMessage.textContent =
+          error.message ||
+          "Une erreur est survenue.";
+
+
+        errorMessage.style.display =
+          "block";
+
+
+        submitBtn.disabled =
+          false;
+
+
+        submitBtn.textContent =
+          "Enregistrer les modifications";
+
       }
-    );
-
-
-    /* =========================================
-       BACK
-    ========================================= */
-
-    function goBack() {
-
-      window.location.href =
-        "vendor-dashboard.html";
 
     }
+  );
 
 
-    /* =========================================
-       INIT
-    ========================================= */
+  /* =====================================================
+     START
+  ===================================================== */
 
-    async function init() {
+  loadClient();
 
-      const valid =
-        await verifySession();
-
-
-      if (!valid) {
-
-        return;
-
-      }
-
-
-      await loadClient();
-
-    }
-
-
-    init();
-
-  </script>
+</script>
 
 </body>
-
 </html>
