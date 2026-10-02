@@ -22,15 +22,48 @@
       padding: 0;
     }
 
+    :root {
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --text: #17191c;
+      --muted: #7b818a;
+      --border: #e8ebee;
+      --soft: #f7f8fa;
+      --dark: #17191c;
+      --green: #159447;
+      --green-bg: #e9f8ef;
+      --red: #d43b3b;
+      --red-bg: #fff0f0;
+      --shadow: 0 10px 35px rgba(20, 25, 30, 0.06);
+      --shadow-hover: 0 15px 40px rgba(20, 25, 30, 0.10);
+    }
+
     body {
       font-family: Arial, sans-serif;
-      background: #f5f6fa;
-      color: #222;
-      padding: 20px;
+      background:
+        radial-gradient(
+          circle at top left,
+          #ffffff 0,
+          #f4f6f8 42%,
+          #eef1f4 100%
+        );
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    button,
+    input {
+      font-family: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
     }
 
     .container {
-      max-width: 1200px;
+      width: 100%;
+      max-width: 1240px;
       margin: auto;
     }
 
@@ -39,54 +72,103 @@
     ========================= */
 
     header {
-      background: white;
-      padding: 20px;
-      border-radius: 16px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(255,255,255,0.9);
+      padding: 22px 24px;
+      border-radius: 22px;
       margin-bottom: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 15px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+      gap: 20px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+      background: #17191c;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      font-weight: 800;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
     }
 
     header h1 {
-      font-size: 24px;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
     }
 
     header p {
       margin-top: 5px;
-      color: #777;
+      color: var(--muted);
+      font-size: 13px;
     }
 
     .header-actions {
       display: flex;
-      gap: 10px;
+      gap: 9px;
       align-items: center;
     }
 
     .add-vendor-btn,
     .logout-btn {
       border: none;
-      padding: 10px 16px;
-      border-radius: 10px;
+      padding: 11px 16px;
+      border-radius: 12px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: 0.2s ease;
     }
 
     .add-vendor-btn {
-      background: #111;
+      background: var(--dark);
       color: white;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.10);
     }
 
     .logout-btn {
-      background: #222;
-      color: white;
+      background: #f1f2f4;
+      color: #33373c;
     }
 
     .add-vendor-btn:hover,
     .logout-btn:hover {
-      opacity: 0.85;
+      transform: translateY(-1px);
+    }
+
+    .add-vendor-btn:active,
+    .logout-btn:active {
+      transform: translateY(0);
+    }
+
+    /* =========================
+       ERROR
+    ========================= */
+
+    .error {
+      background: var(--red-bg);
+      color: var(--red);
+      border: 1px solid #ffd7d7;
+      padding: 14px 16px;
+      border-radius: 13px;
+      margin-bottom: 18px;
+      display: none;
+      font-size: 14px;
+      font-weight: 600;
     }
 
     /* =========================
@@ -101,21 +183,48 @@
     }
 
     .stat-card {
-      background: white;
+      position: relative;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--border);
       padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      transition: 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      background: #f5f6f8;
+      right: -28px;
+      top: -30px;
     }
 
     .stat-card span {
       display: block;
-      color: #777;
-      font-size: 14px;
-      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
     }
 
     .stat-card strong {
-      font-size: 28px;
+      font-size: 31px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      position: relative;
+      z-index: 1;
     }
 
     /* =========================
@@ -123,30 +232,63 @@
     ========================= */
 
     .panel {
-      background: white;
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+      background: rgba(255,255,255,0.95);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: var(--shadow);
     }
 
     .panel-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      gap: 15px;
       margin-bottom: 20px;
     }
 
-    .panel-header h2 {
-      font-size: 20px;
+    .panel-title h2 {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+
+    .panel-title p {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .search-wrap {
+      position: relative;
+      width: 280px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9298a0;
+      font-size: 14px;
+      pointer-events: none;
     }
 
     .search {
-      width: 260px;
-      padding: 11px 13px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
+      width: 100%;
+      padding: 12px 13px 12px 37px;
+      border: 1px solid var(--border);
+      background: #fafbfc;
+      border-radius: 12px;
       outline: none;
+      font-size: 13px;
+      transition: 0.2s ease;
+    }
+
+    .search:focus {
+      background: white;
+      border-color: #b8bdc4;
+      box-shadow: 0 0 0 3px rgba(20,25,30,0.04);
     }
 
     /* =========================
@@ -155,29 +297,77 @@
 
     .table-wrapper {
       overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 15px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 800px;
+      min-width: 850px;
     }
 
     th,
     td {
-      padding: 14px 12px;
+      padding: 15px 14px;
       text-align: left;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid var(--border);
     }
 
     th {
-      font-size: 13px;
-      color: #777;
-      background: #fafafa;
+      font-size: 11px;
+      color: #858b93;
+      background: #fafbfc;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      font-weight: 800;
     }
 
     td {
-      font-size: 14px;
+      font-size: 13px;
+      background: white;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr {
+      transition: 0.15s ease;
+    }
+
+    tbody tr:hover td {
+      background: #fcfcfd;
+    }
+
+    .vendor-name {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .vendor-avatar {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      border-radius: 11px;
+      background: #17191c;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .vendor-name strong {
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .vendor-email {
+      color: #70767e;
+      font-size: 12px;
     }
 
     /* =========================
@@ -185,20 +375,31 @@
     ========================= */
 
     .status {
-      display: inline-block;
-      padding: 5px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
       border-radius: 20px;
-      font-size: 12px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .status::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
     }
 
     .status.active {
-      background: #e8f7ed;
-      color: #16833b;
+      background: var(--green-bg);
+      color: var(--green);
     }
 
     .status.inactive {
-      background: #fdeaea;
-      color: #c62828;
+      background: var(--red-bg);
+      color: var(--red);
     }
 
     /* =========================
@@ -206,8 +407,16 @@
     ========================= */
 
     .links-count {
-      font-weight: bold;
-      font-size: 18px;
+      display: inline-flex;
+      min-width: 36px;
+      height: 32px;
+      padding: 0 10px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9px;
+      background: #f3f4f6;
+      font-weight: 800;
+      font-size: 13px;
     }
 
     /* =========================
@@ -221,25 +430,28 @@
     }
 
     .action-btn {
-      border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
+      border: 1px solid transparent;
+      padding: 8px 11px;
+      border-radius: 9px;
       cursor: pointer;
-      font-size: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      transition: 0.18s ease;
     }
 
     .reset-btn {
-      background: #222;
+      background: #17191c;
       color: white;
     }
 
     .history-btn {
-      background: #eee;
-      color: #222;
+      background: #f1f2f4;
+      color: #30343a;
+      border-color: #e6e8eb;
     }
 
     .action-btn:hover {
-      opacity: 0.85;
+      transform: translateY(-1px);
     }
 
     /* =========================
@@ -247,18 +459,10 @@
     ========================= */
 
     .message {
-      padding: 20px;
-      text-align: center;
-      color: #777;
-    }
-
-    .error {
-      background: #ffe9e9;
-      color: #c62828;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      display: none;
+      padding: 28px !important;
+      text-align: center !important;
+      color: #858b93;
+      font-size: 13px;
     }
 
     /* =========================
@@ -268,13 +472,13 @@
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.55);
+      background: rgba(12,15,18,0.58);
       display: none;
       justify-content: center;
       align-items: center;
       padding: 20px;
       z-index: 9999;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(7px);
     }
 
     .modal.show {
@@ -285,50 +489,56 @@
       background: white;
       width: 100%;
       max-width: 500px;
-      border-radius: 18px;
-      padding: 22px;
-      max-height: 85vh;
+      border-radius: 21px;
+      padding: 24px;
+      max-height: 88vh;
       overflow-y: auto;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.20);
       animation: modalAppear 0.2s ease;
     }
 
     @keyframes modalAppear {
-
       from {
         opacity: 0;
-        transform: translateY(10px) scale(0.97);
+        transform: translateY(12px) scale(0.97);
       }
 
       to {
         opacity: 1;
         transform: translateY(0) scale(1);
       }
-
     }
 
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 21px;
     }
 
     .modal-header h3 {
-      font-size: 20px;
+      font-size: 19px;
+      font-weight: 800;
     }
 
     .close-btn {
       border: none;
-      background: #eee;
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
+      background: #f1f2f4;
+      color: #555b62;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
       cursor: pointer;
       font-size: 18px;
+      transition: 0.18s ease;
+    }
+
+    .close-btn:hover {
+      background: #e7e9ec;
     }
 
     /* =========================
-       ADD VENDOR FORM
+       FORM
     ========================= */
 
     .form-group {
@@ -338,67 +548,75 @@
     .form-group label {
       display: block;
       margin-bottom: 7px;
-      font-size: 14px;
-      font-weight: bold;
+      font-size: 12px;
+      font-weight: 800;
+      color: #33373c;
     }
 
     .form-input {
       width: 100%;
       padding: 13px 14px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
+      border: 1px solid #dfe2e6;
+      background: #fafbfc;
+      border-radius: 11px;
       outline: none;
-      font-size: 15px;
+      font-size: 14px;
+      transition: 0.2s ease;
     }
 
     .form-input:focus {
-      border-color: #222;
+      background: white;
+      border-color: #999fa7;
+      box-shadow: 0 0 0 3px rgba(20,25,30,0.04);
     }
 
     .pin-input {
-      letter-spacing: 5px;
+      letter-spacing: 6px;
       font-size: 20px;
-      font-weight: bold;
+      font-weight: 800;
     }
 
     .form-help {
-      color: #888;
-      font-size: 12px;
+      color: #8a9098;
+      font-size: 11px;
       margin-top: 6px;
     }
 
     .form-error {
       display: none;
-      background: #ffe9e9;
-      color: #c62828;
-      padding: 11px;
-      border-radius: 9px;
-      font-size: 13px;
+      background: var(--red-bg);
+      color: var(--red);
+      border: 1px solid #ffd7d7;
+      padding: 11px 12px;
+      border-radius: 10px;
+      font-size: 12px;
       margin-bottom: 15px;
+      font-weight: 600;
     }
 
     .form-actions {
       display: flex;
-      gap: 10px;
-      margin-top: 20px;
+      gap: 9px;
+      margin-top: 21px;
     }
 
     .form-actions button {
       flex: 1;
       border: none;
       padding: 13px;
-      border-radius: 10px;
+      border-radius: 11px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 13px;
+      font-weight: 750;
     }
 
     .cancel-btn {
-      background: #eee;
-      color: #222;
+      background: #f0f1f3;
+      color: #30343a;
     }
 
     .create-btn {
-      background: #111;
+      background: #17191c;
       color: white;
     }
 
@@ -416,43 +634,48 @@
     }
 
     .success-icon {
-      width: 64px;
-      height: 64px;
+      width: 62px;
+      height: 62px;
       margin: 0 auto 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #e8f7ed;
-      color: #16833b;
-      border-radius: 50%;
-      font-size: 30px;
+      background: var(--green-bg);
+      color: var(--green);
+      border-radius: 18px;
+      font-size: 29px;
+      font-weight: 800;
     }
 
     .created-title {
       text-align: center;
-      font-size: 21px;
+      font-size: 20px;
       margin-bottom: 8px;
+      font-weight: 800;
     }
 
     .created-description {
       text-align: center;
-      color: #777;
-      font-size: 14px;
+      color: #777e86;
+      font-size: 13px;
       margin-bottom: 20px;
-      line-height: 1.5;
+      line-height: 1.55;
     }
 
     .credential-box {
-      background: #f7f7f7;
-      border: 1px solid #eee;
+      background: #f8f9fa;
+      border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 12px;
+      padding: 13px;
+      margin-bottom: 10px;
     }
 
     .credential-label {
-      color: #777;
-      font-size: 12px;
+      color: #858b93;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 800;
       margin-bottom: 6px;
     }
 
@@ -465,34 +688,37 @@
     .credential-value span {
       flex: 1;
       word-break: break-all;
-      font-size: 14px;
-      font-weight: bold;
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .copy-btn {
       border: none;
-      background: #222;
+      background: #17191c;
       color: white;
-      padding: 8px 10px;
+      padding: 8px 11px;
       border-radius: 8px;
       cursor: pointer;
       white-space: nowrap;
+      font-size: 11px;
+      font-weight: 700;
     }
 
     .pin-display {
-      letter-spacing: 4px;
+      letter-spacing: 5px;
       font-size: 20px !important;
     }
 
     .done-btn {
       width: 100%;
       border: none;
-      background: #111;
+      background: #17191c;
       color: white;
       padding: 13px;
-      border-radius: 10px;
+      border-radius: 11px;
       cursor: pointer;
       margin-top: 8px;
+      font-weight: 750;
     }
 
     /* =========================
@@ -501,27 +727,29 @@
 
     .history-item {
       padding: 14px;
-      border: 1px solid #eee;
+      border: 1px solid var(--border);
       border-radius: 12px;
-      margin-bottom: 10px;
+      margin-bottom: 9px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
+      background: #fafbfc;
     }
 
     .history-count {
-      font-weight: bold;
+      font-weight: 800;
+      font-size: 13px;
     }
 
     .history-date {
-      color: #777;
-      font-size: 13px;
+      color: #777e86;
+      font-size: 11px;
       text-align: right;
     }
 
     /* =========================
-       RESET CONFIRMATION
+       RESET
     ========================= */
 
     .reset-confirm-box {
@@ -537,27 +765,28 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 50%;
-      background: #f1f1f1;
-      font-size: 30px;
-      color: #222;
+      border-radius: 18px;
+      background: #f1f2f4;
+      font-size: 28px;
+      color: #22262a;
     }
 
     .reset-confirm-box h3 {
-      font-size: 21px;
-      margin-bottom: 10px;
+      font-size: 20px;
+      margin-bottom: 9px;
+      font-weight: 800;
     }
 
     .reset-confirm-box p {
-      color: #777;
-      font-size: 14px;
-      line-height: 1.5;
-      margin-bottom: 25px;
+      color: #777e86;
+      font-size: 13px;
+      line-height: 1.55;
+      margin-bottom: 23px;
     }
 
     .reset-actions {
       display: flex;
-      gap: 10px;
+      gap: 9px;
     }
 
     .reset-actions button {
@@ -566,41 +795,40 @@
       padding: 12px;
       border-radius: 10px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 13px;
+      font-weight: 750;
     }
 
     .cancel-reset-btn {
-      background: #eeeeee;
-      color: #222;
+      background: #eeeeef;
+      color: #22262a;
     }
 
     .confirm-reset-btn {
-      background: #222;
+      background: #17191c;
       color: white;
     }
 
-    .reset-actions button:hover {
-      opacity: 0.85;
-    }
-
     /* =========================
-       SUCCESS TOAST
+       TOAST
     ========================= */
 
     .success-toast {
       position: fixed;
       left: 50%;
-      bottom: 25px;
+      bottom: 24px;
       transform: translateX(-50%) translateY(20px);
-      background: #222;
+      background: #17191c;
       color: white;
-      padding: 13px 20px;
+      padding: 12px 18px;
       border-radius: 12px;
-      font-size: 14px;
+      font-size: 12px;
+      font-weight: 700;
       opacity: 0;
       pointer-events: none;
       transition: 0.25s ease;
       z-index: 10000;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.20);
     }
 
     .success-toast.show {
@@ -619,8 +847,23 @@
       }
 
       header {
-        flex-direction: column;
+        padding: 17px;
+        border-radius: 18px;
         align-items: stretch;
+      }
+
+      .brand-area {
+        align-items: flex-start;
+      }
+
+      .brand-icon {
+        width: 43px;
+        height: 43px;
+        border-radius: 13px;
+      }
+
+      header h1 {
+        font-size: 19px;
       }
 
       .header-actions {
@@ -634,7 +877,28 @@
       }
 
       .stats {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .stat-card {
+        padding: 14px 11px;
+        border-radius: 14px;
+      }
+
+      .stat-card span {
+        font-size: 9px;
+        line-height: 1.35;
+        min-height: 25px;
+      }
+
+      .stat-card strong {
+        font-size: 24px;
+      }
+
+      .panel {
+        padding: 15px;
+        border-radius: 17px;
       }
 
       .panel-header {
@@ -642,8 +906,12 @@
         align-items: stretch;
       }
 
-      .search {
+      .search-wrap {
         width: 100%;
+      }
+
+      .table-wrapper {
+        margin: 0 -1px;
       }
 
       .modal {
@@ -651,7 +919,37 @@
       }
 
       .modal-box {
-        border-radius: 16px;
+        border-radius: 17px;
+        padding: 20px;
+      }
+
+    }
+
+    @media (max-width: 430px) {
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 16px;
+      }
+
+      .stat-card span {
+        min-height: auto;
+        margin-bottom: 0;
+      }
+
+      .stat-card strong {
+        font-size: 25px;
+      }
+
+      .form-actions,
+      .reset-actions {
+        flex-direction: column;
       }
 
     }
@@ -670,15 +968,23 @@
 
   <header>
 
-    <div>
+    <div class="brand-area">
 
-      <h1>
-        TAPTAPCARD Admin
-      </h1>
+      <div class="brand-icon">
+        TC
+      </div>
 
-      <p id="welcome">
-        Chargement...
-      </p>
+      <div>
+
+        <h1>
+          TAPTAPCARD Admin
+        </h1>
+
+        <p id="welcome">
+          Chargement...
+        </p>
+
+      </div>
 
     </div>
 
@@ -716,7 +1022,6 @@
   <!-- STATS -->
 
   <section class="stats">
-
 
     <div class="stat-card">
 
@@ -756,7 +1061,6 @@
 
     </div>
 
-
   </section>
 
 
@@ -764,21 +1068,36 @@
 
   <section class="panel">
 
-
     <div class="panel-header">
 
-      <h2>
-        Gestion des vendeurs
-      </h2>
+      <div class="panel-title">
+
+        <h2>
+          Gestion des vendeurs
+        </h2>
+
+        <p>
+          Gérez les vendeurs et leurs compteurs de liens.
+        </p>
+
+      </div>
 
 
-      <input
-        type="text"
-        id="searchInput"
-        class="search"
-        placeholder="Rechercher un vendeur..."
-        oninput="renderVendors()"
-      >
+      <div class="search-wrap">
+
+        <span class="search-icon">
+          ⌕
+        </span>
+
+        <input
+          type="text"
+          id="searchInput"
+          class="search"
+          placeholder="Rechercher un vendeur..."
+          oninput="renderVendors()"
+        >
+
+      </div>
 
     </div>
 
@@ -791,15 +1110,25 @@
 
           <tr>
 
-            <th>Nom</th>
+            <th>
+              Vendeur
+            </th>
 
-            <th>Email</th>
+            <th>
+              Email
+            </th>
 
-            <th>Statut</th>
+            <th>
+              Statut
+            </th>
 
-            <th>Liens actuels</th>
+            <th>
+              Liens actuels
+            </th>
 
-            <th>Actions</th>
+            <th>
+              Actions
+            </th>
 
           </tr>
 
@@ -825,7 +1154,6 @@
 
     </div>
 
-
   </section>
 
 
@@ -843,11 +1171,7 @@
 
   <div class="modal-box">
 
-
-    <!-- FORM -->
-
     <div id="addVendorForm">
-
 
       <div class="modal-header">
 
@@ -931,7 +1255,6 @@
 
       </div>
 
-
     </div>
 
 
@@ -941,7 +1264,6 @@
       id="createdVendorBox"
       class="created-box"
     >
-
 
       <div class="success-icon">
         ✓
@@ -1034,9 +1356,7 @@
         Terminé
       </button>
 
-
     </div>
-
 
   </div>
 
@@ -1140,7 +1460,6 @@
 
 <script>
 
-
   /* =========================
      SUPABASE
   ========================= */
@@ -1163,21 +1482,13 @@
   ========================= */
 
   let currentUser = null;
-
   let currentAdmin = null;
-
   let vendors = [];
-
   let clients = [];
-
   let resets = [];
-
   let resetVendorId = null;
-
   let resetVendorLinks = 0;
-
   let createdVendorUrlValue = "";
-
   let createdVendorPinValue = "";
 
 
@@ -1219,8 +1530,7 @@
       }
 
 
-      currentUser =
-        user;
+      currentUser = user;
 
 
       /* =========================
@@ -1301,8 +1611,7 @@
       }
 
 
-      currentAdmin =
-        vendor;
+      currentAdmin = vendor;
 
 
       document.getElementById(
@@ -1337,13 +1646,10 @@
   async function loadData() {
 
     await loadVendors();
-
     await loadClients();
-
     await loadResets();
 
     updateStats();
-
     renderVendors();
 
   }
@@ -1390,8 +1696,7 @@
     }
 
 
-    vendors =
-      data || [];
+    vendors = data || [];
 
   }
 
@@ -1427,8 +1732,7 @@
     }
 
 
-    clients =
-      data || [];
+    clients = data || [];
 
   }
 
@@ -1471,8 +1775,7 @@
     }
 
 
-    resets =
-      data || [];
+    resets = data || [];
 
   }
 
@@ -1489,21 +1792,13 @@
       resets
         .filter(
           reset =>
-            Number(
-              reset.vendor_id
-            ) ===
-            Number(
-              vendorId
-            )
+            Number(reset.vendor_id) ===
+            Number(vendorId)
         )
         .sort(
           (a, b) =>
-            new Date(
-              b.reset_at
-            ) -
-            new Date(
-              a.reset_at
-            )
+            new Date(b.reset_at) -
+            new Date(a.reset_at)
         );
 
 
@@ -1523,16 +1818,12 @@
   ) {
 
     const lastReset =
-      getLastReset(
-        vendorId
-      );
+      getLastReset(vendorId);
 
 
     const resetDate =
       lastReset
-        ? new Date(
-            lastReset.reset_at
-          )
+        ? new Date(lastReset.reset_at)
         : null;
 
 
@@ -1540,12 +1831,8 @@
       client => {
 
         if (
-          Number(
-            client.vendor_id
-          ) !==
-          Number(
-            vendorId
-          )
+          Number(client.vendor_id) !==
+          Number(vendorId)
         ) {
 
           return false;
@@ -1554,9 +1841,7 @@
 
 
         if (!resetDate) {
-
           return true;
-
         }
 
 
@@ -1634,8 +1919,7 @@
       String(
         document.getElementById(
           "searchInput"
-        ).value ||
-        ""
+        ).value || ""
       )
       .trim()
       .toLowerCase();
@@ -1647,18 +1931,14 @@
 
           const name =
             String(
-              vendor.name ||
-              ""
-            )
-            .toLowerCase();
+              vendor.name || ""
+            ).toLowerCase();
 
 
           const email =
             String(
-              vendor.email ||
-              ""
-            )
-            .toLowerCase();
+              vendor.email || ""
+            ).toLowerCase();
 
 
           return (
@@ -1705,10 +1985,8 @@
 
             const status =
               String(
-                vendor.status ||
-                ""
-              )
-              .toLowerCase();
+                vendor.status || ""
+              ).toLowerCase();
 
 
             const statusClass =
@@ -1723,28 +2001,49 @@
                 : "Inactif";
 
 
+            const vendorName =
+              vendor.name ||
+              "Vendeur";
+
+
+            const avatar =
+              vendorName
+                .trim()
+                .charAt(0)
+                .toUpperCase();
+
+
             return `
 
               <tr>
 
                 <td>
 
-                  <strong>
-                    ${escapeHtml(
-                      vendor.name ||
-                      "Vendeur"
-                    )}
-                  </strong>
+                  <div class="vendor-name">
+
+                    <div class="vendor-avatar">
+                      ${escapeHtml(avatar)}
+                    </div>
+
+                    <strong>
+                      ${escapeHtml(
+                        vendorName
+                      )}
+                    </strong>
+
+                  </div>
 
                 </td>
 
 
                 <td>
 
-                  ${escapeHtml(
-                    vendor.email ||
-                    "-"
-                  )}
+                  <span class="vendor-email">
+                    ${escapeHtml(
+                      vendor.email ||
+                      "-"
+                    )}
+                  </span>
 
                 </td>
 
@@ -1790,8 +2089,7 @@
                       onclick="showHistory(
                         ${vendor.id},
                         '${escapeAttribute(
-                          vendor.name ||
-                          "Vendeur"
+                          vendorName
                         )}'
                       )"
                     >
@@ -1868,8 +2166,7 @@
       String(
         document.getElementById(
           "vendorName"
-        ).value ||
-        ""
+        ).value || ""
       ).trim();
 
 
@@ -1877,8 +2174,7 @@
       String(
         document.getElementById(
           "vendorPin"
-        ).value ||
-        ""
+        ).value || ""
       ).trim();
 
 
@@ -1916,9 +2212,7 @@
 
 
     button.disabled = true;
-
-    button.textContent =
-      "Création...";
+    button.textContent = "Création...";
 
 
     try {
@@ -1937,9 +2231,7 @@
 
 
       if (error) {
-
         throw error;
-
       }
 
 
@@ -2020,7 +2312,6 @@
     } finally {
 
       button.disabled = false;
-
       button.textContent =
         "Créer le vendeur";
 
@@ -2030,7 +2321,7 @@
 
 
   /* =========================
-     COPY CREATED URL
+     COPY
   ========================= */
 
   async function copyCreatedUrl() {
@@ -2052,10 +2343,6 @@
   }
 
 
-  /* =========================
-     COPY CREATED PIN
-  ========================= */
-
   async function copyCreatedPin() {
 
     if (!createdVendorPinValue) {
@@ -2075,9 +2362,7 @@
   }
 
 
-  async function copyText(
-    text
-  ) {
+  async function copyText(text) {
 
     try {
 
@@ -2092,24 +2377,24 @@
           "textarea"
         );
 
-      textarea.value =
-        text;
 
-      textarea.style.position =
-        "fixed";
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
 
-      textarea.style.opacity =
-        "0";
 
       document.body.appendChild(
         textarea
       );
 
+
       textarea.select();
+
 
       document.execCommand(
         "copy"
       );
+
 
       document.body.removeChild(
         textarea
@@ -2170,7 +2455,7 @@
 
 
   /* =========================
-     OPEN RESET MODAL
+     RESET
   ========================= */
 
   function resetVendor(
@@ -2229,10 +2514,6 @@
   }
 
 
-  /* =========================
-     CLOSE RESET
-  ========================= */
-
   function closeResetModal() {
 
     document.getElementById(
@@ -2242,19 +2523,11 @@
     );
 
 
-    resetVendorId =
-      null;
-
-
-    resetVendorLinks =
-      0;
+    resetVendorId = null;
+    resetVendorLinks = 0;
 
   }
 
-
-  /* =========================
-     CONFIRM RESET
-  ========================= */
 
   async function confirmReset() {
 
@@ -2503,10 +2776,6 @@
   }
 
 
-  /* =========================
-     CLOSE HISTORY
-  ========================= */
-
   function closeHistory() {
 
     document
@@ -2521,7 +2790,7 @@
 
 
   /* =========================
-     FORMAT DATE
+     DATE
   ========================= */
 
   function formatDate(
@@ -2595,7 +2864,7 @@
 
 
   /* =========================
-     ESCAPE HTML
+     ESCAPE
   ========================= */
 
   function escapeHtml(
@@ -2603,11 +2872,26 @@
   ) {
 
     return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+      .replace(
+        /</g,
+        "&lt;"
+      )
+      .replace(
+        />/g,
+        "&gt;"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
 
   }
 
@@ -2617,15 +2901,24 @@
   ) {
 
     return String(value)
-      .replace(/\\/g, "\\\\")
-      .replace(/'/g, "\\'")
-      .replace(/"/g, "&quot;");
+      .replace(
+        /\\/g,
+        "\\\\"
+      )
+      .replace(
+        /'/g,
+        "\\'"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      );
 
   }
 
 
   /* =========================
-     CLICK OUTSIDE MODALS
+     CLICK OUTSIDE
   ========================= */
 
   document
@@ -2637,8 +2930,7 @@
       function(event) {
 
         if (
-          event.target ===
-          this
+          event.target === this
         ) {
 
           closeHistory();
@@ -2658,8 +2950,7 @@
       function(event) {
 
         if (
-          event.target ===
-          this
+          event.target === this
         ) {
 
           closeResetModal();
@@ -2679,8 +2970,7 @@
       function(event) {
 
         if (
-          event.target ===
-          this
+          event.target === this
         ) {
 
           closeAddVendor();
@@ -2716,7 +3006,6 @@
 
       }
     );
-
 
 </script>
 
