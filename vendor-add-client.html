@@ -223,7 +223,7 @@
       <input
         type="file"
         id="profileImage"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/webp,image/gif,image/bmp,image/*"
       >
 
       <img
@@ -248,7 +248,7 @@
       <input
         type="file"
         id="coverImage"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/webp,image/gif,image/bmp,image/*"
       >
 
       <img
@@ -399,6 +399,7 @@
 
 </div>
 
+
 <script>
 
 /* =====================================================
@@ -517,8 +518,74 @@ function showPreview(
   preview.src =
     url;
 
+  preview.onload = function () {
+
+    URL.revokeObjectURL(url);
+
+  };
+
   preview.style.display =
     "block";
+
+}
+
+
+/* =====================================================
+   READ IMAGE USING FILEREADER
+===================================================== */
+
+function readImage(file) {
+
+  return new Promise(
+    (resolve, reject) => {
+
+      const reader =
+        new FileReader();
+
+      reader.onload =
+        function (event) {
+
+          const image =
+            new Image();
+
+          image.onload =
+            function () {
+
+              resolve(image);
+
+            };
+
+          image.onerror =
+            function () {
+
+              reject(
+                new Error(
+                  "Impossible de décoder l'image."
+                )
+              );
+
+            };
+
+          image.src =
+            event.target.result;
+
+        };
+
+      reader.onerror =
+        function () {
+
+          reject(
+            new Error(
+              "Impossible de lire l'image."
+            )
+          );
+
+        };
+
+      reader.readAsDataURL(file);
+
+    }
+  );
 
 }
 
@@ -536,13 +603,26 @@ async function compressImage(
     return null;
   }
 
-  if (!file.type.startsWith("image/")) {
+
+  /* =================================================
+     CHECK TYPE
+  ================================================= */
+
+  if (
+    !file.type ||
+    !file.type.startsWith("image/")
+  ) {
 
     throw new Error(
       "Le fichier doit être une image."
     );
 
   }
+
+
+  /* =================================================
+     CHECK ORIGINAL SIZE
+  ================================================= */
 
   if (
     file.size >
@@ -561,37 +641,7 @@ async function compressImage(
   ================================================= */
 
   const image =
-    new Image();
-
-  const objectUrl =
-    URL.createObjectURL(file);
-
-  await new Promise(
-    (resolve, reject) => {
-
-      image.onload =
-        resolve;
-
-      image.onerror =
-        () => {
-
-          reject(
-            new Error(
-              "Impossible de lire l'image."
-            )
-          );
-
-        };
-
-      image.src =
-        objectUrl;
-
-    }
-  );
-
-  URL.revokeObjectURL(
-    objectUrl
-  );
+    await readImage(file);
 
 
   /* =================================================
@@ -604,10 +654,29 @@ async function compressImage(
       : 1200;
 
   let width =
-    image.naturalWidth;
+    image.naturalWidth ||
+    image.width;
 
   let height =
-    image.naturalHeight;
+    image.naturalHeight ||
+    image.height;
+
+
+  if (
+    !width ||
+    !height
+  ) {
+
+    throw new Error(
+      "Dimensions de l'image invalides."
+    );
+
+  }
+
+
+  /* =================================================
+     RESIZE
+  ================================================= */
 
   if (
     width > maxWidth
@@ -638,6 +707,12 @@ async function compressImage(
       "canvas"
     );
 
+  canvas.width =
+    width;
+
+  canvas.height =
+    height;
+
   const ctx =
     canvas.getContext(
       "2d",
@@ -646,11 +721,18 @@ async function compressImage(
       }
     );
 
-  canvas.width =
-    width;
+  if (!ctx) {
 
-  canvas.height =
-    height;
+    throw new Error(
+      "Impossible de créer le canvas."
+    );
+
+  }
+
+
+  /* =================================================
+     WHITE BACKGROUND
+  ================================================= */
 
   ctx.fillStyle =
     "#ffffff";
@@ -661,6 +743,11 @@ async function compressImage(
     width,
     height
   );
+
+
+  /* =================================================
+     DRAW
+  ================================================= */
 
   ctx.drawImage(
     image,
@@ -681,6 +768,7 @@ async function compressImage(
   const MAX_SIZE =
     100 * 1024;
 
+
   let quality =
     0.82;
 
@@ -689,12 +777,12 @@ async function compressImage(
 
 
   /* =================================================
-     FIRST COMPRESSION
+     COMPRESSION
   ================================================= */
 
   for (
     let i = 0;
-    i < 10;
+    i < 12;
     i++
   ) {
 
@@ -711,6 +799,7 @@ async function compressImage(
         }
       );
 
+
     if (!blob) {
 
       throw new Error(
@@ -719,24 +808,31 @@ async function compressImage(
 
     }
 
-    const size =
-      blob.size;
+
+    /* ---------------------------------------------
+       SIZE OK
+    --------------------------------------------- */
 
     if (
-      size >= MIN_SIZE &&
-      size <= MAX_SIZE
+      blob.size >= MIN_SIZE &&
+      blob.size <= MAX_SIZE
     ) {
 
       break;
 
     }
 
+
+    /* ---------------------------------------------
+       TOO BIG
+    --------------------------------------------- */
+
     if (
-      size > MAX_SIZE
+      blob.size > MAX_SIZE
     ) {
 
       quality -=
-        0.07;
+        0.06;
 
       if (
         quality < 0.25
@@ -749,8 +845,13 @@ async function compressImage(
 
     }
 
+
+    /* ---------------------------------------------
+       TOO SMALL
+    --------------------------------------------- */
+
     if (
-      size < MIN_SIZE
+      blob.size < MIN_SIZE
     ) {
 
       break;
@@ -761,7 +862,7 @@ async function compressImage(
 
 
   /* =================================================
-     REDUCE DIMENSIONS IF STILL TOO BIG
+     IF STILL TOO BIG
   ================================================= */
 
   if (
@@ -771,7 +872,7 @@ async function compressImage(
 
     for (
       let i = 0;
-      i < 5;
+      i < 6;
       i++
     ) {
 
@@ -785,11 +886,13 @@ async function compressImage(
           height * 0.85
         );
 
+
       canvas.width =
         width;
 
       canvas.height =
         height;
+
 
       ctx.fillStyle =
         "#ffffff";
@@ -801,6 +904,7 @@ async function compressImage(
         height
       );
 
+
       ctx.drawImage(
         image,
         0,
@@ -808,6 +912,7 @@ async function compressImage(
         width,
         height
       );
+
 
       blob =
         await new Promise(
@@ -822,6 +927,7 @@ async function compressImage(
           }
         );
 
+
       if (!blob) {
 
         throw new Error(
@@ -829,6 +935,7 @@ async function compressImage(
         );
 
       }
+
 
       if (
         blob.size <= MAX_SIZE
@@ -892,6 +999,7 @@ profileInput.addEventListener(
     const file =
       profileInput.files[0];
 
+
     if (!file) {
 
       profilePreview.style.display =
@@ -907,16 +1015,19 @@ profileInput.addEventListener(
 
     }
 
+
     showPreview(
       profileInput,
       profilePreview
     );
+
 
     profileCompression.style.display =
       "block";
 
     profileCompression.textContent =
       "Compression en cours...";
+
 
     try {
 
@@ -926,8 +1037,10 @@ profileInput.addEventListener(
           "profile"
         );
 
+
       profileInput.compressedFile =
         compressedFile;
+
 
       profileCompression.textContent =
         "Image compressée : " +
@@ -938,11 +1051,14 @@ profileInput.addEventListener(
     } catch (error) {
 
       console.error(
+        "Profile image error:",
         error
       );
 
+
       profileInput.compressedFile =
         null;
+
 
       profileCompression.textContent =
         "Erreur : " +
@@ -965,6 +1081,7 @@ coverInput.addEventListener(
     const file =
       coverInput.files[0];
 
+
     if (!file) {
 
       coverPreview.style.display =
@@ -980,16 +1097,19 @@ coverInput.addEventListener(
 
     }
 
+
     showPreview(
       coverInput,
       coverPreview
     );
+
 
     coverCompression.style.display =
       "block";
 
     coverCompression.textContent =
       "Compression en cours...";
+
 
     try {
 
@@ -999,8 +1119,10 @@ coverInput.addEventListener(
           "cover"
         );
 
+
       coverInput.compressedFile =
         compressedFile;
+
 
       coverCompression.textContent =
         "Image compressée : " +
@@ -1011,11 +1133,14 @@ coverInput.addEventListener(
     } catch (error) {
 
       console.error(
+        "Cover image error:",
         error
       );
 
+
       coverInput.compressedFile =
         null;
+
 
       coverCompression.textContent =
         "Erreur : " +
@@ -1033,8 +1158,27 @@ coverInput.addEventListener(
 
 function generateUniqueFileName() {
 
+  if (
+    window.crypto &&
+    typeof crypto.randomUUID === "function"
+  ) {
+
+    return (
+      crypto.randomUUID() +
+      ".jpg"
+    );
+
+  }
+
+
+  /* Fallback */
+
   return (
-    crypto.randomUUID() +
+    Date.now() +
+    "-" +
+    Math.random()
+      .toString(36)
+      .substring(2, 12) +
     ".jpg"
   );
 
@@ -1054,7 +1198,7 @@ async function uploadImage(
 
 
   /* =================================================
-     CHOOSE PROFILE OR COVER
+     PROFILE
   ================================================= */
 
   if (
@@ -1064,14 +1208,28 @@ async function uploadImage(
     compressedFile =
       profileInput.compressedFile;
 
-  } else if (
+  }
+
+
+  /* =================================================
+     COVER
+  ================================================= */
+
+  else if (
     folder === "cover"
   ) {
 
     compressedFile =
       coverInput.compressedFile;
 
-  } else {
+  }
+
+
+  /* =================================================
+     INVALID TYPE
+  ================================================= */
+
+  else {
 
     throw new Error(
       "Type d'image invalide."
@@ -1079,6 +1237,10 @@ async function uploadImage(
 
   }
 
+
+  /* =================================================
+     CHECK FILE
+  ================================================= */
 
   if (!compressedFile) {
 
@@ -1090,12 +1252,16 @@ async function uploadImage(
 
 
   /* =================================================
-     UNIQUE PATH
+     UNIQUE NAME
   ================================================= */
 
   const uniqueFileName =
     generateUniqueFileName();
 
+
+  /* =================================================
+     UNIQUE PATH
+  ================================================= */
 
   const filePath =
     vendorSession.vendor_id +
@@ -1112,7 +1278,7 @@ async function uploadImage(
 
 
   /* =================================================
-     UPLOAD
+     SUPABASE UPLOAD
   ================================================= */
 
   const {
@@ -1146,6 +1312,7 @@ async function uploadImage(
       "Storage error:",
       error
     );
+
 
     throw new Error(
       "Impossible d'envoyer l'image : " +
@@ -1189,11 +1356,13 @@ form.addEventListener(
 
     event.preventDefault();
 
+
     successMessage.style.display =
       "none";
 
     errorMessage.style.display =
       "none";
+
 
     submitBtn.disabled =
       true;
@@ -1203,6 +1372,7 @@ form.addEventListener(
 
 
     try {
+
 
       /* =================================================
          BASIC DATA
@@ -1216,6 +1386,7 @@ form.addEventListener(
           .value
           .trim();
 
+
       const description =
         document
           .getElementById(
@@ -1223,6 +1394,7 @@ form.addEventListener(
           )
           .value
           .trim();
+
 
       const instagram =
         document
@@ -1232,6 +1404,7 @@ form.addEventListener(
           .value
           .trim();
 
+
       const facebook =
         document
           .getElementById(
@@ -1239,6 +1412,7 @@ form.addEventListener(
           )
           .value
           .trim();
+
 
       const tiktok =
         document
@@ -1248,6 +1422,7 @@ form.addEventListener(
           .value
           .trim();
 
+
       const snapchat =
         document
           .getElementById(
@@ -1255,6 +1430,7 @@ form.addEventListener(
           )
           .value
           .trim();
+
 
       const website =
         document
@@ -1264,6 +1440,7 @@ form.addEventListener(
           .value
           .trim();
 
+
       const phone =
         document
           .getElementById(
@@ -1271,6 +1448,7 @@ form.addEventListener(
           )
           .value
           .trim();
+
 
       const whatsapp =
         document
@@ -1280,6 +1458,7 @@ form.addEventListener(
           .value
           .trim();
 
+
       const googleMaps =
         document
           .getElementById(
@@ -1288,6 +1467,10 @@ form.addEventListener(
           .value
           .trim();
 
+
+      /* =================================================
+         CHECK NAME
+      ================================================= */
 
       if (!name) {
 
@@ -1318,6 +1501,7 @@ form.addEventListener(
         profileInput.files.length > 0
       ) {
 
+
         if (
           !profileInput.compressedFile
         ) {
@@ -1327,6 +1511,7 @@ form.addEventListener(
           );
 
         }
+
 
         submitBtn.textContent =
           "Envoi de la photo de profil...";
@@ -1349,6 +1534,7 @@ form.addEventListener(
         coverInput.files.length > 0
       ) {
 
+
         if (
           !coverInput.compressedFile
         ) {
@@ -1358,6 +1544,7 @@ form.addEventListener(
           );
 
         }
+
 
         submitBtn.textContent =
           "Envoi de la couverture...";
@@ -1431,12 +1618,17 @@ form.addEventListener(
           );
 
 
+      /* =================================================
+         RPC ERROR
+      ================================================= */
+
       if (error) {
 
         console.error(
           "RPC error:",
           error
         );
+
 
         throw new Error(
           error.message
@@ -1452,9 +1644,14 @@ form.addEventListener(
       successMessage.textContent =
         "Client ajouté avec succès.";
 
+
       successMessage.style.display =
         "block";
 
+
+      /* =================================================
+         RESET FORM
+      ================================================= */
 
       form.reset();
 
@@ -1466,11 +1663,25 @@ form.addEventListener(
         null;
 
 
+      profilePreview.src =
+        "";
+
+      coverPreview.src =
+        "";
+
+
       profilePreview.style.display =
         "none";
 
       coverPreview.style.display =
         "none";
+
+
+      profileCompression.textContent =
+        "";
+
+      coverCompression.textContent =
+        "";
 
 
       profileCompression.style.display =
@@ -1479,6 +1690,10 @@ form.addEventListener(
       coverCompression.style.display =
         "none";
 
+
+      /* =================================================
+         BUTTON
+      ================================================= */
 
       submitBtn.textContent =
         "Client ajouté ✓";
@@ -1502,18 +1717,23 @@ form.addEventListener(
     } catch (error) {
 
       console.error(
+        "Create client error:",
         error
       );
+
 
       errorMessage.textContent =
         error.message ||
         "Une erreur est survenue.";
 
+
       errorMessage.style.display =
         "block";
 
+
       submitBtn.disabled =
         false;
+
 
       submitBtn.textContent =
         "Ajouter le client";
