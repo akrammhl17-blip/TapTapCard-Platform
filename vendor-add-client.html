@@ -209,7 +209,6 @@
       ></textarea>
     </div>
 
-
     <!-- Images -->
     <div class="section-title">
       Images
@@ -240,7 +239,6 @@
 
     </div>
 
-
     <div class="field">
 
       <label for="coverImage">
@@ -266,14 +264,12 @@
 
     </div>
 
-
     <!-- Réseaux sociaux -->
     <div class="section-title">
       Réseaux sociaux
     </div>
 
     <div class="field">
-
       <label for="instagram">
         Instagram
       </label>
@@ -283,12 +279,9 @@
         id="instagram"
         placeholder="https://instagram.com/..."
       >
-
     </div>
 
-
     <div class="field">
-
       <label for="facebook">
         Facebook
       </label>
@@ -298,12 +291,9 @@
         id="facebook"
         placeholder="https://facebook.com/..."
       >
-
     </div>
 
-
     <div class="field">
-
       <label for="tiktok">
         TikTok
       </label>
@@ -313,12 +303,9 @@
         id="tiktok"
         placeholder="https://tiktok.com/@..."
       >
-
     </div>
 
-
     <div class="field">
-
       <label for="snapchat">
         Snapchat
       </label>
@@ -328,12 +315,9 @@
         id="snapchat"
         placeholder="@username"
       >
-
     </div>
 
-
     <div class="field">
-
       <label for="website">
         Website
       </label>
@@ -343,18 +327,14 @@
         id="website"
         placeholder="https://..."
       >
-
     </div>
-
 
     <!-- Contact -->
     <div class="section-title">
       Contact
     </div>
 
-
     <div class="field">
-
       <label for="phone">
         Téléphone
       </label>
@@ -364,12 +344,9 @@
         id="phone"
         placeholder="0550..."
       >
-
     </div>
 
-
     <div class="field">
-
       <label for="whatsapp">
         WhatsApp
       </label>
@@ -379,12 +356,9 @@
         id="whatsapp"
         placeholder="0550..."
       >
-
     </div>
 
-
     <div class="field">
-
       <label for="googleMaps">
         Google Maps
       </label>
@@ -394,9 +368,7 @@
         id="googleMaps"
         placeholder="https://maps.google.com/..."
       >
-
     </div>
-
 
     <button
       type="submit"
@@ -404,7 +376,6 @@
     >
       Ajouter le client
     </button>
-
 
     <button
       type="button"
@@ -416,12 +387,10 @@
 
   </form>
 
-
   <div
     id="successMessage"
     class="message success"
   ></div>
-
 
   <div
     id="errorMessage"
@@ -429,7 +398,6 @@
   ></div>
 
 </div>
-
 
 <script>
 
@@ -441,7 +409,6 @@ const vendorSession =
   JSON.parse(
     localStorage.getItem("vendor_session")
   );
-
 
 if (
   !vendorSession ||
@@ -544,10 +511,8 @@ function showPreview(
     return;
   }
 
-
   const url =
     URL.createObjectURL(file);
-
 
   preview.src =
     url;
@@ -571,7 +536,6 @@ async function compressImage(
     return null;
   }
 
-
   if (!file.type.startsWith("image/")) {
 
     throw new Error(
@@ -579,12 +543,6 @@ async function compressImage(
     );
 
   }
-
-
-  /*
-    Maximum original:
-    25 MB
-  */
 
   if (
     file.size >
@@ -607,7 +565,6 @@ async function compressImage(
 
   const objectUrl =
     URL.createObjectURL(file);
-
 
   await new Promise(
     (resolve, reject) => {
@@ -632,7 +589,6 @@ async function compressImage(
     }
   );
 
-
   URL.revokeObjectURL(
     objectUrl
   );
@@ -647,13 +603,11 @@ async function compressImage(
       ? 700
       : 1200;
 
-
   let width =
     image.naturalWidth;
 
   let height =
     image.naturalHeight;
-
 
   if (
     width > maxWidth
@@ -662,12 +616,10 @@ async function compressImage(
     const ratio =
       maxWidth / width;
 
-
     width =
       Math.round(
         width * ratio
       );
-
 
     height =
       Math.round(
@@ -686,7 +638,6 @@ async function compressImage(
       "canvas"
     );
 
-
   const ctx =
     canvas.getContext(
       "2d",
@@ -695,22 +646,14 @@ async function compressImage(
       }
     );
 
-
   canvas.width =
     width;
 
   canvas.height =
     height;
 
-
-  /*
-    White background
-    pour PNG transparent
-  */
-
   ctx.fillStyle =
     "#ffffff";
-
 
   ctx.fillRect(
     0,
@@ -718,7 +661,6 @@ async function compressImage(
     width,
     height
   );
-
 
   ctx.drawImage(
     image,
@@ -739,10 +681,8 @@ async function compressImage(
   const MAX_SIZE =
     100 * 1024;
 
-
   let quality =
     0.82;
-
 
   let blob =
     null;
@@ -771,7 +711,6 @@ async function compressImage(
         }
       );
 
-
     if (!blob) {
 
       throw new Error(
@@ -780,14 +719,8 @@ async function compressImage(
 
     }
 
-
     const size =
       blob.size;
-
-
-    /*
-      Between 50 and 100 KB
-    */
 
     if (
       size >= MIN_SIZE &&
@@ -798,18 +731,12 @@ async function compressImage(
 
     }
 
-
-    /*
-      Bigger than 100 KB
-    */
-
     if (
       size > MAX_SIZE
     ) {
 
       quality -=
         0.07;
-
 
       if (
         quality < 0.25
@@ -821,12 +748,6 @@ async function compressImage(
       }
 
     }
-
-
-    /*
-      Less than 50 KB
-      We accept it.
-    */
 
     if (
       size < MIN_SIZE
@@ -859,12 +780,10 @@ async function compressImage(
           width * 0.85
         );
 
-
       height =
         Math.round(
           height * 0.85
         );
-
 
       canvas.width =
         width;
@@ -872,10 +791,8 @@ async function compressImage(
       canvas.height =
         height;
 
-
       ctx.fillStyle =
         "#ffffff";
-
 
       ctx.fillRect(
         0,
@@ -884,7 +801,6 @@ async function compressImage(
         height
       );
 
-
       ctx.drawImage(
         image,
         0,
@@ -892,7 +808,6 @@ async function compressImage(
         width,
         height
       );
-
 
       blob =
         await new Promise(
@@ -907,7 +822,6 @@ async function compressImage(
           }
         );
 
-
       if (!blob) {
 
         throw new Error(
@@ -915,7 +829,6 @@ async function compressImage(
         );
 
       }
-
 
       if (
         blob.size <= MAX_SIZE
@@ -955,7 +868,6 @@ async function compressImage(
     )
   );
 
-
   console.log(
     "Compressed :",
     formatKB(
@@ -971,7 +883,6 @@ async function compressImage(
 
 /* =====================================================
    PROFILE IMAGE
-   COMPRESSION STARTS IMMEDIATELY
 ===================================================== */
 
 profileInput.addEventListener(
@@ -980,7 +891,6 @@ profileInput.addEventListener(
 
     const file =
       profileInput.files[0];
-
 
     if (!file) {
 
@@ -997,24 +907,16 @@ profileInput.addEventListener(
 
     }
 
-
-    /*
-      Preview original image
-    */
-
     showPreview(
       profileInput,
       profilePreview
     );
 
-
     profileCompression.style.display =
       "block";
 
-
     profileCompression.textContent =
       "Compression en cours...";
-
 
     try {
 
@@ -1024,18 +926,8 @@ profileInput.addEventListener(
           "profile"
         );
 
-
-      /*
-        Save compressed file
-      */
-
       profileInput.compressedFile =
         compressedFile;
-
-
-      /*
-        Show final size
-      */
 
       profileCompression.textContent =
         "Image compressée : " +
@@ -1043,17 +935,14 @@ profileInput.addEventListener(
           compressedFile.size
         );
 
-
     } catch (error) {
 
       console.error(
         error
       );
 
-
       profileInput.compressedFile =
         null;
-
 
       profileCompression.textContent =
         "Erreur : " +
@@ -1067,7 +956,6 @@ profileInput.addEventListener(
 
 /* =====================================================
    COVER IMAGE
-   COMPRESSION STARTS IMMEDIATELY
 ===================================================== */
 
 coverInput.addEventListener(
@@ -1076,7 +964,6 @@ coverInput.addEventListener(
 
     const file =
       coverInput.files[0];
-
 
     if (!file) {
 
@@ -1093,24 +980,16 @@ coverInput.addEventListener(
 
     }
 
-
-    /*
-      Preview original
-    */
-
     showPreview(
       coverInput,
       coverPreview
     );
 
-
     coverCompression.style.display =
       "block";
 
-
     coverCompression.textContent =
       "Compression en cours...";
-
 
     try {
 
@@ -1120,18 +999,8 @@ coverInput.addEventListener(
           "cover"
         );
 
-
-      /*
-        Save compressed file
-      */
-
       coverInput.compressedFile =
         compressedFile;
-
-
-      /*
-        Show final size
-      */
 
       coverCompression.textContent =
         "Image compressée : " +
@@ -1139,17 +1008,14 @@ coverInput.addEventListener(
           compressedFile.size
         );
 
-
     } catch (error) {
 
       console.error(
         error
       );
 
-
       coverInput.compressedFile =
         null;
-
 
       coverCompression.textContent =
         "Erreur : " +
@@ -1159,6 +1025,20 @@ coverInput.addEventListener(
 
   }
 );
+
+
+/* =====================================================
+   GENERATE UNIQUE FILE NAME
+===================================================== */
+
+function generateUniqueFileName() {
+
+  return (
+    crypto.randomUUID() +
+    ".jpg"
+  );
+
+}
 
 
 /* =====================================================
@@ -1173,6 +1053,10 @@ async function uploadImage(
     null;
 
 
+  /* =================================================
+     CHOOSE PROFILE OR COVER
+  ================================================= */
+
   if (
     folder === "profile"
   ) {
@@ -1180,10 +1064,18 @@ async function uploadImage(
     compressedFile =
       profileInput.compressedFile;
 
-  } else {
+  } else if (
+    folder === "cover"
+  ) {
 
     compressedFile =
       coverInput.compressedFile;
+
+  } else {
+
+    throw new Error(
+      "Type d'image invalide."
+    );
 
   }
 
@@ -1198,20 +1090,11 @@ async function uploadImage(
 
 
   /* =================================================
-     PATH
+     UNIQUE PATH
   ================================================= */
 
-  const randomPart =
-    Math.random()
-      .toString(36)
-      .substring(
-        2,
-        10
-      );
-
-
-  const timestamp =
-    Date.now();
+  const uniqueFileName =
+    generateUniqueFileName();
 
 
   const filePath =
@@ -1219,14 +1102,17 @@ async function uploadImage(
     "/" +
     folder +
     "/" +
-    timestamp +
-    "-" +
-    randomPart +
-    ".jpg";
+    uniqueFileName;
+
+
+  console.log(
+    "Upload path:",
+    filePath
+  );
 
 
   /* =================================================
-     UPLOAD COMPRESSED FILE
+     UPLOAD
   ================================================= */
 
   const {
@@ -1260,7 +1146,6 @@ async function uploadImage(
       "Storage error:",
       error
     );
-
 
     throw new Error(
       "Impossible d'envoyer l'image : " +
@@ -1304,17 +1189,14 @@ form.addEventListener(
 
     event.preventDefault();
 
-
     successMessage.style.display =
       "none";
 
     errorMessage.style.display =
       "none";
 
-
     submitBtn.disabled =
       true;
-
 
     submitBtn.textContent =
       "Création du client...";
@@ -1334,7 +1216,6 @@ form.addEventListener(
           .value
           .trim();
 
-
       const description =
         document
           .getElementById(
@@ -1342,7 +1223,6 @@ form.addEventListener(
           )
           .value
           .trim();
-
 
       const instagram =
         document
@@ -1352,7 +1232,6 @@ form.addEventListener(
           .value
           .trim();
 
-
       const facebook =
         document
           .getElementById(
@@ -1360,7 +1239,6 @@ form.addEventListener(
           )
           .value
           .trim();
-
 
       const tiktok =
         document
@@ -1370,7 +1248,6 @@ form.addEventListener(
           .value
           .trim();
 
-
       const snapchat =
         document
           .getElementById(
@@ -1378,7 +1255,6 @@ form.addEventListener(
           )
           .value
           .trim();
-
 
       const website =
         document
@@ -1388,7 +1264,6 @@ form.addEventListener(
           .value
           .trim();
 
-
       const phone =
         document
           .getElementById(
@@ -1397,7 +1272,6 @@ form.addEventListener(
           .value
           .trim();
 
-
       const whatsapp =
         document
           .getElementById(
@@ -1405,7 +1279,6 @@ form.addEventListener(
           )
           .value
           .trim();
-
 
       const googleMaps =
         document
@@ -1426,7 +1299,7 @@ form.addEventListener(
 
 
       /* =================================================
-         CHECK IMAGE COMPRESSION
+         IMAGE URLS
       ================================================= */
 
       let profileImage =
@@ -1435,6 +1308,10 @@ form.addEventListener(
       let coverImage =
         "";
 
+
+      /* =================================================
+         PROFILE UPLOAD
+      ================================================= */
 
       if (
         profileInput.files &&
@@ -1451,7 +1328,6 @@ form.addEventListener(
 
         }
 
-
         submitBtn.textContent =
           "Envoi de la photo de profil...";
 
@@ -1463,6 +1339,10 @@ form.addEventListener(
 
       }
 
+
+      /* =================================================
+         COVER UPLOAD
+      ================================================= */
 
       if (
         coverInput.files &&
@@ -1478,7 +1358,6 @@ form.addEventListener(
           );
 
         }
-
 
         submitBtn.textContent =
           "Envoi de la couverture...";
@@ -1559,7 +1438,6 @@ form.addEventListener(
           error
         );
 
-
         throw new Error(
           error.message
         );
@@ -1574,7 +1452,6 @@ form.addEventListener(
       successMessage.textContent =
         "Client ajouté avec succès.";
 
-
       successMessage.style.display =
         "block";
 
@@ -1585,7 +1462,6 @@ form.addEventListener(
       profileInput.compressedFile =
         null;
 
-
       coverInput.compressedFile =
         null;
 
@@ -1593,14 +1469,12 @@ form.addEventListener(
       profilePreview.style.display =
         "none";
 
-
       coverPreview.style.display =
         "none";
 
 
       profileCompression.style.display =
         "none";
-
 
       coverCompression.style.display =
         "none";
@@ -1610,9 +1484,9 @@ form.addEventListener(
         "Client ajouté ✓";
 
 
-      /*
-        Redirect dashboard
-      */
+      /* =================================================
+         REDIRECT
+      ================================================= */
 
       setTimeout(
         () => {
@@ -1631,19 +1505,15 @@ form.addEventListener(
         error
       );
 
-
       errorMessage.textContent =
         error.message ||
         "Une erreur est survenue.";
 
-
       errorMessage.style.display =
         "block";
 
-
       submitBtn.disabled =
         false;
-
 
       submitBtn.textContent =
         "Ajouter le client";
