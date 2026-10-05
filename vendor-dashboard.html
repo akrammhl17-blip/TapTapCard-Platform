@@ -451,7 +451,7 @@
 
     .qr-card-actions {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 8px;
       margin-top: 12px;
     }
@@ -473,6 +473,11 @@
     .qr-delete-button {
       background: #ffe8e8;
       color: #c62828;
+    }
+
+    .qr-download-button {
+      background: #111;
+      color: white;
     }
 
     .qr-empty {
@@ -856,7 +861,7 @@
           type="text"
           id="qrTitleInput"
           class="qr-input"
-          placeholder="Instagram Boutique"
+          placeholder="Titre du QR Code"
           autocomplete="off"
         >
 
@@ -3178,6 +3183,12 @@
                 Supprimer
               </button>
 
+              <button
+                class="qr-action-button qr-download-button"
+              >
+                Télécharger
+              </button>
+
             </div>
             `;
 
@@ -3263,8 +3274,249 @@
               }
             );
 
+
+          card
+            .querySelector(
+              ".qr-download-button"
+            )
+            .addEventListener(
+              "click",
+              function() {
+
+                downloadDynamicQr(
+                  qr.id,
+                  qr.title
+                );
+
+              }
+            );
+
         }
       );
+
+    }
+
+
+    /* =========================================
+       DOWNLOAD DYNAMIC QR
+    ========================================= */
+
+    async function downloadDynamicQr(
+      qrId,
+      qrTitle
+    ) {
+
+      hideError();
+
+
+      try {
+
+        const qrContainer =
+          document.getElementById(
+            "qrGenerator"
+          );
+
+
+        qrContainer.innerHTML =
+          "";
+
+
+        /*
+          هذا هو الرابط الديناميكي الحقيقي.
+          الـQR لا يحتوي على destination مباشرة.
+          يحتوي فقط على qr.html?id=...
+        */
+
+        const dynamicUrl =
+          new URL(
+            "qr.html?id=" +
+            encodeURIComponent(
+              qrId
+            ),
+            window.location.href
+          ).href;
+
+
+        const qrSize =
+          900;
+
+
+        new QRCode(
+          qrContainer,
+          {
+
+            text: dynamicUrl,
+
+            width: qrSize,
+
+            height: qrSize,
+
+            colorDark:
+              "#000000",
+
+            colorLight:
+              "#ffffff",
+
+            correctLevel:
+              QRCode.CorrectLevel.H
+
+          }
+        );
+
+
+        await new Promise(
+          function(resolve) {
+
+            setTimeout(
+              resolve,
+              300
+            );
+
+          }
+        );
+
+
+        const qrCanvas =
+          qrContainer.querySelector(
+            "canvas"
+          );
+
+
+        if (!qrCanvas) {
+
+          throw new Error(
+            "Impossible de créer le QR Code."
+          );
+
+        }
+
+
+        const finalCanvas =
+          document.createElement(
+            "canvas"
+          );
+
+
+        finalCanvas.width =
+          1000;
+
+
+        finalCanvas.height =
+          1000;
+
+
+        const ctx =
+          finalCanvas.getContext(
+            "2d"
+          );
+
+
+        ctx.fillStyle =
+          "#ffffff";
+
+
+        ctx.fillRect(
+          0,
+          0,
+          1000,
+          1000
+        );
+
+
+        ctx.drawImage(
+          qrCanvas,
+
+          50,
+          50,
+
+          900,
+          900
+        );
+
+
+        const displayName =
+          String(
+            qrTitle ||
+            "QR_Code"
+          ).trim();
+
+
+        const safeName =
+          displayName
+            .replace(
+              /[^a-zA-Z0-9À-ÿ_-]+/g,
+              "_"
+            )
+            .replace(
+              /^_+|_+$/g,
+              ""
+            ) ||
+          "QR_Code";
+
+
+        const downloadUrl =
+          finalCanvas.toDataURL(
+            "image/png"
+          );
+
+
+        const downloadLink =
+          document.createElement(
+            "a"
+          );
+
+
+        downloadLink.href =
+          downloadUrl;
+
+
+        downloadLink.download =
+          "TAPTAPCARD_" +
+          safeName +
+          "_QR.png";
+
+
+        document.body.appendChild(
+          downloadLink
+        );
+
+
+        downloadLink.click();
+
+
+        document.body.removeChild(
+          downloadLink
+        );
+
+
+        qrContainer.innerHTML =
+          "";
+
+
+      } catch (error) {
+
+        console.error(
+          "Download dynamic QR error:",
+          error
+        );
+
+
+        const qrContainer =
+          document.getElementById(
+            "qrGenerator"
+          );
+
+
+        qrContainer.innerHTML =
+          "";
+
+
+        showError(
+          error.message ||
+          "Impossible de télécharger le QR Code."
+        );
+
+      }
 
     }
 
