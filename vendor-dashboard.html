@@ -26,179 +26,126 @@
     body {
       margin: 0;
       padding: 20px;
-
       background: #f6f6f7;
-
       font-family: Arial, sans-serif;
-
       color: #222;
     }
 
     .container {
       max-width: 700px;
-
       margin: auto;
     }
 
     .header {
       background: white;
-
       padding: 20px;
-
       border-radius: 18px;
-
-      box-shadow:
-        0 5px 25px
-        rgba(0,0,0,0.07);
-
+      box-shadow: 0 5px 25px rgba(0,0,0,0.07);
       margin-bottom: 20px;
     }
 
     .top {
       display: flex;
-
       justify-content: space-between;
-
       align-items: center;
-
       gap: 10px;
     }
 
     h1 {
       margin: 0;
-
       font-size: 24px;
     }
 
     .seller {
       margin-top: 8px;
-
       color: #777;
-
       font-size: 14px;
     }
 
     .logout {
       border: none;
-
       background: #eee;
-
       padding: 10px 14px;
-
       border-radius: 10px;
-
       cursor: pointer;
-
       font-size: 13px;
     }
 
-    /* ================================
-       COUNTS
-    ================================= */
+    /* COUNTS */
+
+    .counts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
 
     .count-box {
-      margin-top: 20px;
-
       background: #f4f4f5;
-
       border-radius: 14px;
-
       padding: 18px;
-
       text-align: center;
-    }
-
-    .count-boxes {
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap: 10px;
-    }
-
-    .single-count {
-      min-width: 0;
     }
 
     .count-label {
       color: #777;
-
       font-size: 14px;
     }
 
     .count {
       font-size: 35px;
-
       font-weight: bold;
-
       margin-top: 5px;
     }
 
-    /* ================================
-       MAIN BUTTONS
-    ================================= */
+    /* ADD QR */
 
     .add-button {
       width: 100%;
-
       margin-top: 15px;
-
       padding: 14px;
-
       border: none;
-
       border-radius: 12px;
-
       background: #111;
-
       color: white;
-
       font-size: 16px;
-
       font-weight: bold;
-
       cursor: pointer;
     }
 
-    .add-button:hover {
-      opacity: 0.9;
+    /* BACK */
+
+    .back-button {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      background: white;
+      color: #222;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+      text-align: left;
     }
 
-    .qr-main-button {
-      background: #222;
-    }
-
-    /* ================================
-       SEARCH
-    ================================= */
+    /* SEARCH */
 
     .search-box {
       background: white;
-
       padding: 15px;
-
       border-radius: 16px;
-
       margin-bottom: 15px;
-
-      box-shadow:
-        0 4px 18px
-        rgba(0,0,0,0.05);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.05);
     }
 
     .search-input {
       width: 100%;
-
       padding: 13px 15px;
-
-      border:
-        1px solid #ddd;
-
+      border: 1px solid #ddd;
       border-radius: 11px;
-
       font-size: 15px;
-
       outline: none;
     }
 
@@ -208,723 +155,362 @@
 
     .search-result-count {
       margin-top: 9px;
-
       font-size: 13px;
-
       color: #777;
     }
 
-    /* ================================
-       CLIENT CARDS
-    ================================= */
+    /* CARDS */
 
-    .client-card {
+    .client-card,
+    .qr-card {
       background: white;
-
       border-radius: 16px;
-
       padding: 15px;
-
       margin-bottom: 14px;
-
-      box-shadow:
-        0 4px 18px
-        rgba(0,0,0,0.06);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
     }
 
     .client-top {
       display: flex;
-
       align-items: center;
-
       gap: 14px;
     }
 
     .client-image {
       width: 65px;
-
       height: 65px;
-
       border-radius: 50%;
-
       object-fit: cover;
-
       background: #eee;
-
       flex-shrink: 0;
     }
 
     .client-info {
       min-width: 0;
-
       flex: 1;
     }
 
     .client-name-row {
       display: flex;
-
       align-items: center;
-
       gap: 10px;
-
       min-width: 0;
     }
 
     .client-name {
       font-size: 17px;
-
       font-weight: bold;
-
       margin-bottom: 5px;
-
       word-break: break-word;
-
       min-width: 0;
-
       flex: 1;
     }
 
     .quick-actions {
       display: flex;
-
       align-items: center;
-
       gap: 7px;
-
       flex-shrink: 0;
     }
 
     .quick-button {
       width: 34px;
-
       height: 34px;
-
       border: none;
-
       border-radius: 9px;
-
       display: flex;
-
       align-items: center;
-
       justify-content: center;
-
       cursor: pointer;
-
       font-size: 17px;
-
-      transition:
-        transform 0.15s ease,
-        opacity 0.15s ease;
-    }
-
-    .quick-button:hover {
-      transform:
-        translateY(-1px);
-
-      opacity: 0.85;
     }
 
     .copy-link-button {
       background: #eef2ff;
-
       color: #3448c5;
     }
 
     .qr-button {
       background: #f0f0f0;
-
       color: #222;
     }
 
     .client-description {
       color: #777;
-
       font-size: 13px;
-
       overflow: hidden;
-
       text-overflow: ellipsis;
-
       white-space: nowrap;
     }
 
     .actions {
       display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
+      grid-template-columns: repeat(3, 1fr);
       gap: 8px;
-
       margin-top: 14px;
     }
 
     .action-button {
       border: none;
-
       padding: 11px 5px;
-
       border-radius: 10px;
-
       font-size: 13px;
-
       font-weight: bold;
-
       cursor: pointer;
-
       text-decoration: none;
-
       text-align: center;
     }
 
     .open-button {
       background: #111;
-
       color: white;
     }
 
     .edit-button {
       background: #e9e9eb;
-
       color: #222;
     }
 
     .delete-button {
       background: #ffe8e8;
-
       color: #c62828;
     }
 
-    .action-button:disabled {
-      opacity: 0.5;
+    /* QR */
 
+    .qr-section {
+      display: none;
+    }
+
+    .qr-section.active {
+      display: block;
+    }
+
+    .qr-title {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 5px 0 20px;
+    }
+
+    .form-card {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 17px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-select {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ddd;
+      border-radius: 11px;
+      font-size: 15px;
+      outline: none;
+      background: white;
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+      border-color: #222;
+    }
+
+    .generate-button {
+      width: 100%;
+      border: none;
+      background: #111;
+      color: white;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .generate-button:disabled {
+      opacity: 0.6;
       cursor: not-allowed;
     }
 
-    /* ================================
-       EMPTY / LOADING / ERROR
-    ================================= */
+    /* QR LIST */
+
+    .section-heading {
+      font-size: 19px;
+      font-weight: bold;
+      margin: 20px 0 15px;
+    }
+
+    .qr-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .qr-card-title {
+      font-size: 16px;
+      font-weight: bold;
+      word-break: break-word;
+    }
+
+    .qr-destination {
+      margin-top: 7px;
+      color: #777;
+      font-size: 13px;
+    }
+
+    .qr-actions {
+      display: flex;
+      gap: 7px;
+      margin-top: 14px;
+    }
+
+    .qr-action {
+      flex: 1;
+      border: none;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .qr-download {
+      background: #111;
+      color: white;
+    }
+
+    .qr-delete {
+      background: #ffe8e8;
+      color: #c62828;
+    }
 
     .empty {
       background: white;
-
       padding: 30px;
-
       text-align: center;
-
       border-radius: 16px;
-
       color: #777;
     }
 
     .loading {
       text-align: center;
-
       color: #777;
-
       padding: 30px;
     }
 
     .error {
       background: #fdeaea;
-
       color: #b42318;
-
       padding: 14px;
-
       border-radius: 12px;
-
       margin-bottom: 15px;
-
       display: none;
-
       word-break: break-word;
     }
 
-    /* ================================
-       QR VIEW
-    ================================= */
+    /* MODALS */
 
-    #qrView {
-      margin-bottom: 20px;
-    }
-
-    .back-button {
-      width: 100%;
-
-      border: none;
-
-      background: white;
-
-      color: #222;
-
-      padding: 13px;
-
-      border-radius: 12px;
-
-      font-size: 14px;
-
-      font-weight: bold;
-
-      cursor: pointer;
-
-      margin-bottom: 12px;
-
-      box-shadow:
-        0 4px 18px
-        rgba(0,0,0,0.05);
-    }
-
-    .back-button:hover {
-      background: #f1f1f1;
-    }
-
-    .qr-form-card {
-      background: white;
-
-      border-radius: 16px;
-
-      padding: 20px;
-
-      margin-bottom: 15px;
-
-      box-shadow:
-        0 4px 18px
-        rgba(0,0,0,0.06);
-    }
-
-    .qr-form-title {
-      font-size: 20px;
-
-      font-weight: bold;
-
-      text-align: center;
-
-      margin-bottom: 22px;
-    }
-
-    .qr-label {
-      display: block;
-
-      font-size: 13px;
-
-      color: #555;
-
-      font-weight: bold;
-
-      margin-top: 14px;
-
-      margin-bottom: 7px;
-    }
-
-    .qr-input {
-      width: 100%;
-
-      padding: 13px 14px;
-
-      border:
-        1px solid #ddd;
-
-      border-radius: 11px;
-
-      font-size: 15px;
-
-      outline: none;
-
-      background: white;
-    }
-
-    .qr-input:focus {
-      border-color: #222;
-    }
-
-    .form-back-button {
-      margin-top: 10px;
-
-      background: #eee;
-
-      box-shadow: none;
-    }
-
-    .section-title {
-      background: white;
-
-      border-radius: 16px;
-
-      padding: 17px;
-
-      margin-bottom: 15px;
-
-      font-size: 18px;
-
-      font-weight: bold;
-
-      box-shadow:
-        0 4px 18px
-        rgba(0,0,0,0.05);
-    }
-
-    /* ================================
-       QR CARDS
-    ================================= */
-
-    .qr-card {
-      background: white;
-
-      border-radius: 16px;
-
-      padding: 18px;
-
-      margin-bottom: 14px;
-
-      box-shadow:
-        0 4px 18px
-        rgba(0,0,0,0.06);
-    }
-
-    .qr-card-title {
-      font-size: 17px;
-
-      font-weight: bold;
-
-      margin-bottom: 5px;
-
-      word-break: break-word;
-    }
-
-    .qr-card-destination {
-      font-size: 13px;
-
-      color: #777;
-
-      margin-bottom: 15px;
-    }
-
-    .qr-image-container {
-      display: flex;
-
-      justify-content: center;
-
-      align-items: center;
-
-      padding: 10px;
-
-      min-height: 220px;
-    }
-
-    .qr-image-container img,
-    .qr-image-container canvas {
-      width: 220px !important;
-
-      height: 220px !important;
-
-      max-width: 100%;
-    }
-
-    .qr-card-link {
-      font-size: 12px;
-
-      color: #777;
-
-      word-break: break-all;
-
-      margin-top: 10px;
-
-      padding: 10px;
-
-      background: #f5f5f5;
-
-      border-radius: 9px;
-    }
-
-    .qr-card-actions {
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap: 8px;
-
-      margin-top: 12px;
-    }
-
-    .qr-action-button {
-      border: none;
-
-      padding: 11px;
-
-      border-radius: 10px;
-
-      font-size: 13px;
-
-      font-weight: bold;
-
-      cursor: pointer;
-    }
-
-    .qr-edit-button {
-      background: #e9e9eb;
-
-      color: #222;
-    }
-
-    .qr-delete-button {
-      background: #ffe8e8;
-
-      color: #c62828;
-    }
-
-    .qr-empty {
-      background: white;
-
-      padding: 30px;
-
-      text-align: center;
-
-      border-radius: 16px;
-
-      color: #777;
-    }
-
-    /* ================================
-       MODALS
-    ================================= */
-
-    .confirm-modal,
-    .delete-modal {
+    .modal {
       position: fixed;
-
       inset: 0;
-
-      background:
-        rgba(0,0,0,0.45);
-
+      background: rgba(0,0,0,0.45);
       display: none;
-
       align-items: center;
-
       justify-content: center;
-
       padding: 20px;
-
       z-index: 10000;
-
       backdrop-filter: blur(4px);
     }
 
-    .confirm-modal.show,
-    .delete-modal.show {
+    .modal.show {
       display: flex;
     }
 
-    .confirm-box,
-    .delete-box {
+    .modal-box {
       width: 100%;
-
       max-width: 390px;
-
       background: white;
-
       border-radius: 20px;
-
       padding: 24px;
-
-      box-shadow:
-        0 20px 60px
-        rgba(0,0,0,0.20);
-
+      box-shadow: 0 20px 60px rgba(0,0,0,0.20);
       text-align: center;
-
-      animation:
-        modalIn 0.18s ease;
     }
 
-    @keyframes modalIn {
-
-      from {
-        opacity: 0;
-
-        transform:
-          scale(0.94);
-      }
-
-      to {
-        opacity: 1;
-
-        transform:
-          scale(1);
-      }
-
-    }
-
-    .confirm-icon,
-    .delete-icon {
-      width: 55px;
-
-      height: 55px;
-
-      margin:
-        0 auto 15px;
-
-      border-radius: 50%;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      font-size: 25px;
-    }
-
-    .confirm-icon {
-      background: #f1f3f5;
-    }
-
-    .delete-icon {
-      background: #ffe8e8;
-    }
-
-    .confirm-title,
-    .delete-title {
+    .modal-title {
       font-size: 19px;
-
       font-weight: bold;
-
       margin-bottom: 10px;
     }
 
-    .confirm-text,
-    .delete-text {
+    .modal-text {
       color: #777;
-
       font-size: 14px;
-
       line-height: 1.5;
-
       margin-bottom: 20px;
     }
 
-    .confirm-client-name,
-    .delete-client-name {
-      color: #222;
-
-      font-weight: bold;
-    }
-
-    .confirm-actions,
-    .delete-actions {
+    .modal-actions {
       display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
+      grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
 
     .modal-button {
       border: none;
-
       padding: 13px;
-
       border-radius: 11px;
-
       font-size: 14px;
-
       font-weight: bold;
-
       cursor: pointer;
     }
 
-    .cancel-confirm,
-    .cancel-delete {
+    .cancel-button {
       background: #eee;
-
       color: #222;
     }
 
-    .confirm-action {
-      background: #111;
-
-      color: white;
-    }
-
-    .confirm-delete {
+    .danger-button {
       background: #d32f2f;
-
       color: white;
     }
-
-    .modal-button:disabled {
-      opacity: 0.6;
-
-      cursor: not-allowed;
-    }
-
-    /* ================================
-       HIDDEN QR GENERATOR
-    ================================= */
 
     #qrGenerator {
       position: absolute;
-
       left: -99999px;
-
       top: -99999px;
-
       width: 900px;
-
       height: 900px;
-
       background: white;
     }
 
-    /* ================================
-       MOBILE
-    ================================= */
-
     @media (max-width: 420px) {
+
+      body {
+        padding: 12px;
+      }
+
+      .counts {
+        gap: 8px;
+      }
+
+      .count {
+        font-size: 30px;
+      }
 
       .actions {
         grid-template-columns: 1fr;
-      }
-
-      .top {
-        align-items: flex-start;
-      }
-
-      .logout {
-        padding:
-          9px 10px;
-      }
-
-      .client-name-row {
-        gap: 7px;
-      }
-
-      .quick-actions {
-        gap: 5px;
-      }
-
-      .quick-button {
-        width: 32px;
-
-        height: 32px;
-
-        font-size: 16px;
-      }
-
-      .count-boxes {
-        grid-template-columns:
-          1fr 1fr;
-      }
-
-      .qr-image-container img,
-      .qr-image-container canvas {
-        width: 190px !important;
-
-        height: 190px !important;
       }
 
     }
@@ -936,138 +522,76 @@
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <!-- ERROR -->
-
-    <div
-      id="errorMessage"
-      class="error"
-    ></div>
+  <div
+    id="errorMessage"
+    class="error"
+  ></div>
 
 
-    <!-- HEADER -->
+  <!-- HEADER -->
 
-    <div class="header">
+  <div class="header">
 
-      <div class="top">
+    <div class="top">
 
-        <div>
+      <div>
 
-          <h1>
-            Mon Dashboard
-          </h1>
-
-          <div
-            class="seller"
-            id="sellerName"
-          >
-            Chargement...
-          </div>
-
-        </div>
-
-
-        <button
-          class="logout"
-          onclick="logout()"
-        >
-          Déconnexion
-        </button>
-
-      </div>
-
-
-      <!-- COUNTS -->
-
-      <div class="count-box count-boxes">
-
-        <div class="single-count">
-
-          <div class="count-label">
-            Mes clients
-          </div>
-
-          <div
-            class="count"
-            id="clientCount"
-          >
-            0
-          </div>
-
-        </div>
-
-
-        <div class="single-count">
-
-          <div class="count-label">
-            QR Codes
-          </div>
-
-          <div
-            class="count"
-            id="qrCount"
-          >
-            0
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- ADD CLIENT -->
-
-      <button
-        class="add-button"
-        onclick="addClient()"
-      >
-        + Ajouter un client
-      </button>
-
-
-      <!-- QR BUTTON -->
-
-      <button
-        class="add-button qr-main-button"
-        onclick="showQrView()"
-      >
-        🔲 QR Code dynamic
-      </button>
-
-    </div>
-
-
-    <!-- ================================
-         CLIENT VIEW
-    ================================= -->
-
-    <div id="clientView">
-
-      <div class="search-box">
-
-        <input
-          type="search"
-          id="searchInput"
-          class="search-input"
-          placeholder="🔎 Rechercher un client..."
-          autocomplete="off"
-        >
+        <h1>
+          Mon Dashboard
+        </h1>
 
         <div
-          id="searchResultCount"
-          class="search-result-count"
+          class="seller"
+          id="sellerName"
         >
-          Tous les clients
+          Chargement...
+        </div>
+
+      </div>
+
+      <button
+        class="logout"
+        onclick="logout()"
+      >
+        Déconnexion
+      </button>
+
+    </div>
+
+
+    <!-- COUNTS -->
+
+    <div class="counts">
+
+      <div class="count-box">
+
+        <div class="count-label">
+          Mes clients
+        </div>
+
+        <div
+          class="count"
+          id="clientCount"
+        >
+          0
         </div>
 
       </div>
 
 
-      <div id="clientsContainer">
+      <div class="count-box">
 
-        <div class="loading">
-          Chargement des clients...
+        <div class="count-label">
+          QR Codes
+        </div>
+
+        <div
+          class="count"
+          id="qrCount"
+        >
+          0
         </div>
 
       </div>
@@ -1075,2704 +599,543 @@
     </div>
 
 
-    <!-- ================================
-         QR VIEW
-    ================================= -->
+    <!-- QR BUTTON -->
 
-    <div
-      id="qrView"
-      style="display:none;"
+    <button
+      id="addQrButton"
+      class="add-button"
+      onclick="showQrView()"
     >
+      + Ajouter QR Code
+    </button>
 
-      <!-- RETURN -->
+  </div>
 
-      <button
-        class="back-button"
-        onclick="showClientsView()"
+
+  <!-- =====================================
+       CLIENT VIEW
+  ====================================== -->
+
+  <div id="clientView">
+
+    <div class="search-box">
+
+      <input
+        type="search"
+        id="searchInput"
+        class="search-input"
+        placeholder="🔎 Rechercher un client..."
+        autocomplete="off"
       >
-        ← Retour à mes clients
-      </button>
-
-
-      <!-- ADD QR -->
-
-      <button
-        class="add-button"
-        onclick="showQrForm()"
-      >
-        + Ajouter QR Code
-      </button>
-
-
-      <!-- QR FORM -->
 
       <div
-        id="qrForm"
-        class="qr-form-card"
-        style="display:none;"
+        id="searchResultCount"
+        class="search-result-count"
       >
+        Tous les clients
+      </div>
 
-        <div class="qr-form-title">
-          QR CODE DYNAMIQUE
-        </div>
+    </div>
 
 
-        <label class="qr-label">
+    <div id="clientsContainer">
+
+      <div class="loading">
+        Chargement des clients...
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================
+       QR VIEW
+  ====================================== -->
+
+  <div
+    id="qrView"
+    class="qr-section"
+  >
+
+    <!-- BACK TOP -->
+
+    <button
+      class="back-button"
+      onclick="showClientView()"
+    >
+      ← Retour à mes clients
+    </button>
+
+
+    <div class="form-card">
+
+      <div class="qr-title">
+        QR CODE DYNAMIQUE
+      </div>
+
+
+      <!-- TITLE -->
+
+      <div class="form-group">
+
+        <label class="form-label">
           Titre du QR Code
         </label>
 
         <input
-          type="text"
           id="qrTitleInput"
-          class="qr-input"
+          class="form-input"
+          type="text"
           placeholder="Instagram Boutique"
           autocomplete="off"
         >
 
+      </div>
 
-        <label class="qr-label">
+
+      <!-- DESTINATION -->
+
+      <div class="form-group">
+
+        <label class="form-label">
           Destination
         </label>
 
         <select
-          id="qrDestinationInput"
-          class="qr-input"
+          id="qrDestination"
+          class="form-select"
         >
 
-          <option value="Instagram">
+          <option value="instagram">
             Instagram
           </option>
 
-          <option value="Facebook">
+          <option value="facebook">
             Facebook
           </option>
 
-          <option value="TikTok">
+          <option value="tiktok">
             TikTok
           </option>
 
-          <option value="Snapchat">
+          <option value="snapchat">
             Snapchat
           </option>
 
-          <option value="Website">
+          <option value="website">
             Website
           </option>
 
-          <option value="WhatsApp">
-            WhatsApp
-          </option>
-
-          <option value="Téléphone">
+          <option value="telephone">
             Téléphone
           </option>
 
-          <option value="Google Maps">
-            Google Maps
+          <option value="whatsapp">
+            WhatsApp
           </option>
 
         </select>
 
+      </div>
 
-        <label class="qr-label">
+
+      <!-- LINK -->
+
+      <div class="form-group">
+
+        <label
+          id="qrLinkLabel"
+          class="form-label"
+        >
           Lien
         </label>
 
         <input
-          type="text"
           id="qrLinkInput"
-          class="qr-input"
+          class="form-input"
+          type="url"
           placeholder="https://instagram.com/..."
           autocomplete="off"
         >
 
-
-        <button
-          id="generateQrButton"
-          class="add-button"
-          onclick="createDynamicQr()"
-        >
-          Générer le QR Code
-        </button>
-
-
-        <button
-          class="back-button form-back-button"
-          onclick="hideQrForm()"
-        >
-          ← Retour aux QR Codes
-        </button>
-
       </div>
 
 
-      <!-- QR LIST -->
-
-      <div
-        id="qrListSection"
+      <button
+        id="generateQrButton"
+        class="generate-button"
+        onclick="generateDynamicQr()"
       >
+        Générer le QR Code
+      </button>
 
-        <div class="section-title">
-          Mes QR Codes
-        </div>
+    </div>
 
 
-        <div
-          id="qrCodesContainer"
-        >
+    <!-- QR LIST -->
 
-          <div class="loading">
-            Chargement des QR Codes...
-          </div>
+    <div class="section-heading">
+      Mes QR Codes
+    </div>
 
-        </div>
 
+    <div id="qrContainer">
+
+      <div class="loading">
+        Chargement des QR Codes...
       </div>
 
     </div>
 
   </div>
 
+</div>
 
-  <!-- ================================
-       CONFIRM CLIENT MODAL
-  ================================= -->
 
-  <div
-    id="confirmModal"
-    class="confirm-modal"
-  >
+<!-- DELETE QR MODAL -->
 
-    <div class="confirm-box">
+<div
+  id="qrDeleteModal"
+  class="modal"
+>
 
-      <div
-        id="confirmIcon"
-        class="confirm-icon"
+  <div class="modal-box">
+
+    <div class="modal-title">
+      Supprimer le QR Code ?
+    </div>
+
+    <div class="modal-text">
+
+      Voulez-vous vraiment supprimer
+
+      <strong id="qrDeleteName"></strong>
+
+      ?
+
+      <br><br>
+
+      Cette action est irréversible.
+
+    </div>
+
+    <div class="modal-actions">
+
+      <button
+        class="modal-button cancel-button"
+        onclick="closeQrDeleteModal()"
       >
-        🔗
-      </div>
+        Annuler
+      </button>
 
-      <div
-        id="confirmTitle"
-        class="confirm-title"
+      <button
+        id="confirmQrDeleteButton"
+        class="modal-button danger-button"
+        onclick="confirmQrDelete()"
       >
-        Copier le lien ?
-      </div>
-
-      <div class="confirm-text">
-
-        Voulez-vous copier le lien de
-
-        <span
-          id="confirmClientName"
-          class="confirm-client-name"
-        ></span>
-
-        ?
-
-      </div>
-
-      <div class="confirm-actions">
-
-        <button
-          id="cancelConfirmButton"
-          class="modal-button cancel-confirm"
-          onclick="closeConfirmModal()"
-        >
-          Annuler
-        </button>
-
-        <button
-          id="confirmActionButton"
-          class="modal-button confirm-action"
-          onclick="confirmAction()"
-        >
-          Confirmer
-        </button>
-
-      </div>
+        Supprimer
+      </button>
 
     </div>
 
   </div>
 
-
-  <!-- ================================
-       DELETE CLIENT MODAL
-  ================================= -->
-
-  <div
-    id="deleteModal"
-    class="delete-modal"
-  >
-
-    <div class="delete-box">
-
-      <div class="delete-icon">
-        🗑️
-      </div>
-
-      <div class="delete-title">
-        Supprimer le client ?
-      </div>
-
-      <div class="delete-text">
-
-        Voulez-vous vraiment supprimer
-
-        <span
-          id="deleteClientName"
-          class="delete-client-name"
-        ></span>
-
-        ?
-
-        <br>
-
-        Cette action est irréversible.
-
-      </div>
-
-      <div class="delete-actions">
-
-        <button
-          id="cancelDeleteButton"
-          class="modal-button cancel-delete"
-          onclick="closeDeleteModal()"
-        >
-          Annuler
-        </button>
-
-        <button
-          id="confirmDeleteButton"
-          class="modal-button confirm-delete"
-          onclick="confirmDelete()"
-        >
-          Supprimer
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 
-  <!-- HIDDEN QR GENERATOR -->
-
-  <div id="qrGenerator"></div>
+<div id="qrGenerator"></div>
 
 
-  <!-- SUPABASE -->
-
-  <script src="supabase.js"></script>
+<script src="supabase.js"></script>
 
 
-  <script>
+<script>
 
-    /* =========================================
-       TOKEN FROM URL
-    ========================================= */
+  /* =========================================
+     TOKEN
+  ========================================= */
 
-    const dashboardParams =
-      new URLSearchParams(
-        window.location.search
+  const dashboardParams =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const urlLoginToken =
+    dashboardParams.get("token");
+
+
+  if (urlLoginToken) {
+
+    sessionStorage.setItem(
+      "vendor_login_token",
+      urlLoginToken
+    );
+
+  }
+
+
+  /* =========================================
+     SESSION
+  ========================================= */
+
+  const sessionData =
+    localStorage.getItem(
+      "vendor_session"
+    );
+
+
+  if (!sessionData) {
+
+    window.location.href =
+      urlLoginToken
+        ? "vendor.html?token=" +
+          encodeURIComponent(
+            urlLoginToken
+          )
+        : "vendor.html";
+
+  }
+
+
+  let vendorSession;
+
+
+  try {
+
+    vendorSession =
+      JSON.parse(
+        sessionData
       );
 
+  } catch (error) {
 
-    const urlLoginToken =
-      dashboardParams.get(
-        "token"
-      );
+    localStorage.removeItem(
+      "vendor_session"
+    );
 
+    window.location.href =
+      urlLoginToken
+        ? "vendor.html?token=" +
+          encodeURIComponent(
+            urlLoginToken
+          )
+        : "vendor.html";
 
-    if (urlLoginToken) {
-
-      sessionStorage.setItem(
-        "vendor_login_token",
-        urlLoginToken
-      );
-
-    }
-
-
-    /* =========================================
-       SESSION
-    ========================================= */
-
-    const sessionData =
-      localStorage.getItem(
-        "vendor_session"
-      );
+  }
 
 
-    if (!sessionData) {
+  /* =========================================
+     ELEMENTS
+  ========================================= */
+
+  const sellerName =
+    document.getElementById(
+      "sellerName"
+    );
+
+
+  const clientCount =
+    document.getElementById(
+      "clientCount"
+    );
+
+
+  const qrCount =
+    document.getElementById(
+      "qrCount"
+    );
+
+
+  const clientsContainer =
+    document.getElementById(
+      "clientsContainer"
+    );
+
+
+  const qrContainer =
+    document.getElementById(
+      "qrContainer"
+    );
+
+
+  const errorMessage =
+    document.getElementById(
+      "errorMessage"
+    );
+
+
+  const searchInput =
+    document.getElementById(
+      "searchInput"
+    );
+
+
+  const searchResultCount =
+    document.getElementById(
+      "searchResultCount"
+    );
+
+
+  const clientView =
+    document.getElementById(
+      "clientView"
+    );
+
+
+  const qrView =
+    document.getElementById(
+      "qrView"
+    );
+
+
+  const addQrButton =
+    document.getElementById(
+      "addQrButton"
+    );
+
+
+  const qrTitleInput =
+    document.getElementById(
+      "qrTitleInput"
+    );
+
+
+  const qrDestination =
+    document.getElementById(
+      "qrDestination"
+    );
+
+
+  const qrLinkInput =
+    document.getElementById(
+      "qrLinkInput"
+    );
+
+
+  const qrLinkLabel =
+    document.getElementById(
+      "qrLinkLabel"
+    );
+
+
+  const generateQrButton =
+    document.getElementById(
+      "generateQrButton"
+    );
+
+
+  const qrDeleteModal =
+    document.getElementById(
+      "qrDeleteModal"
+    );
+
+
+  const qrDeleteName =
+    document.getElementById(
+      "qrDeleteName"
+    );
+
+
+  const confirmQrDeleteButton =
+    document.getElementById(
+      "confirmQrDeleteButton"
+    );
+
+
+  /* =========================================
+     DATA
+  ========================================= */
+
+  let allClients = [];
+
+  let allQrCodes = [];
+
+  let qrToDelete = null;
+
+
+  /* =========================================
+     ERROR
+  ========================================= */
+
+  function showError(message) {
+
+    errorMessage.textContent =
+      message;
+
+    errorMessage.style.display =
+      "block";
+
+  }
+
+
+  function hideError() {
+
+    errorMessage.style.display =
+      "none";
+
+  }
+
+
+  /* =========================================
+     ESCAPE
+  ========================================= */
+
+  function escapeHtml(value) {
+
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  /* =========================================
+     SESSION VERIFY
+  ========================================= */
+
+  async function verifySession() {
+
+    if (
+      !vendorSession ||
+      !vendorSession.session_token
+    ) {
 
       window.location.href =
-        urlLoginToken
-          ? "vendor.html?token=" +
-            encodeURIComponent(
-              urlLoginToken
-            )
-          : "vendor.html";
+        "vendor.html";
+
+      return false;
 
     }
 
 
-    let vendorSession;
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.rpc(
+        "verify_vendor_session",
+        {
+          p_session_token:
+            vendorSession.session_token
+        }
+      );
 
 
-    try {
-
-      vendorSession =
-        JSON.parse(
-          sessionData
-        );
-
-    } catch (error) {
+    if (
+      error ||
+      !data ||
+      data.length === 0
+    ) {
 
       localStorage.removeItem(
         "vendor_session"
       );
 
-
-      window.location.href =
-        urlLoginToken
-          ? "vendor.html?token=" +
-            encodeURIComponent(
-              urlLoginToken
-            )
-          : "vendor.html";
-
-    }
-
-
-    /* =========================================
-       ELEMENTS
-    ========================================= */
-
-    const sellerName =
-      document.getElementById(
-        "sellerName"
-      );
-
-
-    const clientCount =
-      document.getElementById(
-        "clientCount"
-      );
-
-
-    const qrCount =
-      document.getElementById(
-        "qrCount"
-      );
-
-
-    const clientView =
-      document.getElementById(
-        "clientView"
-      );
-
-
-    const qrView =
-      document.getElementById(
-        "qrView"
-      );
-
-
-    const qrForm =
-      document.getElementById(
-        "qrForm"
-      );
-
-
-    const qrListSection =
-      document.getElementById(
-        "qrListSection"
-      );
-
-
-    const qrCodesContainer =
-      document.getElementById(
-        "qrCodesContainer"
-      );
-
-
-    const qrTitleInput =
-      document.getElementById(
-        "qrTitleInput"
-      );
-
-
-    const qrDestinationInput =
-      document.getElementById(
-        "qrDestinationInput"
-      );
-
-
-    const qrLinkInput =
-      document.getElementById(
-        "qrLinkInput"
-      );
-
-
-    const generateQrButton =
-      document.getElementById(
-        "generateQrButton"
-      );
-
-
-    const clientsContainer =
-      document.getElementById(
-        "clientsContainer"
-      );
-
-
-    const errorMessage =
-      document.getElementById(
-        "errorMessage"
-      );
-
-
-    const searchInput =
-      document.getElementById(
-        "searchInput"
-      );
-
-
-    const searchResultCount =
-      document.getElementById(
-        "searchResultCount"
-      );
-
-
-    const confirmModal =
-      document.getElementById(
-        "confirmModal"
-      );
-
-
-    const confirmIcon =
-      document.getElementById(
-        "confirmIcon"
-      );
-
-
-    const confirmTitle =
-      document.getElementById(
-        "confirmTitle"
-      );
-
-
-    const confirmClientName =
-      document.getElementById(
-        "confirmClientName"
-      );
-
-
-    const confirmActionButton =
-      document.getElementById(
-        "confirmActionButton"
-      );
-
-
-    const cancelConfirmButton =
-      document.getElementById(
-        "cancelConfirmButton"
-      );
-
-
-    const deleteModal =
-      document.getElementById(
-        "deleteModal"
-      );
-
-
-    const deleteClientName =
-      document.getElementById(
-        "deleteClientName"
-      );
-
-
-    const confirmDeleteButton =
-      document.getElementById(
-        "confirmDeleteButton"
-      );
-
-
-    const cancelDeleteButton =
-      document.getElementById(
-        "cancelDeleteButton"
-      );
-
-
-    /* =========================================
-       DATA
-    ========================================= */
-
-    let allClients = [];
-
-    let allQrCodes = [];
-
-    let clientToDelete = null;
-
-    let confirmActionType = null;
-
-    let clientForAction = null;
-
-    let editingQrId = null;
-
-
-    /* =========================================
-       ERROR
-    ========================================= */
-
-    function showError(message) {
-
-      errorMessage.textContent =
-        message;
-
-      errorMessage.style.display =
-        "block";
-
-    }
-
-
-    function hideError() {
-
-      errorMessage.style.display =
-        "none";
-
-    }
-
-
-    /* =========================================
-       ESCAPE HTML
-    ========================================= */
-
-    function escapeHtml(value) {
-
-      return String(value || "")
-        .replace(
-          /&/g,
-          "&amp;"
-        )
-        .replace(
-          /</g,
-          "&lt;"
-        )
-        .replace(
-          />/g,
-          "&gt;"
-        )
-        .replace(
-          /"/g,
-          "&quot;"
-        )
-        .replace(
-          /'/g,
-          "&#039;"
-        );
-
-    }
-
-
-    /* =========================================
-       VERIFY SESSION
-    ========================================= */
-
-    async function verifySession() {
-
-      if (
-        !vendorSession ||
-        !vendorSession.session_token
-      ) {
-
-        window.location.href =
-          "vendor.html";
-
-        return false;
-
-      }
-
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient.rpc(
-          "verify_vendor_session",
-          {
-            p_session_token:
-              vendorSession.session_token
-          }
-        );
-
-
-      if (
-        error ||
-        !data ||
-        data.length === 0
-      ) {
-
-        localStorage.removeItem(
-          "vendor_session"
-        );
-
-
-        const loginToken =
-          sessionStorage.getItem(
-            "vendor_login_token"
-          );
-
-
-        window.location.href =
-          loginToken
-            ? "vendor.html?token=" +
-              encodeURIComponent(
-                loginToken
-              )
-            : "vendor.html";
-
-
-        return false;
-
-      }
-
-
-      sellerName.textContent =
-        "Vendeur : " +
-        data[0].vendor_name;
-
-
-      return true;
-
-    }
-
-
-    /* =========================================
-       ADD CLIENT
-    ========================================= */
-
-    function addClient() {
-
-      window.location.href =
-        "vendor-add-client.html";
-
-    }
-
-
-    /* =========================================
-       DASHBOARD VIEWS
-    ========================================= */
-
-    function showQrView() {
-
-      hideError();
-
-      clientView.style.display =
-        "none";
-
-      qrView.style.display =
-        "block";
-
-      qrForm.style.display =
-        "none";
-
-      qrListSection.style.display =
-        "block";
-
-      loadQrCodes();
-
-    }
-
-
-    function showClientsView() {
-
-      hideError();
-
-      qrView.style.display =
-        "none";
-
-      clientView.style.display =
-        "block";
-
-    }
-
-
-    function showQrForm() {
-
-      hideError();
-
-      editingQrId =
-        null;
-
-      qrForm.style.display =
-        "block";
-
-      qrListSection.style.display =
-        "none";
-
-
-      qrTitleInput.value =
-        "";
-
-      qrDestinationInput.value =
-        "Instagram";
-
-      qrLinkInput.value =
-        "";
-
-
-      generateQrButton.disabled =
-        false;
-
-      generateQrButton.textContent =
-        "Générer le QR Code";
-
-
-      generateQrButton.onclick =
-        createDynamicQr;
-
-
-      qrTitleInput.focus();
-
-    }
-
-
-    function hideQrForm() {
-
-      editingQrId =
-        null;
-
-      qrForm.style.display =
-        "none";
-
-      qrListSection.style.display =
-        "block";
-
-      generateQrButton.disabled =
-        false;
-
-      generateQrButton.textContent =
-        "Générer le QR Code";
-
-      generateQrButton.onclick =
-        createDynamicQr;
-
-    }
-
-
-    /* =========================================
-       CLIENT URL
-    ========================================= */
-
-    function getClientUrl(
-      clientId
-    ) {
-
-      return new URL(
-        "client.html?id=" +
-        encodeURIComponent(
-          clientId
-        ),
-        window.location.href
-      ).href;
-
-    }
-
-
-    /* =========================================
-       OPEN CLIENT
-    ========================================= */
-
-    function openClient(
-      clientId
-    ) {
-
-      window.open(
-        getClientUrl(
-          clientId
-        ),
-        "_blank"
-      );
-
-    }
-
-
-    /* =========================================
-       COPY
-    ========================================= */
-
-    function askCopyLink(
-      clientId,
-      clientName
-    ) {
-
-      clientForAction = {
-
-        id: clientId,
-
-        name:
-          clientName ||
-          "ce client"
-
-      };
-
-
-      confirmActionType =
-        "copy";
-
-
-      confirmIcon.textContent =
-        "🔗";
-
-
-      confirmTitle.textContent =
-        "Copier le lien ?";
-
-
-      confirmClientName.textContent =
-        clientForAction.name;
-
-
-      confirmActionButton.textContent =
-        "Copier";
-
-
-      confirmActionButton.disabled =
-        false;
-
-
-      cancelConfirmButton.disabled =
-        false;
-
-
-      confirmModal.classList.add(
-        "show"
-      );
-
-    }
-
-
-    /* =========================================
-       CLIENT QR
-    ========================================= */
-
-    function askDownloadQr(
-      clientId,
-      clientName
-    ) {
-
-      clientForAction = {
-
-        id: clientId,
-
-        name:
-          clientName ||
-          "ce client"
-
-      };
-
-
-      confirmActionType =
-        "qr";
-
-
-      confirmIcon.textContent =
-        "▣";
-
-
-      confirmTitle.textContent =
-        "Télécharger le QR Code ?";
-
-
-      confirmClientName.textContent =
-        clientForAction.name;
-
-
-      confirmActionButton.textContent =
-        "Télécharger";
-
-
-      confirmActionButton.disabled =
-        false;
-
-
-      cancelConfirmButton.disabled =
-        false;
-
-
-      confirmModal.classList.add(
-        "show"
-      );
-
-    }
-
-
-    function closeConfirmModal() {
-
-      confirmModal.classList.remove(
-        "show"
-      );
-
-
-      clientForAction =
-        null;
-
-
-      confirmActionType =
-        null;
-
-    }
-
-
-    /* =========================================
-       CONFIRM ACTION
-    ========================================= */
-
-    async function confirmAction() {
-
-      if (
-        !clientForAction ||
-        !confirmActionType
-      ) {
-
-        return;
-
-      }
-
-
-      confirmActionButton.disabled =
-        true;
-
-
-      cancelConfirmButton.disabled =
-        true;
-
-
-      try {
-
-        if (
-          confirmActionType ===
-          "copy"
-        ) {
-
-          confirmActionButton.textContent =
-            "Copie...";
-
-
-          await copyClientLink(
-            clientForAction.id
-          );
-
-
-          confirmActionButton.textContent =
-            "Copié ✓";
-
-
-          setTimeout(
-            function() {
-
-              closeConfirmModal();
-
-            },
-            700
-          );
-
-        }
-
-
-        if (
-          confirmActionType ===
-          "qr"
-        ) {
-
-          confirmActionButton.textContent =
-            "Création...";
-
-
-          await downloadClientQr(
-            clientForAction.id,
-            clientForAction.name
-          );
-
-
-          confirmActionButton.textContent =
-            "Téléchargé ✓";
-
-
-          setTimeout(
-            function() {
-
-              closeConfirmModal();
-
-            },
-            700
-          );
-
-        }
-
-      } catch (error) {
-
-        console.error(
-          error
-        );
-
-
-        confirmActionButton.disabled =
-          false;
-
-
-        cancelConfirmButton.disabled =
-          false;
-
-
-        confirmActionButton.textContent =
-          "Réessayer";
-
-
-        showError(
-          error.message ||
-          "Une erreur est survenue."
-        );
-
-      }
-
-    }
-
-
-    /* =========================================
-       COPY CLIENT LINK
-    ========================================= */
-
-    async function copyClientLink(
-      clientId
-    ) {
-
-      const url =
-        getClientUrl(
-          clientId
-        );
-
-
-      if (
-        navigator.clipboard &&
-        navigator.clipboard.writeText
-      ) {
-
-        await navigator.clipboard.writeText(
-          url
-        );
-
-        return;
-
-      }
-
-
-      const textarea =
-        document.createElement(
-          "textarea"
-        );
-
-
-      textarea.value =
-        url;
-
-
-      textarea.style.position =
-        "fixed";
-
-
-      textarea.style.opacity =
-        "0";
-
-
-      document.body.appendChild(
-        textarea
-      );
-
-
-      textarea.focus();
-
-
-      textarea.select();
-
-
-      const success =
-        document.execCommand(
-          "copy"
-        );
-
-
-      document.body.removeChild(
-        textarea
-      );
-
-
-      if (!success) {
-
-        throw new Error(
-          "Impossible de copier le lien."
-        );
-
-      }
-
-    }
-
-
-    /* =========================================
-       DOWNLOAD CLIENT QR
-    ========================================= */
-
-    async function downloadClientQr(
-      clientId,
-      clientName
-    ) {
-
-      const qrContainer =
-        document.getElementById(
-          "qrGenerator"
-        );
-
-
-      qrContainer.innerHTML =
-        "";
-
-
-      const url =
-        getClientUrl(
-          clientId
-        );
-
-
-      const qrSize =
-        900;
-
-
-      new QRCode(
-        qrContainer,
-        {
-
-          text: url,
-
-          width: qrSize,
-
-          height: qrSize,
-
-          colorDark:
-            "#000000",
-
-          colorLight:
-            "#ffffff",
-
-          correctLevel:
-            QRCode.CorrectLevel.H
-
-        }
-      );
-
-
-      await new Promise(
-        function(resolve) {
-
-          setTimeout(
-            resolve,
-            300
-          );
-
-        }
-      );
-
-
-      const qrCanvas =
-        qrContainer.querySelector(
-          "canvas"
-        );
-
-
-      if (!qrCanvas) {
-
-        throw new Error(
-          "Impossible de créer le QR Code."
-        );
-
-      }
-
-
-      const finalCanvas =
-        document.createElement(
-          "canvas"
-        );
-
-
-      finalCanvas.width =
-        1000;
-
-
-      finalCanvas.height =
-        1000;
-
-
-      const ctx =
-        finalCanvas.getContext(
-          "2d"
-        );
-
-
-      ctx.fillStyle =
-        "#ffffff";
-
-
-      ctx.fillRect(
-        0,
-        0,
-        1000,
-        1000
-      );
-
-
-      const qrPosition =
-        50;
-
-
-      const qrFinalSize =
-        900;
-
-
-      ctx.drawImage(
-        qrCanvas,
-
-        qrPosition,
-        qrPosition,
-
-        qrFinalSize,
-        qrFinalSize
-      );
-
-
-      const displayName =
-        String(
-          clientName ||
-          "client"
-        ).trim();
-
-
-      const safeName =
-        displayName
-          .replace(
-            /[^a-zA-Z0-9À-ÿ_-]+/g,
-            "_"
-          )
-          .replace(
-            /^_+|_+$/g,
-            ""
-          ) ||
-        "client";
-
-
-      const downloadUrl =
-        finalCanvas.toDataURL(
-          "image/png"
-        );
-
-
-      const downloadLink =
-        document.createElement(
-          "a"
-        );
-
-
-      downloadLink.href =
-        downloadUrl;
-
-
-      downloadLink.download =
-        "TAPTAPCARD_" +
-        safeName +
-        "_QR.png";
-
-
-      document.body.appendChild(
-        downloadLink
-      );
-
-
-      downloadLink.click();
-
-
-      document.body.removeChild(
-        downloadLink
-      );
-
-
-      qrContainer.innerHTML =
-        "";
-
-    }
-
-
-    /* =========================================
-       EDIT CLIENT
-    ========================================= */
-
-    function editClient(
-      clientId
-    ) {
-
-      window.location.href =
-        "vendor-edit-client.html?id=" +
-        encodeURIComponent(
-          clientId
-        );
-
-    }
-
-
-    /* =========================================
-       DELETE CLIENT
-    ========================================= */
-
-    function deleteClient(
-      clientId,
-      clientName
-    ) {
-
-      clientToDelete = {
-
-        id: clientId,
-
-        name:
-          clientName ||
-          "ce client"
-
-      };
-
-
-      deleteClientName.textContent =
-        clientToDelete.name;
-
-
-      confirmDeleteButton.disabled =
-        false;
-
-
-      cancelDeleteButton.disabled =
-        false;
-
-
-      confirmDeleteButton.textContent =
-        "Supprimer";
-
-
-      deleteModal.classList.add(
-        "show"
-      );
-
-    }
-
-
-    function closeDeleteModal() {
-
-      deleteModal.classList.remove(
-        "show"
-      );
-
-
-      clientToDelete =
-        null;
-
-    }
-
-
-    /* =========================================
-       CONFIRM DELETE CLIENT
-    ========================================= */
-
-    async function confirmDelete() {
-
-      if (!clientToDelete) {
-
-        return;
-
-      }
-
-
-      hideError();
-
-
-      const id =
-        clientToDelete.id;
-
-
-      confirmDeleteButton.disabled =
-        true;
-
-
-      cancelDeleteButton.disabled =
-        true;
-
-
-      confirmDeleteButton.textContent =
-        "Suppression...";
-
-
-      try {
-
-        const {
-          data,
-          error
-        } =
-          await supabaseClient.rpc(
-            "delete_vendor_client",
-            {
-
-              p_session_token:
-                vendorSession.session_token,
-
-              p_client_id:
-                id
-
-            }
-          );
-
-
-        if (error) {
-
-          console.error(
-            "Delete error:",
-            error
-          );
-
-
-          throw new Error(
-            error.message ||
-            "Impossible de supprimer le client."
-          );
-
-        }
-
-
-        allClients =
-          allClients.filter(
-            function(client) {
-
-              return Number(
-                client.id
-              ) !==
-              Number(
-                id
-              );
-
-            }
-          );
-
-
-        clientCount.textContent =
-          allClients.length;
-
-
-        renderClients(
-          searchInput.value
-        );
-
-
-        closeDeleteModal();
-
-      } catch (error) {
-
-        console.error(
-          error
-        );
-
-
-        closeDeleteModal();
-
-
-        showError(
-          "Erreur lors de la suppression : " +
-          error.message
-        );
-
-      }
-
-    }
-
-
-    /* =========================================
-       LOAD CLIENTS
-    ========================================= */
-
-    async function loadClients() {
-
-      hideError();
-
-
-      clientsContainer.innerHTML =
-        `
-        <div class="loading">
-          Chargement des clients...
-        </div>
-        `;
-
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient.rpc(
-          "get_vendor_clients",
-          {
-
-            p_session_token:
-              vendorSession.session_token
-
-          }
-        );
-
-
-      if (error) {
-
-        console.error(
-          "Load clients error:",
-          error
-        );
-
-
-        showError(
-          error.message ||
-          "Impossible de charger les clients."
-        );
-
-
-        clientsContainer.innerHTML =
-          `
-          <div class="empty">
-            Impossible de charger les clients.
-          </div>
-          `;
-
-
-        return;
-
-      }
-
-
-      allClients =
-        data || [];
-
-
-      clientCount.textContent =
-        allClients.length;
-
-
-      renderClients(
-        searchInput.value
-      );
-
-    }
-
-
-    /* =========================================
-       RENDER CLIENTS
-    ========================================= */
-
-    function renderClients(
-      searchTerm = ""
-    ) {
-
-      const term =
-        searchTerm
-          .trim()
-          .toLowerCase();
-
-
-      let filteredClients;
-
-
-      if (!term) {
-
-        filteredClients =
-          allClients;
-
-      } else {
-
-        filteredClients =
-          allClients.filter(
-            function(client) {
-
-              return (
-                (
-                  client.name ||
-                  ""
-                )
-                  .toLowerCase()
-                  .includes(
-                    term
-                  )
-              );
-
-            }
-          );
-
-      }
-
-
-      if (!term) {
-
-        searchResultCount.textContent =
-          allClients.length +
-          " client" +
-          (
-            allClients.length > 1
-              ? "s"
-              : ""
-          );
-
-      } else {
-
-        searchResultCount.textContent =
-          filteredClients.length +
-          " résultat" +
-          (
-            filteredClients.length > 1
-              ? "s"
-              : ""
-          );
-
-      }
-
-
-      if (
-        filteredClients.length === 0
-      ) {
-
-        if (term) {
-
-          clientsContainer.innerHTML =
-            `
-            <div class="empty">
-
-              Aucun client trouvé pour
-
-              <strong>
-                "${escapeHtml(
-                  searchTerm
-                )}"
-              </strong>
-
-            </div>
-            `;
-
-        } else {
-
-          clientsContainer.innerHTML =
-            `
-            <div class="empty">
-
-              Aucun client pour le moment.
-
-              <br><br>
-
-              Cliquez sur
-              « Ajouter un client ».
-
-            </div>
-            `;
-
-        }
-
-
-        return;
-
-      }
-
-
-      clientsContainer.innerHTML =
-        "";
-
-
-      filteredClients.forEach(
-        function(client) {
-
-          const card =
-            document.createElement(
-              "div"
-            );
-
-
-          card.className =
-            "client-card";
-
-
-          const image =
-            client.profile_image &&
-            client.profile_image.trim() !== ""
-
-              ? client.profile_image
-
-              : "https://placehold.co/150x150?text=Client";
-
-
-          const description =
-            client.description ||
-            "Aucune description";
-
-
-          card.innerHTML =
-            `
-            <div class="client-top">
-
-              <img
-                class="client-image"
-                src="${escapeHtml(
-                  image
-                )}"
-                alt=""
-                onerror="this.src='https://placehold.co/150x150?text=Client'"
-              >
-
-              <div class="client-info">
-
-                <div class="client-name-row">
-
-                  <div class="client-name">
-
-                    ${escapeHtml(
-                      client.name ||
-                      "Sans nom"
-                    )}
-
-                  </div>
-
-                  <div class="quick-actions">
-
-                    <button
-                      class="quick-button copy-link-button"
-                      data-action="copy-link"
-                      title="Copier le lien"
-                      aria-label="Copier le lien"
-                    >
-                      🔗
-                    </button>
-
-                    <button
-                      class="quick-button qr-button"
-                      data-action="download-qr"
-                      title="Télécharger le QR Code"
-                      aria-label="Télécharger le QR Code"
-                    >
-                      ▣
-                    </button>
-
-                  </div>
-
-                </div>
-
-                <div class="client-description">
-
-                  ${escapeHtml(
-                    description
-                  )}
-
-                </div>
-
-              </div>
-
-            </div>
-
-            <div class="actions">
-
-              <button
-                class="action-button open-button"
-                data-action="open"
-              >
-                Ouvrir
-              </button>
-
-              <button
-                class="action-button edit-button"
-                data-action="edit"
-              >
-                Modifier
-              </button>
-
-              <button
-                class="action-button delete-button"
-                data-action="delete"
-              >
-                Supprimer
-              </button>
-
-            </div>
-            `;
-
-
-          card
-            .querySelector(
-              '[data-action="copy-link"]'
-            )
-            .addEventListener(
-              "click",
-              function() {
-
-                askCopyLink(
-                  client.id,
-                  client.name
-                );
-
-              }
-            );
-
-
-          card
-            .querySelector(
-              '[data-action="download-qr"]'
-            )
-            .addEventListener(
-              "click",
-              function() {
-
-                askDownloadQr(
-                  client.id,
-                  client.name
-                );
-
-              }
-            );
-
-
-          card
-            .querySelector(
-              '[data-action="open"]'
-            )
-            .addEventListener(
-              "click",
-              function() {
-
-                openClient(
-                  client.id
-                );
-
-              }
-            );
-
-
-          card
-            .querySelector(
-              '[data-action="edit"]'
-            )
-            .addEventListener(
-              "click",
-              function() {
-
-                editClient(
-                  client.id
-                );
-
-              }
-            );
-
-
-          card
-            .querySelector(
-              '[data-action="delete"]'
-            )
-            .addEventListener(
-              "click",
-              function() {
-
-                deleteClient(
-                  client.id,
-                  client.name ||
-                  "ce client"
-                );
-
-              }
-            );
-
-
-          clientsContainer.appendChild(
-            card
-          );
-
-        }
-      );
-
-    }
-
-
-    /* =========================================
-       SEARCH
-    ========================================= */
-
-    searchInput.addEventListener(
-      "input",
-      function() {
-
-        renderClients(
-          searchInput.value
-        );
-
-      }
-    );
-
-
-    /* =========================================
-       LOAD QR CODES
-    ========================================= */
-
-    async function loadQrCodes() {
-
-      qrCodesContainer.innerHTML =
-        `
-        <div class="loading">
-          Chargement des QR Codes...
-        </div>
-        `;
-
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient.rpc(
-          "get_vendor_qr_codes",
-          {
-
-            p_session_token:
-              vendorSession.session_token
-
-          }
-        );
-
-
-      if (error) {
-
-        console.error(
-          "Load QR error:",
-          error
-        );
-
-
-        showError(
-          error.message ||
-          "Impossible de charger les QR Codes."
-        );
-
-
-        qrCodesContainer.innerHTML =
-          `
-          <div class="qr-empty">
-            Impossible de charger les QR Codes.
-          </div>
-          `;
-
-
-        return;
-
-      }
-
-
-      allQrCodes =
-        data || [];
-
-
-      qrCount.textContent =
-        allQrCodes.length;
-
-
-      renderQrCodes();
-
-    }
-
-
-    /* =========================================
-       RENDER QR CODES
-    ========================================= */
-
-    function renderQrCodes() {
-
-      if (
-        allQrCodes.length === 0
-      ) {
-
-        qrCodesContainer.innerHTML =
-          `
-          <div class="qr-empty">
-
-            Aucun QR Code pour le moment.
-
-            <br><br>
-
-            Cliquez sur
-            « Ajouter QR Code ».
-
-          </div>
-          `;
-
-        return;
-
-      }
-
-
-      qrCodesContainer.innerHTML =
-        "";
-
-
-      allQrCodes.forEach(
-        function(qr) {
-
-          const card =
-            document.createElement(
-              "div"
-            );
-
-
-          card.className =
-            "qr-card";
-
-
-          const qrElementId =
-            "qr-" +
-            qr.id;
-
-
-          card.innerHTML =
-            `
-            <div class="qr-card-title">
-
-              ${escapeHtml(
-                qr.title
-              )}
-
-            </div>
-
-            <div class="qr-card-destination">
-
-              Destination :
-              <strong>
-                ${escapeHtml(
-                  qr.destination
-                )}
-              </strong>
-
-            </div>
-
-            <div
-              class="qr-image-container"
-              id="${qrElementId}"
-            ></div>
-
-            <div class="qr-card-link">
-
-              ${escapeHtml(
-                qr.link
-              )}
-
-            </div>
-
-            <div class="qr-card-actions">
-
-              <button
-                class="qr-action-button qr-edit-button"
-              >
-                Modifier
-              </button>
-
-              <button
-                class="qr-action-button qr-delete-button"
-              >
-                Supprimer
-              </button>
-
-            </div>
-            `;
-
-
-          qrCodesContainer.appendChild(
-            card
-          );
-
-
-          const qrElement =
-            document.getElementById(
-              qrElementId
-            );
-
-
-          /*
-            رابط QR الديناميكي
-            سيتم التعامل معه بواسطة qr.html
-          */
-
-          const dynamicUrl =
-            new URL(
-              "qr.html?id=" +
-              encodeURIComponent(
-                qr.id
-              ),
-              window.location.href
-            ).href;
-
-
-          new QRCode(
-            qrElement,
-            {
-
-              text: dynamicUrl,
-
-              width: 220,
-
-              height: 220,
-
-              colorDark:
-                "#000000",
-
-              colorLight:
-                "#ffffff",
-
-              correctLevel:
-                QRCode.CorrectLevel.H
-
-            }
-          );
-
-
-          card
-            .querySelector(
-              ".qr-edit-button"
-            )
-            .addEventListener(
-              "click",
-              function() {
-
-                editDynamicQr(
-                  qr.id
-                );
-
-              }
-            );
-
-
-          card
-            .querySelector(
-              ".qr-delete-button"
-            )
-            .addEventListener(
-              "click",
-              function() {
-
-                deleteDynamicQr(
-                  qr.id,
-                  qr.title
-                );
-
-              }
-            );
-
-        }
-      );
-
-    }
-
-
-    /* =========================================
-       CREATE DYNAMIC QR
-    ========================================= */
-
-    async function createDynamicQr() {
-
-      hideError();
-
-
-      const title =
-        qrTitleInput.value.trim();
-
-
-      const destination =
-        qrDestinationInput.value.trim();
-
-
-      const link =
-        qrLinkInput.value.trim();
-
-
-      if (!title) {
-
-        showError(
-          "Veuillez saisir un titre pour le QR Code."
-        );
-
-        qrTitleInput.focus();
-
-        return;
-
-      }
-
-
-      if (!destination) {
-
-        showError(
-          "Veuillez choisir une destination."
-        );
-
-        return;
-
-      }
-
-
-      if (!link) {
-
-        showError(
-          "Veuillez saisir le lien."
-        );
-
-        qrLinkInput.focus();
-
-        return;
-
-      }
-
-
-      generateQrButton.disabled =
-        true;
-
-
-      generateQrButton.textContent =
-        "Création...";
-
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient.rpc(
-          "create_vendor_qr",
-          {
-
-            p_session_token:
-              vendorSession.session_token,
-
-            p_title:
-              title,
-
-            p_destination:
-              destination,
-
-            p_link:
-              link
-
-          }
-        );
-
-
-      if (error) {
-
-        console.error(
-          "Create QR error:",
-          error
-        );
-
-
-        generateQrButton.disabled =
-          false;
-
-
-        generateQrButton.textContent =
-          "Générer le QR Code";
-
-
-        showError(
-          error.message ||
-          "Impossible de créer le QR Code."
-        );
-
-        return;
-
-      }
-
-
-      qrForm.style.display =
-        "none";
-
-
-      qrListSection.style.display =
-        "block";
-
-
-      editingQrId =
-        null;
-
-
-      generateQrButton.disabled =
-        false;
-
-
-      generateQrButton.textContent =
-        "Générer le QR Code";
-
-
-      generateQrButton.onclick =
-        createDynamicQr;
-
-
-      await loadQrCodes();
-
-    }
-
-
-    /* =========================================
-       EDIT DYNAMIC QR
-    ========================================= */
-
-    function editDynamicQr(
-      qrId
-    ) {
-
-      const qr =
-        allQrCodes.find(
-          function(item) {
-
-            return Number(
-              item.id
-            ) === Number(
-              qrId
-            );
-
-          }
-        );
-
-
-      if (!qr) {
-
-        return;
-
-      }
-
-
-      editingQrId =
-        qr.id;
-
-
-      qrForm.style.display =
-        "block";
-
-
-      qrListSection.style.display =
-        "none";
-
-
-      qrTitleInput.value =
-        qr.title || "";
-
-
-      qrDestinationInput.value =
-        qr.destination ||
-        "Instagram";
-
-
-      qrLinkInput.value =
-        qr.link || "";
-
-
-      generateQrButton.disabled =
-        false;
-
-
-      generateQrButton.textContent =
-        "Modifier le QR Code";
-
-
-      generateQrButton.onclick =
-        function() {
-
-          updateDynamicQr(
-            qr.id
-          );
-
-        };
-
-
-      qrTitleInput.focus();
-
-    }
-
-
-    /* =========================================
-       UPDATE DYNAMIC QR
-    ========================================= */
-
-    async function updateDynamicQr(
-      qrId
-    ) {
-
-      hideError();
-
-
-      const title =
-        qrTitleInput.value.trim();
-
-
-      const destination =
-        qrDestinationInput.value.trim();
-
-
-      const link =
-        qrLinkInput.value.trim();
-
-
-      if (!title) {
-
-        showError(
-          "Veuillez saisir un titre."
-        );
-
-        qrTitleInput.focus();
-
-        return;
-
-      }
-
-
-      if (!destination) {
-
-        showError(
-          "Veuillez choisir une destination."
-        );
-
-        return;
-
-      }
-
-
-      if (!link) {
-
-        showError(
-          "Veuillez saisir le lien."
-        );
-
-        qrLinkInput.focus();
-
-        return;
-
-      }
-
-
-      generateQrButton.disabled =
-        true;
-
-
-      generateQrButton.textContent =
-        "Modification...";
-
-
-      const {
-        error
-      } =
-        await supabaseClient.rpc(
-          "update_vendor_qr",
-          {
-
-            p_session_token:
-              vendorSession.session_token,
-
-            p_qr_id:
-              qrId,
-
-            p_title:
-              title,
-
-            p_destination:
-              destination,
-
-            p_link:
-              link
-
-          }
-        );
-
-
-      if (error) {
-
-        console.error(
-          "Update QR error:",
-          error
-        );
-
-
-        generateQrButton.disabled =
-          false;
-
-
-        generateQrButton.textContent =
-          "Modifier le QR Code";
-
-
-        showError(
-          error.message ||
-          "Impossible de modifier le QR Code."
-        );
-
-        return;
-
-      }
-
-
-      editingQrId =
-        null;
-
-
-      generateQrButton.disabled =
-        false;
-
-
-      generateQrButton.textContent =
-        "Générer le QR Code";
-
-
-      generateQrButton.onclick =
-        createDynamicQr;
-
-
-      await loadQrCodes();
-
-
-      hideQrForm();
-
-    }
-
-
-    /* =========================================
-       DELETE DYNAMIC QR
-    ========================================= */
-
-    async function deleteDynamicQr(
-      qrId,
-      qrTitle
-    ) {
-
-      const confirmed =
-        confirm(
-          'Supprimer le QR Code "' +
-          qrTitle +
-          '" ?'
-        );
-
-
-      if (!confirmed) {
-
-        return;
-
-      }
-
-
-      hideError();
-
-
-      const {
-        error
-      } =
-        await supabaseClient.rpc(
-          "delete_vendor_qr",
-          {
-
-            p_session_token:
-              vendorSession.session_token,
-
-            p_qr_id:
-              qrId
-
-          }
-        );
-
-
-      if (error) {
-
-        console.error(
-          "Delete QR error:",
-          error
-        );
-
-
-        showError(
-          error.message ||
-          "Impossible de supprimer le QR Code."
-        );
-
-        return;
-
-      }
-
-
-      await loadQrCodes();
-
-    }
-
-
-    /* =========================================
-       MODALS
-    ========================================= */
-
-    deleteModal.addEventListener(
-      "click",
-      function(event) {
-
-        if (
-          event.target ===
-          deleteModal
-        ) {
-
-          closeDeleteModal();
-
-        }
-
-      }
-    );
-
-
-    confirmModal.addEventListener(
-      "click",
-      function(event) {
-
-        if (
-          event.target ===
-          confirmModal
-        ) {
-
-          closeConfirmModal();
-
-        }
-
-      }
-    );
-
-
-    document.addEventListener(
-      "keydown",
-      function(event) {
-
-        if (
-          event.key ===
-          "Escape"
-        ) {
-
-          closeDeleteModal();
-
-          closeConfirmModal();
-
-        }
-
-      }
-    );
-
-
-    /* =========================================
-       LOGOUT
-    ========================================= */
-
-    function logout() {
 
       const loginToken =
         sessionStorage.getItem(
@@ -3780,93 +1143,1686 @@
         );
 
 
-      localStorage.removeItem(
-        "vendor_session"
-      );
+      window.location.href =
+        loginToken
+          ? "vendor.html?token=" +
+            encodeURIComponent(
+              loginToken
+            )
+          : "vendor.html";
 
 
-      if (loginToken) {
-
-        window.location.href =
-          "vendor.html?token=" +
-          encodeURIComponent(
-            loginToken
-          );
-
-      } else {
-
-        window.location.href =
-          "vendor.html";
-
-      }
+      return false;
 
     }
 
 
-    /* =========================================
-       INIT
-    ========================================= */
-
-    async function init() {
-
-      const valid =
-        await verifySession();
+    sellerName.textContent =
+      "Vendeur : " +
+      data[0].vendor_name;
 
 
-      if (!valid) {
+    return true;
 
-        return;
+  }
+
+
+  /* =========================================
+     VIEWS
+  ========================================= */
+
+  function showClientView() {
+
+    clientView.style.display =
+      "block";
+
+    qrView.classList.remove(
+      "active"
+    );
+
+    addQrButton.style.display =
+      "block";
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  function showQrView() {
+
+    clientView.style.display =
+      "none";
+
+    qrView.classList.add(
+      "active"
+    );
+
+    addQrButton.style.display =
+      "none";
+
+    loadQrCodes();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  /* =========================================
+     DESTINATION CHANGE
+  ========================================= */
+
+  qrDestination.addEventListener(
+    "change",
+    updateQrLinkField
+  );
+
+
+  function updateQrLinkField() {
+
+    const destination =
+      qrDestination.value;
+
+
+    /*
+      Instagram
+    */
+
+    if (
+      destination ===
+      "instagram"
+    ) {
+
+      qrLinkLabel.textContent =
+        "Lien";
+
+      qrLinkInput.type =
+        "url";
+
+      qrLinkInput.placeholder =
+        "https://instagram.com/...";
+
+      qrLinkInput.inputMode =
+        "url";
+
+      return;
+
+    }
+
+
+    /*
+      Facebook
+    */
+
+    if (
+      destination ===
+      "facebook"
+    ) {
+
+      qrLinkLabel.textContent =
+        "Lien";
+
+      qrLinkInput.type =
+        "url";
+
+      qrLinkInput.placeholder =
+        "https://facebook.com/...";
+
+      qrLinkInput.inputMode =
+        "url";
+
+      return;
+
+    }
+
+
+    /*
+      TikTok
+    */
+
+    if (
+      destination ===
+      "tiktok"
+    ) {
+
+      qrLinkLabel.textContent =
+        "Lien";
+
+      qrLinkInput.type =
+        "url";
+
+      qrLinkInput.placeholder =
+        "https://tiktok.com/@...";
+
+      qrLinkInput.inputMode =
+        "url";
+
+      return;
+
+    }
+
+
+    /*
+      Snapchat
+    */
+
+    if (
+      destination ===
+      "snapchat"
+    ) {
+
+      qrLinkLabel.textContent =
+        "Lien";
+
+      qrLinkInput.type =
+        "text";
+
+      qrLinkInput.placeholder =
+        "@username";
+
+      qrLinkInput.inputMode =
+        "text";
+
+      return;
+
+    }
+
+
+    /*
+      Website
+    */
+
+    if (
+      destination ===
+      "website"
+    ) {
+
+      qrLinkLabel.textContent =
+        "Lien";
+
+      qrLinkInput.type =
+        "url";
+
+      qrLinkInput.placeholder =
+        "https://example.com";
+
+      qrLinkInput.inputMode =
+        "url";
+
+      return;
+
+    }
+
+
+    /*
+      Téléphone
+    */
+
+    if (
+      destination ===
+      "telephone"
+    ) {
+
+      qrLinkLabel.textContent =
+        "Numéro de téléphone";
+
+      qrLinkInput.type =
+        "tel";
+
+      qrLinkInput.placeholder =
+        "0550 00 00 00";
+
+      qrLinkInput.inputMode =
+        "tel";
+
+      return;
+
+    }
+
+
+    /*
+      WhatsApp
+    */
+
+    if (
+      destination ===
+      "whatsapp"
+    ) {
+
+      qrLinkLabel.textContent =
+        "Numéro WhatsApp";
+
+      qrLinkInput.type =
+        "tel";
+
+      qrLinkInput.placeholder =
+        "0550 00 00 00";
+
+      qrLinkInput.inputMode =
+        "tel";
+
+      return;
+
+    }
+
+  }
+
+
+  /* =========================================
+     NORMALIZE LINK
+  ========================================= */
+
+  function normalizeQrLink(
+    destination,
+    value
+  ) {
+
+    let link =
+      String(value || "").trim();
+
+
+    if (!link) {
+
+      return "";
+
+    }
+
+
+    /*
+      TELEPHONE
+    */
+
+    if (
+      destination ===
+      "telephone"
+    ) {
+
+      let phone =
+        link.replace(
+          /[\s\-().]/g,
+          ""
+        );
+
+
+      if (
+        phone.startsWith("0")
+      ) {
+
+        phone =
+          "+213" +
+          phone.substring(1);
 
       }
 
 
-      await loadClients();
+      if (
+        !phone.startsWith("+")
+      ) {
+
+        phone =
+          "+" +
+          phone;
+
+      }
+
+
+      return "tel:" + phone;
+
+    }
+
+
+    /*
+      WHATSAPP
+    */
+
+    if (
+      destination ===
+      "whatsapp"
+    ) {
+
+      let phone =
+        link.replace(
+          /[\s\-().+]/g,
+          ""
+        );
+
+
+      if (
+        phone.startsWith("0")
+      ) {
+
+        phone =
+          "213" +
+          phone.substring(1);
+
+      }
+
+
+      return (
+        "https://wa.me/" +
+        phone
+      );
+
+    }
+
+
+    /*
+      SNAPCHAT
+    */
+
+    if (
+      destination ===
+      "snapchat"
+    ) {
+
+      link =
+        link.replace(
+          /^@/,
+          ""
+        );
+
+
+      if (
+        link.startsWith(
+          "http://"
+        ) ||
+        link.startsWith(
+          "https://"
+        )
+      ) {
+
+        return link;
+
+      }
+
+
+      return (
+        "https://www.snapchat.com/add/" +
+        encodeURIComponent(link)
+      );
+
+    }
+
+
+    /*
+      SOCIAL / WEBSITE
+    */
+
+    if (
+      !link.startsWith(
+        "http://"
+      ) &&
+      !link.startsWith(
+        "https://"
+      )
+    ) {
+
+      link =
+        "https://" +
+        link;
+
+    }
+
+
+    return link;
+
+  }
+
+
+  /* =========================================
+     CREATE QR
+  ========================================= */
+
+  async function generateDynamicQr() {
+
+    hideError();
+
+
+    const title =
+      qrTitleInput.value.trim();
+
+
+    const destination =
+      qrDestination.value;
+
+
+    const rawLink =
+      qrLinkInput.value.trim();
+
+
+    if (!title) {
+
+      showError(
+        "Veuillez saisir un titre pour le QR Code."
+      );
+
+      qrTitleInput.focus();
+
+      return;
+
+    }
+
+
+    if (!rawLink) {
+
+      showError(
+        "Veuillez saisir le lien ou le numéro."
+      );
+
+      qrLinkInput.focus();
+
+      return;
+
+    }
+
+
+    const finalLink =
+      normalizeQrLink(
+        destination,
+        rawLink
+      );
+
+
+    if (!finalLink) {
+
+      showError(
+        "Lien invalide."
+      );
+
+      return;
+
+    }
+
+
+    generateQrButton.disabled =
+      true;
+
+    generateQrButton.textContent =
+      "Création...";
+
+
+    try {
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.rpc(
+          "create_vendor_qr_code",
+          {
+
+            p_session_token:
+              vendorSession.session_token,
+
+            p_title:
+              title,
+
+            p_destination:
+              destination,
+
+            p_link:
+              finalLink
+
+          }
+        );
+
+
+      if (error) {
+
+        throw error;
+
+      }
 
 
       /*
-        تحميل عداد QR فقط.
+        Nettoyer le formulaire
       */
 
-      try {
+      qrTitleInput.value =
+        "";
 
-        const {
-          data,
-          error
-        } =
-          await supabaseClient.rpc(
-            "get_vendor_qr_count",
-            {
-              p_session_token:
-                vendorSession.session_token
+      qrLinkInput.value =
+        "";
+
+
+      /*
+        Recharger la liste
+      */
+
+      await loadQrCodes();
+
+
+      alert(
+        "QR Code créé avec succès."
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Create QR error:",
+        error
+      );
+
+
+      showError(
+        error.message ||
+        "Impossible de créer le QR Code."
+      );
+
+    }
+
+
+    generateQrButton.disabled =
+      false;
+
+    generateQrButton.textContent =
+      "Générer le QR Code";
+
+  }
+
+
+  /* =========================================
+     QR URL
+  ========================================= */
+
+  function getDynamicQrUrl(
+    qrId
+  ) {
+
+    return new URL(
+      "qr.html?id=" +
+      encodeURIComponent(
+        qrId
+      ),
+      window.location.href
+    ).href;
+
+  }
+
+
+  /* =========================================
+     LOAD QR
+  ========================================= */
+
+  async function loadQrCodes() {
+
+    qrContainer.innerHTML =
+      `
+      <div class="loading">
+        Chargement des QR Codes...
+      </div>
+      `;
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.rpc(
+        "get_vendor_qr_codes",
+        {
+
+          p_session_token:
+            vendorSession.session_token
+
+        }
+      );
+
+
+    if (error) {
+
+      console.error(
+        "QR load error:",
+        error
+      );
+
+
+      showError(
+        error.message ||
+        "Impossible de charger les QR Codes."
+      );
+
+
+      qrContainer.innerHTML =
+        `
+        <div class="empty">
+          Impossible de charger les QR Codes.
+        </div>
+        `;
+
+      return;
+
+    }
+
+
+    allQrCodes =
+      data || [];
+
+
+    qrCount.textContent =
+      allQrCodes.length;
+
+
+    renderQrCodes();
+
+  }
+
+
+  /* =========================================
+     RENDER QR
+  ========================================= */
+
+  function renderQrCodes() {
+
+    if (
+      allQrCodes.length ===
+      0
+    ) {
+
+      qrContainer.innerHTML =
+        `
+        <div class="empty">
+
+          Aucun QR Code pour le moment.
+
+          <br><br>
+
+          Cliquez sur
+          « + Ajouter QR Code ».
+
+        </div>
+        `;
+
+      return;
+
+    }
+
+
+    qrContainer.innerHTML =
+      "";
+
+
+    allQrCodes.forEach(
+      function(qr) {
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+
+        card.className =
+          "qr-card";
+
+
+        const destinationName =
+          getDestinationName(
+            qr.destination
+          );
+
+
+        card.innerHTML =
+          `
+          <div class="qr-card-top">
+
+            <div>
+
+              <div class="qr-card-title">
+
+                ${escapeHtml(
+                  qr.title
+                )}
+
+              </div>
+
+              <div class="qr-destination">
+
+                ${escapeHtml(
+                  destinationName
+                )}
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="qr-actions">
+
+            <button
+              class="qr-action qr-download"
+              onclick="downloadDynamicQr(
+                ${Number(qr.id)},
+                '${escapeHtml(
+                  qr.title
+                )}'
+              )"
+            >
+              Télécharger QR
+            </button>
+
+            <button
+              class="qr-action qr-delete"
+              onclick="openQrDeleteModal(
+                ${Number(qr.id)},
+                '${escapeHtml(
+                  qr.title
+                )}'
+              )"
+            >
+              Supprimer
+            </button>
+
+          </div>
+          `;
+
+
+        qrContainer.appendChild(
+          card
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =========================================
+     DESTINATION NAME
+  ========================================= */
+
+  function getDestinationName(
+    destination
+  ) {
+
+    const names = {
+
+      instagram:
+        "Instagram",
+
+      facebook:
+        "Facebook",
+
+      tiktok:
+        "TikTok",
+
+      snapchat:
+        "Snapchat",
+
+      website:
+        "Website",
+
+      telephone:
+        "Téléphone",
+
+      whatsapp:
+        "WhatsApp"
+
+    };
+
+
+    return (
+      names[destination] ||
+      destination
+    );
+
+  }
+
+
+  /* =========================================
+     DOWNLOAD DYNAMIC QR
+  ========================================= */
+
+  async function downloadDynamicQr(
+    qrId,
+    qrTitle
+  ) {
+
+    const qrContainer =
+      document.getElementById(
+        "qrGenerator"
+      );
+
+
+    qrContainer.innerHTML =
+      "";
+
+
+    const url =
+      getDynamicQrUrl(
+        qrId
+      );
+
+
+    new QRCode(
+      qrContainer,
+      {
+
+        text: url,
+
+        width: 900,
+
+        height: 900,
+
+        colorDark:
+          "#000000",
+
+        colorLight:
+          "#ffffff",
+
+        correctLevel:
+          QRCode.CorrectLevel.H
+
+      }
+    );
+
+
+    await new Promise(
+      function(resolve) {
+
+        setTimeout(
+          resolve,
+          300
+        );
+
+      }
+    );
+
+
+    const qrCanvas =
+      qrContainer.querySelector(
+        "canvas"
+      );
+
+
+    if (!qrCanvas) {
+
+      throw new Error(
+        "Impossible de créer le QR Code."
+      );
+
+    }
+
+
+    const finalCanvas =
+      document.createElement(
+        "canvas"
+      );
+
+
+    finalCanvas.width =
+      1000;
+
+    finalCanvas.height =
+      1000;
+
+
+    const ctx =
+      finalCanvas.getContext(
+        "2d"
+      );
+
+
+    ctx.fillStyle =
+      "#ffffff";
+
+
+    ctx.fillRect(
+      0,
+      0,
+      1000,
+      1000
+    );
+
+
+    ctx.drawImage(
+      qrCanvas,
+      50,
+      50,
+      900,
+      900
+    );
+
+
+    const safeName =
+      String(
+        qrTitle ||
+        "QR"
+      )
+        .replace(
+          /[^a-zA-Z0-9À-ÿ_-]+/g,
+          "_"
+        )
+        .replace(
+          /^_+|_+$/g,
+          ""
+        ) ||
+      "QR";
+
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    link.href =
+      finalCanvas.toDataURL(
+        "image/png"
+      );
+
+
+    link.download =
+      "TAPTAPCARD_" +
+      safeName +
+      "_QR.png";
+
+
+    document.body.appendChild(
+      link
+    );
+
+
+    link.click();
+
+
+    document.body.removeChild(
+      link
+    );
+
+
+    qrContainer.innerHTML =
+      "";
+
+  }
+
+
+  /* =========================================
+     DELETE QR
+  ========================================= */
+
+  function openQrDeleteModal(
+    qrId,
+    qrTitle
+  ) {
+
+    qrToDelete =
+      qrId;
+
+
+    qrDeleteName.textContent =
+      qrTitle;
+
+
+    confirmQrDeleteButton.disabled =
+      false;
+
+
+    confirmQrDeleteButton.textContent =
+      "Supprimer";
+
+
+    qrDeleteModal.classList.add(
+      "show"
+    );
+
+  }
+
+
+  function closeQrDeleteModal() {
+
+    qrDeleteModal.classList.remove(
+      "show"
+    );
+
+
+    qrToDelete =
+      null;
+
+  }
+
+
+  async function confirmQrDelete() {
+
+    if (!qrToDelete) {
+
+      return;
+
+    }
+
+
+    confirmQrDeleteButton.disabled =
+      true;
+
+
+    confirmQrDeleteButton.textContent =
+      "Suppression...";
+
+
+    try {
+
+      const {
+        error
+      } =
+        await supabaseClient.rpc(
+          "delete_vendor_qr_code",
+          {
+
+            p_session_token:
+              vendorSession.session_token,
+
+            p_qr_id:
+              qrToDelete
+
+          }
+        );
+
+
+      if (error) {
+
+        throw error;
+
+      }
+
+
+      closeQrDeleteModal();
+
+
+      await loadQrCodes();
+
+    } catch (error) {
+
+      console.error(
+        error
+      );
+
+
+      closeQrDeleteModal();
+
+
+      showError(
+        error.message ||
+        "Impossible de supprimer le QR Code."
+      );
+
+    }
+
+  }
+
+
+  /* =========================================
+     MODAL CLICK
+  ========================================= */
+
+  qrDeleteModal.addEventListener(
+    "click",
+    function(event) {
+
+      if (
+        event.target ===
+        qrDeleteModal
+      ) {
+
+        closeQrDeleteModal();
+
+      }
+
+    }
+  );
+
+
+  /* =========================================
+     CLIENT
+  ========================================= */
+
+  function addClient() {
+
+    window.location.href =
+      "vendor-add-client.html";
+
+  }
+
+
+  function getClientUrl(
+    clientId
+  ) {
+
+    return new URL(
+      "client.html?id=" +
+      encodeURIComponent(
+        clientId
+      ),
+      window.location.href
+    ).href;
+
+  }
+
+
+  function openClient(
+    clientId
+  ) {
+
+    window.open(
+      getClientUrl(
+        clientId
+      ),
+      "_blank"
+    );
+
+  }
+
+
+  async function copyClientLink(
+    clientId
+  ) {
+
+    const url =
+      getClientUrl(
+        clientId
+      );
+
+
+    await navigator.clipboard.writeText(
+      url
+    );
+
+  }
+
+
+  function editClient(
+    clientId
+  ) {
+
+    window.location.href =
+      "vendor-edit-client.html?id=" +
+      encodeURIComponent(
+        clientId
+      );
+
+  }
+
+
+  /* =========================================
+     LOAD CLIENTS
+  ========================================= */
+
+  async function loadClients() {
+
+    clientsContainer.innerHTML =
+      `
+      <div class="loading">
+        Chargement des clients...
+      </div>
+      `;
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.rpc(
+        "get_vendor_clients",
+        {
+
+          p_session_token:
+            vendorSession.session_token
+
+        }
+      );
+
+
+    if (error) {
+
+      console.error(
+        error
+      );
+
+
+      showError(
+        error.message ||
+        "Impossible de charger les clients."
+      );
+
+
+      return;
+
+    }
+
+
+    allClients =
+      data || [];
+
+
+    clientCount.textContent =
+      allClients.length;
+
+
+    renderClients(
+      searchInput.value
+    );
+
+  }
+
+
+  /* =========================================
+     RENDER CLIENTS
+  ========================================= */
+
+  function renderClients(
+    searchTerm = ""
+  ) {
+
+    const term =
+      searchTerm
+        .trim()
+        .toLowerCase();
+
+
+    const filtered =
+      !term
+        ? allClients
+        : allClients.filter(
+            function(client) {
+
+              return (
+                client.name ||
+                ""
+              )
+                .toLowerCase()
+                .includes(
+                  term
+                );
+
             }
           );
 
 
-        if (
-          !error &&
-          data !== null
-        ) {
+    if (!term) {
 
-          qrCount.textContent =
-            data;
-
-        }
-
-      } catch (error) {
-
-        console.error(
-          "QR count error:",
-          error
+      searchResultCount.textContent =
+        allClients.length +
+        " client" +
+        (
+          allClients.length > 1
+            ? "s"
+            : ""
         );
 
-      }
+    } else {
+
+      searchResultCount.textContent =
+        filtered.length +
+        " résultat" +
+        (
+          filtered.length > 1
+            ? "s"
+            : ""
+        );
 
     }
 
 
-    init();
+    if (
+      filtered.length ===
+      0
+    ) {
 
-  </script>
+      clientsContainer.innerHTML =
+        `
+        <div class="empty">
+
+          ${
+            term
+              ? "Aucun client trouvé."
+              : "Aucun client pour le moment."
+          }
+
+        </div>
+        `;
+
+      return;
+
+    }
+
+
+    clientsContainer.innerHTML =
+      "";
+
+
+    filtered.forEach(
+      function(client) {
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+
+        card.className =
+          "client-card";
+
+
+        const image =
+          client.profile_image &&
+          client.profile_image.trim()
+            ? client.profile_image
+            : "https://placehold.co/150x150?text=Client";
+
+
+        card.innerHTML =
+          `
+          <div class="client-top">
+
+            <img
+              class="client-image"
+              src="${escapeHtml(
+                image
+              )}"
+              alt=""
+            >
+
+
+            <div class="client-info">
+
+              <div class="client-name-row">
+
+                <div class="client-name">
+
+                  ${escapeHtml(
+                    client.name ||
+                    "Sans nom"
+                  )}
+
+                </div>
+
+                <div class="quick-actions">
+
+                  <button
+                    class="quick-button copy-link-button"
+                    title="Copier le lien"
+                  >
+                    🔗
+                  </button>
+
+                  <button
+                    class="quick-button qr-button"
+                    title="QR Code"
+                  >
+                    ▣
+                  </button>
+
+                </div>
+
+              </div>
+
+
+              <div class="client-description">
+
+                ${escapeHtml(
+                  client.description ||
+                  "Aucune description"
+                )}
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="actions">
+
+            <button
+              class="action-button open-button"
+            >
+              Ouvrir
+            </button>
+
+            <button
+              class="action-button edit-button"
+            >
+              Modifier
+            </button>
+
+            <button
+              class="action-button delete-button"
+            >
+              Supprimer
+            </button>
+
+          </div>
+          `;
+
+
+        card
+          .querySelector(
+            ".copy-link-button"
+          )
+          .onclick =
+          function() {
+
+            copyClientLink(
+              client.id
+            );
+
+          };
+
+
+        card
+          .querySelector(
+            ".qr-button"
+          )
+          .onclick =
+          function() {
+
+            /*
+              QR client القديم
+              reste disponible.
+            */
+
+            window.open(
+              getClientUrl(
+                client.id
+              ),
+              "_blank"
+            );
+
+          };
+
+
+        card
+          .querySelector(
+            ".open-button"
+          )
+          .onclick =
+          function() {
+
+            openClient(
+              client.id
+            );
+
+          };
+
+
+        card
+          .querySelector(
+            ".edit-button"
+          )
+          .onclick =
+          function() {
+
+            editClient(
+              client.id
+            );
+
+          };
+
+
+        card
+          .querySelector(
+            ".delete-button"
+          )
+          .onclick =
+          function() {
+
+            deleteClient(
+              client.id,
+              client.name
+            );
+
+          };
+
+
+        clientsContainer.appendChild(
+          card
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =========================================
+     DELETE CLIENT
+  ========================================= */
+
+  async function deleteClient(
+    clientId,
+    clientName
+  ) {
+
+    const confirmed =
+      confirm(
+        "Supprimer " +
+        (
+          clientName ||
+          "ce client"
+        ) +
+        " ?"
+      );
+
+
+    if (!confirmed) {
+
+      return;
+
+    }
+
+
+    const {
+      error
+    } =
+      await supabaseClient.rpc(
+        "delete_vendor_client",
+        {
+
+          p_session_token:
+            vendorSession.session_token,
+
+          p_client_id:
+            clientId
+
+        }
+      );
+
+
+    if (error) {
+
+      showError(
+        error.message ||
+        "Impossible de supprimer le client."
+      );
+
+      return;
+
+    }
+
+
+    await loadClients();
+
+  }
+
+
+  /* =========================================
+     SEARCH
+  ========================================= */
+
+  searchInput.addEventListener(
+    "input",
+    function() {
+
+      renderClients(
+        searchInput.value
+      );
+
+    }
+  );
+
+
+  /* =========================================
+     LOGOUT
+  ========================================= */
+
+  function logout() {
+
+    const loginToken =
+      sessionStorage.getItem(
+        "vendor_login_token"
+      );
+
+
+    localStorage.removeItem(
+      "vendor_session"
+    );
+
+
+    window.location.href =
+      loginToken
+        ? "vendor.html?token=" +
+          encodeURIComponent(
+            loginToken
+          )
+        : "vendor.html";
+
+  }
+
+
+  /* =========================================
+     INIT
+  ========================================= */
+
+  async function init() {
+
+    const valid =
+      await verifySession();
+
+
+    if (!valid) {
+
+      return;
+
+    }
+
+
+    await loadClients();
+
+    await loadQrCodes();
+
+    updateQrLinkField();
+
+  }
+
+
+  init();
+
+</script>
 
 </body>
 
