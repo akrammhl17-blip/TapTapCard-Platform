@@ -39,8 +39,6 @@
       padding: 25px;
     }
 
-    /* HEADER */
-
     .header {
       display: flex;
       align-items: center;
@@ -104,8 +102,6 @@
       border: 1px solid #e1e4e8;
     }
 
-    /* STATS */
-
     .stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -131,8 +127,6 @@
       font-size: 28px;
       font-weight: 800;
     }
-
-    /* MAIN CARD */
 
     .main-card {
       background: rgba(255,255,255,0.9);
@@ -169,8 +163,6 @@
     .search-box:focus {
       border-color: #999;
     }
-
-    /* TABLE */
 
     .table-wrapper {
       width: 100%;
@@ -253,8 +245,6 @@
       font-size: 16px;
     }
 
-    /* ACTIONS */
-
     .actions {
       display: flex;
       flex-wrap: wrap;
@@ -319,8 +309,6 @@
     .history-btn:hover {
       background: #e7e9ec;
     }
-
-    /* MODAL */
 
     .modal {
       position: fixed;
@@ -419,8 +407,6 @@
       color: white;
     }
 
-    /* MANAGE */
-
     .manage-info {
       background: #f6f7f9;
       border: 1px solid #e5e7ea;
@@ -496,8 +482,6 @@
       background: #ffe5e5;
     }
 
-    /* DELETE */
-
     .delete-option {
       width: 100%;
       text-align: left;
@@ -534,8 +518,6 @@
       background: #fff7f7;
     }
 
-    /* HISTORY */
-
     .history-list {
       max-height: 350px;
       overflow-y: auto;
@@ -558,8 +540,6 @@
       margin-top: 4px;
     }
 
-    /* CREDENTIALS */
-
     .credential-box {
       background: #f6f7f9;
       border: 1px solid #e5e7ea;
@@ -579,8 +559,6 @@
       font-weight: 700;
       font-size: 13px;
     }
-
-    /* TOAST */
 
     .toast {
       position: fixed;
@@ -603,8 +581,6 @@
       opacity: 1;
       transform: translateY(0);
     }
-
-    /* MOBILE */
 
     @media (max-width: 750px) {
 
@@ -655,8 +631,6 @@
 
 <div class="page">
 
-  <!-- HEADER -->
-
   <header class="header">
 
     <div class="brand">
@@ -699,8 +673,6 @@
 
   </header>
 
-
-  <!-- STATS -->
 
   <section class="stats">
 
@@ -754,8 +726,6 @@
   </section>
 
 
-  <!-- MAIN -->
-
   <section class="main-card">
 
     <div class="card-header">
@@ -805,12 +775,9 @@
 </div>
 
 
-<!-- ADD VENDOR MODAL -->
+<!-- ADD VENDOR -->
 
-<div
-  class="modal"
-  id="addVendorModal"
->
+<div class="modal" id="addVendorModal">
 
   <div class="modal-card">
 
@@ -875,12 +842,9 @@
 </div>
 
 
-<!-- CREDENTIALS MODAL -->
+<!-- CREDENTIALS -->
 
-<div
-  class="modal"
-  id="credentialsModal"
->
+<div class="modal" id="credentialsModal">
 
   <div class="modal-card">
 
@@ -947,12 +911,9 @@
 </div>
 
 
-<!-- MANAGE MODAL -->
+<!-- MANAGE -->
 
-<div
-  class="modal"
-  id="manageModal"
->
+<div class="modal" id="manageModal">
 
   <div class="modal-card">
 
@@ -983,7 +944,7 @@
     <div class="manage-info">
 
       <div class="manage-label">
-        Nombre total de liens créés
+        Nombre actuel de clients
       </div>
 
       <div
@@ -999,7 +960,7 @@
     <div class="manage-info">
 
       <div class="manage-label">
-        Nombre total de QR Codes créés
+        Nombre actuel de QR Codes
       </div>
 
       <div
@@ -1092,12 +1053,9 @@
 </div>
 
 
-<!-- CHANGE PIN MODAL -->
+<!-- CHANGE PIN -->
 
-<div
-  class="modal"
-  id="changePinModal"
->
+<div class="modal" id="changePinModal">
 
   <div class="modal-card">
 
@@ -1165,12 +1123,9 @@
 </div>
 
 
-<!-- DELETE VENDOR MODAL -->
+<!-- DELETE -->
 
-<div
-  class="modal"
-  id="deleteVendorModal"
->
+<div class="modal" id="deleteVendorModal">
 
   <div class="modal-card">
 
@@ -1235,12 +1190,9 @@
 </div>
 
 
-<!-- DELETE ALL CONFIRMATION -->
+<!-- DELETE ALL -->
 
-<div
-  class="modal"
-  id="deleteAllConfirmModal"
->
+<div class="modal" id="deleteAllConfirmModal">
 
   <div class="modal-card">
 
@@ -1294,12 +1246,9 @@
 </div>
 
 
-<!-- HISTORY MODAL -->
+<!-- HISTORY -->
 
-<div
-  class="modal"
-  id="historyModal"
->
+<div class="modal" id="historyModal">
 
   <div class="modal-card">
 
@@ -1333,12 +1282,9 @@
 </div>
 
 
-<!-- RESET CONFIRMATION MODAL -->
+<!-- RESET -->
 
-<div
-  class="modal"
-  id="resetModal"
->
+<div class="modal" id="resetModal">
 
   <div class="modal-card">
 
@@ -1379,12 +1325,9 @@
 </div>
 
 
-<!-- SUSPEND / ACTIVATE MODAL -->
+<!-- STATUS -->
 
-<div
-  class="modal"
-  id="statusModal"
->
+<div class="modal" id="statusModal">
 
   <div class="modal-card">
 
@@ -1437,10 +1380,6 @@
 
 <script>
 
-/* =========================
-SUPABASE
-========================= */
-
 const SUPABASE_URL =
   "https://ogenizijjumwkiiikhrx.supabase.co";
 
@@ -1453,10 +1392,6 @@ const supabaseClient =
     SUPABASE_ANON_KEY
   );
 
-
-/* =========================
-GLOBAL DATA
-========================= */
 
 let vendors = [];
 
@@ -1484,6 +1419,37 @@ document.addEventListener(
 
   }
 );
+
+
+/* =========================
+AUTO REFRESH
+========================= */
+
+let refreshTimer = null;
+
+function startAutoRefresh() {
+
+  if (refreshTimer) {
+    clearInterval(refreshTimer);
+  }
+
+  refreshTimer = setInterval(
+    async () => {
+
+      const anyModalOpen =
+        document.querySelector(
+          ".modal.show"
+        );
+
+      if (!anyModalOpen) {
+        await loadVendors();
+      }
+
+    },
+    10000
+  );
+
+}
 
 
 /* =========================
@@ -1590,6 +1556,8 @@ async function loadVendors() {
 
   renderVendors();
 
+  startAutoRefresh();
+
 }
 
 
@@ -1626,6 +1594,7 @@ async function calculateCounts() {
     if (clientsError) {
 
       console.error(
+        "Clients count error:",
         clientsError
       );
 
@@ -1659,8 +1628,12 @@ async function calculateCounts() {
     if (qrError) {
 
       console.error(
+        "QR count error:",
         qrError
       );
+
+      vendor.currentQrCodes = 0;
+      vendor.totalQrCodes = 0;
 
     }
 
@@ -1668,7 +1641,8 @@ async function calculateCounts() {
     /* LAST RESET */
 
     const {
-      data: resets
+      data: resets,
+      error: resetError
     } =
       await supabaseClient
         .from("vendor_resets")
@@ -1686,6 +1660,16 @@ async function calculateCounts() {
           }
         )
         .limit(1);
+
+
+    if (resetError) {
+
+      console.error(
+        "Reset history error:",
+        resetError
+      );
+
+    }
 
 
     let lastReset = null;
@@ -1707,7 +1691,7 @@ async function calculateCounts() {
     /* CURRENT CLIENTS */
 
     const currentClients =
-      clients.filter(
+      (clients || []).filter(
         client => {
 
           if (!lastReset) {
@@ -1748,7 +1732,7 @@ async function calculateCounts() {
       currentClients;
 
     vendor.totalLinks =
-      clients.length;
+      (clients || []).length;
 
 
     vendor.currentQrCodes =
@@ -1788,7 +1772,7 @@ async function calculateCounts() {
 
 
 /* =========================
-RENDER VENDORS
+RENDER
 ========================= */
 
 function renderVendors() {
@@ -2082,16 +2066,24 @@ async function manageVendor(
     "Vendeur";
 
 
+  /*
+    مهم:
+    نستعمل currentLinks و currentQrCodes
+    باش الأعداد تتبع Reset.
+  */
+
   document.getElementById(
     "manageTotalLinks"
   ).textContent =
-    "Chargement...";
+    vendor.currentLinks ||
+    0;
 
 
   document.getElementById(
     "manageTotalQrCodes"
   ).textContent =
-    "Chargement...";
+    vendor.currentQrCodes ||
+    0;
 
 
   const vendorLink =
@@ -2111,51 +2103,6 @@ async function manageVendor(
   ).classList.add(
     "show"
   );
-
-
-  const {
-    count,
-    error
-  } =
-    await supabaseClient
-      .from("clients")
-      .select(
-        "id",
-        {
-          count: "exact",
-          head: true
-        }
-      )
-      .eq(
-        "vendor_id",
-        vendorId
-      );
-
-
-  if (error) {
-
-    console.error(error);
-
-    document.getElementById(
-      "manageTotalLinks"
-    ).textContent =
-      "Erreur";
-
-  }
-  else {
-
-    document.getElementById(
-      "manageTotalLinks"
-    ).textContent =
-      count || 0;
-
-  }
-
-
-  document.getElementById(
-    "manageTotalQrCodes"
-  ).textContent =
-    vendor.currentQrCodes || 0;
 
 }
 
@@ -2336,7 +2283,7 @@ async function confirmChangePin() {
 
 
 /* =========================
-BUILD VENDOR LINK
+BUILD LINK
 ========================= */
 
 function buildVendorLink(
@@ -2359,7 +2306,7 @@ function buildVendorLink(
 
 
 /* =========================
-COPY MANAGE LINK
+COPY
 ========================= */
 
 async function copyManageLink() {
@@ -2400,7 +2347,7 @@ async function copyManageLink() {
 
 
 /* =========================
-OPEN DELETE VENDOR
+DELETE
 ========================= */
 
 function openDeleteVendorModal() {
@@ -2442,26 +2389,9 @@ function openDeleteVendorModal() {
 }
 
 
-/* =========================
-DELETE VENDOR KEEP CLIENTS
-========================= */
-
 async function deleteVendorKeepClients() {
 
   if (!manageVendorId) {
-    return;
-  }
-
-
-  const vendor =
-    vendors.find(
-      v =>
-        v.id ===
-        manageVendorId
-    );
-
-
-  if (!vendor) {
     return;
   }
 
@@ -2511,10 +2441,6 @@ async function deleteVendorKeepClients() {
 }
 
 
-/* =========================
-OPEN DELETE ALL CONFIRM
-========================= */
-
 function openDeleteAllConfirm() {
 
   const vendor =
@@ -2553,10 +2479,6 @@ function openDeleteAllConfirm() {
 
 }
 
-
-/* =========================
-DELETE VENDOR + CLIENTS
-========================= */
 
 async function deleteVendorWithClients() {
 
@@ -2611,7 +2533,7 @@ async function deleteVendorWithClients() {
 
 
 /* =========================
-SUSPENDRE
+SUSPEND
 ========================= */
 
 function openSuspendModal(
@@ -2693,7 +2615,7 @@ function openSuspendModal(
 
 
 /* =========================
-RÉACTIVER
+ACTIVATE
 ========================= */
 
 function openActivateModal(
@@ -3121,10 +3043,8 @@ async function confirmReset() {
   resetVendorId =
     null;
 
-
   resetVendorCount =
     0;
-
 
   resetVendorQrCount =
     0;
@@ -3246,7 +3166,7 @@ async function showHistory(
               client(s)
 
               —
-              
+
               ${item.qr_count || 0}
               QR Code(s)
 
