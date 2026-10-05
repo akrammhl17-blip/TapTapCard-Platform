@@ -1564,6 +1564,8 @@ async function loadVendors() {
 
     renderVendors();
 
+    startAutoRefresh();
+
   }
   finally {
 
@@ -1587,68 +1589,11 @@ async function calculateCounts() {
     const vendor of vendors
   ) {
 
-    /* =========================
-       CLIENTS
-    ========================= */
+    vendor.currentLinks = 0;
+    vendor.totalLinks = 0;
 
-    const {
-      data: clients,
-      error: clientsError
-    } =
-      await supabaseClient
-        .from("clients")
-        .select(
-          "id,created_at"
-        )
-        .eq(
-          "vendor_id",
-          vendor.id
-        );
-
-
-    if (clientsError) {
-
-      console.error(
-        "Clients count error:",
-        clientsError
-      );
-
-      vendor.currentLinks = 0;
-      vendor.totalLinks = 0;
-
-    }
-
-
-    /* =========================
-       QR CODES
-    ========================= */
-
-    const {
-      data: qrCodes,
-      error: qrError
-    } =
-      await supabaseClient
-        .from("dynamic_qr_codes")
-        .select(
-          "id,created_at"
-        )
-        .eq(
-          "vendor_id",
-          vendor.id
-        );
-
-
-    if (qrError) {
-
-      console.error(
-        "QR count error:",
-        qrError
-      );
-
-      vendor.currentQrCodes = 0;
-      vendor.totalQrCodes = 0;
-
-    }
+    vendor.currentQrCodes = 0;
+    vendor.totalQrCodes = 0;
 
 
     /* =========================
@@ -1704,74 +1649,129 @@ async function calculateCounts() {
 
 
     /* =========================
-       CURRENT CLIENTS
+       CLIENTS
     ========================= */
 
-    const currentClients =
-      (clients || []).filter(
-        client => {
-
-          if (!lastReset) {
-            return true;
-          }
-
-          return (
-            new Date(
-              client.created_at
-            ) > lastReset
-          );
-
-        }
-      ).length;
+    const {
+      data: clients,
+      error: clientsError
+    } =
+      await supabaseClient
+        .from("clients")
+        .select(
+          "id,created_at"
+        )
+        .eq(
+          "vendor_id",
+          vendor.id
+        );
 
 
-    /* =========================
-       CURRENT QR
-    ========================= */
+    if (clientsError) {
 
-    const currentQrCodes =
-      (qrCodes || []).filter(
-        qr => {
+      console.error(
+        "Clients count error:",
+        clientsError
+      );
 
-          if (!lastReset) {
-            return true;
-          }
+    }
+    else {
 
-          return (
-            new Date(
-              qr.created_at
-            ) > lastReset
-          );
+      const clientList =
+        clients || [];
 
-        }
-      ).length;
-
-
-    /* =========================
-       SAVE COUNTS
-    ========================= */
-
-    if (!clientsError) {
-
-      vendor.currentLinks =
-        currentClients;
 
       vendor.totalLinks =
-        (clients || []).length;
+        clientList.length;
+
+
+      vendor.currentLinks =
+        clientList.filter(
+          client => {
+
+            if (!lastReset) {
+              return true;
+            }
+
+            return (
+              new Date(
+                client.created_at
+              ) > lastReset
+            );
+
+          }
+        ).length;
+
 
       totalLinks +=
-        currentClients;
+        vendor.currentLinks;
 
     }
 
 
-    if (!qrError) {
+    /* =========================
+       QR CODES
+       IMPORTANT:
+       We use RPC instead of direct
+       reading of dynamic_qr_codes.
+    ========================= */
+
+    const {
+      data: qrCount,
+      error: qrError
+    } =
+      await supabaseClient.rpc(
+        "get_vendor_qr_count",
+        {
+          p_vendor_id:
+            vendor.id
+        }
+      );
+
+
+    if (qrError) {
+
+      console.error(
+        "QR RPC error:",
+        qrError
+      );
+
+      console.error(
+        "QR RPC message:",
+        qrError.message
+      );
+
+      console.error(
+        "QR RPC details:",
+        qrError.details
+      );
+
+      console.error(
+        "QR RPC hint:",
+        qrError.hint
+      );
+
 
       vendor.currentQrCodes =
-        currentQrCodes;
+        0;
 
       vendor.totalQrCodes =
-        (qrCodes || []).length;
+        0;
+
+    }
+    else {
+
+      const count =
+        Number(
+          qrCount || 0
+        );
+
+
+      vendor.currentQrCodes =
+        count;
+
+      vendor.totalQrCodes =
+        count;
 
     }
 
