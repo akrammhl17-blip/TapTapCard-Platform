@@ -623,7 +623,6 @@
         width: 100%;
       }
     }
-
   </style>
 </head>
 
@@ -1404,6 +1403,9 @@ let statusAction = null;
 
 let manageVendorId = null;
 
+let refreshTimer = null;
+let isLoadingVendors = false;
+
 
 /* =========================
 INIT
@@ -1424,8 +1426,6 @@ document.addEventListener(
 /* =========================
 AUTO REFRESH
 ========================= */
-
-let refreshTimer = null;
 
 function startAutoRefresh() {
 
@@ -1517,46 +1517,59 @@ LOAD VENDORS
 
 async function loadVendors() {
 
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("vendors")
-      .select("*")
-      .neq(
-        "role",
-        "admin"
-      )
-      .order(
-        "created_at",
-        {
-          ascending: false
-        }
-      );
-
-
-  if (error) {
-
-    console.error(error);
-
-    showToast(
-      "Erreur lors du chargement des vendeurs."
-    );
-
+  if (isLoadingVendors) {
     return;
-
   }
 
+  isLoadingVendors = true;
 
-  vendors =
-    data || [];
+  try {
 
-  await calculateCounts();
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("vendors")
+        .select("*")
+        .neq(
+          "role",
+          "admin"
+        )
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
 
-  renderVendors();
 
-  startAutoRefresh();
+    if (error) {
+
+      console.error(error);
+
+      showToast(
+        "Erreur lors du chargement des vendeurs."
+      );
+
+      return;
+
+    }
+
+
+    vendors =
+      data || [];
+
+    await calculateCounts();
+
+    renderVendors();
+
+  }
+  finally {
+
+    isLoadingVendors = false;
+
+  }
 
 }
 
@@ -1574,7 +1587,9 @@ async function calculateCounts() {
     const vendor of vendors
   ) {
 
-    /* CLIENTS */
+    /* =========================
+       CLIENTS
+    ========================= */
 
     const {
       data: clients,
@@ -1600,15 +1615,13 @@ async function calculateCounts() {
 
       vendor.currentLinks = 0;
       vendor.totalLinks = 0;
-      vendor.currentQrCodes = 0;
-      vendor.totalQrCodes = 0;
-
-      continue;
 
     }
 
 
-    /* QR CODES */
+    /* =========================
+       QR CODES
+    ========================= */
 
     const {
       data: qrCodes,
@@ -1638,7 +1651,9 @@ async function calculateCounts() {
     }
 
 
-    /* LAST RESET */
+    /* =========================
+       LAST RESET
+    ========================= */
 
     const {
       data: resets,
@@ -1688,7 +1703,9 @@ async function calculateCounts() {
     }
 
 
-    /* CURRENT CLIENTS */
+    /* =========================
+       CURRENT CLIENTS
+    ========================= */
 
     const currentClients =
       (clients || []).filter(
@@ -1708,7 +1725,9 @@ async function calculateCounts() {
       ).length;
 
 
-    /* CURRENT QR */
+    /* =========================
+       CURRENT QR
+    ========================= */
 
     const currentQrCodes =
       (qrCodes || []).filter(
@@ -1728,25 +1747,40 @@ async function calculateCounts() {
       ).length;
 
 
-    vendor.currentLinks =
-      currentClients;
+    /* =========================
+       SAVE COUNTS
+    ========================= */
 
-    vendor.totalLinks =
-      (clients || []).length;
+    if (!clientsError) {
+
+      vendor.currentLinks =
+        currentClients;
+
+      vendor.totalLinks =
+        (clients || []).length;
+
+      totalLinks +=
+        currentClients;
+
+    }
 
 
-    vendor.currentQrCodes =
-      currentQrCodes;
+    if (!qrError) {
 
-    vendor.totalQrCodes =
-      (qrCodes || []).length;
+      vendor.currentQrCodes =
+        currentQrCodes;
 
+      vendor.totalQrCodes =
+        (qrCodes || []).length;
 
-    totalLinks +=
-      currentClients;
+    }
 
   }
 
+
+  /* =========================
+     GLOBAL STATS
+  ========================= */
 
   document.getElementById(
     "totalVendors"
@@ -2065,12 +2099,6 @@ async function manageVendor(
     vendor.name ||
     "Vendeur";
 
-
-  /*
-    مهم:
-    نستعمل currentLinks و currentQrCodes
-    باش الأعداد تتبع Reset.
-  */
 
   document.getElementById(
     "manageTotalLinks"
