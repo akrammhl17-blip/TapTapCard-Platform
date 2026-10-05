@@ -136,8 +136,127 @@
       }
 
 
+      let destination =
+        String(
+          qr.link
+        ).trim();
+
+
+      /*
+       * TELEPHONE
+       */
+
+      if (
+        qr.destination === "Téléphone"
+      ) {
+
+        const phone =
+          destination.replace(
+            /\s+/g,
+            ""
+          );
+
+        window.location.href =
+          "tel:" + phone;
+
+        return;
+
+      }
+
+
+      /*
+       * WHATSAPP
+       */
+
+      if (
+        qr.destination === "WhatsApp"
+      ) {
+
+        let phone =
+          destination.replace(
+            /\D/g,
+            ""
+          );
+
+
+        if (
+          phone.startsWith("0")
+        ) {
+
+          phone =
+            "213" +
+            phone.substring(1);
+
+        }
+
+
+        if (
+          !phone.startsWith("213")
+        ) {
+
+          phone =
+            "213" +
+            phone;
+
+        }
+
+
+        window.location.replace(
+          "https://wa.me/" +
+          phone
+        );
+
+        return;
+
+      }
+
+
+      /*
+       * SNAPCHAT
+       */
+
+      if (
+        qr.destination === "Snapchat"
+      ) {
+
+        const username =
+          destination.replace(
+            /^@/,
+            ""
+          );
+
+
+        window.location.replace(
+          "https://www.snapchat.com/add/" +
+          encodeURIComponent(
+            username
+          )
+        );
+
+        return;
+
+      }
+
+
+      /*
+       * AUTRES LIENS
+       */
+
+      if (
+        !/^https?:\/\//i.test(
+          destination
+        )
+      ) {
+
+        destination =
+          "https://" +
+          destination;
+
+      }
+
+
       window.location.replace(
-        qr.link
+        destination
       );
 
     }
