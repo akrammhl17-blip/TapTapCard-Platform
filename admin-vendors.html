@@ -1641,9 +1641,7 @@ async function calculateCounts() {
     ) {
 
       lastReset =
-        new Date(
-          resets[0].reset_at
-        );
+        resets[0].reset_at;
 
     }
 
@@ -1696,7 +1694,10 @@ async function calculateCounts() {
             return (
               new Date(
                 client.created_at
-              ) > lastReset
+              ) >
+              new Date(
+                lastReset
+              )
             );
 
           }
@@ -1711,9 +1712,7 @@ async function calculateCounts() {
 
     /* =========================
        QR CODES
-       IMPORTANT:
-       We use RPC instead of direct
-       reading of dynamic_qr_codes.
+       USE RESET DATE
     ========================= */
 
     const {
@@ -1721,10 +1720,13 @@ async function calculateCounts() {
       error: qrError
     } =
       await supabaseClient.rpc(
-        "get_vendor_qr_count",
+        "get_admin_vendor_qr_count",
         {
           p_vendor_id:
-            vendor.id
+            vendor.id,
+
+          p_reset_at:
+            lastReset
         }
       );
 
