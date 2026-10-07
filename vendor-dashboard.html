@@ -1,23 +1,10 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html><html lang="fr"><head>  <meta charset="UTF-8"><meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
 
-<head>
+«»
 
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>Dashboard - TapTapCard</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-
-  <style>
+  <title>Dashboard - TapTapCard</title>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <!-- QR CODE STYLING -->  <script src="https://unpkg.com/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>  <style>
 
     * {
       box-sizing: border-box;
@@ -71,10 +58,6 @@
       font-size: 13px;
     }
 
-    /* ================================
-       COUNTS
-    ================================= */
-
     .count-box {
       margin-top: 20px;
       background: #f4f4f5;
@@ -104,10 +87,6 @@
       margin-top: 5px;
     }
 
-    /* ================================
-       MAIN BUTTONS
-    ================================= */
-
     .add-button {
       width: 100%;
       margin-top: 15px;
@@ -128,10 +107,6 @@
     .qr-main-button {
       background: #222;
     }
-
-    /* ================================
-       SEARCH
-    ================================= */
 
     .search-box {
       background: white;
@@ -159,10 +134,6 @@
       font-size: 13px;
       color: #777;
     }
-
-    /* ================================
-       CLIENT CARDS
-    ================================= */
 
     .client-card {
       background: white;
@@ -291,10 +262,6 @@
       cursor: not-allowed;
     }
 
-    /* ================================
-       EMPTY / LOADING / ERROR
-    ================================= */
-
     .empty {
       background: white;
       padding: 30px;
@@ -318,10 +285,6 @@
       display: none;
       word-break: break-word;
     }
-
-    /* ================================
-       QR VIEW
-    ================================= */
 
     #qrView {
       margin-bottom: 20px;
@@ -399,10 +362,6 @@
       box-shadow: 0 4px 18px rgba(0,0,0,0.05);
     }
 
-    /* ================================
-       QR CARDS
-    ================================= */
-
     .qr-card {
       background: white;
       border-radius: 16px;
@@ -432,11 +391,12 @@
       min-height: 220px;
     }
 
-    .qr-image-container img,
-    .qr-image-container canvas {
+    .qr-image-container canvas,
+    .qr-image-container img {
       width: 220px !important;
       height: 220px !important;
       max-width: 100%;
+      display: block;
     }
 
     .qr-card-link {
@@ -487,10 +447,6 @@
       border-radius: 16px;
       color: #777;
     }
-
-    /* ================================
-       MODALS
-    ================================= */
 
     .confirm-modal,
     .delete-modal {
@@ -627,10 +583,6 @@
       background: white;
     }
 
-    /* ================================
-       MOBILE
-    ================================= */
-
     @media (max-width: 420px) {
 
       .actions {
@@ -663,449 +615,387 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      .qr-image-container img,
-      .qr-image-container canvas {
+      .qr-image-container canvas,
+      .qr-image-container img {
         width: 190px !important;
         height: 190px !important;
       }
 
     }
 
-  </style>
-
-</head>
-
-
-<body>
-
-  <div class="container">
-
-    <!-- ERROR -->
-
-    <div
-      id="errorMessage"
-      class="error"
-    ></div>
+  </style></head><body>  <div class="container"><div
+  id="errorMessage"
+  class="error"
+></div>
 
 
-    <!-- HEADER -->
+<div class="header">
 
-    <div class="header">
+  <div class="top">
 
-      <div class="top">
+    <div>
 
-        <div>
+      <h1>
+        Mon Dashboard
+      </h1>
 
-          <h1>
-            Mon Dashboard
-          </h1>
-
-          <div
-            class="seller"
-            id="sellerName"
-          >
-            Chargement...
-          </div>
-
-        </div>
-
-
-        <button
-          class="logout"
-          onclick="logout()"
-        >
-          Déconnexion
-        </button>
-
-      </div>
-
-
-      <!-- COUNTS -->
-
-      <div class="count-box count-boxes">
-
-        <div class="single-count">
-
-          <div class="count-label">
-            Mes clients
-          </div>
-
-          <div
-            class="count"
-            id="clientCount"
-          >
-            0
-          </div>
-
-        </div>
-
-
-        <div class="single-count">
-
-          <div class="count-label">
-            QR Codes
-          </div>
-
-          <div
-            class="count"
-            id="qrCount"
-          >
-            0
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- ADD CLIENT -->
-
-      <button
-        class="add-button"
-        onclick="addClient()"
+      <div
+        class="seller"
+        id="sellerName"
       >
-        + Ajouter un client
-      </button>
-
-
-      <!-- QR BUTTON -->
-
-      <button
-        class="add-button qr-main-button"
-        onclick="showQrView()"
-      >
-        🔲 QR Code dynamic
-      </button>
-
-    </div>
-
-
-    <!-- ================================
-         CLIENT VIEW
-    ================================= -->
-
-    <div id="clientView">
-
-      <div class="search-box">
-
-        <input
-          type="search"
-          id="searchInput"
-          class="search-input"
-          placeholder="🔎 Rechercher un client..."
-          autocomplete="off"
-        >
-
-        <div
-          id="searchResultCount"
-          class="search-result-count"
-        >
-          Tous les clients
-        </div>
-
-      </div>
-
-
-      <div id="clientsContainer">
-
-        <div class="loading">
-          Chargement des clients...
-        </div>
-
+        Chargement...
       </div>
 
     </div>
 
 
-    <!-- ================================
-         QR VIEW
-    ================================= -->
+    <button
+      class="logout"
+      onclick="logout()"
+    >
+      Déconnexion
+    </button>
 
-    <div
-      id="qrView"
-      style="display:none;"
+  </div>
+
+
+  <div class="count-box count-boxes">
+
+    <div class="single-count">
+
+      <div class="count-label">
+        Mes clients
+      </div>
+
+      <div
+        class="count"
+        id="clientCount"
+      >
+        0
+      </div>
+
+    </div>
+
+
+    <div class="single-count">
+
+      <div class="count-label">
+        QR Codes
+      </div>
+
+      <div
+        class="count"
+        id="qrCount"
+      >
+        0
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <button
+    class="add-button"
+    onclick="addClient()"
+  >
+    + Ajouter un client
+  </button>
+
+
+  <button
+    class="add-button qr-main-button"
+    onclick="showQrView()"
+  >
+    🔲 QR Code dynamic
+  </button>
+
+</div>
+
+
+<div id="clientView">
+
+  <div class="search-box">
+
+    <input
+      type="search"
+      id="searchInput"
+      class="search-input"
+      placeholder="🔎 Rechercher un client..."
+      autocomplete="off"
     >
 
-      <button
-        class="back-button"
-        onclick="showClientsView()"
-      >
-        ← Retour à mes clients
-      </button>
+    <div
+      id="searchResultCount"
+      class="search-result-count"
+    >
+      Tous les clients
+    </div>
+
+  </div>
 
 
-      <button
-        class="add-button"
-        onclick="showQrForm()"
-      >
-        + Ajouter QR Code
-      </button>
+  <div id="clientsContainer">
+
+    <div class="loading">
+      Chargement des clients...
+    </div>
+
+  </div>
+
+</div>
 
 
-      <div
-        id="qrForm"
-        class="qr-form-card"
-        style="display:none;"
-      >
+<div
+  id="qrView"
+  style="display:none;"
+>
 
-        <div class="qr-form-title">
-          QR CODE DYNAMIQUE
-        </div>
-
-
-        <label class="qr-label">
-          Titre du QR Code
-        </label>
-
-        <input
-          type="text"
-          id="qrTitleInput"
-          class="qr-input"
-          placeholder="Titre du QR Code"
-          autocomplete="off"
-        >
+  <button
+    class="back-button"
+    onclick="showClientsView()"
+  >
+    ← Retour à mes clients
+  </button>
 
 
-        <label class="qr-label">
-          Destination
-        </label>
-
-        <select
-          id="qrDestinationInput"
-          class="qr-input"
-        >
-
-          <option value="Instagram">
-            Instagram
-          </option>
-
-          <option value="Facebook">
-            Facebook
-          </option>
-
-          <option value="TikTok">
-            TikTok
-          </option>
-
-          <option value="Snapchat">
-            Snapchat
-          </option>
-
-          <option value="Website">
-            Website
-          </option>
-
-          <option value="WhatsApp">
-            WhatsApp
-          </option>
-
-          <option value="Téléphone">
-            Téléphone
-          </option>
-
-          <option value="Google Maps">
-            Google Maps
-          </option>
-
-        </select>
+  <button
+    class="add-button"
+    onclick="showQrForm()"
+  >
+    + Ajouter QR Code
+  </button>
 
 
-        <label
-          class="qr-label"
-          id="qrLinkLabel"
-        >
-          Lien
-        </label>
+  <div
+    id="qrForm"
+    class="qr-form-card"
+    style="display:none;"
+  >
 
-        <input
-          type="url"
-          id="qrLinkInput"
-          class="qr-input"
-          placeholder="https://instagram.com/..."
-          autocomplete="off"
-        >
+    <div class="qr-form-title">
+      QR CODE DYNAMIQUE
+    </div>
 
 
-        <button
-          id="generateQrButton"
-          class="add-button"
-          onclick="createDynamicQr()"
-        >
-          Générer le QR Code
-        </button>
+    <label class="qr-label">
+      Titre du QR Code
+    </label>
+
+    <input
+      type="text"
+      id="qrTitleInput"
+      class="qr-input"
+      placeholder="Titre du QR Code"
+      autocomplete="off"
+    >
 
 
-        <button
-          class="back-button form-back-button"
-          onclick="hideQrForm()"
-        >
-          ← Retour aux QR Codes
-        </button>
+    <label class="qr-label">
+      Destination
+    </label>
 
-      </div>
+    <select
+      id="qrDestinationInput"
+      class="qr-input"
+    >
+
+      <option value="Instagram">
+        Instagram
+      </option>
+
+      <option value="Facebook">
+        Facebook
+      </option>
+
+      <option value="TikTok">
+        TikTok
+      </option>
+
+      <option value="Snapchat">
+        Snapchat
+      </option>
+
+      <option value="Website">
+        Website
+      </option>
+
+      <option value="WhatsApp">
+        WhatsApp
+      </option>
+
+      <option value="Téléphone">
+        Téléphone
+      </option>
+
+      <option value="Google Maps">
+        Google Maps
+      </option>
+
+    </select>
 
 
-      <div
-        id="qrListSection"
-      >
+    <label
+      class="qr-label"
+      id="qrLinkLabel"
+    >
+      Lien
+    </label>
 
-        <div class="section-title">
-          Mes QR Codes
-        </div>
+    <input
+      type="url"
+      id="qrLinkInput"
+      class="qr-input"
+      placeholder="https://instagram.com/..."
+      autocomplete="off"
+    >
 
 
-        <div
-          id="qrCodesContainer"
-        >
+    <button
+      id="generateQrButton"
+      class="add-button"
+      onclick="createDynamicQr()"
+    >
+      Générer le QR Code
+    </button>
 
-          <div class="loading">
-            Chargement des QR Codes...
-          </div>
 
-        </div>
+    <button
+      class="back-button form-back-button"
+      onclick="hideQrForm()"
+    >
+      ← Retour aux QR Codes
+    </button>
 
+  </div>
+
+
+  <div id="qrListSection">
+
+    <div class="section-title">
+      Mes QR Codes
+    </div>
+
+
+    <div id="qrCodesContainer">
+
+      <div class="loading">
+        Chargement des QR Codes...
       </div>
 
     </div>
 
   </div>
 
+</div>
 
-  <!-- ================================
-       CONFIRM CLIENT MODAL
-  ================================= -->
-
-  <div
+  </div>  <div
     id="confirmModal"
     class="confirm-modal"
-  >
-
-    <div class="confirm-box">
-
-      <div
-        id="confirmIcon"
-        class="confirm-icon"
-      >
-        🔗
-      </div>
-
-      <div
-        id="confirmTitle"
-        class="confirm-title"
-      >
-        Copier le lien ?
-      </div>
-
-      <div class="confirm-text">
-
-        Voulez-vous copier le lien de
-
-        <span
-          id="confirmClientName"
-          class="confirm-client-name"
-        ></span>
-
-        ?
-
-      </div>
-
-      <div class="confirm-actions">
-
-        <button
-          id="cancelConfirmButton"
-          class="modal-button cancel-confirm"
-          onclick="closeConfirmModal()"
-        >
-          Annuler
-        </button>
-
-        <button
-          id="confirmActionButton"
-          class="modal-button confirm-action"
-          onclick="confirmAction()"
-        >
-          Confirmer
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- ================================
-       DELETE CLIENT MODAL
-  ================================= -->
+  ><div class="confirm-box">
 
   <div
-    id="deleteModal"
-    class="delete-modal"
+    id="confirmIcon"
+    class="confirm-icon"
   >
+    🔗
+  </div>
 
-    <div class="delete-box">
+  <div
+    id="confirmTitle"
+    class="confirm-title"
+  >
+    Copier le lien ?
+  </div>
 
-      <div class="delete-icon">
-        🗑️
-      </div>
+  <div class="confirm-text">
 
-      <div class="delete-title">
-        Supprimer le client ?
-      </div>
+    Voulez-vous copier le lien de
 
-      <div class="delete-text">
+    <span
+      id="confirmClientName"
+      class="confirm-client-name"
+    ></span>
 
-        Voulez-vous vraiment supprimer
-
-        <span
-          id="deleteClientName"
-          class="delete-client-name"
-        ></span>
-
-        ?
-
-        <br>
-
-        Cette action est irréversible.
-
-      </div>
-
-      <div class="delete-actions">
-
-        <button
-          id="cancelDeleteButton"
-          class="modal-button cancel-delete"
-          onclick="closeDeleteModal()"
-        >
-          Annuler
-        </button>
-
-        <button
-          id="confirmDeleteButton"
-          class="modal-button confirm-delete"
-          onclick="confirmDelete()"
-        >
-          Supprimer
-        </button>
-
-      </div>
-
-    </div>
+    ?
 
   </div>
 
+  <div class="confirm-actions">
 
-  <!-- HIDDEN QR GENERATOR -->
+    <button
+      id="cancelConfirmButton"
+      class="modal-button cancel-confirm"
+      onclick="closeConfirmModal()"
+    >
+      Annuler
+    </button>
 
-  <div id="qrGenerator"></div>
+    <button
+      id="confirmActionButton"
+      class="modal-button confirm-action"
+      onclick="confirmAction()"
+    >
+      Confirmer
+    </button>
 
+  </div>
 
-  <!-- SUPABASE -->
+</div>
 
-  <script src="supabase.js"></script>
+  </div>  <div
+    id="deleteModal"
+    class="delete-modal"
+  ><div class="delete-box">
 
+  <div class="delete-icon">
+    🗑️
+  </div>
 
-  <script>
+  <div class="delete-title">
+    Supprimer le client ?
+  </div>
+
+  <div class="delete-text">
+
+    Voulez-vous vraiment supprimer
+
+    <span
+      id="deleteClientName"
+      class="delete-client-name"
+    ></span>
+
+    ?
+
+    <br>
+
+    Cette action est irréversible.
+
+  </div>
+
+  <div class="delete-actions">
+
+    <button
+      id="cancelDeleteButton"
+      class="modal-button cancel-delete"
+      onclick="closeDeleteModal()"
+    >
+      Annuler
+    </button>
+
+    <button
+      id="confirmDeleteButton"
+      class="modal-button confirm-delete"
+      onclick="confirmDelete()"
+    >
+      Supprimer
+    </button>
+
+  </div>
+
+</div>
+
+  </div>  <div id="qrGenerator"></div>  <script src="supabase.js"></script>  <script>
 
     /* =========================================
        TOKEN FROM URL
@@ -1145,11 +1035,6 @@
 
     let vendorSession = null;
 
-
-    /*
-      إذا ماكانتش session محلية
-      نرجع لصفحة تسجيل الدخول.
-    */
 
     if (!sessionData) {
 
@@ -1392,6 +1277,81 @@
 
 
     /* =========================================
+       QR STYLE 1
+       بسيط / مستدير / بدون Logo
+    ========================================= */
+
+    function createStyledQr(
+      container,
+      data,
+      size
+    ) {
+
+      container.innerHTML = "";
+
+
+      const qr = new QRCodeStyling({
+
+        width: size,
+
+        height: size,
+
+        type: "canvas",
+
+        data: data,
+
+        margin: 0,
+
+        qrOptions: {
+
+          errorCorrectionLevel: "H"
+
+        },
+
+        dotsOptions: {
+
+          color: "#000000",
+
+          type: "rounded"
+
+        },
+
+        backgroundOptions: {
+
+          color: "#ffffff"
+
+        },
+
+        cornersSquareOptions: {
+
+          color: "#000000",
+
+          type: "extra-rounded"
+
+        },
+
+        cornersDotOptions: {
+
+          color: "#000000",
+
+          type: "dot"
+
+        }
+
+      });
+
+
+      qr.append(
+        container
+      );
+
+
+      return qr;
+
+    }
+
+
+    /* =========================================
        ERROR
     ========================================= */
 
@@ -1421,26 +1381,11 @@
     function escapeHtml(value) {
 
       return String(value || "")
-        .replace(
-          /&/g,
-          "&amp;"
-        )
-        .replace(
-          /</g,
-          "&lt;"
-        )
-        .replace(
-          />/g,
-          "&gt;"
-        )
-        .replace(
-          /"/g,
-          "&quot;"
-        )
-        .replace(
-          /'/g,
-          "&#039;"
-        );
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
     }
 
@@ -1488,11 +1433,6 @@
         );
 
 
-        /*
-          خطأ RPC أو مشكلة اتصال:
-          ما نمسحوش session.
-        */
-
         if (error) {
 
           console.error(
@@ -1510,10 +1450,6 @@
 
         }
 
-
-        /*
-          Supabase أكد أن session غير موجودة.
-        */
 
         if (
           !data ||
@@ -2192,7 +2128,6 @@
 
       textarea.focus();
 
-
       textarea.select();
 
 
@@ -2220,6 +2155,7 @@
 
     /* =========================================
        DOWNLOAD CLIENT QR
+       STYLE 1
     ========================================= */
 
     async function downloadClientQr(
@@ -2247,27 +2183,12 @@
         900;
 
 
-      new QRCode(
-        qrContainer,
-        {
-
-          text: url,
-
-          width: qrSize,
-
-          height: qrSize,
-
-          colorDark:
-            "#000000",
-
-          colorLight:
-            "#ffffff",
-
-          correctLevel:
-            QRCode.CorrectLevel.H
-
-        }
-      );
+      const qr =
+        createStyledQr(
+          qrContainer,
+          url,
+          qrSize
+        );
 
 
       await new Promise(
@@ -2275,26 +2196,52 @@
 
           setTimeout(
             resolve,
-            300
+            500
           );
 
         }
       );
 
 
-      const qrCanvas =
-        qrContainer.querySelector(
-          "canvas"
+      const qrBlob =
+        await qr.getRawData(
+          "png"
         );
 
 
-      if (!qrCanvas) {
+      if (!qrBlob) {
 
         throw new Error(
           "Impossible de créer le QR Code."
         );
 
       }
+
+
+      const qrImage =
+        new Image();
+
+
+      const imageUrl =
+        URL.createObjectURL(
+          qrBlob
+        );
+
+
+      await new Promise(
+        function(resolve, reject) {
+
+          qrImage.onload =
+            resolve;
+
+          qrImage.onerror =
+            reject;
+
+          qrImage.src =
+            imageUrl;
+
+        }
+      );
 
 
       const finalCanvas =
@@ -2305,7 +2252,6 @@
 
       finalCanvas.width =
         1000;
-
 
       finalCanvas.height =
         1000;
@@ -2329,22 +2275,19 @@
       );
 
 
-      const qrPosition =
-        50;
-
-
-      const qrFinalSize =
-        900;
-
-
       ctx.drawImage(
-        qrCanvas,
+        qrImage,
 
-        qrPosition,
-        qrPosition,
+        50,
+        50,
 
-        qrFinalSize,
-        qrFinalSize
+        900,
+        900
+      );
+
+
+      URL.revokeObjectURL(
+        imageUrl
       );
 
 
@@ -3086,6 +3029,7 @@
 
     /* =========================================
        RENDER QR CODES
+       STYLE 1
     ========================================= */
 
     function renderQrCodes() {
@@ -3204,11 +3148,6 @@
             );
 
 
-          /*
-            رابط QR الديناميكي
-            سيتم التعامل معه بواسطة qr.html
-          */
-
           const dynamicUrl =
             new URL(
               "qr.html?id=" +
@@ -3219,26 +3158,10 @@
             ).href;
 
 
-          new QRCode(
+          createStyledQr(
             qrElement,
-            {
-
-              text: dynamicUrl,
-
-              width: 220,
-
-              height: 220,
-
-              colorDark:
-                "#000000",
-
-              colorLight:
-                "#ffffff",
-
-              correctLevel:
-                QRCode.CorrectLevel.H
-
-            }
+            dynamicUrl,
+            220
           );
 
 
@@ -3299,6 +3222,7 @@
 
     /* =========================================
        DOWNLOAD DYNAMIC QR
+       STYLE 1
     ========================================= */
 
     async function downloadDynamicQr(
@@ -3321,12 +3245,6 @@
           "";
 
 
-        /*
-          هذا هو الرابط الديناميكي الحقيقي.
-          الـQR لا يحتوي على destination مباشرة.
-          يحتوي فقط على qr.html?id=...
-        */
-
         const dynamicUrl =
           new URL(
             "qr.html?id=" +
@@ -3337,31 +3255,12 @@
           ).href;
 
 
-        const qrSize =
-          900;
-
-
-        new QRCode(
-          qrContainer,
-          {
-
-            text: dynamicUrl,
-
-            width: qrSize,
-
-            height: qrSize,
-
-            colorDark:
-              "#000000",
-
-            colorLight:
-              "#ffffff",
-
-            correctLevel:
-              QRCode.CorrectLevel.H
-
-          }
-        );
+        const qr =
+          createStyledQr(
+            qrContainer,
+            dynamicUrl,
+            900
+          );
 
 
         await new Promise(
@@ -3369,26 +3268,52 @@
 
             setTimeout(
               resolve,
-              300
+              500
             );
 
           }
         );
 
 
-        const qrCanvas =
-          qrContainer.querySelector(
-            "canvas"
+        const qrBlob =
+          await qr.getRawData(
+            "png"
           );
 
 
-        if (!qrCanvas) {
+        if (!qrBlob) {
 
           throw new Error(
             "Impossible de créer le QR Code."
           );
 
         }
+
+
+        const qrImage =
+          new Image();
+
+
+        const imageUrl =
+          URL.createObjectURL(
+            qrBlob
+          );
+
+
+        await new Promise(
+          function(resolve, reject) {
+
+            qrImage.onload =
+              resolve;
+
+            qrImage.onerror =
+              reject;
+
+            qrImage.src =
+              imageUrl;
+
+          }
+        );
 
 
         const finalCanvas =
@@ -3399,7 +3324,6 @@
 
         finalCanvas.width =
           1000;
-
 
         finalCanvas.height =
           1000;
@@ -3424,13 +3348,18 @@
 
 
         ctx.drawImage(
-          qrCanvas,
+          qrImage,
 
           50,
           50,
 
           900,
           900
+        );
+
+
+        URL.revokeObjectURL(
+          imageUrl
         );
 
 
@@ -4068,10 +3997,6 @@
       await loadClients();
 
 
-      /*
-        تحميل عداد QR فقط.
-      */
-
       try {
 
         const {
@@ -4112,7 +4037,5 @@
     init();
 
   </script>
-
-</body>
-
+  </body>
 </html>
